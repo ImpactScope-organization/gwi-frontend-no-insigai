@@ -4,46 +4,22 @@ import BackButton from "../Shared/BackButton";
 import { useStepsContext } from "../../Context/StateContext";
 import Loading from "../Shared/Loading";
 import * as XLSX from "xlsx"; // Import the xlsx library
+import { toast } from "react-toastify";
 
 const Step2 = () => {
   const fileInputRef = useRef(null);
-  const { processing, setProcessing, setStep, rows, setRows } =
+  const { processing, setProcessing, setStep, rows, setRows, setSheet } =
     useStepsContext();
 
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileProgress, setFileProgress] = useState({});
 
-  // const processDataFromFiles = async () => {
-  //   try {
-  //     // console.log("selectedFiles: ", selectedFiles  );
-
-  //     for (const file of selectedFiles) {
-  //       // console.log("files: ", file);
-  //       const reader = new FileReader();
-  //       reader.onload = async (e) => {
-  //         const data = new Uint8Array(e.target.result);
-  //         const workbook = XLSX.read(data, { type: "array" });
-
-  //         for (const sheetName of workbook.SheetNames) {
-  //           const sheet = workbook.Sheets[sheetName];
-  //           const rows = XLSX.utils.sheet_to_json(sheet);
-
-  //           // Process the rows from the sheet (console.log or store the data as needed)
-  //           console.log(`File: ${file.name}, Sheet: ${sheetName}`);
-  //           console.log("===", rows);
-  //           setRows(rows);
-  //         }
-  //       };
-  //       reader.readAsArrayBuffer(file);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error processing data:", error);
-  //   }
-  // };
+  // Add a new state variable to hold the sheet data
+  const [sheetData, setSheetData] = useState({});
 
   const processDataFromFiles = async () => {
     try {
-      let allRows = []; // Initialize an empty array to store all rows from all sheets and files
+      let allSheetData = {}; // Initialize an empty object to store all rows from all sheets and files
 
       for (const file of selectedFiles) {
         const reader = new FileReader();
@@ -58,10 +34,13 @@ const Step2 = () => {
                 const rows = XLSX.utils.sheet_to_json(sheet);
 
                 // Process the rows from the sheet (console.log or store the data as needed)
-                console.log(`File: ${file.name}, Sheet: ${sheetName}`);
-                console.log("===", rows);
+                // console.log(`File: ${file.name}, Sheet: ${sheetName}`);
+                // console.log("===", rows);
 
-                allRows = [...allRows, ...rows]; // Accumulate rows
+                // Accumulate rows by sheet name
+                allSheetData[sheetName] = allSheetData[sheetName]
+                  ? [...allSheetData[sheetName], ...rows]
+                  : [...rows];
               }
               resolve();
             } catch (error) {
@@ -74,7 +53,9 @@ const Step2 = () => {
         await promise; // Wait for each file to be processed before moving to the next
       }
 
-      setRows(allRows); // Set all rows at once after all files have been processed
+      setSheetData(allSheetData); // Set all sheet data at once after all files have been processed
+      setSheet(allSheetData);
+      // console.log("setSheetData: ", setSheetData);
     } catch (err) {
       console.log("err: ", err);
     }
@@ -127,6 +108,10 @@ const Step2 = () => {
   };
 
   const handleFileConfirm = () => {
+    if (selectedFiles.length === 0) {
+      return toast.error("Please upload dataset first");
+    }
+
     setProcessing(true);
     processDataFromFiles();
     setTimeout(() => {
@@ -134,6 +119,10 @@ const Step2 = () => {
       setProcessing(false);
     }, 2000);
   };
+
+  // const showRows = () => {
+  //   console.log("rows: ", sheetData);
+  // };
 
   return (
     <>
@@ -148,7 +137,7 @@ const Step2 = () => {
                 Identify potential Greenwashing on the fly
               </h1>
               <p className="text-[#0000007f] text-lg font-semibold mb-7">
-                Download the data source file to get started
+                Upload a data source file to get started
               </p>
               {/* File Upload */}
               <div>
@@ -160,7 +149,7 @@ const Step2 = () => {
                   multiple
                 />
                 <img
-                  src="/assets/file_upload.svg"
+                  src="/assets/file_upload.png"
                   alt="file"
                   className="cursor-pointer"
                   onClick={handleFileClick}
@@ -212,6 +201,13 @@ const Step2 = () => {
               >
                 Confirm
               </button>
+
+              {/* <button
+                onClick={showRows}
+                className="bg-[#3FDD78] text-lg rounded-2xl mt-10 py-3 px-6 border-none outline-none text-[#fff] "
+              >
+                Show
+              </button> */}
             </div>
           </div>
         </div>

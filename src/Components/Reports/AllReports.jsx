@@ -1,62 +1,57 @@
 import React, { useEffect, useState } from "react";
-import { allReportsData, allReportsSentToRegulatorsData } from "../../data";
 import { useStepsContext } from "../../Context/StateContext";
 import axios from "axios";
+import { useGetAllPendingReports } from "../../Hooks/reports-hooks";
+// src\Hooks\reports-hooks.js
+import { formattedDate } from "../../utils/date";
+import PriorityColor from "./PriorityColor";
 
 const AllReports = () => {
   const [activeTab, setActiveTab] = useState(1);
-  const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [reportsSentToRegulators, setReportsSentToRegulators] = useState([]);
-  console.log("================");
-  console.log(reportsSentToRegulators);
-  // console.log(filteredData);
 
-  const { setStep, rows } = useStepsContext();
+  const { setStep, rows, sheet } = useStepsContext();
+
+  const { data: getAllPendingReports, isLoading: pendingReportLoading } =
+    useGetAllPendingReports();
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
-  // FetchingAllReportsSentToRegulators
-  useEffect(() => {
-    const fetchReportsSentToRegulators = async () => {
-      axios
-        .get(
-          "https://vast-rose-bonobo-tux.cyclic.cloud/api/report/getUpdateSendToRegulators"
-        )
-        .then((response) => {
-          setReportsSentToRegulators(response?.data?.results);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    };
-
-    fetchReportsSentToRegulators();
-  }, []);
-
   useEffect(() => {
     const loadData = () => {
-      let newFilteredData = [];
-      rows.forEach((item) => {
-        // Check if item.Company is already present in newFilteredData
-        const isPresent = newFilteredData.some(
-          (jack) => jack.Company === item.Company
-        );
+      console.log("sheet: ", sheet);
 
-        if (!isPresent) {
-          // If it's not present, push it into newFilteredData
-          newFilteredData.push(item);
+      let newFilteredData = [];
+
+      // Iterate over the keys in sheet
+      for (const key in sheet) {
+        if (Object.hasOwnProperty.call(sheet, key)) {
+          const arrayForCurrentKey = sheet[key];
+
+          // Iterate over the array for the current key
+          for (const item of arrayForCurrentKey) {
+            // Check if item.Company is already present in newFilteredData
+            const isPresent = newFilteredData.some(
+              (jack) => jack.Company === item.Company
+            );
+            if (!isPresent) {
+              // If it's not present, push it into newFilteredData
+              newFilteredData.push(item);
+            }
+          }
         }
-      });
+      }
+
+      // console.log("Filtered data:", newFilteredData);
 
       // Update the state
       setFilteredData(newFilteredData);
       // console.log("filteredData: ", newFilteredData);
     };
     loadData();
-  }, []);
+  }, [sheet]);
 
   return (
     <div className="w-[90%] mx-auto my-10">
@@ -106,10 +101,13 @@ const AllReports = () => {
       <div className="w-full gap-7 grid grid-cols-3">
         {activeTab === 1 ? (
           // <Report data={allReportsData} />
-
           <Report data={filteredData} activeTab={1} />
         ) : (
-          <Report data={reportsSentToRegulators} activeTab={2} />
+          <Report
+            data={getAllPendingReports}
+            activeTab={2}
+            pendingReportLoading={pendingReportLoading}
+          />
         )}
       </div>
     </div>
@@ -118,58 +116,86 @@ const AllReports = () => {
 
 export default AllReports;
 
-const Report = ({ data, activeTab }) => {
-  const { setStep, rows, setCurrentCountry, setDescription } =
-    useStepsContext();
+const Report = ({ data, activeTab, pendingReportLoading }) => {
+  const {
+    setStep,
+    setSpecificReportDetailsID,
+    rows,
+    setDescription,
+    sheet,
+    setFilteredCompanyData,
+    currentCountry,
+    filteredCompanyData,
+    setCurrentCompany,
+    setCurrentCountry,
+  } = useStepsContext();
 
-  const handleNavigate = async (report) => {
-    setCurrentCountry(report);
-    console.log("report: ", report);
+  const handleNavigate = async (companyName, Jurisdiction, tab) => {
+    if (tab === 1) {
+      const sheetData = {};
 
-    // // Filter all the records that match the Company of the clicked report
-    // const filteredRecords = rows.filter(
-    //   (row) => row.Company === report.Company
-    // );
+      // Iterate over the keys in sheet
+      for (const key in sheet) {
+        let allText = [];
 
-    // console.log("Filtered records: ", filteredRecords);
+        if (Object.hasOwnProperty.call(sheet, key)) {
+          const arrayForCurrentKey = sheet[key];
 
-    // // Initialize an empty array to store all text
-    // let allText = [];
+          // Filter records for the specified company in the current sheet
+          let recordsForCompany = arrayForCurrentKey.filter(
+            (record) => record.Company === companyName
+          );
 
-    // // Assuming that your records have a 'text' field
-    // filteredRecords.forEach((record) => {
-    //   console.log("=", record.text);
-    //   if (record.text) {
-    //     allText.push(record.text);
-    //   }
-    // });
+          recordsForCompany = recordsForCompany.slice(0, 7);
 
-    // console.log("allText: ", allText);
-    // // Convert the array of text into a single string
-    // const paragraphText = allText.join(" ");
+          recordsForCompany.forEach((record) => {
+            if (record.Description) {
+              allText.push(record.Description);
+            }
+          });
 
-    // console.log("Paragraph text: ", paragraphText);
-    // // Now you can navigate or do something with these filtered records
+          // Convert the array of text into a single string
+          const paragraphText = allText.join(" ");
 
-    // setCurrentCountry(report.Company);
-    // setDescription(paragraphText);
-    setStep("specific_report");
+          // Store the filtered records for the current sheet
+          sheetData[key] = paragraphText;
+        }
+      }
+
+      // Instead of logging, you can now use sheetData wherever needed
+      console.log(sheetData);
+      console.log("===", typeof sheetData);
+
+      setFilteredCompanyData(sheetData);
+      setCurrentCompany(companyName);
+      setCurrentCountry(Jurisdiction);
+      setStep("specific_report");
+
+      // Return sheetData to use it in other parts of your code
+      return sheetData;
+    } else if (tab === 2) {
+      setStep("sent_to_regulators");
+      setSpecificReportDetailsID(companyName);
+    }
   };
 
   return (
     <>
-      {data.map((report, index) =>
-        activeTab === 1 ? (
+      {activeTab === 1 &&
+        data.map((report, index) => (
           <div
+            key={index}
             // onClick={() => setStep("specific_report")}
-            onClick={() => handleNavigate(report.Company)}
+            onClick={() =>
+              handleNavigate(report.Company, report.Jurisdiction, activeTab)
+            }
             style={{
               boxShadow:
                 " 0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)",
             }}
             className="min-w-[31%] p-4 cursor-pointer rounded-xl hover:border-[1px] hover:border-black  "
           >
-            <p className="mb-2 text-sm text-[#6C7275]">{report.year}</p>
+            <p className="mb-2 text-sm text-[#6C7275]">{formattedDate}</p>
             <h1 className="mb-3 text-[#000] text-xl font-semibold">
               {report.Company}
             </h1>
@@ -180,26 +206,66 @@ const Report = ({ data, activeTab }) => {
               </span>
             </p>
           </div>
-        ) : (
+        ))}
+
+      {activeTab === 2 ? (
+        data?.results.map((report, index) => (
           <div
+            key={index}
             // onClick={() => setStep("specific_report")}
-            onClick={() => handleNavigate(report.companyName)}
+            onClick={() => handleNavigate(report?._id, "", activeTab)}
             style={{
               boxShadow:
                 " 0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)",
             }}
             className="min-w-[31%] p-4 cursor-pointer rounded-xl hover:border-[1px] hover:border-black  "
           >
-            <p className="mb-2 text-sm text-[#6C7275]">{report?.year}</p>
-            <h1 className="mb-3 text-[#000] text-xl font-semibold">
-              {report.companyName}
-            </h1>
-            <p className="text-[#6C7275] text-base">
-              Jurisdiction :
-              <span className="text-[#000] font-semibold ml-2">Ireland</span>
+            <p className="mb-2 text-sm text-[#2c2d2e] ">
+              {pendingReportLoading
+                ? "loading..."
+                : report?.sendToRegulatorsTimeStamp &&
+                  report?.sendToRegulatorsTimeStamp}
             </p>
+            <h1 className="mb-3 text-[#000] text-2xl font-semibold">
+              {report?.companyName}
+            </h1>
+            <p className="text-[#6C7275] mr-3 font-semibold">
+              Jurisdiction :
+              <span className="text-[#000] font-semibold ml-2">
+                {pendingReportLoading
+                  ? "loading..."
+                  : report?.jurisdiction && report?.jurisdiction}
+              </span>
+            </p>
+
+            <div className="flex justify-start items-center ">
+              <p className="text-[#6C7275] mr-3 font-semibold">Age:</p>
+              <label
+                htmlFor="freshness"
+                className="ml-2 text-[#000] font-semibold"
+              >
+                {report?.age}
+              </label>
+            </div>
+
+            <div className="flex justify-start items-center ">
+              <p className="text-[#6C7275] mr-3 font-semibold">Priority:</p>
+
+              <div className="flex justify-start items-center">
+                <PriorityColor priority={report?.priority} />
+
+                <label
+                  htmlFor="potentialgreenwashing"
+                  className="ml-2 text-[#000] font-semibold"
+                >
+                  {report?.priority}
+                </label>
+              </div>
+            </div>
           </div>
-        )
+        ))
+      ) : (
+        <p>No reports sent to regulators</p>
       )}
     </>
   );
