@@ -35,6 +35,19 @@ const Settings = () => {
       });
   };
 
+  const handleDeleteReports = async () => {
+    axios
+      .delete(`${apiUrl}/api/report/deleteReports`)
+      .then(({ data }) => {
+        console.log("res: ", data?.message);
+        toast.success(data?.message);
+      })
+      .catch((err) => {
+        console.log("err: ", err);
+        toast.error(err);
+      });
+  };
+
   return (
     <div className="w-[90%] mx-auto my-7">
       <div>
@@ -78,7 +91,7 @@ const Settings = () => {
         </p>
         <button
           className="py-2 px-6 text-[#E53B3B] border-[#E53B3B] rounded-lg font-semibold mt-3 border-2 outline-none"
-          // onClick={handleSubmit}
+          onClick={handleDeleteReports}
         >
           Clean database{" "}
         </button>
