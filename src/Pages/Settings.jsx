@@ -36,7 +36,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="w-[90%] mx-auto my-10">
+    <div className="w-[90%] mx-auto my-7">
       <div>
         <h1 className="font-bold text-4xl mb-2">Settings</h1>
         <p className="text-[#6C7275] font-semibold">
@@ -44,7 +44,7 @@ const Settings = () => {
         </p>
       </div>
       {/* Prompt Container */}
-      <div className="w-1/2 ml-0 mt-16">
+      <div className="w-1/2 ml-0 mt-7">
         <div className="flex justify-between items-center mb-2">
           <h1 className="font-bold text-lg">Prompt</h1>
           <h1
@@ -69,6 +69,19 @@ const Settings = () => {
             Update
           </button>
         </div>
+      </div>
+      {/* Delete Database Button Container */}
+      <div className="mt-7">
+        <h1 className="font-bold text-lg">Database</h1>
+        <p className="text-[#6C7275] ">
+          The button bellow will remove all generated reports
+        </p>
+        <button
+          className="py-2 px-6 text-[#E53B3B] border-[#E53B3B] rounded-lg font-semibold mt-3 border-2 outline-none"
+          // onClick={handleSubmit}
+        >
+          Clean database{" "}
+        </button>
       </div>
     </div>
   );
