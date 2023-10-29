@@ -14,7 +14,7 @@ function App() {
     const {openLoginModal, setOpenLoginModal}  = useStepsContext()
 
   useEffect(() => {
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  const userInfo = localStorage.getItem('userInfo');
 
   if (!userInfo) {
     setOpenLoginModal(!openLoginModal)

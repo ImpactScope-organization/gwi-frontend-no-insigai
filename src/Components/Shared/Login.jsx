@@ -28,11 +28,16 @@ const Login = () => {
       onSubmit: async (values) => {
         try {
           setRequestLoading(true);
-          await axios.post(`${apiUrl}/api/regulator/login`, values).then(() => {
-            setRequestLoading(false);
-            toast.success("Logged in Successfully");
-            setOpenLoginModal(!openLoginModal);
-          });
+          await axios
+            .post(`${apiUrl}/api/regulator/login`, values)
+            .then(({ data }) => {
+              setRequestLoading(false);
+              toast.success("Logged in Successfully");
+              setOpenLoginModal(!openLoginModal);
+              localStorage.setItem("userInfo", data?.result);
+              //   console.log("res");
+              //   console.log(data);
+            });
         } catch (err) {
           toast.error(err?.response?.data?.message);
           setRequestLoading(false);
