@@ -6,10 +6,24 @@ import Reports from "./Pages/Reports";
 import Header from "./Components/Shared/Header";
 import Settings from "./Pages/Settings";
 import { useStepsContext } from "./Context/StateContext";
+import { useEffect } from "react";
+import Login from "./Components/Shared/Login";
 
 function App() {
+
+    const {openLoginModal, setOpenLoginModal}  = useStepsContext()
+
+  useEffect(() => {
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+  if (!userInfo) {
+    setOpenLoginModal(!openLoginModal)
+  }
+}, []);
+
   return (
     <div className="App">
+        {openLoginModal && <Login />}
       <Header />
        <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
