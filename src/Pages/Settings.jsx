@@ -84,7 +84,7 @@ const Settings = () => {
         </div>
       </div>
       {/* Delete Database Button Container */}
-      <div className="mt-7">
+      {/* <div className="mt-7">
         <h1 className="font-bold text-lg">Database</h1>
         <p className="text-[#6C7275] ">
           The button bellow will remove all generated reports
@@ -95,7 +95,7 @@ const Settings = () => {
         >
           Clean database{" "}
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
