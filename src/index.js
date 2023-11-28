@@ -12,13 +12,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <ThirdwebProvider activeChain={activeChainId}>
-      <StepsProvider>
-      <App />
-      </StepsProvider>
-    </ThirdwebProvider>
+      <ThirdwebProvider activeChain={activeChainId}>
+        <StepsProvider>
+          <App />
+        </StepsProvider>
+      </ThirdwebProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
-
-
