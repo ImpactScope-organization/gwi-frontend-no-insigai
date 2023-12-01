@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { SimpleGauge } from "react-gauges";
 import BackButton from "../Shared/BackButton";
 import { useStepsContext } from "../../Context/StateContext";
 import { create } from "ipfs-http-client";
@@ -9,16 +8,15 @@ import { smartContract } from "../../Constants";
 import { ethers } from "ethers";
 import apiUrl from "../../utils/baseURL";
 import { formattedDate } from "../../utils/date";
-import PriorityColor from "./PriorityColor";
 import { domToPng } from "modern-screenshot";
-import { useAddress, useSetIsWalletModalOpen } from "@thirdweb-dev/react";
+import { useAddress } from "@thirdweb-dev/react";
 import LoadingPage from "../loading";
 import CustomGaugeChart from "../gauge-chart";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import { Dropdown } from "antd";
 import { scoringPagePrompts } from "../../utils/system-prompts";
-import { setUncaughtExceptionCaptureCallback } from "process";
 import { captureScreen } from "../../utils/helpers";
+import { RefBerklayDB } from "../../Constants/RefBerklayDB";
 
 // IPFS
 const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -51,10 +49,6 @@ const SpecificReport = () => {
     currentCountry,
     sheet,
   } = useStepsContext();
-  const berkleySheetData = sheet["Ref_Berkley_DB "];
-  const berkleyDB = [...berkleySheetData]?.map((obj) =>
-    Object.values(obj).toString()
-  );
 
   // state variables:
   const [predict, setPredict] = useState("");
@@ -106,7 +100,7 @@ const SpecificReport = () => {
     divider: 1,
   });
   const [stakeholdersEngagementState, setstakeholdersEngagementState] =
-    useState({ score: 0, weight: 20, divider: 3, divider: 1 });
+    useState({ score: 0, weight: 20, divider: 3 });
   const [reportsAnnuallyState, setreportsAnnuallyState] = useState({
     score: 0,
     weight: 15,
@@ -263,6 +257,9 @@ const SpecificReport = () => {
 
   // // GPT Response
   useEffect(() => {
+    console.log("===============sheet data=====================");
+    console.log(sheet[0]);
+    console.log("====================================");
     const loadData = async () => {
       try {
         setIsLoading(true);
@@ -454,7 +451,7 @@ const SpecificReport = () => {
         console.log("error: ", error);
       }
     };
-    loadData();
+    // loadData();
   }, []);
 
   if (isLoading) {

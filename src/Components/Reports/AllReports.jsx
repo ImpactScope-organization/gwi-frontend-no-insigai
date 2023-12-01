@@ -5,12 +5,15 @@ import { useGetAllPendingReports } from "../../Hooks/reports-hooks";
 // src\Hooks\reports-hooks.js
 import { formattedDate } from "../../utils/date";
 import PriorityColor from "./PriorityColor";
+import LoadingPage from "../loading";
+import apiUrl from "../../utils/baseURL";
+import { scoringPagePrompts } from "../../utils/system-prompts";
 
 const AllReports = () => {
   const [activeTab, setActiveTab] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
 
-  const { setStep, rows, sheet } = useStepsContext();
+  const { setStep, sheet } = useStepsContext();
 
   const { data: getAllPendingReports, isLoading: pendingReportLoading } =
     useGetAllPendingReports();
@@ -19,39 +22,39 @@ const AllReports = () => {
     setActiveTab(tab);
   };
 
-  useEffect(() => {
-    const loadData = () => {
-      console.log("sheet: ", sheet);
+  // useEffect(() => {
+  //   const loadData = () => {
+  //     console.log("sheet: ", sheet);
 
-      let newFilteredData = [];
+  //     let newFilteredData = [];
 
-      // Iterate over the keys in sheet
-      for (const key in sheet) {
-        if (Object.hasOwnProperty.call(sheet, key)) {
-          const arrayForCurrentKey = sheet[key];
+  //     // Iterate over the keys in sheet
+  //     for (const key in sheet) {
+  //       if (Object.hasOwnProperty.call(sheet, key)) {
+  //         const arrayForCurrentKey = sheet[key];
 
-          // Iterate over the array for the current key
-          for (const item of arrayForCurrentKey) {
-            // Check if item.Company is already present in newFilteredData
-            const isPresent = newFilteredData.some(
-              (jack) => jack.Company === item.Company
-            );
-            if (!isPresent) {
-              // If it's not present, push it into newFilteredData
-              newFilteredData.push(item);
-            }
-          }
-        }
-      }
+  //         // Iterate over the array for the current key
+  //         for (const item of arrayForCurrentKey) {
+  //           // Check if item.Company is already present in newFilteredData
+  //           const isPresent = newFilteredData.some(
+  //             (jack) => jack.Company === item.Company
+  //           );
+  //           if (!isPresent) {
+  //             // If it's not present, push it into newFilteredData
+  //             newFilteredData.push(item);
+  //           }
+  //         }
+  //       }
+  //     }
 
-      // console.log("Filtered data:", newFilteredData);
+  //     // console.log("Filtered data:", newFilteredData);
 
-      // Update the state
-      setFilteredData(newFilteredData);
-      // console.log("filteredData: ", newFilteredData);
-    };
-    loadData();
-  }, [sheet]);
+  //     // Update the state
+  //     setFilteredData(newFilteredData);
+  //     // console.log("filteredData: ", newFilteredData);
+  //   };
+  //   loadData();
+  // }, [sheet]);
 
   return (
     <div className="w-[90%] mx-auto my-10">
@@ -100,9 +103,10 @@ const AllReports = () => {
       {/* Reports Container */}
       <div className="w-full gap-7 grid grid-cols-3">
         {activeTab === 1 ? (
-          // <Report data={allReportsData} />
-          <Report data={filteredData} activeTab={1} />
+          // All reports
+          <Report data={sheet} activeTab={1} />
         ) : (
+          // sent to regular tab
           <Report
             data={getAllPendingReports}
             activeTab={2}
@@ -120,55 +124,230 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
   const {
     setStep,
     setSpecificReportDetailsID,
-    rows,
-    setDescription,
     sheet,
+    updateSheet,
     setFilteredCompanyData,
-    currentCountry,
-    filteredCompanyData,
     setCurrentCompany,
     setCurrentCountry,
+    setIsReportGenerating,
   } = useStepsContext();
 
-  const handleNavigate = async (companyName, Jurisdiction, tab) => {
-    if (tab === 1) {
-      const sheetData = {};
+  const loadData = async (company, claims, index) => {
+    try {
+      setIsReportGenerating(true);
+      // const gptPrompt = await axios.get(`${apiUrl}/api/prompt`);
 
-      // Iterate over the keys in sheet
-      for (const key in sheet) {
-        let allText = [];
+      let prompt = `Act as an a sustainablity experts who identifies  potential greenwashing by companies:
+      Carefully analyze sustainability reports, press releases, and marketing materials for misleading or vague language. They look for broad claims that are not backed up by specific data/details.
+      Review product labels, certifications, and partnerships cited. They verify these are from reputable third parties and mean what the company says they do.
+      Examine publicly available data on the company's environmental fines, violation , and lawsuits. These can reveal if their actual practices contradict sustainability claims.
+      Check for consistency across reporting periods. Dramatic improvements or rating changes may indicate creative accounting rather than genuine progress.
+      Compare sustainability reports to financial filings for discrepancies. Overstating environmental initiatives while underinvesting is a red flag.
+      Consider whether core business model and practices are aligned with claims. For example, fast fashion brands promoting clothing recycling.
+      Interview current/former employees regarding internal policies and procedures versus public messaging.
+      Commission independent audits of practices compared to sustainability claims if needed.
+      Follow up on community complaints and media investigations into alleged greenwashing.
+      Evaluate overall transparency and accountability. Lack of accessible information suggests potential greenwashing.
+      Consider if claims are specific, measurable, and meaningful or vague/exaggerated.
+      The key is thorough research, investigation, and analysis to determine if actions fully support a company's marketed image and stated commitments. Evidence of greenwashing can lead to penalties and loss of consumer/investor trust.`;
+      let concatenatedData = `${prompt} companyDetails:${JSON.stringify(
+        company
+      )}`;
 
-        if (Object.hasOwnProperty.call(sheet, key)) {
-          const arrayForCurrentKey = sheet[key];
+      if (prompt) {
+        const cAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: concatenatedData,
+          systemPrompts: scoringPagePrompts?.contradictionPrompt,
+        });
+        const piAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: concatenatedData,
+          systemPrompts: scoringPagePrompts?.potentialInconsistencies,
+        });
+        const ucAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: concatenatedData,
+          systemPrompts: scoringPagePrompts?.unsubstantiatedClaims,
+        });
+        const sourcesAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: concatenatedData,
+          systemPrompts: scoringPagePrompts?.sources,
+        });
 
-          // Filter records for the specified company in the current sheet
-          let recordsForCompany = arrayForCurrentKey.filter(
-            (record) => record.Company === companyName
-          );
+        updateSheet(index, "contradictions", cAPI?.data?.response);
+        updateSheet(index, "potentialInconsistencies", piAPI?.data?.response);
+        updateSheet(index, "unsubstantiatedClaims", ucAPI?.data?.response);
+        updateSheet(index, "sources", sourcesAPI?.data?.response);
 
-          recordsForCompany = recordsForCompany.slice(0, 7);
+        // ==================================
+        const vagueTerms = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
+            claims
+          )}`,
+          systemPrompts: scoringPagePrompts?.vagueTerms,
+        });
+        const lackOfQuantitativeData = await axios.post(
+          `${apiUrl}/api/gpt/prompt`,
+          {
+            targetCompanyName: company[0]?.Name,
+            description: `companyName: ${
+              company[0]?.Name
+            },data: ${JSON.stringify(claims)}`,
+            systemPrompts: scoringPagePrompts?.lackOfQuantitativeData,
+          }
+        );
+        const scope3Emissions = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
+            claims
+          )}`,
+          systemPrompts: scoringPagePrompts?.scope3Emissions,
+        });
+        const externalOffset = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
+            claims
+          )}`,
+          systemPrompts: scoringPagePrompts?.externalOffset,
+        });
 
-          recordsForCompany.forEach((record) => {
-            if (record.Description) {
-              allText.push(record.Description);
-            }
-          });
+        const netZero = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
+            claims
+          )}`,
+          systemPrompts: scoringPagePrompts?.netZero,
+        });
 
-          // Convert the array of text into a single string
-          const paragraphText = allText.join(" ");
+        // ======================Update Greenwash risk states===========================
+        updateSheet(index, "vagueTermsState", {
+          score: vagueTerms?.data?.response,
+          weight: 20,
+          divider: 3,
+        });
+        updateSheet(index, "lackOfQuantitativeDataState", {
+          score: lackOfQuantitativeData?.data?.response,
+          weight: 20,
+          divider: 1,
+        });
+        updateSheet(index, "scope3EmissionsState", {
+          score: scope3Emissions?.data?.response,
+          weight: 15,
+          divider: 2,
+        });
 
-          // Store the filtered records for the current sheet
-          sheetData[key] = paragraphText;
-        }
+        updateSheet(index, "externalOffsetState", {
+          score: externalOffset?.data?.response,
+          weight: 20,
+          divider: 2,
+        });
+
+        updateSheet(index, "netZeroState", {
+          score: netZero?.data?.response,
+          weight: 15,
+          divider: 2,
+        });
+
+        // ==================================
+        const targetTimelines = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
+            claims
+          )}`,
+          systemPrompts: scoringPagePrompts?.targetTimelines,
+        });
+        const stakeholdersEngagement = await axios.post(
+          `${apiUrl}/api/gpt/prompt`,
+          {
+            targetCompanyName: company[0]?.Name,
+            description: `companyName: ${
+              company[0]?.Name
+            },data: ${JSON.stringify(claims)}`,
+            systemPrompts: scoringPagePrompts?.stakeholdersEngagement,
+          }
+        );
+        const reportsAnnually = await axios.post(`${apiUrl}/api/gpt/prompt`, {
+          targetCompanyName: company[0]?.Name,
+          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
+            claims
+          )}`,
+          systemPrompts: scoringPagePrompts?.reportsAnnually,
+        });
+        const sustainabilityInformationExists = await axios.post(
+          `${apiUrl}/api/gpt/prompt`,
+          {
+            targetCompanyName: company[0]?.Name,
+            description: `companyName: ${
+              company[0]?.Name
+            },data: ${JSON.stringify(claims)}`,
+            systemPrompts: scoringPagePrompts?.sustainabilityInformationExists,
+          }
+        );
+        const materialityAssessment = await axios.post(
+          `${apiUrl}/api/gpt/prompt`,
+          {
+            targetCompanyName: company[0]?.Name,
+            description: `companyName: ${
+              company[0]?.Name
+            },data: ${JSON.stringify(claims)}`,
+            systemPrompts: scoringPagePrompts?.materialityAssessment,
+          }
+        );
+
+        // ======================Update Reporting risk states===========================
+        updateSheet(index, "targetTimelinesState", {
+          score: targetTimelines?.data?.response,
+          weight: 20,
+          divider: 1,
+        });
+        updateSheet(index, "stakeholdersEngagementState", {
+          score: stakeholdersEngagement?.data?.response,
+          weight: 20,
+          divider: 3,
+        });
+
+        updateSheet(index, "reportsAnnuallyState", {
+          score: reportsAnnually?.data?.response,
+          weight: 15,
+          divider: 2,
+        });
+        updateSheet(index, "sustainabilityInformationExistsState", {
+          score: sustainabilityInformationExists?.data?.response,
+          weight: 15,
+          divider: 2,
+        });
+        updateSheet(index, "materialityAssessmentState", {
+          score: materialityAssessment?.data?.response,
+          weight: 20,
+          divider: 1,
+        });
+        return true;
+        setIsReportGenerating(false);
+      } else {
+        setIsReportGenerating(false);
+        console.log("no exist");
+        return false;
       }
+    } catch (error) {
+      setIsReportGenerating(false);
+      return false;
+      console.log("error: ", error);
+    }
+  };
 
-      // Instead of logging, you can now use sheetData wherever needed
-      console.log(sheetData);
-      console.log("===", typeof sheetData);
-
+  const handleNavigate = async (
+    companyName,
+    tab,
+    sheetData = {},
+    sheetIndex
+  ) => {
+    if (tab === 1) {
+      await loadData(sheetData?.Company, sheetData?.Claims, sheetIndex);
       setFilteredCompanyData(sheetData);
       setCurrentCompany(companyName);
-      setCurrentCountry(Jurisdiction);
       setStep("specific_report");
 
       // Return sheetData to use it in other parts of your code
@@ -182,38 +361,41 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
   return (
     <>
       {activeTab === 1 &&
-        data.map((report, index) => (
-          <div
-            key={index}
-            // onClick={() => setStep("specific_report")}
-            onClick={() =>
-              handleNavigate(report.Company, report.Jurisdiction, activeTab)
-            }
-            style={{
-              boxShadow:
-                " 0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)",
-            }}
-            className="min-w-[31%] p-4 cursor-pointer rounded-xl hover:border-[1px] hover:border-black  "
-          >
-            <p className="mb-2 text-sm text-[#6C7275]">{formattedDate}</p>
-            <h1 className="mb-3 text-[#000] text-xl font-semibold">
-              {report.Company}
-            </h1>
-            <p className="text-[#6C7275] text-base">
-              Jurisdiction :
-              <span className="text-[#000] font-semibold ml-2">
-                {report.Jurisdiction}
-              </span>
-            </p>
-          </div>
-        ))}
+        data.map((sheet, sheetIndex) =>
+          sheet?.Company.map((report, index) => {
+            return (
+              <div
+                key={sheetIndex}
+                onClick={() =>
+                  handleNavigate(report?.Company, activeTab, sheet, sheetIndex)
+                }
+                style={{
+                  boxShadow:
+                    " 0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)",
+                }}
+                className="min-w-[31%] p-4 cursor-pointer rounded-xl hover:border-[1px] hover:border-black  "
+              >
+                <p className="mb-2 text-sm text-[#6C7275]">{formattedDate}</p>
+                <h1 className="mb-3 text-[#000] text-xl font-semibold">
+                  {report?.Company || report?.Name}
+                </h1>
+                <p className="text-[#6C7275] text-base">
+                  Jurisdiction :
+                  <span className="text-[#000] font-semibold ml-2">
+                    {report?.Jurisdiction}
+                  </span>
+                </p>
+              </div>
+            );
+          })
+        )}
 
       {activeTab === 2 ? (
         data?.results.map((report, index) => (
           <div
             key={index}
             // onClick={() => setStep("specific_report")}
-            onClick={() => handleNavigate(report?._id, "", activeTab)}
+            onClick={() => handleNavigate(report?._id, activeTab)}
             style={{
               boxShadow:
                 " 0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)",

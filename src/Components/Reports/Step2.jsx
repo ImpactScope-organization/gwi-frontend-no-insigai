@@ -14,14 +14,12 @@ const Step2 = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [fileProgress, setFileProgress] = useState({});
 
-  // Add a new state variable to hold the sheet data
-  const [sheetData, setSheetData] = useState({});
-
   const processDataFromFiles = async () => {
     try {
-      let allSheetData = {}; // Initialize an empty object to store all rows from all sheets and files
+      let allSheetDataArray = [];
 
       for (const file of selectedFiles) {
+        let allSheetData = {}; // Initialize an empty object to store all rows from all sheets and files
         const reader = new FileReader();
         const promise = new Promise((resolve, reject) => {
           reader.onload = async (e) => {
@@ -51,10 +49,10 @@ const Step2 = () => {
 
         reader.readAsArrayBuffer(file);
         await promise; // Wait for each file to be processed before moving to the next
+        allSheetDataArray.push({ ...allSheetData, file });
       }
 
-      setSheetData(allSheetData); // Set all sheet data at once after all files have been processed
-      setSheet(allSheetData);
+      setSheet(allSheetDataArray);
       // console.log("setSheetData: ", setSheetData);
     } catch (err) {
       console.log("err: ", err);
