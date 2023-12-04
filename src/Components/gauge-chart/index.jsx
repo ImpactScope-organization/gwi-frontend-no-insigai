@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-const GaugeChart = ({ percentage = 0 }) => {
+const CustomGaugeChart = ({ percentage = 0 }) => {
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
   const svgRef = useRef(null);
 
@@ -79,4 +79,4 @@ const GaugeChart = ({ percentage = 0 }) => {
   );
 };
 
-export default GaugeChart;
+export default CustomGaugeChart;

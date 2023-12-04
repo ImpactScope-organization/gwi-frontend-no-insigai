@@ -13,7 +13,11 @@ export function StepsProvider({ children }) {
   const [processing, setProcessing] = useState(false);
   const [showAllReports, setShowAllReports] = useState(false);
   const [rows, setRows] = useState();
-  const [currentCompany, setCurrentCompany] = useState();
+  const [currentCompany, setCurrentCompany] = useState({
+    currentCompanyData: "",
+    claims: "",
+    index: "",
+  });
   const [currentCountry, setCurrentCountry] = useState();
 
   const [description, setDescription] = useState();
@@ -21,15 +25,12 @@ export function StepsProvider({ children }) {
   const [filteredCompanyData, setFilteredCompanyData] = useState();
   const [isReportGenerating, setIsReportGenerating] = useState(false);
 
-  const updateSheet = (sheetIndex, key, value) => {
-    const updatedSheet = sheet.flatMap((sheetData, index) => {
+  const updateSheet = (sheetIndex, values) => {
+    const updatedSheet = [...sheet].map((sheetData, index) => {
       if (index === sheetIndex) {
         return {
           ...sheetData,
-          generatedReport: {
-            ...sheetData?.generatedReport,
-            [key]: value,
-          },
+          generatedReport: { ...values },
         };
       } else {
         return sheetData;

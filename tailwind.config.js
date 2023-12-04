@@ -11,6 +11,7 @@ module.exports = {
         foggyGrey: "#6C727540",
         lightgrey: "#E8ECEF",
         blackText: "#141718",
+        danger: "#FF4158",
       },
     },
   },

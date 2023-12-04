@@ -132,212 +132,6 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
     setIsReportGenerating,
   } = useStepsContext();
 
-  const loadData = async (company, claims, index) => {
-    try {
-      setIsReportGenerating(true);
-      // const gptPrompt = await axios.get(`${apiUrl}/api/prompt`);
-
-      let prompt = `Act as an a sustainablity experts who identifies  potential greenwashing by companies:
-      Carefully analyze sustainability reports, press releases, and marketing materials for misleading or vague language. They look for broad claims that are not backed up by specific data/details.
-      Review product labels, certifications, and partnerships cited. They verify these are from reputable third parties and mean what the company says they do.
-      Examine publicly available data on the company's environmental fines, violation , and lawsuits. These can reveal if their actual practices contradict sustainability claims.
-      Check for consistency across reporting periods. Dramatic improvements or rating changes may indicate creative accounting rather than genuine progress.
-      Compare sustainability reports to financial filings for discrepancies. Overstating environmental initiatives while underinvesting is a red flag.
-      Consider whether core business model and practices are aligned with claims. For example, fast fashion brands promoting clothing recycling.
-      Interview current/former employees regarding internal policies and procedures versus public messaging.
-      Commission independent audits of practices compared to sustainability claims if needed.
-      Follow up on community complaints and media investigations into alleged greenwashing.
-      Evaluate overall transparency and accountability. Lack of accessible information suggests potential greenwashing.
-      Consider if claims are specific, measurable, and meaningful or vague/exaggerated.
-      The key is thorough research, investigation, and analysis to determine if actions fully support a company's marketed image and stated commitments. Evidence of greenwashing can lead to penalties and loss of consumer/investor trust.`;
-      let concatenatedData = `${prompt} companyDetails:${JSON.stringify(
-        company
-      )}`;
-
-      if (prompt) {
-        const cAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: concatenatedData,
-          systemPrompts: scoringPagePrompts?.contradictionPrompt,
-        });
-        const piAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: concatenatedData,
-          systemPrompts: scoringPagePrompts?.potentialInconsistencies,
-        });
-        const ucAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: concatenatedData,
-          systemPrompts: scoringPagePrompts?.unsubstantiatedClaims,
-        });
-        const sourcesAPI = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: concatenatedData,
-          systemPrompts: scoringPagePrompts?.sources,
-        });
-
-        updateSheet(index, "contradictions", cAPI?.data?.response);
-        updateSheet(index, "potentialInconsistencies", piAPI?.data?.response);
-        updateSheet(index, "unsubstantiatedClaims", ucAPI?.data?.response);
-        updateSheet(index, "sources", sourcesAPI?.data?.response);
-
-        // ==================================
-        const vagueTerms = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
-            claims
-          )}`,
-          systemPrompts: scoringPagePrompts?.vagueTerms,
-        });
-        const lackOfQuantitativeData = await axios.post(
-          `${apiUrl}/api/gpt/prompt`,
-          {
-            targetCompanyName: company[0]?.Name,
-            description: `companyName: ${
-              company[0]?.Name
-            },data: ${JSON.stringify(claims)}`,
-            systemPrompts: scoringPagePrompts?.lackOfQuantitativeData,
-          }
-        );
-        const scope3Emissions = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
-            claims
-          )}`,
-          systemPrompts: scoringPagePrompts?.scope3Emissions,
-        });
-        const externalOffset = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
-            claims
-          )}`,
-          systemPrompts: scoringPagePrompts?.externalOffset,
-        });
-
-        const netZero = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
-            claims
-          )}`,
-          systemPrompts: scoringPagePrompts?.netZero,
-        });
-
-        // ======================Update Greenwash risk states===========================
-        updateSheet(index, "vagueTermsState", {
-          score: vagueTerms?.data?.response,
-          weight: 20,
-          divider: 3,
-        });
-        updateSheet(index, "lackOfQuantitativeDataState", {
-          score: lackOfQuantitativeData?.data?.response,
-          weight: 20,
-          divider: 1,
-        });
-        updateSheet(index, "scope3EmissionsState", {
-          score: scope3Emissions?.data?.response,
-          weight: 15,
-          divider: 2,
-        });
-
-        updateSheet(index, "externalOffsetState", {
-          score: externalOffset?.data?.response,
-          weight: 20,
-          divider: 2,
-        });
-
-        updateSheet(index, "netZeroState", {
-          score: netZero?.data?.response,
-          weight: 15,
-          divider: 2,
-        });
-
-        // ==================================
-        const targetTimelines = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
-            claims
-          )}`,
-          systemPrompts: scoringPagePrompts?.targetTimelines,
-        });
-        const stakeholdersEngagement = await axios.post(
-          `${apiUrl}/api/gpt/prompt`,
-          {
-            targetCompanyName: company[0]?.Name,
-            description: `companyName: ${
-              company[0]?.Name
-            },data: ${JSON.stringify(claims)}`,
-            systemPrompts: scoringPagePrompts?.stakeholdersEngagement,
-          }
-        );
-        const reportsAnnually = await axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: company[0]?.Name,
-          description: `companyName: ${company[0]?.Name},data: ${JSON.stringify(
-            claims
-          )}`,
-          systemPrompts: scoringPagePrompts?.reportsAnnually,
-        });
-        const sustainabilityInformationExists = await axios.post(
-          `${apiUrl}/api/gpt/prompt`,
-          {
-            targetCompanyName: company[0]?.Name,
-            description: `companyName: ${
-              company[0]?.Name
-            },data: ${JSON.stringify(claims)}`,
-            systemPrompts: scoringPagePrompts?.sustainabilityInformationExists,
-          }
-        );
-        const materialityAssessment = await axios.post(
-          `${apiUrl}/api/gpt/prompt`,
-          {
-            targetCompanyName: company[0]?.Name,
-            description: `companyName: ${
-              company[0]?.Name
-            },data: ${JSON.stringify(claims)}`,
-            systemPrompts: scoringPagePrompts?.materialityAssessment,
-          }
-        );
-
-        // ======================Update Reporting risk states===========================
-        updateSheet(index, "targetTimelinesState", {
-          score: targetTimelines?.data?.response,
-          weight: 20,
-          divider: 1,
-        });
-        updateSheet(index, "stakeholdersEngagementState", {
-          score: stakeholdersEngagement?.data?.response,
-          weight: 20,
-          divider: 3,
-        });
-
-        updateSheet(index, "reportsAnnuallyState", {
-          score: reportsAnnually?.data?.response,
-          weight: 15,
-          divider: 2,
-        });
-        updateSheet(index, "sustainabilityInformationExistsState", {
-          score: sustainabilityInformationExists?.data?.response,
-          weight: 15,
-          divider: 2,
-        });
-        updateSheet(index, "materialityAssessmentState", {
-          score: materialityAssessment?.data?.response,
-          weight: 20,
-          divider: 1,
-        });
-        return true;
-        setIsReportGenerating(false);
-      } else {
-        setIsReportGenerating(false);
-        console.log("no exist");
-        return false;
-      }
-    } catch (error) {
-      setIsReportGenerating(false);
-      return false;
-      console.log("error: ", error);
-    }
-  };
-
   const handleNavigate = async (
     companyName,
     tab,
@@ -345,9 +139,13 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
     sheetIndex
   ) => {
     if (tab === 1) {
-      await loadData(sheetData?.Company, sheetData?.Claims, sheetIndex);
       setFilteredCompanyData(sheetData);
-      setCurrentCompany(companyName);
+      setCurrentCompany({
+        company: sheetData?.Company[0],
+        claims: sheetData?.Claims,
+        generatedReport: sheetData?.generatedReport || {},
+        index: sheetIndex,
+      });
       setStep("specific_report");
 
       // Return sheetData to use it in other parts of your code
@@ -420,7 +218,7 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
               </span>
             </p>
 
-            <div className="flex justify-start items-center ">
+            {/* <div className="flex justify-start items-center ">
               <p className="text-[#6C7275] mr-3 font-semibold">Age:</p>
               <label
                 htmlFor="freshness"
@@ -443,11 +241,11 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
                   {report?.priority}
                 </label>
               </div>
-            </div>
+            </div> */}
           </div>
         ))
       ) : (
-        <p>No reports sent to regulators</p>
+        <p>{/* No reports sent to regulators */}</p>
       )}
     </>
   );
