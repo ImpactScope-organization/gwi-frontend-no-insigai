@@ -1,8 +1,8 @@
-const environment = "dev";
+const environment = "production";
 
 let apiUrl;
 if (environment === "production") {
-  apiUrl = "https://rich-teal-octopus-kit.cyclic.app";
+  apiUrl = "https://gwi-env.lm.r.appspot.com";
 } else {
   apiUrl = "http://localhost:5000";
 }
