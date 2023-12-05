@@ -7,7 +7,6 @@ import * as XLSX from "xlsx"; // Import the xlsx library
 import { toast } from "react-toastify";
 import axios from "axios";
 
-
 const Step2 = () => {
   const fileInputRef = useRef(null);
   const { processing, setProcessing, setStep, rows, setRows, setSheet } =
@@ -50,7 +49,6 @@ const Step2 = () => {
         });
 
         reader.readAsArrayBuffer(file);
-        const saveFile= axios.post('/upload')
         await promise; // Wait for each file to be processed before moving to the next
         allSheetDataArray.push({ ...allSheetData, file });
       }
