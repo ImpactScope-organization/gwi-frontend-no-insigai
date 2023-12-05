@@ -39,6 +39,9 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
