@@ -10,7 +10,7 @@ const activeChainId = ChainId.Sepolia;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <>
     <BrowserRouter>
       <ThirdwebProvider activeChain={activeChainId}>
         <StepsProvider>
@@ -18,5 +18,5 @@ root.render(
         </StepsProvider>
       </ThirdwebProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </>
 );

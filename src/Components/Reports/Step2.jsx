@@ -6,6 +6,7 @@ import Loading from "../Shared/Loading";
 import * as XLSX from "xlsx"; // Import the xlsx library
 import { toast } from "react-toastify";
 import axios from "axios";
+import { transformArrayOfObjects } from "../../utils/helpers";
 
 const Step2 = () => {
   const fileInputRef = useRef(null);
@@ -30,8 +31,13 @@ const Step2 = () => {
 
               for (const sheetName of workbook.SheetNames) {
                 const sheet = workbook.Sheets[sheetName];
-                const rows = XLSX.utils.sheet_to_json(sheet);
-
+                let rows = XLSX.utils.sheet_to_json(sheet);
+                if (
+                  sheetName.toLocaleLowerCase() === "company" &&
+                  rows.length > 0
+                ) {
+                  rows = transformArrayOfObjects(rows);
+                }
                 // Process the rows from the sheet (console.log or store the data as needed)
                 // console.log(`File: ${file.name}, Sheet: ${sheetName}`);
                 // console.log("===", rows);

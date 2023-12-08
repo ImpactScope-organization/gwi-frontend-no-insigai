@@ -175,12 +175,12 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
               >
                 <p className="mb-2 text-sm text-[#6C7275]">{formattedDate}</p>
                 <h1 className="mb-3 text-[#000] text-xl font-semibold">
-                  {report?.Company || report?.Name}
+                  {report?.Company || report?.name}
                 </h1>
                 <p className="text-[#6C7275] text-base">
                   Jurisdiction :
                   <span className="text-[#000] font-semibold ml-2">
-                    {report?.Jurisdiction}
+                    {report?.jurisdiction}
                   </span>
                 </p>
               </div>

@@ -24,3 +24,17 @@ export const captureScreen = (id = "report-container") => {
       console.error("Error:", error);
     });
 };
+
+export const transformArrayOfObjects = (arr) => {
+  return arr.map((obj) => {
+    const transformedObj = {};
+
+    Object.keys(obj).forEach((key) => {
+      const trimmedKey = key.trim(); // Trim whitespace from key
+      const lowerCaseKey = trimmedKey.toLowerCase(); // Convert key to lowercase
+      transformedObj[lowerCaseKey] = obj[key];
+    });
+
+    return transformedObj;
+  });
+};

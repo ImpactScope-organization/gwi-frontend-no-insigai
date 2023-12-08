@@ -86,7 +86,6 @@ const SpecificReport = () => {
           score: 0,
           weight: 20,
           divider: 3,
-          divider: 1,
         }
     );
   const [berkleyDBExistanceState, setberkleyDBExistanceState] = useState(
@@ -109,7 +108,7 @@ const SpecificReport = () => {
     () =>
       currentCompany?.generatedReport?.externalOffsetState || {
         score: 0,
-        weight: 20,
+        weight: 15,
         divider: 2,
       }
   );
@@ -256,19 +255,19 @@ const SpecificReport = () => {
       // Sending to regulators
       axios
         .post(`${apiUrl}/api/report/updateSendToRegulators`, {
-          companyName: currentCompany?.company?.Name,
+          companyName: currentCompany?.company?.name,
           contradiction: contradictions,
-          jurisdiction: currentCompany?.company?.Jurisdiction,
+          jurisdiction: currentCompany?.company?.jurisdiction,
           // new keys
-          sector: currentCompany?.company?.Sector,
-          annualRevenue: currentCompany?.company["Annual revenue"],
-          noOfEmployees: currentCompany?.company?.Employees,
+          sector: currentCompany?.company?.sector,
+          annualRevenue: currentCompany?.company["annual revenue"],
+          noOfEmployees: currentCompany?.company?.employees,
           potentialInconsistencies,
           unsubstantiatedClaims,
           sources: JSON.stringify(sources),
           greenwashRiskPercentage,
           reportingRiskPercentage,
-          GHGEmissions: currentCompany?.company["GHG Emissions"],
+          GHGEmissions: currentCompany?.company["ghg emissions"],
           claims: JSON.stringify(currentCompany?.claims),
           age: reportDataUpdate.age,
           priority: reportDataUpdate.priority,
@@ -321,7 +320,7 @@ const SpecificReport = () => {
       contradictions &&
       potentialInconsistencies &&
       unsubstantiatedClaims &&
-      sources?.length > 0 &&
+      sources &&
       vagueTermsState &&
       lackOfQuantitativeDataState &&
       berkleyDBExistanceState &&
@@ -386,7 +385,7 @@ const SpecificReport = () => {
   const loadData = async () => {
     try {
       setIsLoading(true);
-      if (RefBerklayDB.includes(currentCompany?.company?.Name)) {
+      if (RefBerklayDB.includes(currentCompany?.company?.name)) {
         setberkleyDBExistanceState((prev) => ({
           ...prev,
           score: 0,
@@ -401,12 +400,12 @@ const SpecificReport = () => {
       const claims = [...currentCompany?.claims]?.slice(0, 5);
       let prompt = `Act as an a sustainablity experts who identifies  potential greenwashing by companies:`;
       let concatenatedData = `companyName:${
-        currentCompany?.company?.Name
+        currentCompany?.company?.name
       }\n claims: \n${JSON.stringify(claims)}`;
 
       const group1APIs = [
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.contradictionPrompt,
@@ -414,7 +413,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.potentialInconsistencies,
@@ -423,7 +422,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.unsubstantiatedClaims,
@@ -432,7 +431,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.sources,
@@ -452,7 +451,7 @@ const SpecificReport = () => {
       // ===============group2APIs===================
       const group2APIs = [
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.vagueTerms,
@@ -460,7 +459,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.lackOfQuantitativeData,
@@ -469,9 +468,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: `companyName: ${
-            currentCompany?.company?.Name
+            currentCompany?.company?.name
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.scope3Emissions,
@@ -479,9 +478,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: `companyName: ${
-            currentCompany?.company?.Name
+            currentCompany?.company?.name
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.externalOffset,
@@ -489,9 +488,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: `companyName: ${
-            currentCompany?.company?.Name
+            currentCompany?.company?.name
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.netZero,
@@ -511,31 +510,41 @@ const SpecificReport = () => {
       // ======================Update Greenwash risk states===========================
       setvagueTermsState((prev) => ({
         ...prev,
-        score: vagueTerms?.data?.response,
+        score: !isNaN(vagueTerms?.data?.response)
+          ? Number(vagueTerms?.data?.response)
+          : prev?.score,
       }));
       setlackOfQuantitativeDataState((prev) => ({
         ...prev,
-        score: lackOfQuantitativeData?.data?.response,
+        score: !isNaN(lackOfQuantitativeData?.data?.response)
+          ? Number(lackOfQuantitativeData?.data?.response)
+          : prev?.score,
       }));
       setscope3EmissionsState((prev) => ({
         ...prev,
-        score: scope3Emissions?.data?.response,
+        score: !isNaN(scope3Emissions?.data?.response)
+          ? Number(scope3Emissions?.data?.response)
+          : prev?.score,
       }));
       setexternalOffsetState((prev) => ({
         ...prev,
-        score: externalOffset?.data?.response,
+        score: !isNaN(externalOffset?.data?.response)
+          ? Number(externalOffset?.data?.response)
+          : prev?.score,
       }));
       setnetZeroState((prev) => ({
         ...prev,
-        score: netZero?.data?.response,
+        score: !isNaN(netZero?.data?.response)
+          ? Number(netZero?.data?.response)
+          : prev?.score,
       }));
 
       // ======================group3APIs===========================
       const group3APIs = [
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: `companyName: ${
-            currentCompany?.company?.Name
+            currentCompany?.company?.name
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.targetTimelines,
@@ -543,7 +552,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.stakeholdersEngagement,
@@ -552,9 +561,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: `companyName: ${
-            currentCompany?.company?.Name
+            currentCompany?.company?.name
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.reportsAnnually,
@@ -562,7 +571,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.sustainabilityInformationExists,
@@ -572,7 +581,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.Name,
+          targetCompanyName: currentCompany?.company?.name,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.materialityAssessment,
@@ -593,23 +602,33 @@ const SpecificReport = () => {
       // ======================Update Reporting risk states===========================
       settargetTimelinesState((prev) => ({
         ...prev,
-        score: targetTimelines?.data?.response,
+        score: isNaN(!targetTimelines?.data?.response)
+          ? Number(targetTimelines?.data?.response)
+          : prev?.score,
       }));
       setstakeholdersEngagementState((prev) => ({
         ...prev,
-        score: stakeholdersEngagement?.data?.response,
+        score: isNaN(!stakeholdersEngagement?.data?.response)
+          ? Number(stakeholdersEngagement?.data?.response)
+          : prev?.score,
       }));
       setreportsAnnuallyState((prev) => ({
         ...prev,
-        score: reportsAnnually?.data?.response,
+        score: isNaN(!reportsAnnually?.data?.response)
+          ? Number(reportsAnnually?.data?.response)
+          : prev?.score,
       }));
       setsustainabilityInformationExistsState((prev) => ({
         ...prev,
-        score: sustainabilityInformationExists?.data?.response,
+        score: isNaN(!sustainabilityInformationExists?.data?.response)
+          ? Number(sustainabilityInformationExists?.data?.response)
+          : prev?.score,
       }));
       setmaterialityAssessmentState((prev) => ({
         ...prev,
-        score: materialityAssessment?.data?.response,
+        score: isNaN(!materialityAssessment?.data?.response)
+          ? Number(materialityAssessment?.data?.response)
+          : prev?.score,
       }));
 
       setIsLoading(false);
@@ -651,32 +670,32 @@ const SpecificReport = () => {
               {formattedDate}
             </p>
             <h1 className="leading-[64px] text-[#000] text-2xl font-bold">
-              {currentCompany?.company?.Name}
+              {currentCompany?.company?.name}
             </h1>
             <div className="mt-[16px] grid grid-cols-5 max-w-[60%]">
               <p className="text-reportGrey  col-span-2 text-[1em] text-base mb-1 font-md">
                 Jurisdiction
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company?.Jurisdiction}
+                {currentCompany?.company?.jurisdiction}
               </p>
               <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
                 Sector
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company?.Sector}
+                {currentCompany?.company?.sector}
               </p>
               <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
                 Annual Revenue
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company["Annual revenue"]}
+                {currentCompany?.company["annual revenue"]}
               </p>
               <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
                 Employees
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company?.Employees}
+                {currentCompany?.company?.employees}
               </p>
             </div>
           </div>
@@ -805,7 +824,7 @@ const SpecificReport = () => {
                 GHG emissions
               </p>
               <p className="text-blackText ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company["GHG Emissions"]}
+                {currentCompany?.company["ghg emissions"]}
               </p>
               <p className="text-reportGrey  text-[1em] text-base mb-1 font-md">
                 Report status
