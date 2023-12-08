@@ -793,9 +793,11 @@ const SpecificReport = () => {
             <div className="overflow-hidden w-full px-2 flex justify-center items-center ">
               <CustomGaugeChart
                 percentage={
-                  (greenwashRiskPercentage &&
-                    parseInt(greenwashRiskPercentage)) ||
-                  0
+                  greenwashRiskPercentage && greenwashRiskPercentage <= 100
+                    ? parseInt(greenwashRiskPercentage)
+                    : greenwashRiskPercentage > 100
+                    ? 99
+                    : 0
                 }
               />
             </div>
@@ -936,7 +938,7 @@ const SpecificReport = () => {
             <div className="flex flex-row flex-nowrap justify-start items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded-2xl">
               <img src="/assets/xls-icon.svg" alt="xls-icon" />
               <h2 className="text-[18px] leading-[24px] mt-1 font-[600]">
-                <span className="truncate">AIB_Group_PLC</span>.csv
+                <span className="truncate">{currentCompany?.file?.name}</span>
               </h2>
             </div>
           </div>

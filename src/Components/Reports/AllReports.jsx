@@ -145,6 +145,7 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
         claims: sheetData?.Claims,
         generatedReport: sheetData?.generatedReport || {},
         index: sheetIndex,
+        file: sheetData?.file,
       });
       setStep("specific_report");
 
