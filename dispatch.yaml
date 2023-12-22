@@ -1,6 +1,6 @@
 dispatch:
-  - url: "here.news/*"
-    service: default
+  - url: "gwi-admin.dev.impactscope.com/*"
+    service: frontend
 
-  - url: "api.here.news/*"
-    service: production-server
+  - url: "gwi.dev.impactscope.com/*"
+    service: thirdparty
