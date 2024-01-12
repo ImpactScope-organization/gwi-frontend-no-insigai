@@ -40,20 +40,8 @@ const SpecificReport = () => {
   const walletAddress = useAddress();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [showStep0, setShowStep0] = useState(true);
-  const [showStep1Modify, setShowStep1Modify] = useState(false);
-  const {
-    setStep,
-    updateSheet,
-    currentCompany,
-    description,
-    filteredCompanyData,
-    currentCountry,
-    sheet,
-  } = useStepsContext();
-
-  // state variables:
-  const [predict, setPredict] = useState("");
+  const { setStep, updateSheet, currentCompany, filteredCompanyData } =
+    useStepsContext();
 
   // description states
   const [contradictions, setContradictions] = useState(
@@ -232,7 +220,7 @@ const SpecificReport = () => {
       const file = new File([blob], "file.png", { type: "image/png" });
       const imghash = await ipfs.add(file);
       setHash(imghash.path);
-      console.log(`https://ipfs.io/ipfs/${imghash.path}`);
+      // console.log(`https://ipfs.io/ipfs/${imghash.path}`);
 
       // Making connection to the blockchain, getting signer wallet address and connecting to our smart contract
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -296,79 +284,67 @@ const SpecificReport = () => {
   };
 
   // update report age priority
-  const [reportDataUpdate, setReportDataUpdate] = useState({
+  const reportDataUpdate = {
     priority: "Low",
     age: "Recent",
-  });
-
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-
-    setReportDataUpdate((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-
-    console.log("final: ", reportDataUpdate);
   };
-
   // ===================================
 
-  useEffect(() => {
-    // update sheet
-    if (
-      contradictions &&
-      potentialInconsistencies &&
-      unsubstantiatedClaims &&
-      sources &&
-      vagueTermsState &&
-      lackOfQuantitativeDataState &&
-      berkleyDBExistanceState &&
-      scope3EmissionsState &&
-      externalOffsetState &&
-      netZeroState &&
-      targetTimelinesState &&
-      stakeholdersEngagementState &&
-      reportsAnnuallyState &&
-      sustainabilityInformationExistsState &&
-      materialityAssessmentState
-    ) {
-      const values = {
-        contradictions,
-        potentialInconsistencies,
-        unsubstantiatedClaims,
-        sources,
-        vagueTermsState,
-        lackOfQuantitativeDataState,
-        berkleyDBExistanceState,
-        scope3EmissionsState,
-        externalOffsetState,
-        netZeroState,
-        targetTimelinesState,
-        stakeholdersEngagementState,
-        reportsAnnuallyState,
-        sustainabilityInformationExistsState,
-        materialityAssessmentState,
-      };
-      updateSheet(currentCompany?.index, values);
-    }
-  }, [
-    contradictions,
-    potentialInconsistencies,
-    unsubstantiatedClaims,
-    sources,
-    vagueTermsState,
-    lackOfQuantitativeDataState,
-    berkleyDBExistanceState,
-    scope3EmissionsState,
-    externalOffsetState,
-    netZeroState,
-    targetTimelinesState,
-    stakeholdersEngagementState,
-    reportsAnnuallyState,
-    sustainabilityInformationExistsState,
-    materialityAssessmentState,
-  ]);
+  // useEffect(() => {
+  //   // update sheet
+  //   if (
+  //     contradictions &&
+  //     potentialInconsistencies &&
+  //     unsubstantiatedClaims &&
+  //     sources &&
+  //     vagueTermsState &&
+  //     lackOfQuantitativeDataState &&
+  //     berkleyDBExistanceState &&
+  //     scope3EmissionsState &&
+  //     externalOffsetState &&
+  //     netZeroState &&
+  //     targetTimelinesState &&
+  //     stakeholdersEngagementState &&
+  //     reportsAnnuallyState &&
+  //     sustainabilityInformationExistsState &&
+  //     materialityAssessmentState
+  //   ) {
+  //     const values = {
+  //       contradictions,
+  //       potentialInconsistencies,
+  //       unsubstantiatedClaims,
+  //       sources,
+  //       vagueTermsState,
+  //       lackOfQuantitativeDataState,
+  //       berkleyDBExistanceState,
+  //       scope3EmissionsState,
+  //       externalOffsetState,
+  //       netZeroState,
+  //       targetTimelinesState,
+  //       stakeholdersEngagementState,
+  //       reportsAnnuallyState,
+  //       sustainabilityInformationExistsState,
+  //       materialityAssessmentState,
+  //     };
+  //     updateSheet(currentCompany?.index, values);
+  //   }
+  // }, [
+  //   contradictions,
+  //   potentialInconsistencies,
+  //   unsubstantiatedClaims,
+  //   sources,
+  //   vagueTermsState,
+  //   lackOfQuantitativeDataState,
+  //   berkleyDBExistanceState,
+  //   scope3EmissionsState,
+  //   externalOffsetState,
+  //   netZeroState,
+  //   targetTimelinesState,
+  //   stakeholdersEngagementState,
+  //   reportsAnnuallyState,
+  //   sustainabilityInformationExistsState,
+  //   materialityAssessmentState,
+  // ]);
 
   // // GPT Response
   useEffect(() => {
@@ -440,13 +416,9 @@ const SpecificReport = () => {
         }),
       ];
 
-      const [cAPI, piAPI, ucAPI, sourcesAPI] = await Promise.all(group1APIs);
-
-      // ===============Group 1 set responses===================
-      setContradictions(cAPI?.data?.response);
-      setPotentialInconsistencies(piAPI?.data?.response);
-      setunsubstantiatedClaims(ucAPI?.data?.response);
-      setsources(JSON.parse(sourcesAPI?.data?.response));
+      const [cAPI, piAPI, ucAPI, sourcesAPI] = await Promise.allSettled(
+        group1APIs
+      );
 
       // ===============group2APIs===================
       const group2APIs = [
@@ -506,38 +478,7 @@ const SpecificReport = () => {
         externalOffset,
         netZero,
         // ... destructure other API responses here in the same order
-      ] = await Promise.all(group2APIs);
-      // ======================Update Greenwash risk states===========================
-      setvagueTermsState((prev) => ({
-        ...prev,
-        score: !isNaN(vagueTerms?.data?.response)
-          ? Number(vagueTerms?.data?.response)
-          : prev?.score,
-      }));
-      setlackOfQuantitativeDataState((prev) => ({
-        ...prev,
-        score: !isNaN(lackOfQuantitativeData?.data?.response)
-          ? Number(lackOfQuantitativeData?.data?.response)
-          : prev?.score,
-      }));
-      setscope3EmissionsState((prev) => ({
-        ...prev,
-        score: !isNaN(scope3Emissions?.data?.response)
-          ? Number(scope3Emissions?.data?.response)
-          : prev?.score,
-      }));
-      setexternalOffsetState((prev) => ({
-        ...prev,
-        score: !isNaN(externalOffset?.data?.response)
-          ? Number(externalOffset?.data?.response)
-          : prev?.score,
-      }));
-      setnetZeroState((prev) => ({
-        ...prev,
-        score: !isNaN(netZero?.data?.response)
-          ? Number(netZero?.data?.response)
-          : prev?.score,
-      }));
+      ] = await Promise.allSettled(group2APIs);
 
       // ======================group3APIs===========================
       const group3APIs = [
@@ -597,37 +538,73 @@ const SpecificReport = () => {
         sustainabilityInformationExists,
         materialityAssessment,
         // ... destructure other API responses here in the same order
-      ] = await Promise.all(group3APIs);
+      ] = await Promise.allSettled(group3APIs);
 
+      // ===============Group 1 set responses===================
+      setContradictions(cAPI?.value?.data?.response);
+      setPotentialInconsistencies(piAPI?.value?.data?.response);
+      setunsubstantiatedClaims(ucAPI?.value?.data?.response);
+      setsources(JSON.parse(sourcesAPI?.value?.data?.response));
+      // ======================Update Greenwash risk states===========================
+      setvagueTermsState((prev) => ({
+        ...prev,
+        score: !isNaN(vagueTerms?.value?.data?.response)
+          ? Number(vagueTerms?.value?.data?.response)
+          : prev?.score,
+      }));
+      setlackOfQuantitativeDataState((prev) => ({
+        ...prev,
+        score: !isNaN(lackOfQuantitativeData?.value?.data?.response)
+          ? Number(lackOfQuantitativeData?.value?.data?.response)
+          : prev?.score,
+      }));
+      setscope3EmissionsState((prev) => ({
+        ...prev,
+        score: !isNaN(scope3Emissions?.value?.data?.response)
+          ? Number(scope3Emissions?.value?.data?.response)
+          : prev?.score,
+      }));
+      setexternalOffsetState((prev) => ({
+        ...prev,
+        score: !isNaN(externalOffset?.value?.data?.response)
+          ? Number(externalOffset?.value?.data?.response)
+          : prev?.score,
+      }));
+      setnetZeroState((prev) => ({
+        ...prev,
+        score: !isNaN(netZero?.value?.data?.response)
+          ? Number(netZero?.value?.data?.response)
+          : prev?.score,
+      }));
       // ======================Update Reporting risk states===========================
       settargetTimelinesState((prev) => ({
         ...prev,
-        score: isNaN(!targetTimelines?.data?.response)
-          ? Number(targetTimelines?.data?.response)
+        score: isNaN(!targetTimelines?.value?.data?.response)
+          ? Number(targetTimelines?.value?.data?.response)
           : prev?.score,
       }));
       setstakeholdersEngagementState((prev) => ({
         ...prev,
-        score: isNaN(!stakeholdersEngagement?.data?.response)
-          ? Number(stakeholdersEngagement?.data?.response)
+        score: isNaN(!stakeholdersEngagement?.value?.data?.response)
+          ? Number(stakeholdersEngagement?.value?.data?.response)
           : prev?.score,
       }));
       setreportsAnnuallyState((prev) => ({
         ...prev,
-        score: isNaN(!reportsAnnually?.data?.response)
-          ? Number(reportsAnnually?.data?.response)
+        score: isNaN(!reportsAnnually?.value?.data?.response)
+          ? Number(reportsAnnually?.value?.data?.response)
           : prev?.score,
       }));
       setsustainabilityInformationExistsState((prev) => ({
         ...prev,
-        score: isNaN(!sustainabilityInformationExists?.data?.response)
-          ? Number(sustainabilityInformationExists?.data?.response)
+        score: isNaN(!sustainabilityInformationExists?.value?.data?.response)
+          ? Number(sustainabilityInformationExists?.value?.data?.response)
           : prev?.score,
       }));
       setmaterialityAssessmentState((prev) => ({
         ...prev,
-        score: isNaN(!materialityAssessment?.data?.response)
-          ? Number(materialityAssessment?.data?.response)
+        score: isNaN(!materialityAssessment?.value?.data?.response)
+          ? Number(materialityAssessment?.value?.data?.response)
           : prev?.score,
       }));
 
@@ -695,7 +672,7 @@ const SpecificReport = () => {
                 Employees
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company?.employees}
+                {currentCompany?.company?.employees?.toLocaleString()}
               </p>
             </div>
           </div>

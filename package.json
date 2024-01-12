@@ -20,8 +20,6 @@
     "modern-screenshot": "^4.4.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-gauge-chart": "^0.4.1",
-    "react-gauges": "^0.0.3",
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
@@ -38,9 +36,6 @@
     "build": "DISABLE_ESLINT_PLUGIN=true CI=false react-app-rewired --max_old_space_size=8192 build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
-  },
-  "engines": {
-    "node": "20.x"
   },
   "eslintConfig": {
     "extends": [
