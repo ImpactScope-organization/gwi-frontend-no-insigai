@@ -1,4 +1,7 @@
 dispatch:
+  - url: "gwi-admin.impactscope.com/*"
+    service: frontend-v2
+
   - url: "gwi-admin.dev.impactscope.com/*"
     service: frontend
 
