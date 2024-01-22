@@ -16,8 +16,9 @@ import CustomGaugeChart from "../gauge-chart";
 import { IoEllipsisHorizontalSharp } from "react-icons/io5";
 import { Dropdown } from "antd";
 import { scoringPagePrompts } from "../../utils/system-prompts";
-import { captureScreen } from "../../utils/helpers";
+import { captureScreen, isValidData, toTitleCase } from "../../utils/helpers";
 import { RefBerklayDB } from "../../Constants/RefBerklayDB";
+import Switch from "react-switch";
 
 // IPFS
 const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -39,122 +40,103 @@ const ipfs = create({
 const SpecificReport = () => {
   const walletAddress = useAddress();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const { setStep, updateSheet, currentCompany, filteredCompanyData } =
+  const { setStep, currentCompany, getCurrentCompany, filteredCompanyData } =
     useStepsContext();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDemo, setIsDemo] = useState(() => !!currentCompany?.isDemo ?? false);
+  const [isRegulator, setIsRegulator] = useState(() =>
+    currentCompany?.sentToRegulators == "true" ? true : false
+  );
 
   // description states
   const [contradictions, setContradictions] = useState(
-    () => currentCompany?.generatedReport?.contradictions || ""
+    () => currentCompany?.contradiction || ""
   );
   const [potentialInconsistencies, setPotentialInconsistencies] = useState(
-    () => currentCompany?.generatedReport?.potentialInconsistencies || ""
+    () => currentCompany?.potentialInconsistencies || ""
   );
   const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState(
-    () => currentCompany?.generatedReport?.unsubstantiatedClaims || ""
+    () => currentCompany?.unsubstantiatedClaims || ""
   );
   // sources states
-  const [sources, setsources] = useState(
-    () => currentCompany?.generatedReport?.sources || []
+  const [sources, setsources] = useState(() =>
+    isValidData(currentCompany?.sources)
+      ? JSON.parse(currentCompany?.sources)
+      : []
   );
 
   // greenwashing states
-  const [vagueTermsState, setvagueTermsState] = useState(
-    () =>
-      currentCompany?.generatedReport?.vagueTermsState || {
-        score: 0,
-        weight: 20,
-        divider: 3,
-      }
-  );
+  const [vagueTermsState, setvagueTermsState] = useState(() => ({
+    score: 0,
+    weight: 20,
+    divider: 3,
+  }));
   const [lackOfQuantitativeDataState, setlackOfQuantitativeDataState] =
-    useState(
-      () =>
-        currentCompany?.generatedReport?.lackOfQuantitativeDataState || {
-          score: 0,
-          weight: 20,
-          divider: 3,
-        }
-    );
+    useState(() => ({
+      score: 0,
+      weight: 20,
+      divider: 3,
+    }));
   const [berkleyDBExistanceState, setberkleyDBExistanceState] = useState(
-    () =>
-      currentCompany?.generatedReport?.berkleyDBExistanceState || {
-        score: 0,
-        weight: 15,
-        divider: 1,
-      }
+    () => ({
+      score: 0,
+      weight: 15,
+      divider: 1,
+    })
   );
-  const [scope3EmissionsState, setscope3EmissionsState] = useState(
-    () =>
-      currentCompany?.generatedReport?.scope3EmissionsState || {
-        score: 0,
-        weight: 15,
-        divider: 2,
-      }
-  );
-  const [externalOffsetState, setexternalOffsetState] = useState(
-    () =>
-      currentCompany?.generatedReport?.externalOffsetState || {
-        score: 0,
-        weight: 15,
-        divider: 2,
-      }
-  );
-  const [netZeroState, setnetZeroState] = useState(
-    () =>
-      currentCompany?.generatedReport?.netZeroState || {
-        score: 0,
-        weight: 15,
-        divider: 2,
-      }
-  );
+  const [scope3EmissionsState, setscope3EmissionsState] = useState(() => ({
+    score: 0,
+    weight: 15,
+    divider: 2,
+  }));
+  const [externalOffsetState, setexternalOffsetState] = useState(() => ({
+    score: 0,
+    weight: 15,
+    divider: 2,
+  }));
+  const [netZeroState, setnetZeroState] = useState(() => ({
+    score: 0,
+    weight: 15,
+    divider: 2,
+  }));
   // Reporting risk states
-  const [targetTimelinesState, settargetTimelinesState] = useState(
-    () =>
-      currentCompany?.generatedReport?.targetTimelinesState || {
-        score: 0,
-        weight: 20,
-        divider: 1,
-      }
-  );
+  const [targetTimelinesState, settargetTimelinesState] = useState(() => ({
+    score: 0,
+    weight: 20,
+    divider: 1,
+  }));
   const [stakeholdersEngagementState, setstakeholdersEngagementState] =
-    useState(
-      () =>
-        currentCompany?.generatedReport?.stakeholdersEngagementState || {
-          score: 0,
-          weight: 20,
-          divider: 3,
-        }
-    );
-  const [reportsAnnuallyState, setreportsAnnuallyState] = useState(
-    () =>
-      currentCompany?.generatedReport?.reportsAnnuallyState || {
-        score: 0,
-        weight: 15,
-        divider: 2,
-      }
-  );
+    useState(() => ({
+      score: 0,
+      weight: 20,
+      divider: 3,
+    }));
+  const [reportsAnnuallyState, setreportsAnnuallyState] = useState(() => ({
+    score: 0,
+    weight: 15,
+    divider: 2,
+  }));
   const [
     sustainabilityInformationExistsState,
     setsustainabilityInformationExistsState,
-  ] = useState(
-    () =>
-      currentCompany?.generatedReport?.sustainabilityInformationExistsState || {
-        score: 0,
-        weight: 15,
-        divider: 1,
-      }
-  );
+  ] = useState(() => ({
+    score: 0,
+    weight: 15,
+    divider: 1,
+  }));
   const [materialityAssessmentState, setmaterialityAssessmentState] = useState(
-    () =>
-      currentCompany?.generatedReport?.materialityAssessmentState || {
-        score: 0,
-        weight: 20,
-        divider: 1,
-      }
+    () => ({
+      score: 0,
+      weight: 20,
+      divider: 1,
+    })
   );
   // Greenwash Risk Percentage
   let greenwashRiskPercentage = React.useMemo(() => {
+    if (currentCompany?.greenwashRiskPercentage) {
+      return currentCompany?.greenwashRiskPercentage;
+    }
     return (
       (vagueTermsState?.score * vagueTermsState?.weight) /
         vagueTermsState?.divider +
@@ -179,6 +161,9 @@ const SpecificReport = () => {
   ]);
   // Reporting Risk Percentage
   let reportingRiskPercentage = React.useMemo(() => {
+    if (currentCompany?.reportingRiskPercentage) {
+      return currentCompany?.reportingRiskPercentage;
+    }
     return (
       (targetTimelinesState?.score * targetTimelinesState?.weight) /
         targetTimelinesState?.divider +
@@ -202,8 +187,10 @@ const SpecificReport = () => {
   ]);
 
   // Print Report
-  const [hash, setHash] = useState("");
-  const [etherscanURL, setEtherscanURL] = useState("");
+  const [hash, setHash] = useState(() => currentCompany?.IPFSHash || "");
+  const [etherscanURL, setEtherscanURL] = useState(
+    () => currentCompany?.etherscanURL || ""
+  );
   const [isSendingToRegulator, setIsSendingToRegulator] = useState("");
 
   const handleSendToRegulators = async () => {
@@ -242,25 +229,10 @@ const SpecificReport = () => {
 
       // Sending to regulators
       axios
-        .post(`${apiUrl}/api/report/updateSendToRegulators`, {
-          companyName: currentCompany?.company?.name,
-          contradiction: contradictions,
-          jurisdiction: currentCompany?.company?.jurisdiction,
+        .put(`${apiUrl}/api/company/update/${currentCompany?.id}`, {
           // new keys
-          sector: currentCompany?.company?.sector,
-          annualRevenue: currentCompany?.company["annual revenue"],
-          noOfEmployees: currentCompany?.company?.employees,
-          potentialInconsistencies,
-          unsubstantiatedClaims,
-          sources: JSON.stringify(sources),
-          greenwashRiskPercentage,
-          reportingRiskPercentage,
-          GHGEmissions: currentCompany?.company["ghg emissions"],
-          claims: JSON.stringify(currentCompany?.claims),
           age: reportDataUpdate.age,
           priority: reportDataUpdate.priority,
-          sentToRegulators: "true",
-          sendToRegulatorsTimeStamp: formattedDate,
           IPFSHash: imghash.path,
           etherscanURL: etherscanUrl,
           dataSources: Object.keys(filteredCompanyData)
@@ -269,7 +241,7 @@ const SpecificReport = () => {
         })
         .then((res) => {
           console.log("res: ", res);
-          toast.success("Report has been sent to regulators");
+          toast.success("Report is updated successfully");
           setIsSendingToRegulator(false);
           // setStep("all_reports");
         })
@@ -277,6 +249,7 @@ const SpecificReport = () => {
           console.log("err: ", err);
           setIsSendingToRegulator(false);
         });
+      await getCurrentCompany(currentCompany?.id);
     } catch (error) {
       toast.error(error.message);
       setIsSendingToRegulator(false);
@@ -288,100 +261,78 @@ const SpecificReport = () => {
     priority: "Low",
     age: "Recent",
   };
-  // ===================================
-
-  // useEffect(() => {
-  //   // update sheet
-  //   if (
-  //     contradictions &&
-  //     potentialInconsistencies &&
-  //     unsubstantiatedClaims &&
-  //     sources &&
-  //     vagueTermsState &&
-  //     lackOfQuantitativeDataState &&
-  //     berkleyDBExistanceState &&
-  //     scope3EmissionsState &&
-  //     externalOffsetState &&
-  //     netZeroState &&
-  //     targetTimelinesState &&
-  //     stakeholdersEngagementState &&
-  //     reportsAnnuallyState &&
-  //     sustainabilityInformationExistsState &&
-  //     materialityAssessmentState
-  //   ) {
-  //     const values = {
-  //       contradictions,
-  //       potentialInconsistencies,
-  //       unsubstantiatedClaims,
-  //       sources,
-  //       vagueTermsState,
-  //       lackOfQuantitativeDataState,
-  //       berkleyDBExistanceState,
-  //       scope3EmissionsState,
-  //       externalOffsetState,
-  //       netZeroState,
-  //       targetTimelinesState,
-  //       stakeholdersEngagementState,
-  //       reportsAnnuallyState,
-  //       sustainabilityInformationExistsState,
-  //       materialityAssessmentState,
-  //     };
-  //     updateSheet(currentCompany?.index, values);
-  //   }
-  // }, [
-  //   contradictions,
-  //   potentialInconsistencies,
-  //   unsubstantiatedClaims,
-  //   sources,
-  //   vagueTermsState,
-  //   lackOfQuantitativeDataState,
-  //   berkleyDBExistanceState,
-  //   scope3EmissionsState,
-  //   externalOffsetState,
-  //   netZeroState,
-  //   targetTimelinesState,
-  //   stakeholdersEngagementState,
-  //   reportsAnnuallyState,
-  //   sustainabilityInformationExistsState,
-  //   materialityAssessmentState,
-  // ]);
 
   // // GPT Response
+
   useEffect(() => {
-    if (Object.keys(currentCompany?.generatedReport)?.length === 0) {
+    if (
+      !currentCompany?.contradiction ||
+      !currentCompany?.potentialInconsistencies ||
+      !currentCompany?.unsubstantiatedClaims ||
+      !currentCompany?.greenwashRiskPercentage ||
+      !currentCompany?.reportingRiskPercentage
+    ) {
       loadData();
     } else {
-      console.log("=================generatedReport===================");
-      console.log(currentCompany?.generatedReport);
-      console.log("====================================");
       setIsLoading(false);
     }
   }, []);
+  useEffect(() => {
+    (async () => {
+      if (
+        contradictions > "" &&
+        potentialInconsistencies > "" &&
+        unsubstantiatedClaims > "" &&
+        (!currentCompany?.contradiction ||
+          !currentCompany?.potentialInconsistencies ||
+          !currentCompany?.unsubstantiatedClaims ||
+          !currentCompany?.greenwashRiskPercentage ||
+          !currentCompany?.reportingRiskPercentage)
+      ) {
+        const response = await axios.put(
+          `${apiUrl}/api/company/update/${currentCompany?.id}`,
+          {
+            contradiction: contradictions,
+            potentialInconsistencies,
+            unsubstantiatedClaims,
+            sources: JSON.stringify(sources),
+            greenwashRiskPercentage,
+            reportingRiskPercentage,
+            status: "generated",
+          }
+        );
+        const { data } = response;
+        console.log(
+          "===============Saved generated report====================="
+        );
+        console.log(data);
+        console.log("====================================");
+        await getCurrentCompany(currentCompany?.id);
+      }
+    })();
+  }, [
+    contradictions,
+    potentialInconsistencies,
+    unsubstantiatedClaims,
+    sources,
+    greenwashRiskPercentage,
+    reportingRiskPercentage,
+  ]);
 
   const loadData = async () => {
     try {
       setIsLoading(true);
-      if (RefBerklayDB.includes(currentCompany?.company?.name)) {
-        setberkleyDBExistanceState((prev) => ({
-          ...prev,
-          score: 0,
-        }));
-      } else {
-        setberkleyDBExistanceState((prev) => ({
-          ...prev,
-          score: 1,
-        }));
-      }
+
       // const gptPrompt = await axios.get(`${apiUrl}/api/prompt`);
-      const claims = [...currentCompany?.claims]?.slice(0, 5);
+      const claims = JSON.parse(currentCompany?.claims).slice(0, 5);
       let prompt = `Act as an a sustainablity experts who identifies  potential greenwashing by companies:`;
       let concatenatedData = `companyName:${
-        currentCompany?.company?.name
-      }\n claims: \n${JSON.stringify(claims)}`;
+        currentCompany?.companyName
+      }\n statements: \n${JSON.stringify(claims)}`;
 
       const group1APIs = [
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.contradictionPrompt,
@@ -389,7 +340,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.potentialInconsistencies,
@@ -398,7 +349,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.unsubstantiatedClaims,
@@ -407,7 +358,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.sources,
@@ -423,7 +374,7 @@ const SpecificReport = () => {
       // ===============group2APIs===================
       const group2APIs = [
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.vagueTerms,
@@ -431,7 +382,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.lackOfQuantitativeData,
@@ -440,9 +391,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: `companyName: ${
-            currentCompany?.company?.name
+            currentCompany?.companyName
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.scope3Emissions,
@@ -450,9 +401,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: `companyName: ${
-            currentCompany?.company?.name
+            currentCompany?.companyName
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.externalOffset,
@@ -460,9 +411,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: `companyName: ${
-            currentCompany?.company?.name
+            currentCompany?.companyName
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.netZero,
@@ -483,9 +434,9 @@ const SpecificReport = () => {
       // ======================group3APIs===========================
       const group3APIs = [
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: `companyName: ${
-            currentCompany?.company?.name
+            currentCompany?.companyName
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.targetTimelines,
@@ -493,7 +444,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.stakeholdersEngagement,
@@ -502,9 +453,9 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: `companyName: ${
-            currentCompany?.company?.name
+            currentCompany?.companyName
           },data: ${JSON.stringify(currentCompany?.claims?.slice(0, 7))}`,
           systemPrompts: {
             ...scoringPagePrompts?.reportsAnnually,
@@ -512,7 +463,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.sustainabilityInformationExists,
@@ -522,7 +473,7 @@ const SpecificReport = () => {
           },
         }),
         axios.post(`${apiUrl}/api/gpt/prompt`, {
-          targetCompanyName: currentCompany?.company?.name,
+          targetCompanyName: currentCompany?.companyName,
           description: concatenatedData,
           systemPrompts: {
             ...scoringPagePrompts?.materialityAssessment,
@@ -544,7 +495,11 @@ const SpecificReport = () => {
       setContradictions(cAPI?.value?.data?.response);
       setPotentialInconsistencies(piAPI?.value?.data?.response);
       setunsubstantiatedClaims(ucAPI?.value?.data?.response);
-      setsources(JSON.parse(sourcesAPI?.value?.data?.response));
+      setsources(
+        isValidData(sourcesAPI?.value?.data?.response)
+          ? JSON.parse(sourcesAPI?.value?.data?.response)
+          : []
+      );
       // ======================Update Greenwash risk states===========================
       setvagueTermsState((prev) => ({
         ...prev,
@@ -552,12 +507,19 @@ const SpecificReport = () => {
           ? Number(vagueTerms?.value?.data?.response)
           : prev?.score,
       }));
+
+      setberkleyDBExistanceState((prev) => ({
+        ...prev,
+        score: RefBerklayDB.includes(currentCompany?.companyName) ? 0 : 1,
+      }));
+
       setlackOfQuantitativeDataState((prev) => ({
         ...prev,
         score: !isNaN(lackOfQuantitativeData?.value?.data?.response)
           ? Number(lackOfQuantitativeData?.value?.data?.response)
           : prev?.score,
       }));
+
       setscope3EmissionsState((prev) => ({
         ...prev,
         score: !isNaN(scope3Emissions?.value?.data?.response)
@@ -616,6 +578,19 @@ const SpecificReport = () => {
     }
   };
 
+  const deleteCompanyHandler = async () => {
+    const response = await axios.delete(
+      `${apiUrl}/api/company/delete/${currentCompany?.id}`
+    );
+    const { data } = response;
+    if (data?.status === "success") {
+      toast.success(data?.message);
+      setStep("all_reports");
+    } else {
+      toast.error("something went wrong while deleting the report");
+    }
+  };
+
   if (isLoading) {
     return (
       <LoadingPage
@@ -647,32 +622,32 @@ const SpecificReport = () => {
               {formattedDate}
             </p>
             <h1 className="leading-[64px] text-[#000] text-2xl font-bold">
-              {currentCompany?.company?.name}
+              {currentCompany?.companyName}
             </h1>
             <div className="mt-[16px] grid grid-cols-5 max-w-[60%]">
               <p className="text-reportGrey  col-span-2 text-[1em] text-base mb-1 font-md">
                 Jurisdiction
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company?.jurisdiction}
+                {currentCompany?.jurisdiction}
               </p>
               <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
                 Sector
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company?.sector}
+                {currentCompany?.sector}
               </p>
               <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
                 Annual Revenue
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company["annual revenue"]}
+                {currentCompany?.annualRevenue}
               </p>
               <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
                 Employees
               </p>
               <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company?.employees?.toLocaleString()}
+                {currentCompany?.noOfEmployees?.toLocaleString()}
               </p>
             </div>
           </div>
@@ -740,7 +715,7 @@ const SpecificReport = () => {
               Sources
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              {sources.length > 0 ? (
+              {sources?.length > 0 ? (
                 sources?.map((source, index) => {
                   return (source?.title || source?.Title) &&
                     (source?.description || source?.Description) ? (
@@ -803,14 +778,36 @@ const SpecificReport = () => {
                 GHG emissions
               </p>
               <p className="text-blackText ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.company["ghg emissions"]}
+                {currentCompany?.GHGEmissions}
               </p>
               <p className="text-reportGrey  text-[1em] text-base mb-1 font-md">
                 Report status
               </p>
               <p className="text-blackText ml-4 text-[1em] text-base mb-1 font-md">
-                <span className="py-1 px-3 rounded-3xl bg-foggyGrey">
-                  Generated
+                <span
+                  className={`py-1 px-3 text-white rounded-3xl ${
+                    currentCompany?.pending === "true" &&
+                    currentCompany?.disregard === "false"
+                      ? "bg-foggyGrey"
+                      : currentCompany?.reviewing === "true"
+                      ? "bg-review"
+                      : currentCompany?.reviewed === "true"
+                      ? "bg-darkGreen"
+                      : currentCompany?.disregard === "true"
+                      ? "bg-danger"
+                      : "bg-foggyGrey"
+                  }`}
+                >
+                  {currentCompany?.pending === "true" &&
+                  currentCompany?.disregard === "false"
+                    ? "Pending Review"
+                    : currentCompany?.reviewing === "true"
+                    ? "In Review"
+                    : currentCompany?.reviewed === "true"
+                    ? "Reviewed"
+                    : currentCompany?.disregard === "true"
+                    ? "Disregard"
+                    : toTitleCase(currentCompany?.status) || "Generated"}
                 </span>
               </p>
               {hash && (
@@ -864,7 +861,7 @@ const SpecificReport = () => {
                     isSendingToRegulator ? "bg-greyText" : "bg-darkGreen"
                   } flex-1 rounded-lg  py-3 px-3 border-none outline-none text-[#fff]`}
                 >
-                  Send to regulator
+                  Send to blockchain
                 </button>
                 <Dropdown
                   trigger={["click"]}
@@ -872,12 +869,14 @@ const SpecificReport = () => {
                     onClick: (e) => {
                       if (e.key == 1) {
                         captureScreen("report-container");
+                      } else if (e.key == 2) {
+                        deleteCompanyHandler();
                       } else {
                         alert("coming soon!");
                       }
                     },
                     items: [
-                      { label: "Modify Report", key: "0" },
+                      // { label: "Modify Report", key: "0" },
                       {
                         label: "Save as PDF",
                         key: "1",
@@ -902,7 +901,7 @@ const SpecificReport = () => {
                   Download as .pdf
                 </button>
                 <button
-                  onClick={() => alert("Coming Soon!")}
+                  onClick={() => deleteCompanyHandler()}
                   className="bg-white border border-danger rounded-lg  py-2 px-2 text-danger text-[16px]"
                 >
                   Remove from DB
@@ -915,8 +914,109 @@ const SpecificReport = () => {
             <div className="flex flex-row flex-nowrap justify-start items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded-2xl">
               <img src="/assets/xls-icon.svg" alt="xls-icon" />
               <h2 className="text-[18px] leading-[24px] mt-1 font-[600]">
-                <span className="truncate">{currentCompany?.file?.name}</span>
+                <span className="truncate">{currentCompany?.fileName}</span>
               </h2>
+            </div>
+          </div>
+          <div className="card_shadow mt-8  rounded-2xl flex basis-4/12 flex-col z-50 p-[16px]">
+            <h2 className="text-[18px] leading-[24px] font-[600]">
+              Visibility
+            </h2>
+            <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
+              <div className="flex flex-row gap-2 w-full justify-between">
+                <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
+                  <span className="truncate">Demo</span>
+                </h2>
+                <div>
+                  <Switch
+                    height={24}
+                    onChange={async (val) => {
+                      setIsDemo(val);
+                      try {
+                        const response = await axios.put(
+                          `${apiUrl}/api/company/update/${currentCompany?.id}`,
+                          {
+                            isDemo: val,
+                          }
+                        );
+                        const { data } = response;
+                        if (data) {
+                          toast.success(
+                            `Report is ${
+                              val === false ? "removed from" : "sent to"
+                            } demo`
+                          );
+                        }
+                      } catch (error) {
+                        toast.error("Something went wrong.");
+                      }
+                    }}
+                    checked={isDemo}
+                    checkedIcon={false}
+                    uncheckedIcon={false}
+                    onColor="#4DC601"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
+              <div className="flex flex-row gap-2 w-full justify-between">
+                <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
+                  <span className="truncate">Regulator</span>
+                </h2>
+                <div>
+                  <Switch
+                    height={24}
+                    onChange={async (val) => {
+                      setIsRegulator(val);
+                      try {
+                        const response = await axios.put(
+                          `${apiUrl}/api/company/update/${currentCompany?.id}`,
+                          {
+                            sentToRegulators: val,
+                            sendToRegulatorsTimeStamp: formattedDate,
+                            pending:
+                              (currentCompany?.reviewing === "false" ||
+                                !currentCompany?.reviewing) &&
+                              (currentCompany?.reviewed === "false" ||
+                                !currentCompany?.reviewed) &&
+                              (currentCompany?.disregard === "false" ||
+                                !currentCompany?.disregard)
+                                ? "true"
+                                : "false",
+                          }
+                        );
+                        const { data } = response;
+                        if (data) {
+                          toast.success(
+                            `Report is ${
+                              val === false ? "removed from" : "sent to"
+                            } regulator`
+                          );
+                        }
+                      } catch (error) {
+                        toast.error("Something went wrong.");
+                      }
+                    }}
+                    checked={isRegulator}
+                    checkedIcon={false}
+                    uncheckedIcon={false}
+                    onColor="#4DC601"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
+              <div className="flex flex-row gap-2 w-full justify-between">
+                <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
+                  <span className="truncate">Specific Client</span>
+                </h2>
+                <p className="text-blackText ml-4 text-[1em] text-base mb-1 font-md">
+                  <span className="py-1 px-3 rounded-3xl bg-foggyGrey">
+                    coming soon
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
