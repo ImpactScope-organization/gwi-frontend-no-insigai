@@ -324,7 +324,7 @@ const SpecificReport = () => {
       setIsLoading(true);
 
       // const gptPrompt = await axios.get(`${apiUrl}/api/prompt`);
-      const claims = JSON.parse(currentCompany?.claims).slice(0, 5);
+      const claims = JSON.parse(currentCompany?.claims).slice(0, 7);
       let prompt = `Act as an a sustainablity experts who identifies  potential greenwashing by companies:`;
       let concatenatedData = `companyName:${
         currentCompany?.companyName
@@ -538,38 +538,38 @@ const SpecificReport = () => {
           ? Number(netZero?.value?.data?.response)
           : prev?.score,
       }));
+
       // ======================Update Reporting risk states===========================
       settargetTimelinesState((prev) => ({
         ...prev,
-        score: isNaN(!targetTimelines?.value?.data?.response)
+        score: !isNaN(targetTimelines?.value?.data?.response)
           ? Number(targetTimelines?.value?.data?.response)
           : prev?.score,
       }));
       setstakeholdersEngagementState((prev) => ({
         ...prev,
-        score: isNaN(!stakeholdersEngagement?.value?.data?.response)
+        score: !isNaN(stakeholdersEngagement?.value?.data?.response)
           ? Number(stakeholdersEngagement?.value?.data?.response)
           : prev?.score,
       }));
       setreportsAnnuallyState((prev) => ({
         ...prev,
-        score: isNaN(!reportsAnnually?.value?.data?.response)
+        score: !isNaN(reportsAnnually?.value?.data?.response)
           ? Number(reportsAnnually?.value?.data?.response)
           : prev?.score,
       }));
       setsustainabilityInformationExistsState((prev) => ({
         ...prev,
-        score: isNaN(!sustainabilityInformationExists?.value?.data?.response)
+        score: !isNaN(sustainabilityInformationExists?.value?.data?.response)
           ? Number(sustainabilityInformationExists?.value?.data?.response)
           : prev?.score,
       }));
       setmaterialityAssessmentState((prev) => ({
         ...prev,
-        score: isNaN(!materialityAssessment?.value?.data?.response)
+        score: !isNaN(materialityAssessment?.value?.data?.response)
           ? Number(materialityAssessment?.value?.data?.response)
           : prev?.score,
       }));
-
       setIsLoading(false);
 
       setIsLoading(false);
