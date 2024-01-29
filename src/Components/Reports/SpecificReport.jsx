@@ -987,6 +987,7 @@ const SpecificReport = () => {
                   </p>
                   <div className="flex items-center gap-1 mt-[8px]">
                     <input
+                      type="number"
                       min={0}
                       max={100}
                       value={modifyData?.reportingRiskPercentage}
