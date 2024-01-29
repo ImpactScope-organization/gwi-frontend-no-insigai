@@ -959,47 +959,50 @@ const SpecificReport = () => {
                   <p className="text-reportGrey text-[1em] text-base font-medium">
                     Greenwashing risk
                   </p>
-                  <Input
-                    type="number"
-                    min={0}
-                    max={100}
-                    variant="borderless"
-                    value={modifyData?.greenwashRiskPercentage}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      if (e.target.value <= 100 && e.target.value >= 0) {
-                        handleInputUpdates(
-                          "greenwashRiskPercentage",
-                          e.target.value
-                        );
-                      }
-                    }}
-                    suffix={<p className="text-reportGrey">%</p>}
-                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-                  />
+                  <div className="flex items-center gap-1 mt-[8px]">
+                    <input
+                      type="number"
+                      min={0}
+                      max={100}
+                      // variant="borderless"
+                      value={modifyData?.greenwashRiskPercentage}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        if (e.target.value <= 100 && e.target.value >= 0) {
+                          handleInputUpdates(
+                            "greenwashRiskPercentage",
+                            e.target.value
+                          );
+                        }
+                      }}
+                      // suffix={<p className="text-reportGrey">%</p>}
+                      className="w-full border-none p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden focus:border-none focus:outline-none"
+                    />
+                    <p className="text-reportGrey">%</p>
+                  </div>
                 </div>
                 <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
                   <p className="text-reportGrey text-[1em] text-base font-medium">
                     Reporting risk
                   </p>
-                  <Input
-                    type="number"
-                    min={0}
-                    max={100}
-                    variant="borderless"
-                    value={modifyData?.reportingRiskPercentage}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      if (e.target.value <= 100 && e.target.value >= 0) {
-                        handleInputUpdates(
-                          "reportingRiskPercentage",
-                          e.target.value
-                        );
-                      }
-                    }}
-                    suffix={<p className="text-reportGrey">%</p>}
-                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-                  />
+                  <div className="flex items-center gap-1 mt-[8px]">
+                    <input
+                      min={0}
+                      max={100}
+                      value={modifyData?.reportingRiskPercentage}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        if (e.target.value <= 100 && e.target.value >= 0) {
+                          handleInputUpdates(
+                            "reportingRiskPercentage",
+                            e.target.value
+                          );
+                        }
+                      }}
+                      className="w-full border-none p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden focus:border-none focus:outline-none"
+                    />
+                    <p className="text-reportGrey">%</p>
+                  </div>
                 </div>
                 <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
                   <p className="text-reportGrey text-[1em] text-base font-medium">
@@ -1019,6 +1022,47 @@ const SpecificReport = () => {
               <div className="flex items-center gap-4 ">
                 <button
                   onClick={async () => {
+                    if (modifyData?.contradiction === "") {
+                      return toast.warn(
+                        "Contradictions field cannot be empty."
+                      );
+                    } else if (modifyData?.potentialInconsistencies === "") {
+                      return toast.warn(
+                        "Potential Inconsistencies field cannot be empty."
+                      );
+                    } else if (modifyData?.unsubstantiatedClaims === "") {
+                      return toast.warn(
+                        "Unsubstantiated Claims field cannot be empty."
+                      );
+                    } else if (
+                      !modifyData?.greenwashRiskPercentage &&
+                      typeof modifyData?.greenwashRiskPercentage !== typeof 1
+                    ) {
+                      return toast.warn(
+                        "Greenwash Risk  field cannot be empty."
+                      );
+                    } else if (
+                      !modifyData?.reportingRiskPercentage &&
+                      typeof modifyData?.reportingRiskPercentage !== typeof 1
+                    ) {
+                      return toast.warn(
+                        "Reporting Risk field cannot be empty."
+                      );
+                    } else if (modifyData?.jurisdiction === "") {
+                      return toast.warn("Jurisdiction field cannot be empty.");
+                    } else if (modifyData?.sector === "") {
+                      return toast.warn("Sector field cannot be empty.");
+                    } else if (modifyData?.annualRevenue === "") {
+                      return toast.warn(
+                        "Annual Revenue field cannot be empty."
+                      );
+                    } else if (modifyData?.noOfEmployees === "") {
+                      return toast.warn(
+                        "no.of employees field cannot be empty."
+                      );
+                    } else if (modifyData?.GHGEmissions === "") {
+                      return toast.warn("GHG Emissions field cannot be empty.");
+                    }
                     try {
                       const response = await axios.put(
                         `${apiUrl}/api/company/update/${currentCompany?.id}`,
