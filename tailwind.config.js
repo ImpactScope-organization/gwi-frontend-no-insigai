@@ -13,6 +13,7 @@ module.exports = {
         lightgrey: "#E8ECEF",
         borderLight: "#EDEFF2",
         blackText: "#141718",
+        darkBlack: "#181E2f",
         danger: "#FF4158",
         review: "#3377FF",
       },

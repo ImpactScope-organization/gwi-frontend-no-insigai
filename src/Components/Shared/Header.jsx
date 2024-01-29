@@ -6,8 +6,8 @@ const Header = () => {
   const location = useLocation();
 
   return (
-    <div className="bg-black">
-      <div className="flex justify-between items-center  py-5 w-[90%] mx-auto ">
+    <div className="bg-darkBlack">
+      <div className="flex justify-between items-center py-5 w-[90%] mx-auto ">
         {/* Left */}
         <div className="flex justify-between gap-20 items-center">
           <img src="/assets/logo.png" alt="logo" />

@@ -57,6 +57,7 @@ export function StepsProvider({ children }) {
     const response = await axios.get(`${apiUrl}/api/company/${companyID}`);
     const { data } = response;
     setCurrentCompany(data?.result);
+    return data?.result;
   };
 
   const updateSheet = (sheetIndex, values) => {

@@ -32,7 +32,7 @@ const AllReports = () => {
       <div className="flex justify-between items-start mb-6">
         {/* Left */}
         <div>
-          <h1 className="text-[#000] font-bold text-3xl mb-1">Companies</h1>
+          <h1 className="text-darkBlack font-bold text-3xl mb-1">Companies</h1>
           <p className="subtitle-text ">Overview all of companies here</p>
         </div>
         {/* Right */}
@@ -45,17 +45,17 @@ const AllReports = () => {
           onClick={() => handleTabClick(1)}
           className={`cursor-pointer ${
             activeTab === 1
-              ? "border-b-[2px] border-primary text-[#000] font-semibold"
+              ? "border-b-[2px] border-primary text-darkBlack font-semibold"
               : "text-[#5f6264]"
           }  pb-1 `}
         >
-          All reports
+          Internal reports
         </h1>
         <h1
           onClick={() => handleTabClick(2)}
           className={`cursor-pointer ${
             activeTab === 2
-              ? "border-b-[2px] border-primary text-[#000] font-semibold"
+              ? "border-b-[2px] border-primary text-darkBlack font-semibold"
               : "text-[#5a5c5e]"
           }  pb-1 `}
         >
@@ -127,12 +127,12 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
             <p className="mb-2 text-sm text-[#6C7275]">
               {handleDateFormat(report?.createdAt)}
             </p>
-            <h1 className="mb-3 text-[#000] text-2xl font-semibold">
+            <h1 className="mb-3 text-darkBlack text-2xl font-semibold">
               {report?.companyName}
             </h1>
             <p className="text-[#6C7275] mt-[16px] text-[14px] mr-3 font-medium">
               Jurisdiction :
-              <span className="text-[#000] font-semibold ml-2">
+              <span className="text-darkBlack font-semibold ml-2">
                 {report?.jurisdiction}
               </span>
             </p>
@@ -156,12 +156,12 @@ const Report = ({ data, activeTab, pendingReportLoading }) => {
                 : report?.sendToRegulatorsTimeStamp &&
                   report?.sendToRegulatorsTimeStamp}
             </p>
-            <h1 className="mb-3 text-[#000] text-2xl font-semibold">
+            <h1 className="mb-3 text-darkBlack text-2xl font-semibold">
               {report?.companyName}
             </h1>
             <p className="text-[#6C7275] mt-[16px] text-[14px] mr-3 font-medium">
               Jurisdiction :
-              <span className="text-[#000] font-semibold ml-2">
+              <span className="text-darkBlack font-semibold ml-2">
                 {pendingReportLoading
                   ? "loading..."
                   : report?.jurisdiction && report?.jurisdiction}

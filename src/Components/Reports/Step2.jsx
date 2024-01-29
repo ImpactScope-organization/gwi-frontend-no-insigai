@@ -158,7 +158,7 @@ const Step2 = () => {
           <BackButton setStep={() => setStep("step1")} />
           <div className="grid w-full min-h-[75vh] ">
             <div className="w-1/2 mx-auto flex justify-center items-center flex-col">
-              <h1 className="text-[#000] font-bold text-3xl leading-[64px] mb-1">
+              <h1 className="text-darkBlack font-bold text-3xl leading-[64px] mb-1">
                 Add new company
               </h1>
               <p className="subtitle-text ">
@@ -197,7 +197,7 @@ const Step2 = () => {
                   className="grid grid-cols-[80%,70px] w-[512px] mx-auto rounded-xl border-[2px] border-[#E8ECEF] mt-10 p-3 justify-center"
                 >
                   <div className="">
-                    <h1 className="font-semibold mb-0 text-[#000]">
+                    <h1 className="font-semibold mb-0 text-darkBlack">
                       {file.name}
                     </h1>
                     <p className="font-semibold mt-0 text-sm text-[#808080]">

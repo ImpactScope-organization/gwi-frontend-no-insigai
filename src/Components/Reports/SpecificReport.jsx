@@ -19,6 +19,9 @@ import { scoringPagePrompts } from "../../utils/system-prompts";
 import { captureScreen, isValidData, toTitleCase } from "../../utils/helpers";
 import { RefBerklayDB } from "../../Constants/RefBerklayDB";
 import Switch from "react-switch";
+import { Input } from "antd";
+
+const { TextArea } = Input;
 
 // IPFS
 const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -40,10 +43,17 @@ const ipfs = create({
 const SpecificReport = () => {
   const walletAddress = useAddress();
 
-  const { setStep, currentCompany, getCurrentCompany, filteredCompanyData } =
-    useStepsContext();
+  const {
+    setStep,
+    currentCompany,
+    getCurrentCompany,
+    setCurrentCompany,
+    filteredCompanyData,
+  } = useStepsContext();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isModifying, setIsModifying] = useState(false);
+  const [modifyData, setModifyData] = useState(null);
   const [isDemo, setIsDemo] = useState(() => !!currentCompany?.isDemo ?? false);
   const [isRegulator, setIsRegulator] = useState(() =>
     currentCompany?.sentToRegulators == "true" ? true : false
@@ -137,21 +147,22 @@ const SpecificReport = () => {
     if (currentCompany?.greenwashRiskPercentage) {
       return currentCompany?.greenwashRiskPercentage;
     }
-    return (
+    return parseInt(
       (vagueTermsState?.score * vagueTermsState?.weight) /
         vagueTermsState?.divider +
-      (lackOfQuantitativeDataState?.score *
-        lackOfQuantitativeDataState?.weight) /
-        lackOfQuantitativeDataState?.divider +
-      (reportsAnnuallyState?.score * reportsAnnuallyState?.weight) /
-        reportsAnnuallyState?.divider +
-      (scope3EmissionsState?.score * scope3EmissionsState?.weight) /
-        scope3EmissionsState?.divider +
-      (externalOffsetState?.score * externalOffsetState?.weight) /
-        externalOffsetState?.divider +
-      (netZeroState?.score * netZeroState?.weight) / netZeroState?.divider
+        (lackOfQuantitativeDataState?.score *
+          lackOfQuantitativeDataState?.weight) /
+          lackOfQuantitativeDataState?.divider +
+        (reportsAnnuallyState?.score * reportsAnnuallyState?.weight) /
+          reportsAnnuallyState?.divider +
+        (scope3EmissionsState?.score * scope3EmissionsState?.weight) /
+          scope3EmissionsState?.divider +
+        (externalOffsetState?.score * externalOffsetState?.weight) /
+          externalOffsetState?.divider +
+        (netZeroState?.score * netZeroState?.weight) / netZeroState?.divider
     );
   }, [
+    currentCompany?.greenwashRiskPercentage,
     vagueTermsState,
     lackOfQuantitativeDataState,
     reportsAnnuallyState,
@@ -164,21 +175,23 @@ const SpecificReport = () => {
     if (currentCompany?.reportingRiskPercentage) {
       return currentCompany?.reportingRiskPercentage;
     }
-    return (
+    return parseInt(
       (targetTimelinesState?.score * targetTimelinesState?.weight) /
         targetTimelinesState?.divider +
-      (stakeholdersEngagementState?.score *
-        stakeholdersEngagementState?.weight) /
-        stakeholdersEngagementState?.divider +
-      (berkleyDBExistanceState?.score * berkleyDBExistanceState?.weight) /
-        berkleyDBExistanceState?.divider +
-      (sustainabilityInformationExistsState?.score *
-        sustainabilityInformationExistsState?.weight) /
-        sustainabilityInformationExistsState?.divider +
-      (materialityAssessmentState?.score * materialityAssessmentState?.weight) /
-        materialityAssessmentState?.divider
+        (stakeholdersEngagementState?.score *
+          stakeholdersEngagementState?.weight) /
+          stakeholdersEngagementState?.divider +
+        (berkleyDBExistanceState?.score * berkleyDBExistanceState?.weight) /
+          berkleyDBExistanceState?.divider +
+        (sustainabilityInformationExistsState?.score *
+          sustainabilityInformationExistsState?.weight) /
+          sustainabilityInformationExistsState?.divider +
+        (materialityAssessmentState?.score *
+          materialityAssessmentState?.weight) /
+          materialityAssessmentState?.divider
     );
   }, [
+    currentCompany?.reportingRiskPercentage,
     targetTimelinesState,
     stakeholdersEngagementState,
     berkleyDBExistanceState,
@@ -277,6 +290,7 @@ const SpecificReport = () => {
       setIsLoading(false);
     }
   }, []);
+
   useEffect(() => {
     (async () => {
       if (
@@ -590,6 +604,9 @@ const SpecificReport = () => {
       toast.error("something went wrong while deleting the report");
     }
   };
+  const handleInputUpdates = (name, value) => {
+    setModifyData((prev) => ({ ...prev, [name]: value }));
+  };
 
   if (isLoading) {
     return (
@@ -606,309 +623,642 @@ const SpecificReport = () => {
       {/* Specific Report */}
       <div
         id="report-container"
-        className="flex flex-col md:flex-row gap-6 my-10 px-16 max-w-[1120px] mx-auto"
+        className="flex flex-col md:flex-row gap-6 my-10 px-16 lg:px-6 max-w-[1120px] mx-auto"
       >
         <div
           style={{
             boxShadow:
               "0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)",
           }}
-          className="basis-8/12 p-[16px] mx-auto rounded-2xl "
+          className="basis-8/12 max-w-[740px] p-[16px]  mx-auto rounded-2xl "
         >
           {/* Top */}
 
           <div>
-            <p className="mb-1 leading-[24px] text-sm text-reportGrey font-medium">
+            <p className="leading-[24px] text-sm text-reportGrey font-medium">
               {formattedDate}
             </p>
-            <h1 className="leading-[64px] text-[#000] text-2xl font-bold">
+            <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
               {currentCompany?.companyName}
             </h1>
-            <div className="mt-[16px] grid grid-cols-5 max-w-[60%]">
-              <p className="text-reportGrey  col-span-2 text-[1em] text-base mb-1 font-md">
-                Jurisdiction
-              </p>
-              <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.jurisdiction}
-              </p>
-              <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
-                Sector
-              </p>
-              <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.sector}
-              </p>
-              <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
-                Annual Revenue
-              </p>
-              <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.annualRevenue}
-              </p>
-              <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-md">
-                Employees
-              </p>
-              <p className="text-blackText col-span-3 ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.noOfEmployees?.toLocaleString()}
-              </p>
-            </div>
+            {isModifying && (
+              <div className="flex flex-col gap-[16px] mt-[24px]">
+                <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                    Jurisdiction
+                  </p>
+                  <Input
+                    variant="borderless"
+                    value={modifyData?.jurisdiction}
+                    onChange={(e) =>
+                      handleInputUpdates("jurisdiction", e.target.value)
+                    }
+                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                  />
+                </div>
+                <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                    Sector
+                  </p>
+                  <Input
+                    variant="borderless"
+                    value={modifyData?.sector}
+                    onChange={(e) =>
+                      handleInputUpdates("sector", e.target.value)
+                    }
+                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                  />
+                </div>
+                <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                    Annual Revenue
+                  </p>
+                  <Input
+                    variant="borderless"
+                    value={modifyData?.annualRevenue}
+                    onChange={(e) =>
+                      handleInputUpdates("annualRevenue", e.target.value)
+                    }
+                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                  />
+                </div>
+                <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                    Employees
+                  </p>
+                  <Input
+                    variant="borderless"
+                    value={modifyData?.noOfEmployees}
+                    onChange={(e) =>
+                      handleInputUpdates("noOfEmployees", e.target.value)
+                    }
+                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                  />
+                </div>
+              </div>
+            )}
+            {!isModifying && (
+              <div className="mt-[16px] grid grid-cols-5 max-w-[60%]">
+                <p className="text-reportGrey  col-span-2 text-[1em] text-base mb-1 font-medium">
+                  Jurisdiction
+                </p>
+                <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
+                  {currentCompany?.jurisdiction}
+                </p>
+                <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-medium">
+                  Sector
+                </p>
+                <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
+                  {currentCompany?.sector}
+                </p>
+                <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-medium">
+                  Annual Revenue
+                </p>
+                <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
+                  {currentCompany?.annualRevenue}
+                </p>
+                <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-medium">
+                  Employees
+                </p>
+                <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
+                  {currentCompany?.noOfEmployees?.toLocaleString()}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Contradiction */}
-          <div className="bg-[#F3F5F7] mt-[32px] p-3 rounded-md mb-5">
-            <p className="text-reportGrey text-[1em] text-base font-md">
+          <div
+            className={`group  focus-within:border-primary ${
+              !isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
+            } p-3 rounded-lg mt-[32px] mb-[16px]`}
+          >
+            <p className="text-reportGrey text-[1em] text-base font-medium">
               Contradictions
             </p>
-            <p className="text-blackText mt-[8px] text-[1em] text-base  font-md">
-              {contradictions &&
-                contradictions
-                  ?.split("\n")
-                  ?.filter((item) => item !== "\n")
-                  ?.map((text) => (
-                    <>
-                      {text}
-                      <br />
-                      <br />
-                    </>
-                  ))}
-            </p>
+            {isModifying && (
+              <TextArea
+                variant="borderless"
+                autoSize
+                value={modifyData?.contradiction}
+                onChange={(e) =>
+                  handleInputUpdates("contradiction", e.target.value)
+                }
+                className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+              />
+            )}
+            {!isModifying && (
+              <p
+                className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium"
+                key={"contradiction"}
+              >
+                {contradictions &&
+                  contradictions
+                    ?.split("\n")
+                    ?.filter((item) => item !== "\n")
+                    ?.map((text, index) => (
+                      <React.Fragment key={`${index}-contradiction`}>
+                        {text}
+                        <br />
+                      </React.Fragment>
+                    ))}
+              </p>
+            )}
           </div>
           {/*    Potential inconsistencies */}
-          <div className="bg-[#F3F5F7] mt-[32px] p-3 rounded-md mb-5">
-            <p className="text-reportGrey text-[1em] text-base font-md">
+          <div
+            className={`group pointer-events-auto focus-within:border-primary ${
+              !isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
+            } p-3 rounded-lg mt-[32px] mb-[16px]`}
+          >
+            <p className="text-reportGrey text-[1em] text-base font-medium">
               Potential inconsistencies
             </p>
-            <p className="text-blackText mt-[8px] text-[1em] text-base  font-md ">
-              {potentialInconsistencies > "" &&
-                potentialInconsistencies
-                  ?.split("\n")
-                  ?.filter((item) => item !== "\n")
-                  ?.map((text) => (
-                    <>
-                      {text}
-                      <br />
-                      <br />
-                    </>
-                  ))}
-            </p>
+            {isModifying && (
+              <TextArea
+                variant="borderless"
+                autoSize
+                value={modifyData?.potentialInconsistencies}
+                onChange={(e) =>
+                  handleInputUpdates("potentialInconsistencies", e.target.value)
+                }
+                className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                rows={20}
+              />
+            )}
+            {!isModifying && (
+              <p className="text-text-darkBlack mt-[8px] text-[1em] text-base font-medium ">
+                {potentialInconsistencies > "" &&
+                  potentialInconsistencies
+                    ?.split("\n")
+                    ?.filter((item) => item !== "\n")
+                    ?.map((text, index) => (
+                      <React.Fragment key={`${index}-pi`}>
+                        {text}
+                        <br />
+                      </React.Fragment>
+                    ))}
+              </p>
+            )}
           </div>
           {/* Unsubstantiated claims */}
-          <div className="bg-[#F3F5F7] mt-[32px] p-3 rounded-md mb-5">
-            <p className="text-reportGrey text-[1em] text-base font-md">
+          <div
+            className={`group focus-within:border-primary ${
+              !isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
+            } p-3 rounded-lg mt-[32px] mb-[16px]`}
+          >
+            <p className="text-reportGrey text-[1em] text-base font-medium">
               Unsubstantiated claims
             </p>
-            <p className="text-blackText mt-[8px] text-[1em] text-base  font-md ">
-              {unsubstantiatedClaims &&
-                unsubstantiatedClaims
-                  ?.split("\n")
-                  ?.filter((item) => item !== "\n")
-                  ?.map((text) => (
-                    <>
-                      {text}
-                      <br />
-                      <br />
-                    </>
-                  ))}
-            </p>
+            {isModifying && (
+              <TextArea
+                variant="borderless"
+                autoSize
+                value={modifyData?.unsubstantiatedClaims}
+                onChange={(e) => {
+                  handleInputUpdates("unsubstantiatedClaims", e.target.value);
+                }}
+                className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                rows={20}
+              />
+            )}
+            {!isModifying && (
+              <p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
+                {unsubstantiatedClaims &&
+                  unsubstantiatedClaims
+                    ?.split("\n")
+                    ?.filter((item) => item !== "\n")
+                    ?.map((text, index) => (
+                      <React.Fragment key={`${index}-uc`}>
+                        {text}
+                        <br />
+                      </React.Fragment>
+                    ))}
+              </p>
+            )}
           </div>
 
-          <div>
-            <h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">
-              Sources
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              {sources?.length > 0 ? (
-                sources?.map((source, index) => {
-                  return (source?.title || source?.Title) &&
-                    (source?.description || source?.Description) ? (
-                    <div className="group bg-[#F3F5F7] p-3 rounded-md mb-5">
-                      <p className="text-reportGrey  line-clamp-1 group-hover:line-clamp-none text-[1em] text-base font-md">
-                        #{index + 1} {source?.title || source?.Title}
-                      </p>
-                      <p className="line-clamp-2 group-hover:line-clamp-none text-blackText mt-[8px] text-[1em] text-base  font-md ">
-                        {source?.description || source?.Description}
-                      </p>
-                    </div>
-                  ) : (
-                    <></>
-                  );
-                })
-              ) : (
-                <p className="text-blackText mt-[8px] text-[1em] text-base  font-md">
-                  No data found
-                </p>
-              )}
+          {!isModifying && (
+            <div className="mt-[32px]">
+              <h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">
+                Sources
+              </h2>
+              <div className="grid grid-cols-1 gap-6">
+                {sources?.length > 0 ? (
+                  sources?.map((source, index) => {
+                    return (source?.title || source?.Title) &&
+                      (source?.description || source?.Description) ? (
+                      <div
+                        className="group bg-[#F3F5F7] p-3 rounded-md"
+                        key={source?.title}
+                      >
+                        <p className="text-reportGrey  line-clamp-1 group-hover:line-clamp-none text-[1em] text-base font-medium">
+                          #{index + 1} {source?.title || source?.Title}
+                        </p>
+                        <p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
+                          {source?.description || source?.Description}
+                        </p>
+                      </div>
+                    ) : (
+                      <React.Fragment key={`${index}-empty`} />
+                    );
+                  })
+                ) : (
+                  <p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium">
+                    No data found
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
+          )}
+          {isModifying && modifyData?.sources?.length > 0 && (
+            <div className="grid grid-cols-1 gap-6">
+              {modifyData?.sources?.map((source, index) => {
+                return (
+                  <div className="mt-[32px]" key={`${index}-edit-source`}>
+                    <h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">
+                      Source {index + 1}
+                    </h2>
+                    <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                      <p className="text-reportGrey text-[1em] text-base font-medium">
+                        Heading
+                      </p>
+                      <Input
+                        type="text"
+                        variant="borderless"
+                        value={source?.title || source?.Title}
+                        onChange={(e) => {
+                          setModifyData((prev) => ({
+                            ...prev,
+                            sources: prev?.sources?.map((cSource, cIndex) => {
+                              if (cIndex === index) {
+                                if (cSource.hasOwnProperty("title")) {
+                                  return {
+                                    ...cSource,
+                                    title: e.target.value,
+                                  };
+                                } else {
+                                  return {
+                                    ...cSource,
+                                    Title: e.target.value,
+                                  };
+                                }
+                              }
+                              return cSource;
+                            }),
+                          }));
+                        }}
+                        className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                      />
+                    </div>
+                    <div className="focus-within:border-primary rounded-lg mt-[16px] p-[16px] border border-1 focus-withing:border-primary">
+                      <p className="text-reportGrey text-[1em] text-base font-medium">
+                        Text
+                      </p>
+                      <TextArea
+                        type="text"
+                        autoSize
+                        variant="borderless"
+                        value={source?.description || source?.Description}
+                        onChange={(e) => {
+                          setModifyData((prev) => ({
+                            ...prev,
+                            sources: prev?.sources?.map((cSource, cIndex) => {
+                              if (cIndex === index) {
+                                if (cSource.hasOwnProperty("Description")) {
+                                  return {
+                                    ...cSource,
+                                    Description: e.target.value,
+                                  };
+                                } else {
+                                  return {
+                                    ...cSource,
+                                    description: e.target.value,
+                                  };
+                                }
+                              }
+                              return cSource;
+                            }),
+                          }));
+                        }}
+                        className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div>
-          <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
-            <h5 className="font-medium text-blackText">Report</h5>
-            <div className="overflow-hidden w-full px-2 flex justify-center items-center ">
-              <CustomGaugeChart
-                percentage={
-                  greenwashRiskPercentage && greenwashRiskPercentage <= 100
-                    ? parseInt(greenwashRiskPercentage)
-                    : greenwashRiskPercentage > 100
-                    ? 99
-                    : 0
-                }
-              />
-            </div>
-            {/* Cols */}
-            <div className="mt-[16px] grid grid-cols-2 max-w-[370px] gap-2 my-3 ">
-              <p className="text-reportGrey   text-[1em] text-base mb-1 font-md">
-                Reporting risk
-              </p>
-              <div className="flex flex-row ml-4 items-center gap-[4px] flex-nowrap">
-                {Array.from({ length: 10 }).map((_item, index) => {
-                  return (
-                    <div
-                      className={`w-[4px] h-[14px] rounded-sm ${
-                        (index + 1) * 10 <= parseInt(reportingRiskPercentage)
-                          ? "bg-darkGreen"
-                          : "bg-reportGrey "
-                      }`}
-                    ></div>
-                  );
-                })}
-                <p className="text-blackText ml-[8px] text-[1em] text-base font-md">
-                  {parseInt(reportingRiskPercentage)}%
-                </p>
-              </div>
-              <p className="text-reportGrey  text-[1em] text-base mb-1 font-md">
-                GHG emissions
-              </p>
-              <p className="text-blackText ml-4 text-[1em] text-base mb-1 font-md">
-                {currentCompany?.GHGEmissions}
-              </p>
-              <p className="text-reportGrey  text-[1em] text-base mb-1 font-md">
-                Report status
-              </p>
-              <p className="text-blackText ml-4 text-[1em] text-base mb-1 font-md">
-                <span
-                  className={`py-1 px-3 text-white rounded-3xl ${
-                    currentCompany?.pending === "true" &&
-                    currentCompany?.disregard === "false"
-                      ? "bg-foggyGrey"
-                      : currentCompany?.reviewing === "true"
-                      ? "bg-review"
-                      : currentCompany?.reviewed === "true"
-                      ? "bg-darkGreen"
-                      : currentCompany?.disregard === "true"
-                      ? "bg-danger"
-                      : "bg-foggyGrey"
-                  }`}
-                >
-                  {currentCompany?.pending === "true" &&
-                  currentCompany?.disregard === "false"
-                    ? "Pending Review"
-                    : currentCompany?.reviewing === "true"
-                    ? "In Review"
-                    : currentCompany?.reviewed === "true"
-                    ? "Reviewed"
-                    : currentCompany?.disregard === "true"
-                    ? "Disregard"
-                    : toTitleCase(currentCompany?.status) || "Generated"}
-                </span>
-              </p>
-              {hash && (
-                <p className="text-reportGrey  text-[1em] text-base mb-1 font-md">
-                  Timestamp
-                </p>
-              )}
-              {hash && (
-                <a className="col-span-1 ml-4 text-[1em] text-base mb-1 font-md">
-                  {formattedDate}
-                </a>
-              )}
-              {/* Links */}
-              {hash && (
-                <p className="text-reportGrey  text-[1em] text-base mb-1 font-md">
-                  IPFS link
-                </p>
-              )}
-              {hash && (
-                <a
-                  href={`https://ipfs.io/ipfs/${hash}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-darkGreen col-span-1 truncate ml-4 text-[1em]  mb-1 font-md"
-                >
-                  {hash}
-                </a>
-              )}
-              {etherscanURL && (
-                <p className="text-reportGrey  text-[1em] text-base mb-1 font-md">
-                  Etherscan URL
-                </p>
-              )}
-              {etherscanURL && (
-                <a
-                  href={etherscanURL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-darkGreen truncate ml-4 text-[1em] text-base mb-1 font-md"
-                >
-                  {etherscanURL}
-                </a>
-              )}
-            </div>
-            {(!hash || !etherscanURL) && (
-              <div className="flex flex-row gap-4 w-full">
-                <button
-                  disabled={isSendingToRegulator}
-                  onClick={handleSendToRegulators}
-                  className={`${
-                    isSendingToRegulator ? "bg-greyText" : "bg-darkGreen"
-                  } flex-1 rounded-lg  py-3 px-3 border-none outline-none text-[#fff]`}
-                >
-                  Send to blockchain
-                </button>
-                <Dropdown
-                  trigger={["click"]}
-                  menu={{
-                    onClick: (e) => {
-                      if (e.key == 1) {
-                        captureScreen("report-container");
-                      } else if (e.key == 2) {
-                        deleteCompanyHandler();
-                      } else {
-                        alert("coming soon!");
+          {isModifying && (
+            <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
+              <h5 className="text-[18px] leading-[24px] font-[600]">Report</h5>
+              <div className="flex flex-col gap-[16px] my-[24px]">
+                <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                    Greenwashing risk
+                  </p>
+                  <Input
+                    type="number"
+                    min={0}
+                    max={100}
+                    variant="borderless"
+                    value={modifyData?.greenwashRiskPercentage}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      if (e.target.value <= 100 && e.target.value >= 0) {
+                        handleInputUpdates(
+                          "greenwashRiskPercentage",
+                          e.target.value
+                        );
                       }
-                    },
-                    items: [
-                      // { label: "Modify Report", key: "0" },
-                      {
-                        label: "Save as PDF",
-                        key: "1",
-                      },
-                      { label: "Remove from DB", key: "2" },
-                    ],
+                    }}
+                    suffix={<p className="text-reportGrey">%</p>}
+                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                  />
+                </div>
+                <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                    Reporting risk
+                  </p>
+                  <Input
+                    type="number"
+                    min={0}
+                    max={100}
+                    variant="borderless"
+                    value={modifyData?.reportingRiskPercentage}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      if (e.target.value <= 100 && e.target.value >= 0) {
+                        handleInputUpdates(
+                          "reportingRiskPercentage",
+                          e.target.value
+                        );
+                      }
+                    }}
+                    suffix={<p className="text-reportGrey">%</p>}
+                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                  />
+                </div>
+                <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                    GHG emissions
+                  </p>
+                  <Input
+                    type="text"
+                    variant="borderless"
+                    value={modifyData?.GHGEmissions}
+                    onChange={(e) => {
+                      handleInputUpdates("GHGEmissions", e.target.value);
+                    }}
+                    className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center gap-4 ">
+                <button
+                  onClick={async () => {
+                    try {
+                      const response = await axios.put(
+                        `${apiUrl}/api/company/update/${currentCompany?.id}`,
+                        {
+                          ...modifyData,
+                          sources: JSON.stringify(modifyData?.sources),
+                        }
+                      );
+                      const { data } = response;
+                      if (data) {
+                        toast.success("Successfully updated the report.");
+                      }
+                      await getCurrentCompany(currentCompany?.id);
+                      setContradictions(modifyData?.contradiction);
+                      setPotentialInconsistencies(
+                        modifyData?.potentialInconsistencies
+                      );
+                      setunsubstantiatedClaims(
+                        modifyData?.unsubstantiatedClaims
+                      );
+                      setsources(modifyData?.sources);
+
+                      setModifyData(null);
+                    } catch (error) {
+                      toast.error(
+                        "Something went wrong while updating the report."
+                      );
+                      setModifyData(null);
+                    }
+                    setIsModifying(false);
                   }}
-                  placement="bottomRight"
+                  className="bg-primary rounded-lg py-[12px] flex w-full justify-center text-[#fff] text-[16px] font-[600] leading-[24px]"
                 >
-                  <div className="py-[12px] px-[18px] rounded-md border bg-transparent flex justify-center items-center">
-                    <IoEllipsisHorizontalSharp />
-                  </div>
-                </Dropdown>
-              </div>
-            )}
-            {hash && etherscanURL && (
-              <div className="flex flex-row gap-2 w-full">
-                <button
-                  onClick={() => captureScreen("report-container")}
-                  className="bg-blackText  rounded-lg  py-2 px-2 border-none outline-none text-[#fff] text-[16px]"
-                >
-                  Download as .pdf
+                  Update report
                 </button>
                 <button
-                  onClick={() => deleteCompanyHandler()}
-                  className="bg-white border border-danger rounded-lg  py-2 px-2 text-danger text-[16px]"
+                  className="bg-transparent border border-darkBlack rounded-lg py-[12px] px-[4px] flex w-full justify-center text-darkBlack text-[16px] font-[600] leading-[24px]"
+                  onClick={() => {
+                    setModifyData(null);
+                    setIsModifying(false);
+                  }}
                 >
-                  Remove from DB
+                  Cancel
                 </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+          {!isModifying && (
+            <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
+              <h5 className="text-[18px] leading-[24px] font-[600]">Report</h5>
+              <div className="overflow-hidden w-full px-2 flex justify-center items-center ">
+                <CustomGaugeChart
+                  percentage={
+                    greenwashRiskPercentage && greenwashRiskPercentage <= 100
+                      ? parseInt(greenwashRiskPercentage)
+                      : greenwashRiskPercentage > 100
+                      ? 99
+                      : 0
+                  }
+                />
+              </div>
+              {/* Cols */}
+              <div className="mt-[24px] grid grid-cols-2 lg:max-w-[370px]  gap-2 my-3 ">
+                <p className="text-reportGrey   text-[1em] text-base mb-1 font-medium">
+                  Reporting risk
+                </p>
+                <div className="flex flex-row  items-center gap-[4px] flex-nowrap">
+                  {Array.from({ length: 10 }).map((_item, index) => {
+                    return (
+                      <div
+                        key={`${index}-bar`}
+                        className={`w-[4px] h-[14px] rounded-sm ${
+                          (index + 1) * 10 <= parseInt(reportingRiskPercentage)
+                            ? "bg-darkGreen"
+                            : "bg-reportGrey "
+                        }`}
+                      ></div>
+                    );
+                  })}
+                  <p className="text-darkBlack ml-[8px] text-[1em] text-base font-medium">
+                    {parseInt(reportingRiskPercentage)}%
+                  </p>
+                </div>
+                <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
+                  GHG emissions
+                </p>
+                <p className="text-darkBlack  text-[1em] text-base mb-1 font-medium">
+                  {currentCompany?.GHGEmissions}
+                </p>
+                <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
+                  Report status
+                </p>
+                <p
+                  className={`text-darkBlack justify-left  text-[1em] md:ml-0 text-base mb-1 `}
+                >
+                  <span
+                    className={` text-white text-center py-1 px-3   rounded-3xl font-medium ${
+                      currentCompany?.pending === "true" &&
+                      currentCompany?.disregard === "false"
+                        ? "bg-foggyGrey"
+                        : currentCompany?.reviewing === "true"
+                        ? "bg-review"
+                        : currentCompany?.reviewed === "true"
+                        ? "bg-darkGreen"
+                        : currentCompany?.disregard === "true"
+                        ? "bg-danger"
+                        : "bg-foggyGrey"
+                    }`}
+                  >
+                    {currentCompany?.pending === "true" &&
+                    currentCompany?.disregard === "false"
+                      ? "Pending Review"
+                      : currentCompany?.reviewing === "true"
+                      ? "In Review"
+                      : currentCompany?.reviewed === "true"
+                      ? "Reviewed"
+                      : currentCompany?.disregard === "true"
+                      ? "Disregard"
+                      : toTitleCase(currentCompany?.status) || "Generated"}
+                  </span>
+                </p>
+                {hash && (
+                  <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
+                    Timestamp
+                  </p>
+                )}
+                {hash && (
+                  <a className="col-span-1 text-[1em] text-base mb-1 font-medium">
+                    {formattedDate}
+                  </a>
+                )}
+                {/* Links */}
+                {hash && (
+                  <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
+                    IPFS link
+                  </p>
+                )}
+                {hash && (
+                  <a
+                    href={`https://ipfs.io/ipfs/${hash}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-darkGreen col-span-1 truncate text-[1em]  mb-1 font-medium"
+                  >
+                    {hash}
+                  </a>
+                )}
+                {etherscanURL && (
+                  <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
+                    Etherscan URL
+                  </p>
+                )}
+                {etherscanURL && (
+                  <a
+                    href={etherscanURL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-darkGreen truncate text-[1em] text-base mb-1 font-medium"
+                  >
+                    {etherscanURL}
+                  </a>
+                )}
+              </div>
+              {(!hash || !etherscanURL) && (
+                <div className="flex flex-row gap-4 w-full">
+                  <button
+                    disabled={isSendingToRegulator}
+                    onClick={handleSendToRegulators}
+                    className={`${
+                      isSendingToRegulator ? "bg-greyText" : "bg-darkGreen"
+                    } flex-1 rounded-lg py-3 px-3 border-none outline-none text-[#fff] text-[16px] font-[600] leading-[24px]`}
+                  >
+                    Send to blockchain
+                  </button>
+                  <Dropdown
+                    disabled={isSendingToRegulator}
+                    trigger={["click"]}
+                    menu={{
+                      onClick: (e) => {
+                        if (e.key == 1) {
+                          captureScreen("report-container");
+                        } else if (e.key == 2) {
+                          deleteCompanyHandler();
+                        } else {
+                          const data = {
+                            contradiction: contradictions,
+                            potentialInconsistencies,
+                            unsubstantiatedClaims,
+                            greenwashRiskPercentage: parseInt(
+                              greenwashRiskPercentage
+                            ),
+                            reportingRiskPercentage: parseInt(
+                              reportingRiskPercentage
+                            ),
+                            jurisdiction: currentCompany?.jurisdiction,
+                            sector: currentCompany?.sector,
+                            annualRevenue: currentCompany?.annualRevenue,
+                            noOfEmployees: currentCompany?.noOfEmployees,
+                            GHGEmissions: currentCompany?.GHGEmissions,
+                            sources: sources,
+                          };
+                          setModifyData(data);
+                          setIsModifying(true);
+                        }
+                      },
+                      items: [
+                        { label: "Modify Report", key: "0" },
+                        {
+                          label: "Save as PDF",
+                          key: "1",
+                        },
+                        { label: "Remove from DB", key: "2" },
+                      ],
+                    }}
+                    placement="bottomRight"
+                  >
+                    <div className="py-[12px] px-[18px] rounded-md border bg-transparent flex justify-center items-center">
+                      <IoEllipsisHorizontalSharp />
+                    </div>
+                  </Dropdown>
+                </div>
+              )}
+              {hash && etherscanURL && (
+                <div className="flex flex-row justify-center gap-2 col-span-2 w-full">
+                  <button
+                    onClick={() => captureScreen("report-container")}
+                    className="bg-primary rounded-lg py-[12px] flex w-full text-center justify-center px-[4px] col-span-1 border-none outline-none text-[#fff] text-[16px] font-[600] leading-[24px]"
+                  >
+                    Download as .pdf
+                  </button>
+                  <button
+                    onClick={() => deleteCompanyHandler()}
+                    className="bg-white border border-darkBlack rounded-lg w-full text-center justify-center flex py-[12px] col-span-1 px-[4px] text-darkBlack text-[16px] font-[600] leading-[24px]"
+                  >
+                    Remove from DB
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
           <div className="card_shadow mt-8 gap-4 rounded-2xl flex basis-4/12 flex-col z-50 p-[16px]">
             <h2 className="text-[18px] leading-[24px] font-[600]">Documents</h2>
             <div className="flex flex-row flex-nowrap justify-start items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded-2xl">
@@ -918,107 +1268,109 @@ const SpecificReport = () => {
               </h2>
             </div>
           </div>
-          <div className="card_shadow mt-8  rounded-2xl flex basis-4/12 flex-col z-50 p-[16px]">
-            <h2 className="text-[18px] leading-[24px] font-[600]">
-              Visibility
-            </h2>
-            <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
-              <div className="flex flex-row gap-2 w-full justify-between">
-                <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
-                  <span className="truncate">Demo</span>
-                </h2>
-                <div>
-                  <Switch
-                    height={24}
-                    onChange={async (val) => {
-                      setIsDemo(val);
-                      try {
-                        const response = await axios.put(
-                          `${apiUrl}/api/company/update/${currentCompany?.id}`,
-                          {
-                            isDemo: val,
-                          }
-                        );
-                        const { data } = response;
-                        if (data) {
-                          toast.success(
-                            `Report is ${
-                              val === false ? "removed from" : "sent to"
-                            } demo`
+          {!isModifying && (
+            <div className="card_shadow mt-8  rounded-2xl flex basis-4/12 flex-col z-50 p-[16px]">
+              <h2 className="text-[18px] leading-[24px] font-[600]">
+                Visibility
+              </h2>
+              <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
+                <div className="flex flex-row gap-2 w-full justify-between">
+                  <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
+                    <span className="truncate">Demo</span>
+                  </h2>
+                  <div>
+                    <Switch
+                      height={24}
+                      onChange={async (val) => {
+                        setIsDemo(val);
+                        try {
+                          const response = await axios.put(
+                            `${apiUrl}/api/company/update/${currentCompany?.id}`,
+                            {
+                              isDemo: val,
+                            }
                           );
+                          const { data } = response;
+                          if (data) {
+                            toast.success(
+                              `Report is ${
+                                val === false ? "removed from" : "sent to"
+                              } demo`
+                            );
+                          }
+                        } catch (error) {
+                          toast.error("Something went wrong.");
                         }
-                      } catch (error) {
-                        toast.error("Something went wrong.");
-                      }
-                    }}
-                    checked={isDemo}
-                    checkedIcon={false}
-                    uncheckedIcon={false}
-                    onColor="#4DC601"
-                  />
+                      }}
+                      checked={isDemo}
+                      checkedIcon={false}
+                      uncheckedIcon={false}
+                      onColor="#4DC601"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
+                <div className="flex flex-row gap-2 w-full justify-between">
+                  <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
+                    <span className="truncate">Regulator</span>
+                  </h2>
+                  <div>
+                    <Switch
+                      height={24}
+                      onChange={async (val) => {
+                        setIsRegulator(val);
+                        try {
+                          const response = await axios.put(
+                            `${apiUrl}/api/company/update/${currentCompany?.id}`,
+                            {
+                              sentToRegulators: val,
+                              sendToRegulatorsTimeStamp: formattedDate,
+                              pending:
+                                (currentCompany?.reviewing === "false" ||
+                                  !currentCompany?.reviewing) &&
+                                (currentCompany?.reviewed === "false" ||
+                                  !currentCompany?.reviewed) &&
+                                (currentCompany?.disregard === "false" ||
+                                  !currentCompany?.disregard)
+                                  ? "true"
+                                  : "false",
+                            }
+                          );
+                          const { data } = response;
+                          if (data) {
+                            toast.success(
+                              `Report is ${
+                                val === false ? "removed from" : "sent to"
+                              } regulator`
+                            );
+                          }
+                        } catch (error) {
+                          toast.error("Something went wrong.");
+                        }
+                      }}
+                      checked={isRegulator}
+                      checkedIcon={false}
+                      uncheckedIcon={false}
+                      onColor="#4DC601"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
+                <div className="flex flex-row gap-2 w-full justify-between">
+                  <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
+                    <span className="truncate">Specific Client</span>
+                  </h2>
+                  <p className="text-darkBlack ml-4 text-[1em] text-base mb-1 font-medium">
+                    <span className="py-1 px-3 rounded-3xl bg-foggyGrey">
+                      coming soon
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>
-            <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
-              <div className="flex flex-row gap-2 w-full justify-between">
-                <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
-                  <span className="truncate">Regulator</span>
-                </h2>
-                <div>
-                  <Switch
-                    height={24}
-                    onChange={async (val) => {
-                      setIsRegulator(val);
-                      try {
-                        const response = await axios.put(
-                          `${apiUrl}/api/company/update/${currentCompany?.id}`,
-                          {
-                            sentToRegulators: val,
-                            sendToRegulatorsTimeStamp: formattedDate,
-                            pending:
-                              (currentCompany?.reviewing === "false" ||
-                                !currentCompany?.reviewing) &&
-                              (currentCompany?.reviewed === "false" ||
-                                !currentCompany?.reviewed) &&
-                              (currentCompany?.disregard === "false" ||
-                                !currentCompany?.disregard)
-                                ? "true"
-                                : "false",
-                          }
-                        );
-                        const { data } = response;
-                        if (data) {
-                          toast.success(
-                            `Report is ${
-                              val === false ? "removed from" : "sent to"
-                            } regulator`
-                          );
-                        }
-                      } catch (error) {
-                        toast.error("Something went wrong.");
-                      }
-                    }}
-                    checked={isRegulator}
-                    checkedIcon={false}
-                    uncheckedIcon={false}
-                    onColor="#4DC601"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-row flex-nowrap justify-start items-center gap-2  p-2 rounded-2xl">
-              <div className="flex flex-row gap-2 w-full justify-between">
-                <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
-                  <span className="truncate">Specific Client</span>
-                </h2>
-                <p className="text-blackText ml-4 text-[1em] text-base mb-1 font-md">
-                  <span className="py-1 px-3 rounded-3xl bg-foggyGrey">
-                    coming soon
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
