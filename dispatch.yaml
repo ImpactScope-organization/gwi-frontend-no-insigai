@@ -5,6 +5,7 @@ dispatch:
   - url: "gwi.dev.impactscope.com/*"
     service: thirdparty
 
+  # the following domain is changed to fronend v2 dev on client's request
   # - url: "gwi-admin.dev.impactscope.com/*"
   #   service: frontend
 
@@ -17,5 +18,5 @@ dispatch:
   - url: "gwi-demo.impactscope.com/*"
     service: gwi-demo
 
-  # - url: "gwi-reg.dev.impactscope.com/*"
-  #   service: gwi-demo-dev
+  - url: "gwi-reg.dev.impactscope.com/*"
+    service: thirdparty-dev
