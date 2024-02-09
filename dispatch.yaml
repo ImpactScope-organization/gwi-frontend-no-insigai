@@ -21,7 +21,5 @@ dispatch:
   - url: "gwi-reg.dev.impactscope.com/*"
     service: thirdparty-dev
 
-    - url: "gwi-demo.dev.impactscope.com/*"
+  - url: "gwi-demo.dev.impactscope.com/*"
     service: gwi-demo-dev
-
-    
