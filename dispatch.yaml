@@ -33,4 +33,4 @@ dispatch:
     service: v2-avax-thirdparty
 
   - url: "gwi-demo.avax.impactscope.com/*"
-    service: gwi-demo-v2-ava
+    service: gwi-demo-v2-avax
