@@ -34,3 +34,14 @@ dispatch:
 
   - url: "gwi-demo.avax.impactscope.com/*"
     service: gwi-demo-v2-avax
+
+  # v2 astr dispatch routes
+
+  - url: "gwi-admin.astr.impactscope.com/*"
+    service: v2-astr-frontend
+
+  - url: "gwi-reg.astr.impactscope.com/*"
+    service: v2-astr-thirdparty
+
+  - url: "gwi-demo.astr.impactscope.com/*"
+    service: gwi-demo-v2-astr
