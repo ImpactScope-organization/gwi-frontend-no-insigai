@@ -25,7 +25,6 @@ dispatch:
     service: gwi-demo-dev
 
   # v2 avax dispatch routes
-
   - url: "gwi-admin.avax.impactscope.com/*"
     service: frontend-v2-avax
 
@@ -36,7 +35,6 @@ dispatch:
     service: gwi-demo-v2-avax
 
   # v2 astr dispatch routes
-
   - url: "gwi-admin.astr.impactscope.com/*"
     service: v2-astr-frontend
 
@@ -45,3 +43,13 @@ dispatch:
 
   - url: "gwi-demo.astr.impactscope.com/*"
     service: gwi-demo-v2-astr
+
+    # v2 cess sepolia dispatch routes
+  - url: "gwi-admin.cess.impactscope.com/*"
+    service: frontend-v2-cess-sepolia
+
+  - url: "gwi-reg.cess.impactscope.com/*"
+    service: thirdparty-v2-cess-sepolia
+
+  - url: "gwi-demo.cess.impactscope.com/*"
+    service: gwi-demo-v2-cess-sepolia
