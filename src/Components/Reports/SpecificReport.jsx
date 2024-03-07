@@ -261,9 +261,11 @@ const SpecificReport = () => {
           priority: reportDataUpdate.priority,
           IPFSHash: deShareLink,
           etherscanURL: etherscanUrl,
-          dataSources: Object.keys(filteredCompanyData)
-            .filter((key) => filteredCompanyData[key])
-            .join(", "),
+          dataSources: filteredCompanyData
+            ? Object?.keys(filteredCompanyData)
+                ?.filter((key) => filteredCompanyData[key])
+                ?.join(", ")
+            : "",
         })
         .then((res) => {
           console.log("res: ", res);
