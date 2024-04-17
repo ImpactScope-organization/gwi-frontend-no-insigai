@@ -24,20 +24,20 @@ import { Input } from "antd";
 const { TextArea } = Input;
 
 // IPFS
-const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
-const projectSecret = "2dcb0a633ee912e06834a43a3083248e";
+// const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
+// const projectSecret = "2dcb0a633ee912e06834a43a3083248e";
 
-const auth =
-  "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+// const auth =
+//   "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
 
-const ipfs = create({
-  host: "ipfs.infura.io",
-  port: 5001,
-  protocol: "https",
-  headers: {
-    authorization: auth,
-  },
-});
+// const ipfs = create({
+//   host: "ipfs.infura.io",
+//   port: 5001,
+//   protocol: "https",
+//   headers: {
+//     authorization: auth,
+//   },
+// });
 
 // ----------------------------
 const SpecificReport = () => {
@@ -217,11 +217,26 @@ const SpecificReport = () => {
 
       const response = await fetch(dataUrl);
       const blob = await response.blob();
-      const file = new File([blob], "file.png", { type: "image/png" });
-      const imghash = await ipfs.add(file);
-      setHash(imghash.path);
-      // console.log(`https://ipfs.io/ipfs/${imghash.path}`);
+      const file = await new File([blob], "file.png", { type: "image/png" });
+      // const imghash = await ipfs.add(file);
+      const formData = new FormData();
+      formData.append("file", file);
 
+      const fileUploadDeShare = await axios.post(
+        "https://d.cess.cloud/file",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Accept: "*/*",
+            "Accept-Language": "en-GB,en-US;q=0.9,en;q=0.8",
+          },
+        }
+      );
+
+      const { data } = fileUploadDeShare;
+      const deShareLink = `https://${data?.data?.url}`;
+      setHash(deShareLink);
       // Making connection to the blockchain, getting signer wallet address and connecting to our smart contract
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
@@ -232,9 +247,7 @@ const SpecificReport = () => {
       );
 
       // calling our smart contract function
-      const tx = await contract.addImageHash(
-        `https://ipfs.io/ipfs/${imghash.path}`
-      );
+      const tx = await contract.addImageHash(`${deShareLink}`);
       const receipt = await tx.wait();
       const txHash = receipt.transactionHash;
       const etherscanUrl = `https://sepolia.etherscan.io/tx/${txHash}`;
@@ -246,11 +259,13 @@ const SpecificReport = () => {
           // new keys
           age: reportDataUpdate.age,
           priority: reportDataUpdate.priority,
-          IPFSHash: imghash.path,
+          IPFSHash: deShareLink,
           etherscanURL: etherscanUrl,
-          dataSources: Object.keys(filteredCompanyData)
-            .filter((key) => filteredCompanyData[key])
-            .join(", "),
+          dataSources: filteredCompanyData
+            ? Object?.keys(filteredCompanyData)
+                ?.filter((key) => filteredCompanyData[key])
+                ?.join(", ")
+            : "",
         })
         .then((res) => {
           console.log("res: ", res);
@@ -1198,12 +1213,12 @@ const SpecificReport = () => {
                 {/* Links */}
                 {hash && (
                   <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
-                    IPFS link
+                    DeShare Link
                   </p>
                 )}
                 {hash && (
                   <a
-                    href={`https://ipfs.io/ipfs/${hash}`}
+                    href={`${hash}`}
                     target="_blank"
                     rel="noreferrer"
                     className="text-darkGreen col-span-1 truncate text-[1em]  mb-1 font-medium"
