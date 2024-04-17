@@ -1,4 +1,4 @@
-const environment = "cess-sepolia";
+const environment = "staging";
 
 let apiUrl;
 if (environment === "production") {
