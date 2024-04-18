@@ -53,7 +53,7 @@ const Login = () => {
         <div className="hidden md:flex  flex-col bg-[#E3F2DA] w-1/2 gap-4 p-4 ">
           <div className="flex flex-col gap-6 lg:flex-row w-full justify-between h-12">
             <div className="flex gap-x-4">
-              <div className="flex w-[185px] h-12 rounded-lg border-[1px] border-[#DCDEE5] bg-white">
+              <div className="flex w-[185px] h-12 rounded-lg border-[1px] border-[#DCDEE5] bg-white cursor-pointer" onClick={()=>{window.open('https://www.fca.org.uk/news/news-stories/fca-reveals-gfin-greenwashing-techsprint-winners', '_blank');}}>
 
  <div className="flex justify-center items-center px-1 ">
              <div className="flex rounded-full w-8 h-8 bg-[#4DC601] text-white font-bold justify-center items-center text-center">G</div>
@@ -65,7 +65,7 @@ const Login = () => {
               </div>
             </div>
               </div>
-              <div className="flex w-[185px] h-12 rounded-lg border-[1px] border-[#DCDEE5] bg-white">
+              <div className="flex w-[185px] h-12 rounded-lg border-[1px] border-[#DCDEE5] bg-white cursor-pointer" onClick={()=>{window.open('https://astar.network/solutions', '_blank');}}>
 
 <div className="flex justify-center items-center px-1 ">
 <img src="./assets/AsterLogo.png" alt="logo" className=" w-8 h-8" />
@@ -78,7 +78,7 @@ const Login = () => {
            </div>
              </div>
             </div>
-            <div className="flex flex-col w-32 lg:w-auto">
+            <div className="flex flex-col w-32 lg:w-auto cursor-pointer" onClick={()=>{window.open('https://www.insg.ai', '_blank');}}>
               <p className="  text-[10.8] leading-4 text-[#8A929D] flex justify-end items-end text-right">In partnership with</p>
               <img src="./assets/AILogo.png" alt="logo" className="w-[150px] " />
               </div>
