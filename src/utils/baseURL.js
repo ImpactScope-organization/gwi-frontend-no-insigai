@@ -8,7 +8,7 @@ if (environment === "production") {
 } else if (environment === "cess-sepolia") {
   apiUrl = "https://gwi-cess-be.impactscope.com";
 } else {
-  apiUrl = "http://localhost:5000";
+  apiUrl = "http://localhost:5001";
 }
 
 export default apiUrl;
