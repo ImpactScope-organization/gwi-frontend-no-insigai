@@ -1293,7 +1293,7 @@ const SpecificReport = () => {
 										menu={{
 											onClick: (e) => {
 												if (e.key == 1) {
-													captureScreen("report-container");
+													captureScreen("report-container", currentCompany?.companyName);
 												} else if (e.key == 2) {
 													deleteCompanyHandler();
 												} else {
@@ -1338,7 +1338,7 @@ const SpecificReport = () => {
 							{hash && etherscanURL && (
 								<div className="flex flex-row justify-center gap-2 col-span-2 w-full">
 									<button
-										onClick={() => captureScreen("report-container")}
+										onClick={() => captureScreen("report-container", currentCompany?.companyName)}
 										className="bg-primary rounded-lg py-[12px] flex w-full text-center justify-center px-[4px] col-span-1 border-none outline-none text-[#fff] text-[16px] font-[600] leading-[24px]"
 									>
 										Download as .pdf
