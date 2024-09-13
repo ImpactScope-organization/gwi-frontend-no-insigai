@@ -853,6 +853,7 @@ const SpecificReport = () => {
 						)}
 					</div>
 
+					{/* sources */}
 					{!isModifying && (
 						<div className="mt-[32px]">
 							<h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">
@@ -868,7 +869,7 @@ const SpecificReport = () => {
 												key={source?.title}
 											>
 												<p className="text-reportGrey text-[1em] text-base font-medium">
-													#{index + 1} {source?.title || source?.Title}
+													{source?.title || source?.Title}
 												</p>
 												<p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
 													{source?.description || source?.Description}
@@ -886,15 +887,30 @@ const SpecificReport = () => {
 							</div>
 						</div>
 					)}
+
+					{/* Modify sources */}
 					{isModifying && modifyData?.sources?.length > 0 && (
 						<div className="grid grid-cols-1 gap-6">
 							{modifyData?.sources?.map((source, index) => {
 								return (
 									<div className="mt-[32px]" key={`${index}-edit-source`}>
-										<h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">
-											Source {index + 1}
-										</h2>
-										<div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
+										<div className="flex justify-between">
+											<h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">
+												Source
+											</h2>
+											<button className="hover:opacity-25" data-testid="SpecificReport.DeleteButton" onClick={() => {
+												if (window.confirm(`Are you sure you want to delete this Source? \n${source?.title || source?.Title}`)) {
+													const upcomingSources = modifyData?.sources?.filter((_, indexToFilter) => indexToFilter !== index)
+													setModifyData((prev) => ({
+														...prev,
+														sources: upcomingSources
+													}))
+												}
+											}}>❌</button>
+
+										</div>
+										<div
+											className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
 											<p className="text-reportGrey text-[1em] text-base font-medium">
 												Heading
 											</p>
