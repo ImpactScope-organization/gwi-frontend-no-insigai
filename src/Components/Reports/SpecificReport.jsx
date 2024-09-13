@@ -867,7 +867,7 @@ const SpecificReport = () => {
 												className="group bg-[#F3F5F7] p-3 rounded-md"
 												key={source?.title}
 											>
-												<p className="text-reportGrey  line-clamp-1 group-hover:line-clamp-none text-[1em] text-base font-medium">
+												<p className="text-reportGrey text-[1em] text-base font-medium">
 													#{index + 1} {source?.title || source?.Title}
 												</p>
 												<p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
