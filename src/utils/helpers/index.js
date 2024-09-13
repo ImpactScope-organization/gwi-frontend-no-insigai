@@ -1,7 +1,7 @@
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-export const captureScreen = (id = "report-container") => {
+export const captureScreen = (id = "report-container", title = "") => {
   const input = document.getElementById(id);
   const doc = new jsPDF({
     unit: 'pt',        // Points, to match CSS pixels
@@ -11,7 +11,12 @@ export const captureScreen = (id = "report-container") => {
 
   doc.html(input, {
     callback: function (doc) {
-      doc.save("output.pdf");
+      if (!title) {
+        doc.save("output.pdf");
+      } else {
+        doc.save(`${title}.pdf`);
+      }
+
     },
     x: 10,  // Left margin
     y: 10,  // Top margin
