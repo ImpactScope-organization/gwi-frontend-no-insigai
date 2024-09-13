@@ -978,6 +978,24 @@ const SpecificReport = () => {
 									</div>
 								);
 							})}
+							<div>
+								<button
+									className="bg-primary rounded-lg py-[12px] flex w-full justify-center text-[#fff] text-[16px] font-[600] leading-[24px]"
+									onClick={() => {
+										const upcomingSources = [
+											...modifyData?.sources, {
+												"Title": "",
+												"Description": ""
+										}]
+										setModifyData((prev) => ({
+											...prev,
+											sources: upcomingSources
+										}))
+									}}
+								>
+									Add Source
+							</button>
+							</div>
 						</div>
 					)}
 				</div>
