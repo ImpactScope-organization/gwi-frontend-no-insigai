@@ -2,27 +2,25 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
 export const captureScreen = (id = "report-container") => {
-  const input = document.getElementById(id); // Replace 'capture' with your element ID to capture
+  const input = document.getElementById(id);
+  const doc = new jsPDF({
+    unit: 'pt',        // Points, to match CSS pixels
+    format: 'a4',      // Standard page format
+    orientation: 'portrait',  // or 'landscape' if needed
+  });
 
-  html2canvas(input)
-    .then((canvas) => {
-      const imgData = canvas.toDataURL("image/png"); // Get the screenshot data as a base64 encoded image
-
-      const pdf = new jsPDF();
-      const imgWidth = 210; // Width of the PDF document (A4 size)
-      const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calculate height based on aspect ratio
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save("Report.pdf"); // Save the PDF with a specific name
-
-      // Optionally, you can also open the PDF in a new tab:
-      // pdf.output('dataurlnewwindow');
-
-      // For demo purposes, you can also append the image to the document:
-      // document.body.appendChild(canvas);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  doc.html(input, {
+    callback: function (doc) {
+      doc.save("output.pdf");
+    },
+    x: 10,  // Left margin
+    y: 10,  // Top margin
+    html2canvas: {
+      scale: 0.8,  // Scale down if the content is too large
+    },
+    autoPaging: 'text',  // Automatically add new pages if content exceeds
+    width: 500,  // Limit width of content (adjust based on your needs)
+  });
 };
 
 export const transformArrayOfObjects = (arr) => {
