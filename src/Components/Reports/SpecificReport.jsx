@@ -889,7 +889,7 @@ const SpecificReport = () => {
 					)}
 
 					{/* Modify sources */}
-					{isModifying && modifyData?.sources?.length > 0 && (
+					{isModifying && (
 						<div className="grid grid-cols-1 gap-6">
 							{modifyData?.sources?.map((source, index) => {
 								return (
