@@ -761,7 +761,7 @@ const SpecificReport = () => {
 						)}
 						{!isModifying && (
 							<div
-								className="text-darkBlack mt-[8px] text-[1em] text-base green-links font-medium"
+								className="text-darkBlack mt-[8px] text-[1em] text-base green-links font-medium whitespace-pre-line"
 								key={"contradiction"}
 								dangerouslySetInnerHTML={{ __html: contradictions }}
 							/>
@@ -773,34 +773,20 @@ const SpecificReport = () => {
 							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
 						} p-3 rounded-lg mt-[32px] mb-[16px]`}
 					>
-						<p className="text-reportGrey text-[1em] text-base font-medium">
+						<p className="text-reportGrey text-[1em] text-base font-medium mb-2">
 							Potential inconsistencies
 						</p>
 						{isModifying && (
-							<TextArea
-								variant="borderless"
-								autoSize
+							<CustomReactQuill
 								value={modifyData?.potentialInconsistencies}
-								onChange={(e) =>
-									handleInputUpdates("potentialInconsistencies", e.target.value)
-								}
-								className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-								rows={20}
+								onChange={(value) => handleInputUpdates("potentialInconsistencies", value)}
 							/>
 						)}
 						{!isModifying && (
-							<p className="text-text-darkBlack mt-[8px] text-[1em] text-base font-medium ">
-								{potentialInconsistencies > "" &&
-									potentialInconsistencies
-										?.split("\n")
-										?.filter((item) => item !== "\n")
-										?.map((text, index) => (
-											<React.Fragment key={`${index}-pi`}>
-												{text}
-												<br />
-											</React.Fragment>
-										))}
-							</p>
+							<div
+								className="text-text-darkBlack mt-[8px] text-[1em] text-base font-medium whitespace-pre-line"
+								dangerouslySetInnerHTML={{ __html: potentialInconsistencies }}
+							/>
 						)}
 					</div>
 					{/* Unsubstantiated claims */}
