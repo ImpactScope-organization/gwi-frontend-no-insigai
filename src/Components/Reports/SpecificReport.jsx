@@ -20,6 +20,8 @@ import { captureScreen, isValidData, toTitleCase } from "../../utils/helpers";
 import { RefBerklayDB } from "../../Constants/RefBerklayDB";
 import Switch from "react-switch";
 import { Input } from "antd";
+import ReactQuill from "react-quill";
+import {CustomReactQuill} from "../CustomReactQuill/CustomReactQuill";
 
 const { TextArea } = Input;
 
@@ -744,7 +746,7 @@ const SpecificReport = () => {
 
 					{/* Contradiction */}
 					<div
-						className={`group  focus-within:border-primary ${
+						className={`group ${
 							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
 						} p-3 rounded-lg mt-[32px] mb-[16px]`}
 					>
@@ -752,32 +754,17 @@ const SpecificReport = () => {
 							Contradictions
 						</p>
 						{isModifying && (
-							<TextArea
-								variant="borderless"
-								autoSize
+							<CustomReactQuill
 								value={modifyData?.contradiction}
-								onChange={(e) =>
-									handleInputUpdates("contradiction", e.target.value)
-								}
-								className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
+								onChange={(value) => handleInputUpdates("contradiction", value)}
 							/>
 						)}
 						{!isModifying && (
-							<p
-								className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium"
+							<div
+								className="text-darkBlack mt-[8px] text-[1em] text-base green-links font-medium"
 								key={"contradiction"}
-							>
-								{contradictions &&
-									contradictions
-										?.split("\n")
-										?.filter((item) => item !== "\n")
-										?.map((text, index) => (
-											<React.Fragment key={`${index}-contradiction`}>
-												{text}
-												<br />
-											</React.Fragment>
-										))}
-							</p>
+								dangerouslySetInnerHTML={{ __html: contradictions }}
+							/>
 						)}
 					</div>
 					{/*    Potential inconsistencies */}

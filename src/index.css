@@ -53,3 +53,22 @@ body {
 img {
   object-fit: contain;
 }
+
+.green-links a {
+  color: #4DC601;
+  text-decoration: underline;
+}
+
+.green-links a:hover {
+  color: #3fdd78;
+}
+
+.ql-toolbar {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.ql-container {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
