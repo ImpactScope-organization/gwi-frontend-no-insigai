@@ -22,6 +22,7 @@ import Switch from "react-switch";
 import { Input } from "antd";
 import ReactQuill from "react-quill";
 import {CustomReactQuill} from "../CustomReactQuill/CustomReactQuill";
+import {ReportContentItem} from "../ReportContentItem/ReportContentItem";
 
 const { TextArea } = Input;
 
@@ -745,86 +746,30 @@ const SpecificReport = () => {
 					</div>
 
 					{/* Contradiction */}
-					<div
-						className={`group ${
-							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
-						} p-3 rounded-lg mt-[32px] mb-[16px]`}
-					>
-						<p className="text-reportGrey text-[1em] text-base font-medium">
-							Contradictions
-						</p>
-						{isModifying && (
-							<CustomReactQuill
-								value={modifyData?.contradiction}
-								onChange={(value) => handleInputUpdates("contradiction", value)}
-							/>
-						)}
-						{!isModifying && (
-							<div
-								className="text-darkBlack mt-[8px] text-[1em] text-base green-links font-medium whitespace-pre-line"
-								key={"contradiction"}
-								dangerouslySetInnerHTML={{ __html: contradictions }}
-							/>
-						)}
-					</div>
+					<ReportContentItem
+						title="Contradictions"
+						isModifying={isModifying}
+						onChange={(value) => handleInputUpdates("contradiction", value)}
+						modifyData={modifyData?.contradiction}
+						displayValue={contradictions}
+					/>
 					{/*    Potential inconsistencies */}
-					<div
-						className={`group pointer-events-auto focus-within:border-primary ${
-							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
-						} p-3 rounded-lg mt-[32px] mb-[16px]`}
-					>
-						<p className="text-reportGrey text-[1em] text-base font-medium mb-2">
-							Potential inconsistencies
-						</p>
-						{isModifying && (
-							<CustomReactQuill
-								value={modifyData?.potentialInconsistencies}
-								onChange={(value) => handleInputUpdates("potentialInconsistencies", value)}
-							/>
-						)}
-						{!isModifying && (
-							<div
-								className="text-text-darkBlack mt-[8px] text-[1em] text-base font-medium whitespace-pre-line"
-								dangerouslySetInnerHTML={{ __html: potentialInconsistencies }}
-							/>
-						)}
-					</div>
+					<ReportContentItem
+						title="Potential inconsistencies"
+						isModifying={isModifying}
+						onChange={(value) => handleInputUpdates("potentialInconsistencies", value)}
+						modifyData={modifyData?.potentialInconsistencies}
+						displayValue={potentialInconsistencies}
+					/>
+
 					{/* Unsubstantiated claims */}
-					<div
-						className={`group focus-within:border-primary ${
-							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
-						} p-3 rounded-lg mt-[32px] mb-[16px]`}
-					>
-						<p className="text-reportGrey text-[1em] text-base font-medium">
-							Unsubstantiated claims
-						</p>
-						{isModifying && (
-							<TextArea
-								variant="borderless"
-								autoSize
-								value={modifyData?.unsubstantiatedClaims}
-								onChange={(e) => {
-									handleInputUpdates("unsubstantiatedClaims", e.target.value);
-								}}
-								className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-								rows={20}
-							/>
-						)}
-						{!isModifying && (
-							<p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
-								{unsubstantiatedClaims &&
-									unsubstantiatedClaims
-										?.split("\n")
-										?.filter((item) => item !== "\n")
-										?.map((text, index) => (
-											<React.Fragment key={`${index}-uc`}>
-												{text}
-												<br />
-											</React.Fragment>
-										))}
-							</p>
-						)}
-					</div>
+					<ReportContentItem
+						title="Unsubstantiated claims"
+						isModifying={isModifying}
+						onChange={(value) => handleInputUpdates("unsubstantiatedClaims", value)}
+						modifyData={modifyData?.unsubstantiatedClaims}
+						displayValue={unsubstantiatedClaims}
+					/>
 
 					{/* sources */}
 					{!isModifying && (
