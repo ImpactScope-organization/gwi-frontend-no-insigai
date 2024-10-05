@@ -598,7 +598,7 @@ const SpecificReport = () => {
 					? Number(materialityAssessment?.value?.data?.response)
 					: prev?.score,
 			}));
-			setIsLoading(false);
+			await getCurrentCompany(currentCompany?.id);
 
 			setIsLoading(false);
 		} catch (error) {
