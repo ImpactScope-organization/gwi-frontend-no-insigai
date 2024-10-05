@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import BackButton from "../Shared/BackButton";
 import { useStepsContext } from "../../Context/StateContext";
-import { create } from "ipfs-http-client";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { smartContract } from "../../Constants";
@@ -20,11 +19,8 @@ import { captureScreen, isValidData, toTitleCase } from "../../utils/helpers";
 import { RefBerklayDB } from "../../Constants/RefBerklayDB";
 import Switch from "react-switch";
 import { Input } from "antd";
-import ReactQuill from "react-quill";
 import {CustomReactQuill} from "../CustomReactQuill/CustomReactQuill";
 import {ReportContentItem} from "../ReportContentItem/ReportContentItem";
-
-const { TextArea } = Input;
 
 // IPFS
 // const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -784,7 +780,7 @@ const SpecificReport = () => {
 											(source?.description || source?.Description) ? (
 											<div
 												className="group bg-[#F3F5F7] p-3 rounded-md"
-												key={source?.title}
+												key={`${index}-read-source`}
 											>
 												<p className="text-reportGrey text-[1em] text-base font-medium">
 													{source?.title || source?.Title}

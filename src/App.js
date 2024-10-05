@@ -7,7 +7,7 @@ import Settings from "./Pages/Settings";
 import { useStepsContext } from "./Context/StateContext";
 import { useEffect } from "react";
 import Login from "./Components/Shared/Login";
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill-new/dist/quill.snow.css';
 
 function App() {
   const { openLoginModal, setOpenLoginModal } = useStepsContext();

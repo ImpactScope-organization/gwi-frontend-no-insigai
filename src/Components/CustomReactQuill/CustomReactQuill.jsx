@@ -1,4 +1,4 @@
-import ReactQuill from "react-quill";
+import ReactQuill from "react-quill-new";
 import React from "react";
 
 export const CustomReactQuill = ({ value, onChange }) => (
