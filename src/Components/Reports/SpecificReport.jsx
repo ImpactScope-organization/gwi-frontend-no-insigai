@@ -789,9 +789,10 @@ const SpecificReport = () => {
 												<p className="text-reportGrey text-[1em] text-base font-medium">
 													{source?.title || source?.Title}
 												</p>
-												<p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
-													{source?.description || source?.Description}
-												</p>
+												<div
+													className="text-darkBlack mt-[8px] text-[1em] text-base font-medium green-links"
+													dangerouslySetInnerHTML={{__html: source?.description || source?.Description}}
+												/>
 											</div>
 										) : (
 											<React.Fragment key={`${index}-empty`} />
@@ -861,15 +862,12 @@ const SpecificReport = () => {
 											/>
 										</div>
 										<div className="focus-within:border-primary rounded-lg mt-[16px] p-[16px] border border-1 focus-withing:border-primary">
-											<p className="text-reportGrey text-[1em] text-base font-medium">
+											<p className="text-reportGrey text-[1em] text-base font-medium mb-2">
 												Text
 											</p>
-											<TextArea
-												type="text"
-												autoSize
-												variant="borderless"
+											<CustomReactQuill
 												value={source?.description || source?.Description}
-												onChange={(e) => {
+												onChange={(upcomingValue) => {
 													setModifyData((prev) => ({
 														...prev,
 														sources: prev?.sources?.map((cSource, cIndex) => {
@@ -877,12 +875,12 @@ const SpecificReport = () => {
 																if (cSource.hasOwnProperty("Description")) {
 																	return {
 																		...cSource,
-																		Description: e.target.value,
+																		Description: upcomingValue,
 																	};
 																} else {
 																	return {
 																		...cSource,
-																		description: e.target.value,
+																		description: upcomingValue,
 																	};
 																}
 															}
@@ -890,7 +888,6 @@ const SpecificReport = () => {
 														}),
 													}));
 												}}
-												className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
 											/>
 										</div>
 									</div>
