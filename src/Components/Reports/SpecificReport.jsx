@@ -1206,7 +1206,9 @@ const SpecificReport = () => {
 												if (e.key == 1) {
 													captureScreen("report-container", currentCompany?.companyName);
 												} else if (e.key == 2) {
-													deleteCompanyHandler();
+													if (window.confirm(`Are you sure you want to delete this Report? \n${currentCompany?.companyName}`)) {
+														deleteCompanyHandler()
+													}
 												} else {
 													const data = {
 														contradiction: contradictions,
@@ -1255,7 +1257,11 @@ const SpecificReport = () => {
 										Download as .pdf
 									</button>
 									<button
-										onClick={() => deleteCompanyHandler()}
+										onClick={() => {
+											if (window.confirm(`Are you sure you want to delete this Report? \n${currentCompany?.companyName}`)) {
+												deleteCompanyHandler()
+											}
+										}}
 										className="bg-white border border-darkBlack rounded-lg w-full text-center justify-center flex py-[12px] col-span-1 px-[4px] text-darkBlack text-[16px] font-[600] leading-[24px]"
 									>
 										Remove from DB
