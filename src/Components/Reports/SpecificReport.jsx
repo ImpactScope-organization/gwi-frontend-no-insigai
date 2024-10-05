@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import BackButton from "../Shared/BackButton";
 import { useStepsContext } from "../../Context/StateContext";
-import { create } from "ipfs-http-client";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { smartContract } from "../../Constants";
@@ -20,8 +19,8 @@ import { captureScreen, isValidData, toTitleCase } from "../../utils/helpers";
 import { RefBerklayDB } from "../../Constants/RefBerklayDB";
 import Switch from "react-switch";
 import { Input } from "antd";
-
-const { TextArea } = Input;
+import {CustomReactQuill} from "../CustomReactQuill/CustomReactQuill";
+import {ReportContentItem} from "../ReportContentItem/ReportContentItem";
 
 // IPFS
 // const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -743,115 +742,30 @@ const SpecificReport = () => {
 					</div>
 
 					{/* Contradiction */}
-					<div
-						className={`group  focus-within:border-primary ${
-							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
-						} p-3 rounded-lg mt-[32px] mb-[16px]`}
-					>
-						<p className="text-reportGrey text-[1em] text-base font-medium">
-							Contradictions
-						</p>
-						{isModifying && (
-							<TextArea
-								variant="borderless"
-								autoSize
-								value={modifyData?.contradiction}
-								onChange={(e) =>
-									handleInputUpdates("contradiction", e.target.value)
-								}
-								className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-							/>
-						)}
-						{!isModifying && (
-							<p
-								className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium"
-								key={"contradiction"}
-							>
-								{contradictions &&
-									contradictions
-										?.split("\n")
-										?.filter((item) => item !== "\n")
-										?.map((text, index) => (
-											<React.Fragment key={`${index}-contradiction`}>
-												{text}
-												<br />
-											</React.Fragment>
-										))}
-							</p>
-						)}
-					</div>
+					<ReportContentItem
+						title="Contradictions"
+						isModifying={isModifying}
+						onChange={(value) => handleInputUpdates("contradiction", value)}
+						modifyData={modifyData?.contradiction}
+						displayValue={contradictions}
+					/>
 					{/*    Potential inconsistencies */}
-					<div
-						className={`group pointer-events-auto focus-within:border-primary ${
-							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
-						} p-3 rounded-lg mt-[32px] mb-[16px]`}
-					>
-						<p className="text-reportGrey text-[1em] text-base font-medium">
-							Potential inconsistencies
-						</p>
-						{isModifying && (
-							<TextArea
-								variant="borderless"
-								autoSize
-								value={modifyData?.potentialInconsistencies}
-								onChange={(e) =>
-									handleInputUpdates("potentialInconsistencies", e.target.value)
-								}
-								className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-								rows={20}
-							/>
-						)}
-						{!isModifying && (
-							<p className="text-text-darkBlack mt-[8px] text-[1em] text-base font-medium ">
-								{potentialInconsistencies > "" &&
-									potentialInconsistencies
-										?.split("\n")
-										?.filter((item) => item !== "\n")
-										?.map((text, index) => (
-											<React.Fragment key={`${index}-pi`}>
-												{text}
-												<br />
-											</React.Fragment>
-										))}
-							</p>
-						)}
-					</div>
+					<ReportContentItem
+						title="Potential inconsistencies"
+						isModifying={isModifying}
+						onChange={(value) => handleInputUpdates("potentialInconsistencies", value)}
+						modifyData={modifyData?.potentialInconsistencies}
+						displayValue={potentialInconsistencies}
+					/>
+
 					{/* Unsubstantiated claims */}
-					<div
-						className={`group focus-within:border-primary ${
-							!isModifying ? "bg-[#F3F5F7]" : "bg-white border border-1"
-						} p-3 rounded-lg mt-[32px] mb-[16px]`}
-					>
-						<p className="text-reportGrey text-[1em] text-base font-medium">
-							Unsubstantiated claims
-						</p>
-						{isModifying && (
-							<TextArea
-								variant="borderless"
-								autoSize
-								value={modifyData?.unsubstantiatedClaims}
-								onChange={(e) => {
-									handleInputUpdates("unsubstantiatedClaims", e.target.value);
-								}}
-								className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-								rows={20}
-							/>
-						)}
-						{!isModifying && (
-							<p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
-								{unsubstantiatedClaims &&
-									unsubstantiatedClaims
-										?.split("\n")
-										?.filter((item) => item !== "\n")
-										?.map((text, index) => (
-											<React.Fragment key={`${index}-uc`}>
-												{text}
-												<br />
-											</React.Fragment>
-										))}
-							</p>
-						)}
-					</div>
+					<ReportContentItem
+						title="Unsubstantiated claims"
+						isModifying={isModifying}
+						onChange={(value) => handleInputUpdates("unsubstantiatedClaims", value)}
+						modifyData={modifyData?.unsubstantiatedClaims}
+						displayValue={unsubstantiatedClaims}
+					/>
 
 					{/* sources */}
 					{!isModifying && (
@@ -866,14 +780,15 @@ const SpecificReport = () => {
 											(source?.description || source?.Description) ? (
 											<div
 												className="group bg-[#F3F5F7] p-3 rounded-md"
-												key={source?.title}
+												key={`${index}-read-source`}
 											>
 												<p className="text-reportGrey text-[1em] text-base font-medium">
 													{source?.title || source?.Title}
 												</p>
-												<p className="text-darkBlack mt-[8px] text-[1em] text-base  font-medium ">
-													{source?.description || source?.Description}
-												</p>
+												<div
+													className="text-darkBlack mt-[8px] text-[1em] text-base font-medium green-links"
+													dangerouslySetInnerHTML={{__html: source?.description || source?.Description}}
+												/>
 											</div>
 										) : (
 											<React.Fragment key={`${index}-empty`} />
@@ -943,15 +858,12 @@ const SpecificReport = () => {
 											/>
 										</div>
 										<div className="focus-within:border-primary rounded-lg mt-[16px] p-[16px] border border-1 focus-withing:border-primary">
-											<p className="text-reportGrey text-[1em] text-base font-medium">
+											<p className="text-reportGrey text-[1em] text-base font-medium mb-2">
 												Text
 											</p>
-											<TextArea
-												type="text"
-												autoSize
-												variant="borderless"
+											<CustomReactQuill
 												value={source?.description || source?.Description}
-												onChange={(e) => {
+												onChange={(upcomingValue) => {
 													setModifyData((prev) => ({
 														...prev,
 														sources: prev?.sources?.map((cSource, cIndex) => {
@@ -959,12 +871,12 @@ const SpecificReport = () => {
 																if (cSource.hasOwnProperty("Description")) {
 																	return {
 																		...cSource,
-																		Description: e.target.value,
+																		Description: upcomingValue,
 																	};
 																} else {
 																	return {
 																		...cSource,
-																		description: e.target.value,
+																		description: upcomingValue,
 																	};
 																}
 															}
@@ -972,7 +884,6 @@ const SpecificReport = () => {
 														}),
 													}));
 												}}
-												className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
 											/>
 										</div>
 									</div>
@@ -1295,7 +1206,9 @@ const SpecificReport = () => {
 												if (e.key == 1) {
 													captureScreen("report-container", currentCompany?.companyName);
 												} else if (e.key == 2) {
-													deleteCompanyHandler();
+													if (window.confirm(`Are you sure you want to delete this Report? \n${currentCompany?.companyName}`)) {
+														deleteCompanyHandler()
+													}
 												} else {
 													const data = {
 														contradiction: contradictions,
@@ -1344,7 +1257,11 @@ const SpecificReport = () => {
 										Download as .pdf
 									</button>
 									<button
-										onClick={() => deleteCompanyHandler()}
+										onClick={() => {
+											if (window.confirm(`Are you sure you want to delete this Report? \n${currentCompany?.companyName}`)) {
+												deleteCompanyHandler()
+											}
+										}}
 										className="bg-white border border-darkBlack rounded-lg w-full text-center justify-center flex py-[12px] col-span-1 px-[4px] text-darkBlack text-[16px] font-[600] leading-[24px]"
 									>
 										Remove from DB
