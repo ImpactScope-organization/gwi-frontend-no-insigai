@@ -1211,14 +1211,14 @@ const SpecificReport = () => {
 													}
 												} else {
 													const data = {
-														contradiction: contradictions,
-														potentialInconsistencies,
-														unsubstantiatedClaims,
+														contradiction: currentCompany?.contradiction,
+														potentialInconsistencies: currentCompany?.potentialInconsistencies,
+														unsubstantiatedClaims: currentCompany?.unsubstantiatedClaims,
 														greenwashRiskPercentage: parseInt(
-															greenwashRiskPercentage
+															currentCompany?.greenwashRiskPercentage
 														),
 														reportingRiskPercentage: parseInt(
-															reportingRiskPercentage
+															currentCompany?.reportingRiskPercentage
 														),
 														jurisdiction: currentCompany?.jurisdiction,
 														sector: currentCompany?.sector,
