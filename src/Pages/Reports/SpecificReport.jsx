@@ -58,21 +58,42 @@ const SpecificReport = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isModifying, setIsModifying] = useState(false)
   const [modifyData, setModifyData] = useState(null)
-  const [isDemo, setIsDemo] = useState(() => !!currentCompany?.isDemo ?? false)
-  const [isRegulator, setIsRegulator] = useState(() => currentCompany?.sentToRegulators === 'true')
+
+  const [isDemo, setIsDemo] = useState(false)
+  const [isRegulator, setIsRegulator] = useState(false)
 
   // description states
-  const [contradictions, setContradictions] = useState(() => currentCompany?.contradiction || '')
-  const [potentialInconsistencies, setPotentialInconsistencies] = useState(
-    () => currentCompany?.potentialInconsistencies || ''
-  )
-  const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState(
-    () => currentCompany?.unsubstantiatedClaims || ''
-  )
+  const [contradictions, setContradictions] = useState('')
+  const [potentialInconsistencies, setPotentialInconsistencies] = useState('')
+  const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState('')
   // sources states
-  const [sources, setsources] = useState(() =>
-    isValidData(currentCompany?.sources) ? JSON.parse(currentCompany?.sources) : []
-  )
+  const [sources, setsources] = useState([])
+
+  useEffect(() => {
+    if (currentCompany?.isDemo) {
+      setIsDemo(!!currentCompany?.isDemo)
+    }
+
+    if (currentCompany?.sentToRegulators) {
+      setIsRegulator(currentCompany?.sentToRegulators === 'true')
+    }
+
+    if (currentCompany?.contradiction) {
+      setContradictions(currentCompany?.contradiction)
+    }
+
+    if (currentCompany?.potentialInconsistencies) {
+      setPotentialInconsistencies(currentCompany?.potentialInconsistencies)
+    }
+
+    if (currentCompany?.unsubstantiatedClaims) {
+      setunsubstantiatedClaims(currentCompany?.unsubstantiatedClaims)
+    }
+
+    if (currentCompany?.sources) {
+      setsources(JSON.parse(currentCompany?.sources))
+    }
+  }, [currentCompany])
 
   // greenwashing states
   const [vagueTermsState, setvagueTermsState] = useState(() => ({
