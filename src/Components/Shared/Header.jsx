@@ -1,9 +1,9 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { ConnectWallet } from '@thirdweb-dev/react'
+import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const Header = () => {
-  const location = useLocation();
+  const location = useLocation()
 
   return (
     <div className="bg-darkBlack">
@@ -38,13 +38,13 @@ const Header = () => {
           <ConnectWallet
             accentColor="#f213a4"
             colorMode="dark"
-            width={{ base: "150px", md: "unset" }}
-            style={{ background: "#4DC601", color: "white" }}
+            width={{ base: '150px', md: 'unset' }}
+            style={{ background: '#4DC601', color: 'white' }}
           />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
