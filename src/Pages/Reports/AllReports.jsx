@@ -3,7 +3,7 @@ import { useStepsContext } from '../../Context/StateContext'
 import { useGetAllReportsSentToRegulators } from '../../Hooks/reports-hooks'
 // src\Hooks\reports-hooks.js
 import { handleDateFormat } from '../../utils/date'
-import Button from '../button'
+import Button from '../../Components/button'
 
 const AllReports = () => {
   const [activeTab, setActiveTab] = useState(1)
