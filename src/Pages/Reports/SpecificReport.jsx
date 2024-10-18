@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import BackButton from '../Shared/BackButton'
-import { useStepsContext } from '../../Context/StateContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { smartContract } from '../../Constants'
@@ -10,8 +8,8 @@ import apiUrl from '../../utils/baseURL'
 import { formattedDate } from '../../utils/date'
 import { domToPng } from 'modern-screenshot'
 import { useAddress } from '@thirdweb-dev/react'
-import LoadingPage from '../loading'
-import CustomGaugeChart from '../gauge-chart'
+import LoadingPage from '../../Components/loading'
+import CustomGaugeChart from '../../Components/gauge-chart'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import { Dropdown } from 'antd'
 import { scoringPagePrompts } from '../../utils/system-prompts'
@@ -19,8 +17,12 @@ import { captureScreen, isValidData, toTitleCase } from '../../utils/helpers'
 import { RefBerklayDB } from '../../Constants/RefBerklayDB'
 import Switch from 'react-switch'
 import { Input } from 'antd'
-import { CustomReactQuill } from '../CustomReactQuill/CustomReactQuill'
-import { ReportContentItem } from '../ReportContentItem/ReportContentItem'
+import { CustomReactQuill } from '../../Components/CustomReactQuill/CustomReactQuill'
+import { ReportContentItem } from '../../Components/ReportContentItem/ReportContentItem'
+import { useNavigate, useParams } from 'react-router-dom'
+import { BackButtonLink } from '../../Components/BackButtonLink/BackButtonLink'
+import { ROUTES } from '../../routes'
+import { useGetCompanyReport } from '../../Hooks/reports-hooks'
 
 // IPFS
 // const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -41,30 +43,55 @@ import { ReportContentItem } from '../ReportContentItem/ReportContentItem'
 // ----------------------------
 const SpecificReport = () => {
   const walletAddress = useAddress()
+  const navigate = useNavigate()
 
-  const { setStep, currentCompany, getCurrentCompany, setCurrentCompany, filteredCompanyData } =
-    useStepsContext()
+  const { id: companyId } = useParams()
+
+  const {
+    refetch: getCurrentCompany,
+    data: currentCompany,
+    isLoading: companyIsLoading
+  } = useGetCompanyReport(companyId)
 
   const [isLoading, setIsLoading] = useState(true)
   const [isModifying, setIsModifying] = useState(false)
   const [modifyData, setModifyData] = useState(null)
-  const [isDemo, setIsDemo] = useState(() => !!currentCompany?.isDemo ?? false)
-  const [isRegulator, setIsRegulator] = useState(() =>
-    currentCompany?.sentToRegulators == 'true' ? true : false
-  )
+
+  const [isDemo, setIsDemo] = useState(false)
+  const [isRegulator, setIsRegulator] = useState(false)
 
   // description states
-  const [contradictions, setContradictions] = useState(() => currentCompany?.contradiction || '')
-  const [potentialInconsistencies, setPotentialInconsistencies] = useState(
-    () => currentCompany?.potentialInconsistencies || ''
-  )
-  const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState(
-    () => currentCompany?.unsubstantiatedClaims || ''
-  )
+  const [contradictions, setContradictions] = useState('')
+  const [potentialInconsistencies, setPotentialInconsistencies] = useState('')
+  const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState('')
   // sources states
-  const [sources, setsources] = useState(() =>
-    isValidData(currentCompany?.sources) ? JSON.parse(currentCompany?.sources) : []
-  )
+  const [sources, setsources] = useState([])
+
+  useEffect(() => {
+    if (currentCompany?.isDemo) {
+      setIsDemo(!!currentCompany?.isDemo)
+    }
+
+    if (currentCompany?.sentToRegulators) {
+      setIsRegulator(currentCompany?.sentToRegulators === 'true')
+    }
+
+    if (currentCompany?.contradiction) {
+      setContradictions(currentCompany?.contradiction)
+    }
+
+    if (currentCompany?.potentialInconsistencies) {
+      setPotentialInconsistencies(currentCompany?.potentialInconsistencies)
+    }
+
+    if (currentCompany?.unsubstantiatedClaims) {
+      setunsubstantiatedClaims(currentCompany?.unsubstantiatedClaims)
+    }
+
+    if (currentCompany?.sources) {
+      setsources(JSON.parse(currentCompany?.sources))
+    }
+  }, [currentCompany])
 
   // greenwashing states
   const [vagueTermsState, setvagueTermsState] = useState(() => ({
@@ -228,23 +255,18 @@ const SpecificReport = () => {
           priority: reportDataUpdate.priority,
           IPFSHash: deShareLink,
           etherscanURL: etherscanUrl,
-          dataSources: filteredCompanyData
-            ? Object?.keys(filteredCompanyData)
-                ?.filter((key) => filteredCompanyData[key])
-                ?.join(', ')
-            : ''
+          dataSources: 0
         })
         .then((res) => {
           console.log('res: ', res)
           toast.success('Report is updated successfully')
           setIsSendingToRegulator(false)
-          // setStep("all_reports");
         })
         .catch((err) => {
           console.log('err: ', err)
           setIsSendingToRegulator(false)
         })
-      await getCurrentCompany(currentCompany?.id)
+      await getCurrentCompany()
     } catch (error) {
       toast.error(error.message)
       setIsSendingToRegulator(false)
@@ -260,18 +282,20 @@ const SpecificReport = () => {
   // // GPT Response
 
   useEffect(() => {
-    if (
-      !currentCompany?.contradiction ||
-      !currentCompany?.potentialInconsistencies ||
-      !currentCompany?.unsubstantiatedClaims ||
-      !currentCompany?.greenwashRiskPercentage ||
-      !currentCompany?.reportingRiskPercentage
-    ) {
-      loadData()
-    } else {
-      setIsLoading(false)
+    if (!companyIsLoading) {
+      if (
+        !currentCompany?.contradiction ||
+        !currentCompany?.potentialInconsistencies ||
+        !currentCompany?.unsubstantiatedClaims ||
+        !currentCompany?.greenwashRiskPercentage ||
+        !currentCompany?.reportingRiskPercentage
+      ) {
+        loadData()
+      } else {
+        setIsLoading(false)
+      }
     }
-  }, [])
+  }, [companyIsLoading])
 
   useEffect(() => {
     ;(async () => {
@@ -298,7 +322,7 @@ const SpecificReport = () => {
         console.log('===============Saved generated report=====================')
         console.log(data)
         console.log('====================================')
-        await getCurrentCompany(currentCompany?.id)
+        await getCurrentCompany()
       }
     })()
   }, [
@@ -552,7 +576,7 @@ const SpecificReport = () => {
           ? Number(materialityAssessment?.value?.data?.response)
           : prev?.score
       }))
-      await getCurrentCompany(currentCompany?.id)
+      await getCurrentCompany()
 
       setIsLoading(false)
     } catch (error) {
@@ -565,7 +589,7 @@ const SpecificReport = () => {
     const { data } = response
     if (data?.status === 'success') {
       toast.success(data?.message)
-      setStep('all_reports')
+      navigate(ROUTES.reports.internal)
     } else {
       toast.error('something went wrong while deleting the report')
     }
@@ -574,14 +598,14 @@ const SpecificReport = () => {
     setModifyData((prev) => ({ ...prev, [name]: value }))
   }
 
-  if (isLoading) {
+  if (isLoading || companyIsLoading) {
     return (
       <LoadingPage title="Please wait..." description="Please wait, report is being generated." />
     )
   }
   return (
     <div>
-      <BackButton setStep={() => setStep('all_reports')} />
+      <BackButtonLink to={ROUTES.reports.internal} />
 
       {/* Specific Report */}
       <div
@@ -949,7 +973,7 @@ const SpecificReport = () => {
                       if (data) {
                         toast.success('Successfully updated the report.')
                       }
-                      await getCurrentCompany(currentCompany?.id)
+                      await getCurrentCompany()
                       setContradictions(modifyData?.contradiction)
                       setPotentialInconsistencies(modifyData?.potentialInconsistencies)
                       setunsubstantiatedClaims(modifyData?.unsubstantiatedClaims)

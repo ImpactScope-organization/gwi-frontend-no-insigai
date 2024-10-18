@@ -2,6 +2,16 @@ import axios from 'axios'
 import apiUrl from '../utils/baseURL'
 
 class ReportService {
+  async getCompanyReport(companyId) {
+    const { data } = await axios.get(`${apiUrl}/api/company/${companyId}`)
+    return data?.result
+  }
+
+  async getAllInitializedReport() {
+    const { data } = await axios.get(`${apiUrl}/api/company/all`)
+    return data?.results
+  }
+
   /**
    * getAllReportsSentToRegulators
    * @returns
@@ -9,15 +19,6 @@ class ReportService {
   async getAllReportsSentToRegulators() {
     const { data } = await axios.get(`${apiUrl}/api/report/getAllReportsSentToRegulators`)
     return data?.results
-  }
-
-  /**
-   * getSingleReportDetail
-   * @returns
-   */
-  async getSpecificReport(id) {
-    const { data } = await axios.get(`${apiUrl}/api/report/getSingleReportDetail/${id}`)
-    return data
   }
 }
 

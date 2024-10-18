@@ -1,18 +1,19 @@
-/* eslint-disable no-loop-func */
 import React, { useRef, useState } from 'react'
-import BackButton from '../Shared/BackButton'
-import { useStepsContext } from '../../Context/StateContext'
-import Loading from '../Shared/Loading'
+import Loading from '../../Components/Shared/Loading'
 import * as XLSX from 'xlsx' // Import the xlsx library
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { transformArrayOfObjects } from '../../utils/helpers'
-import Button from '../button'
+import Button from '../../Components/button'
 import apiUrl from '../../utils/baseURL'
+import { BackButtonLink } from '../../Components/BackButtonLink/BackButtonLink'
+import { ROUTES } from '../../routes'
+import { useNavigate } from 'react-router-dom'
 
-const Step2 = () => {
+const CreateReport = () => {
   const fileInputRef = useRef(null)
-  const { processing, setProcessing, setStep, setSheet } = useStepsContext()
+  const [processing, setProcessing] = useState(false)
+  const navigate = useNavigate()
 
   const [selectedFiles, setSelectedFiles] = useState([])
   const [fileProgress, setFileProgress] = useState({})
@@ -43,8 +44,6 @@ const Step2 = () => {
   }
   const processDataFromFiles = async () => {
     try {
-      let allSheetDataArray = []
-
       for (const file of selectedFiles) {
         let allSheetData = {} // Initialize an empty object to store all rows from all sheets and files
         const reader = new FileReader()
@@ -74,18 +73,13 @@ const Step2 = () => {
         reader.readAsArrayBuffer(file)
         await promise // Wait for each file to be processed before moving to the next
         await handleCreateCompany({ ...allSheetData, file })
-        allSheetDataArray.push({ ...allSheetData, file })
       }
-
-      setSheet(allSheetDataArray)
-      // console.log("setSheetData: ", setSheetData);
     } catch (err) {
       console.log('err: ', err)
     }
   }
 
   const handleFileChange = (event) => {
-    console.log('Hello')
     const newSelectedFiles = Array.from(event.target.files)
     setSelectedFiles([...selectedFiles, ...newSelectedFiles])
 
@@ -112,7 +106,7 @@ const Step2 = () => {
       } else {
         clearInterval(interval) // Clear the interval when progress reaches 100%
       }
-    }, 200)
+    }, 10)
   }
 
   const handleDeleteFile = (fileName) => {
@@ -136,7 +130,7 @@ const Step2 = () => {
     setProcessing(true)
     await processDataFromFiles()
     setTimeout(() => {
-      setStep('all_reports')
+      navigate(ROUTES.reports.internal)
       setProcessing(false)
     }, 2000)
   }
@@ -147,7 +141,7 @@ const Step2 = () => {
         <Loading title="Please wait, data source is being processed" />
       ) : (
         <div className="pb-10">
-          <BackButton setStep={() => setStep('step1')} />
+          <BackButtonLink to={ROUTES.reports.internal} />
           <div className="grid w-full min-h-[75vh] ">
             <div className="w-1/2 mx-auto flex justify-center items-center flex-col">
               <h1 className="text-darkBlack font-bold text-3xl leading-[64px] mb-1">
@@ -221,4 +215,4 @@ const Step2 = () => {
   )
 }
 
-export default Step2
+export default CreateReport

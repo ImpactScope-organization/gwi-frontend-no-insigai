@@ -1,14 +1,20 @@
-import { useStepsContext } from '../../Context/StateContext'
 import { useFormik } from 'formik'
 import { loginModalScehma } from '../../validation-schema'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import RequestLoader from './RequestLoader'
 import apiUrl from '../../utils/baseURL'
+import { useAuthContext } from '../../Context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../routes'
+import { useState } from 'react'
 
 const Login = () => {
-  const { openLoginModal, setOpenLoginModal, requestLoading, setRequestLoading, setStep } =
-    useStepsContext()
+  const [requestLoading, setRequestLoading] = useState(false)
+
+  const { login } = useAuthContext()
+
+  const navigate = useNavigate()
 
   const initialValues = {
     email: '',
@@ -25,10 +31,10 @@ const Login = () => {
         await axios.post(`${apiUrl}/api/regulator/login`, values).then(({ data }) => {
           setRequestLoading(false)
           toast.success('Logged in Successfully')
-          setOpenLoginModal(!openLoginModal)
-          localStorage.setItem('userInfo', data?.result)
-          //   console.log("res");
-          //   console.log(data);
+
+          // todo implement jwt
+          login(data?.result)
+          navigate(ROUTES.reports.internal)
         })
       } catch (err) {
         toast.error(err?.response?.data?.message)
