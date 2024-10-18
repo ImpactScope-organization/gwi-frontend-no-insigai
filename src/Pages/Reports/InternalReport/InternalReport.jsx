@@ -10,9 +10,11 @@ export const InternalReport = () => {
 
   return (
     <ReportContainer>
-      {allInitializedReports.length === 0 ? (
+      {allInitializedReports && allInitializedReports.length === 0 && (
         <h1 className="w-[calc(100vw-100px text-center)]">Please add a new company</h1>
-      ) : (
+      )}
+      {allInitializedReports &&
+        allInitializedReports.length > 0 &&
         allInitializedReports?.map((report, sheetIndex) => (
           <div
             key={sheetIndex}
@@ -30,8 +32,7 @@ export const InternalReport = () => {
               <span className="text-darkBlack font-semibold ml-2">{report?.jurisdiction}</span>
             </p>
           </div>
-        ))
-      )}
+        ))}
     </ReportContainer>
   )
 }
