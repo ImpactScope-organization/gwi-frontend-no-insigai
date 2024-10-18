@@ -23,6 +23,7 @@ import { ReportContentItem } from '../../Components/ReportContentItem/ReportCont
 import { useParams } from 'react-router-dom'
 import { BackButtonLink } from '../../Components/BackButtonLink/BackButtonLink'
 import { ROUTES } from '../../routes'
+import { useGetCompanyReport } from '../../Hooks/reports-hooks'
 
 // IPFS
 // const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -46,16 +47,15 @@ const SpecificReport = () => {
 
   const { id: companyId } = useParams()
 
-  const { setStep, currentCompany, getCurrentCompany, setCurrentCompany, filteredCompanyData } =
-    useStepsContext()
+  const { setStep, filteredCompanyData } = useStepsContext()
+
+  const { refetch: getCurrentCompany, data: currentCompany } = useGetCompanyReport(companyId)
 
   const [isLoading, setIsLoading] = useState(true)
   const [isModifying, setIsModifying] = useState(false)
   const [modifyData, setModifyData] = useState(null)
   const [isDemo, setIsDemo] = useState(() => !!currentCompany?.isDemo ?? false)
-  const [isRegulator, setIsRegulator] = useState(() =>
-    currentCompany?.sentToRegulators == 'true' ? true : false
-  )
+  const [isRegulator, setIsRegulator] = useState(() => currentCompany?.sentToRegulators === 'true')
 
   // description states
   const [contradictions, setContradictions] = useState(() => currentCompany?.contradiction || '')
@@ -248,7 +248,7 @@ const SpecificReport = () => {
           console.log('err: ', err)
           setIsSendingToRegulator(false)
         })
-      await getCurrentCompany(companyId)
+      await getCurrentCompany()
     } catch (error) {
       toast.error(error.message)
       setIsSendingToRegulator(false)
@@ -302,7 +302,7 @@ const SpecificReport = () => {
         console.log('===============Saved generated report=====================')
         console.log(data)
         console.log('====================================')
-        await getCurrentCompany(companyId)
+        await getCurrentCompany()
       }
     })()
   }, [
@@ -556,7 +556,7 @@ const SpecificReport = () => {
           ? Number(materialityAssessment?.value?.data?.response)
           : prev?.score
       }))
-      await getCurrentCompany(companyId)
+      await getCurrentCompany()
 
       setIsLoading(false)
     } catch (error) {
@@ -953,7 +953,7 @@ const SpecificReport = () => {
                       if (data) {
                         toast.success('Successfully updated the report.')
                       }
-                      await getCurrentCompany(companyId)
+                      await getCurrentCompany()
                       setContradictions(modifyData?.contradiction)
                       setPotentialInconsistencies(modifyData?.potentialInconsistencies)
                       setunsubstantiatedClaims(modifyData?.unsubstantiatedClaims)

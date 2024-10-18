@@ -3,6 +3,11 @@ import apiUrl from '../utils/baseURL'
 import { toast } from 'react-toastify'
 
 class ReportService {
+  async getCompanyReport(companyId) {
+    const { data } = await axios.get(`${apiUrl}/api/company/${companyId}`)
+    return data?.results
+  }
+
   async getAllInitializedReport() {
     const { data } = await axios.get(`${apiUrl}/api/company/all`)
     return data?.results
@@ -15,15 +20,6 @@ class ReportService {
   async getAllReportsSentToRegulators() {
     const { data } = await axios.get(`${apiUrl}/api/report/getAllReportsSentToRegulators`)
     return data?.results
-  }
-
-  /**
-   * getSingleReportDetail
-   * @returns
-   */
-  async getSpecificReport(id) {
-    const { data } = await axios.get(`${apiUrl}/api/report/getSingleReportDetail/${id}`)
-    return data
   }
 }
 
