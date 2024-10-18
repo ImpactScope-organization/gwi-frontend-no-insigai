@@ -1,24 +1,24 @@
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Route, Routes, Outlet } from "react-router-dom";
-import Reports from "./Pages/Reports";
-import Header from "./Components/Shared/Header";
-import Settings from "./Pages/Settings";
-import { useStepsContext } from "./Context/StateContext";
-import { useEffect } from "react";
-import Login from "./Components/Shared/Login";
-import 'react-quill-new/dist/quill.snow.css';
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { Route, Routes, Outlet } from 'react-router-dom'
+import Reports from './Pages/Reports'
+import Header from './Components/Shared/Header'
+import Settings from './Pages/Settings'
+import { useStepsContext } from './Context/StateContext'
+import { useEffect } from 'react'
+import Login from './Components/Shared/Login'
+import 'react-quill-new/dist/quill.snow.css'
 
 function App() {
-  const { openLoginModal, setOpenLoginModal } = useStepsContext();
+  const { openLoginModal, setOpenLoginModal } = useStepsContext()
 
   useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
+    const userInfo = localStorage.getItem('userInfo')
 
     if (!userInfo) {
-      setOpenLoginModal(!openLoginModal);
+      setOpenLoginModal(!openLoginModal)
     }
-  }, []);
+  }, [])
 
   return (
     <div className="App">
@@ -31,7 +31,7 @@ function App() {
         <Route path="/settings" element={<Settings />}></Route>
       </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,8 +1,8 @@
-import React from "react";
-import { useStepsContext } from "../../Context/StateContext";
+import React from 'react'
+import { useStepsContext } from '../../Context/StateContext'
 
 const Step1 = () => {
-  const { setStep } = useStepsContext();
+  const { setStep } = useStepsContext()
   return (
     <div className="grid w-full min-h-[86vh] ">
       <div className="w-1/2 mx-auto flex justify-center items-center flex-col">
@@ -14,14 +14,14 @@ const Step1 = () => {
           Go ahead and add a new one
         </p>
         <button
-          onClick={() => setStep("step2")}
+          onClick={() => setStep('step2')}
           className="bg-darkGreen text-lg rounded-2xl py-3 px-4 border-none outline-none text-[#fff] "
         >
           Add new company
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Step1;
+export default Step1
