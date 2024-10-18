@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 class ReportService {
   async getCompanyReport(companyId) {
     const { data } = await axios.get(`${apiUrl}/api/company/${companyId}`)
-    return data?.results
+    return data?.result
   }
 
   async getAllInitializedReport() {

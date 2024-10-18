@@ -49,7 +49,11 @@ const SpecificReport = () => {
 
   const { setStep, filteredCompanyData } = useStepsContext()
 
-  const { refetch: getCurrentCompany, data: currentCompany } = useGetCompanyReport(companyId)
+  const {
+    refetch: getCurrentCompany,
+    data: currentCompany,
+    isLoading: companyIsLoading
+  } = useGetCompanyReport(companyId)
 
   const [isLoading, setIsLoading] = useState(true)
   const [isModifying, setIsModifying] = useState(false)
@@ -264,18 +268,20 @@ const SpecificReport = () => {
   // // GPT Response
 
   useEffect(() => {
-    if (
-      !currentCompany?.contradiction ||
-      !currentCompany?.potentialInconsistencies ||
-      !currentCompany?.unsubstantiatedClaims ||
-      !currentCompany?.greenwashRiskPercentage ||
-      !currentCompany?.reportingRiskPercentage
-    ) {
-      loadData()
-    } else {
-      setIsLoading(false)
+    if (!companyIsLoading) {
+      if (
+        !currentCompany?.contradiction ||
+        !currentCompany?.potentialInconsistencies ||
+        !currentCompany?.unsubstantiatedClaims ||
+        !currentCompany?.greenwashRiskPercentage ||
+        !currentCompany?.reportingRiskPercentage
+      ) {
+        loadData()
+      } else {
+        setIsLoading(false)
+      }
     }
-  }, [])
+  }, [companyIsLoading])
 
   useEffect(() => {
     ;(async () => {
