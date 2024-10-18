@@ -80,7 +80,6 @@ const CreateReport = () => {
   }
 
   const handleFileChange = (event) => {
-    console.log('Hello')
     const newSelectedFiles = Array.from(event.target.files)
     setSelectedFiles([...selectedFiles, ...newSelectedFiles])
 
