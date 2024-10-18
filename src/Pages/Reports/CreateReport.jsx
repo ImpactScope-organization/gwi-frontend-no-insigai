@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import { useStepsContext } from '../../Context/StateContext'
 import Loading from '../../Components/Shared/Loading'
 import * as XLSX from 'xlsx' // Import the xlsx library
 import { toast } from 'react-toastify'
@@ -13,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 
 const CreateReport = () => {
   const fileInputRef = useRef(null)
-  const { processing, setProcessing, setStep, setSheet } = useStepsContext()
+  const [processing, setProcessing] = useState(false)
   const navigate = useNavigate()
 
   const [selectedFiles, setSelectedFiles] = useState([])
@@ -45,8 +44,6 @@ const CreateReport = () => {
   }
   const processDataFromFiles = async () => {
     try {
-      let allSheetDataArray = []
-
       for (const file of selectedFiles) {
         let allSheetData = {} // Initialize an empty object to store all rows from all sheets and files
         const reader = new FileReader()
@@ -76,11 +73,7 @@ const CreateReport = () => {
         reader.readAsArrayBuffer(file)
         await promise // Wait for each file to be processed before moving to the next
         await handleCreateCompany({ ...allSheetData, file })
-        allSheetDataArray.push({ ...allSheetData, file })
       }
-
-      setSheet(allSheetDataArray)
-      // console.log("setSheetData: ", setSheetData);
     } catch (err) {
       console.log('err: ', err)
     }
@@ -114,7 +107,7 @@ const CreateReport = () => {
       } else {
         clearInterval(interval) // Clear the interval when progress reaches 100%
       }
-    }, 200)
+    }, 10)
   }
 
   const handleDeleteFile = (fileName) => {

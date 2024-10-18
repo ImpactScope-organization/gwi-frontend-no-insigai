@@ -1,4 +1,3 @@
-import { useStepsContext } from '../../Context/StateContext'
 import { useFormik } from 'formik'
 import { loginModalScehma } from '../../validation-schema'
 import axios from 'axios'
@@ -8,9 +7,10 @@ import apiUrl from '../../utils/baseURL'
 import { useAuthContext } from '../../Context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
+import { useState } from 'react'
 
 const Login = () => {
-  const { requestLoading, setRequestLoading } = useStepsContext()
+  const [requestLoading, setRequestLoading] = useState(false)
 
   const { login } = useAuthContext()
 

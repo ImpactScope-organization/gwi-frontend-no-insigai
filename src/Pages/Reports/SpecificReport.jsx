@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { useStepsContext } from '../../Context/StateContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { smartContract } from '../../Constants'
@@ -47,8 +46,6 @@ const SpecificReport = () => {
   const navigate = useNavigate()
 
   const { id: companyId } = useParams()
-
-  const { filteredCompanyData } = useStepsContext()
 
   const {
     refetch: getCurrentCompany,
@@ -258,11 +255,7 @@ const SpecificReport = () => {
           priority: reportDataUpdate.priority,
           IPFSHash: deShareLink,
           etherscanURL: etherscanUrl,
-          dataSources: filteredCompanyData
-            ? Object?.keys(filteredCompanyData)
-                ?.filter((key) => filteredCompanyData[key])
-                ?.join(', ')
-            : ''
+          dataSources: 0
         })
         .then((res) => {
           console.log('res: ', res)

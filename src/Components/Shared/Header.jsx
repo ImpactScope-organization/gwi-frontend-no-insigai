@@ -1,6 +1,5 @@
 import { ConnectWallet } from '@thirdweb-dev/react'
 import { Link } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 
 const Header = () => {
