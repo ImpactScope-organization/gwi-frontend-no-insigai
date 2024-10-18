@@ -20,7 +20,7 @@ import Switch from 'react-switch'
 import { Input } from 'antd'
 import { CustomReactQuill } from '../../Components/CustomReactQuill/CustomReactQuill'
 import { ReportContentItem } from '../../Components/ReportContentItem/ReportContentItem'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { BackButtonLink } from '../../Components/BackButtonLink/BackButtonLink'
 import { ROUTES } from '../../routes'
 import { useGetCompanyReport } from '../../Hooks/reports-hooks'
@@ -44,10 +44,11 @@ import { useGetCompanyReport } from '../../Hooks/reports-hooks'
 // ----------------------------
 const SpecificReport = () => {
   const walletAddress = useAddress()
+  const navigate = useNavigate()
 
   const { id: companyId } = useParams()
 
-  const { setStep, filteredCompanyData } = useStepsContext()
+  const { filteredCompanyData } = useStepsContext()
 
   const {
     refetch: getCurrentCompany,
@@ -267,7 +268,6 @@ const SpecificReport = () => {
           console.log('res: ', res)
           toast.success('Report is updated successfully')
           setIsSendingToRegulator(false)
-          // setStep("all_reports");
         })
         .catch((err) => {
           console.log('err: ', err)
@@ -596,7 +596,7 @@ const SpecificReport = () => {
     const { data } = response
     if (data?.status === 'success') {
       toast.success(data?.message)
-      setStep('all_reports')
+      navigate(ROUTES.reports.internal)
     } else {
       toast.error('something went wrong while deleting the report')
     }
