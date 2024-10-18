@@ -9,7 +9,8 @@ import { ROUTES } from './routes'
 import { NotFound } from './Pages/NotFound'
 import { InternalReport } from './Pages/Reports/InternalReport/InternalReport'
 import { RegulatorReport } from './Pages/Reports/RegulatorReport/RegulatorReport'
-import CreateReport from './Pages/CreateReport'
+import CreateReport from './Pages/Reports/CreateReport'
+import SpecificReport from './Pages/Reports/SpecificReport'
 
 function App() {
   return (
@@ -18,18 +19,13 @@ function App() {
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Routes>
-        {/*<Route path={ROUTES.home} element={<Reports />} />*/}
         <Route path={ROUTES.reports.internal} element={<InternalReport />} />
         <Route path={ROUTES.reports.regulator} element={<RegulatorReport />} />
         <Route path={ROUTES.create} element={<CreateReport />} />
+        <Route path={ROUTES.specificReport.index} element={<SpecificReport />} />
         <Route path={ROUTES.settings} element={<Settings />} />
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.notFound} element={<NotFound />} />
-
-        {/*<Route path="/settings" element={<Settings />}></Route>*/}
-        {/*<Route path={ROUTES.reports} element={<AllReports />} />*/}
-        {/*<Route path={ROUTES.specificReport.index} element={<SpecificReport />} />*/}
-        {/*<Route path={ROUTES.specificReport.edit} element={<EditSpecificReport />} />*/}
       </Routes>
     </div>
   )

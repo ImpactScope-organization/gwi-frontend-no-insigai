@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react'
-import { useStepsContext } from '../Context/StateContext'
-import Loading from '../Components/Shared/Loading'
+import { useStepsContext } from '../../Context/StateContext'
+import Loading from '../../Components/Shared/Loading'
 import * as XLSX from 'xlsx' // Import the xlsx library
 import { toast } from 'react-toastify'
 import axios from 'axios'
-import { transformArrayOfObjects } from '../utils/helpers'
-import Button from '../Components/button'
-import apiUrl from '../utils/baseURL'
-import { BackButtonLink } from '../Components/BackButtonLink/BackButtonLink'
-import { ROUTES } from '../routes'
+import { transformArrayOfObjects } from '../../utils/helpers'
+import Button from '../../Components/button'
+import apiUrl from '../../utils/baseURL'
+import { BackButtonLink } from '../../Components/BackButtonLink/BackButtonLink'
+import { ROUTES } from '../../routes'
 import { useNavigate } from 'react-router-dom'
 
 const CreateReport = () => {

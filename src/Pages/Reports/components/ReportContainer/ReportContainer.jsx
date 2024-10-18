@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import { ROUTES } from '../../routes'
-import { ButtonLink } from '../../Components/ButtonLink/ButtonLink'
+import { ROUTES } from '../../../../routes'
+import { ButtonLink } from '../../../../Components/ButtonLink/ButtonLink'
 import { Link, useLocation } from 'react-router-dom'
 
 export const ReportContainer = ({ children }) => {

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import BackButton from '../Shared/BackButton'
 import { useStepsContext } from '../../Context/StateContext'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -10,8 +9,8 @@ import apiUrl from '../../utils/baseURL'
 import { formattedDate } from '../../utils/date'
 import { domToPng } from 'modern-screenshot'
 import { useAddress } from '@thirdweb-dev/react'
-import LoadingPage from '../loading'
-import CustomGaugeChart from '../gauge-chart'
+import LoadingPage from '../../Components/loading'
+import CustomGaugeChart from '../../Components/gauge-chart'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import { Dropdown } from 'antd'
 import { scoringPagePrompts } from '../../utils/system-prompts'
@@ -19,8 +18,11 @@ import { captureScreen, isValidData, toTitleCase } from '../../utils/helpers'
 import { RefBerklayDB } from '../../Constants/RefBerklayDB'
 import Switch from 'react-switch'
 import { Input } from 'antd'
-import { CustomReactQuill } from '../CustomReactQuill/CustomReactQuill'
-import { ReportContentItem } from '../ReportContentItem/ReportContentItem'
+import { CustomReactQuill } from '../../Components/CustomReactQuill/CustomReactQuill'
+import { ReportContentItem } from '../../Components/ReportContentItem/ReportContentItem'
+import { useParams } from 'react-router-dom'
+import { BackButtonLink } from '../../Components/BackButtonLink/BackButtonLink'
+import { ROUTES } from '../../routes'
 
 // IPFS
 // const projectId = "2V6620s2FhImATdUuY4dwIAqoI0";
@@ -41,6 +43,8 @@ import { ReportContentItem } from '../ReportContentItem/ReportContentItem'
 // ----------------------------
 const SpecificReport = () => {
   const walletAddress = useAddress()
+
+  const { id: companyId } = useParams()
 
   const { setStep, currentCompany, getCurrentCompany, setCurrentCompany, filteredCompanyData } =
     useStepsContext()
@@ -244,7 +248,7 @@ const SpecificReport = () => {
           console.log('err: ', err)
           setIsSendingToRegulator(false)
         })
-      await getCurrentCompany(currentCompany?.id)
+      await getCurrentCompany(companyId)
     } catch (error) {
       toast.error(error.message)
       setIsSendingToRegulator(false)
@@ -298,7 +302,7 @@ const SpecificReport = () => {
         console.log('===============Saved generated report=====================')
         console.log(data)
         console.log('====================================')
-        await getCurrentCompany(currentCompany?.id)
+        await getCurrentCompany(companyId)
       }
     })()
   }, [
@@ -552,7 +556,7 @@ const SpecificReport = () => {
           ? Number(materialityAssessment?.value?.data?.response)
           : prev?.score
       }))
-      await getCurrentCompany(currentCompany?.id)
+      await getCurrentCompany(companyId)
 
       setIsLoading(false)
     } catch (error) {
@@ -581,7 +585,7 @@ const SpecificReport = () => {
   }
   return (
     <div>
-      <BackButton setStep={() => setStep('all_reports')} />
+      <BackButtonLink to={ROUTES.reports.internal} />
 
       {/* Specific Report */}
       <div
@@ -949,7 +953,7 @@ const SpecificReport = () => {
                       if (data) {
                         toast.success('Successfully updated the report.')
                       }
-                      await getCurrentCompany(currentCompany?.id)
+                      await getCurrentCompany(companyId)
                       setContradictions(modifyData?.contradiction)
                       setPotentialInconsistencies(modifyData?.potentialInconsistencies)
                       setunsubstantiatedClaims(modifyData?.unsubstantiatedClaims)

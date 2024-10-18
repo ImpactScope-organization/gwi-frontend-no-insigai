@@ -1,7 +1,7 @@
 import React from 'react'
-import { useStepsContext } from '../../Context/StateContext'
-import SpecificReport from '../../Components/Reports/SpecificReport'
-import SentToRegulators from '../../Components/Reports/SentToRegulators'
+import { useStepsContext } from '../../../Context/StateContext'
+import SpecificReport from '../SpecificReport'
+import SentToRegulators from '../../../Components/Reports/SentToRegulators'
 
 const ReportsOld = () => {
   const { step } = useStepsContext()
