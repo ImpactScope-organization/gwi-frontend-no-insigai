@@ -34,12 +34,8 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (isLocalStorageFetched) {
-      if (!isAuthenticated) {
-        navigate(ROUTES.login)
-      } else {
-        navigate(ROUTES.home)
-      }
+    if (isLocalStorageFetched && !isAuthenticated) {
+      navigate(ROUTES.login)
     }
   }, [isAuthenticated, isLocalStorageFetched])
 

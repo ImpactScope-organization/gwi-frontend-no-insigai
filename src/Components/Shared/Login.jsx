@@ -6,11 +6,15 @@ import { toast } from 'react-toastify'
 import RequestLoader from './RequestLoader'
 import apiUrl from '../../utils/baseURL'
 import { useAuthContext } from '../../Context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 const Login = () => {
   const { requestLoading, setRequestLoading } = useStepsContext()
 
   const { login } = useAuthContext()
+
+  const navigate = useNavigate()
 
   const initialValues = {
     email: '',
@@ -30,6 +34,7 @@ const Login = () => {
 
           // todo implement jwt
           login(data?.result)
+          navigate(ROUTES.home)
         })
       } catch (err) {
         toast.error(err?.response?.data?.message)
