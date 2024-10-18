@@ -598,7 +598,7 @@ const SpecificReport = () => {
     setModifyData((prev) => ({ ...prev, [name]: value }))
   }
 
-  if (isLoading) {
+  if (isLoading || companyIsLoading) {
     return (
       <LoadingPage title="Please wait..." description="Please wait, report is being generated." />
     )
