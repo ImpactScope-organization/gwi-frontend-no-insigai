@@ -17,7 +17,7 @@ export const ReportList = ({ data }) => {
         data?.map((report, sheetIndex) => (
           <Link
             to={getRouteWithId(ROUTES.specificReport.index, report?.id)}
-            key={sheetIndex}
+            key={`report_list_item${report?.id}`}
             style={{
               boxShadow:
                 ' 0px 13px 12px -16px rgba(0, 0, 0, 0.05), 0px 0px 12px 0px rgba(0, 0, 0, 0.1)'
