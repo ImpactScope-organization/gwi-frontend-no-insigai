@@ -8,7 +8,6 @@ const StepsContext = createContext()
 
 // Create a provider component
 export function StepsProvider({ children }) {
-  const [openLoginModal, setOpenLoginModal] = useState(false)
   const [requestLoading, setRequestLoading] = useState(false)
   const [step, setStep] = useState('step1')
   // const [step, setStep] = useState("step1");
@@ -78,8 +77,6 @@ export function StepsProvider({ children }) {
     <StepsContext.Provider
       value={{
         step,
-        openLoginModal,
-        setOpenLoginModal,
         requestLoading,
         setRequestLoading,
         setStep,
