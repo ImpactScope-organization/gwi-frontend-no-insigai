@@ -4,24 +4,7 @@ import { ButtonLink } from '../../Components/ButtonLink/ButtonLink'
 import { Link, useLocation } from 'react-router-dom'
 
 export const ReportContainer = ({ children }) => {
-  // todo handle active tab and removal
-  // const [activeTab, setActiveTab] = useState(1)
-  // const { setStep, allInitializedReports, fetchAllInititalizedReports } = useStepsContext()
-
   const location = useLocation()
-
-  // todo move this to get all data
-  // const { data: getAllPendingReports, isLoading: pendingReportLoading } =
-  //   useGetAllReportsSentToRegulators()
-  //
-  // useEffect(() => {
-  //   ;(async () => {
-  //     await fetchAllInititalizedReports()
-  //     // if (data.length === 0) {
-  //     //   setStep("step1");
-  //     // }
-  //   })()
-  // }, [])
 
   const isRouteActive = useCallback((route) => {
     return route === location.pathname
@@ -65,26 +48,7 @@ export const ReportContainer = ({ children }) => {
       </div>
 
       {/* Reports Container */}
-      <div className="w-full gap-7 grid grid-cols-3">
-        {children}
-
-        {/* todo handle this as well */}
-        {/*{activeTab === 1 ? (*/}
-        {/*  // All reports*/}
-        {/*  allInitializedReports.length === 0 ? (*/}
-        {/*    <h1 className="w-[calc(100vw-100px text-center)]">Please add a new company</h1>*/}
-        {/*  ) : (*/}
-        {/*    <Report data={allInitializedReports} activeTab={1} />*/}
-        {/*  )*/}
-        {/*) : (*/}
-        {/*  // sent to regular tab*/}
-        {/*  <Report*/}
-        {/*    data={getAllPendingReports}*/}
-        {/*    activeTab={2}*/}
-        {/*    pendingReportLoading={pendingReportLoading}*/}
-        {/*  />*/}
-        {/*)}*/}
-      </div>
+      <div className="w-full gap-7 grid grid-cols-3">{children}</div>
     </div>
   )
 }

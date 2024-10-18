@@ -26,31 +26,6 @@ export function StepsProvider({ children }) {
   const [sheet, setSheet] = useState()
   const [filteredCompanyData, setFilteredCompanyData] = useState()
   const [isReportGenerating, setIsReportGenerating] = useState(false)
-  // All initialized reports
-  const [allInitializedReports, setAllInitializedReports] = useState([])
-
-  useEffect(() => {
-    ;(async () => {
-      const results = await fetchAllInititalizedReports()
-      if (results?.length > 0) {
-        setStep('all_reports')
-      }
-    })()
-    return () => {
-      setAllInitializedReports([])
-    }
-  }, [])
-
-  const fetchAllInititalizedReports = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/api/company/all`)
-      const { data } = response
-      setAllInitializedReports(data?.results)
-      return data?.results
-    } catch (error) {
-      toast.error('Something went wrong while pulling records of companies')
-    }
-  }
 
   const getCurrentCompany = async (companyID) => {
     const response = await axios.get(`${apiUrl}/api/company/${companyID}`)
@@ -101,9 +76,6 @@ export function StepsProvider({ children }) {
         updateSheet,
         isReportGenerating,
         setIsReportGenerating,
-        allInitializedReports,
-        setAllInitializedReports,
-        fetchAllInititalizedReports,
         getCurrentCompany
       }}
     >

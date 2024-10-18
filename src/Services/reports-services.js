@@ -1,7 +1,13 @@
 import axios from 'axios'
 import apiUrl from '../utils/baseURL'
+import { toast } from 'react-toastify'
 
 class ReportService {
+  async getAllInitializedReport() {
+    const { data } = await axios.get(`${apiUrl}/api/company/all`)
+    return data?.results
+  }
+
   /**
    * getAllReportsSentToRegulators
    * @returns

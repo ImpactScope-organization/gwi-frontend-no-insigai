@@ -1,21 +1,20 @@
+import React from 'react'
 import { ReportContainer } from '../ReportContainer'
 import { handleDateFormat } from '../../../utils/date'
-import React from 'react'
-import { useStepsContext } from '../../../Context/StateContext'
+import { useGetAllInitializedReports } from '../../../Hooks/reports-hooks'
 
 export const InternalReport = () => {
-  const { allInitializedReports } = useStepsContext()
+  const { data } = useGetAllInitializedReports()
 
   // todo fix clicking
 
   return (
     <ReportContainer>
-      {allInitializedReports && allInitializedReports.length === 0 && (
+      {data && data.length === 0 && (
         <h1 className="w-[calc(100vw-100px text-center)]">Please add a new company</h1>
       )}
-      {allInitializedReports &&
-        allInitializedReports.length > 0 &&
-        allInitializedReports?.map((report, sheetIndex) => (
+      {data &&
+        data?.map((report, sheetIndex) => (
           <div
             key={sheetIndex}
             // onClick={() => handleNavigate(report?.id, activeTab, sheet, sheetIndex)}

@@ -1,18 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
 import ReportService from '../Services/reports-services'
 
-const useGetSpecificReportDetails = (id) => {
+export const useGetSpecificReportDetails = (id) => {
   return useQuery({
     queryKey: ['getSingleReportDetail'],
     queryFn: () => ReportService.getSpecificReport(id)
   })
 }
 
-const useGetAllReportsSentToRegulators = () => {
+export const useGetAllInitializedReports = () => {
+  return useQuery({
+    queryKey: ['useGetAllInitializedReports'],
+    queryFn: () => ReportService.getAllInitializedReport()
+  })
+}
+
+export const useGetAllReportsSentToRegulators = () => {
   return useQuery({
     queryKey: ['getAllReportsSentToRegulators'],
     queryFn: () => ReportService.getAllReportsSentToRegulators()
   })
 }
-
-export { useGetSpecificReportDetails, useGetAllReportsSentToRegulators }

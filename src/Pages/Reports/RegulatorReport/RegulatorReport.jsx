@@ -3,16 +3,15 @@ import React from 'react'
 import { useGetAllReportsSentToRegulators } from '../../../Hooks/reports-hooks'
 
 export const RegulatorReport = () => {
-  const { data: allPendingReports, isLoading: pendingReportLoading } =
-    useGetAllReportsSentToRegulators()
+  const { data, isLoading } = useGetAllReportsSentToRegulators()
 
   return (
     <ReportContainer>
-      {allPendingReports && allPendingReports.length === 0 && (
+      {data && data.length === 0 && (
         <h1 className="w-[calc(100vw-100px text-center)]">Please add a new company</h1>
       )}
-      {allPendingReports &&
-        allPendingReports.map((report, index) => (
+      {data &&
+        data.map((report, index) => (
           <div
             key={index}
             // onClick={() => handleNavigate(report?.id, activeTab)}
@@ -23,7 +22,7 @@ export const RegulatorReport = () => {
             className="min-w-[31%] p-4 cursor-pointer rounded-xl border border-borderLight hover:border-black  "
           >
             <p className="mb-2 text-sm text-[#6C7275]">
-              {pendingReportLoading
+              {isLoading
                 ? 'loading...'
                 : report?.sendToRegulatorsTimeStamp && report?.sendToRegulatorsTimeStamp}
             </p>
@@ -31,7 +30,7 @@ export const RegulatorReport = () => {
             <p className="text-[#6C7275] mt-[16px] text-[14px] mr-3 font-medium">
               Jurisdiction :
               <span className="text-darkBlack font-semibold ml-2">
-                {pendingReportLoading ? 'loading...' : report?.jurisdiction && report?.jurisdiction}
+                {isLoading ? 'loading...' : report?.jurisdiction && report?.jurisdiction}
               </span>
             </p>
           </div>
