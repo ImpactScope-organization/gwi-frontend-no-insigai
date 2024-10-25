@@ -1,6 +1,6 @@
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Header from './Components/Shared/Header'
 import Settings from './Pages/Settings'
 import Login from './Components/Shared/Login'
@@ -19,6 +19,7 @@ function App() {
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Routes>
+        <Route path={ROUTES.home} element={<Navigate to={ROUTES.reports.internal} />} />
         <Route path={ROUTES.reports.internal} element={<InternalReport />} />
         <Route path={ROUTES.reports.regulator} element={<RegulatorReport />} />
         <Route path={ROUTES.create} element={<CreateReport />} />
