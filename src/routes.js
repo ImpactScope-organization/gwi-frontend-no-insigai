@@ -2,6 +2,7 @@ export const ROUTES = {
   login: '/login',
   create: '/create',
   settings: '/settings',
+  home: '/',
   reports: {
     internal: '/reports/internal',
     regulator: '/reports/regulator'
