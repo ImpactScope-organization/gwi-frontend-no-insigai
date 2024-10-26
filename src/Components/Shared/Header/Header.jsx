@@ -1,6 +1,7 @@
 import { ConnectWallet } from '@thirdweb-dev/react'
 import { Link } from 'react-router-dom'
-import { ROUTES } from '../../routes'
+import { ROUTES } from '../../../routes'
+import { HeaderLink } from './HeaderLink'
 
 const Header = () => {
   return (
@@ -12,6 +13,10 @@ const Header = () => {
         </Link>
 
         <div className="flex justify-center items-center gap-10">
+          <HeaderLink to={ROUTES.reports.internal} pathToBeActive={ROUTES.reports.index}>
+            Reports
+          </HeaderLink>
+          <HeaderLink to={ROUTES.prompts.index}>Prompts</HeaderLink>
           <ConnectWallet
             accentColor="#f213a4"
             colorMode="dark"

@@ -1,11 +1,16 @@
 export const ROUTES = {
   login: '/login',
   create: '/create',
-  settings: '/settings',
   home: '/',
+  prompts: {
+    index: '/prompts',
+    create: '/prompts/create',
+    edit: '/prompts/:id/edit'
+  },
   reports: {
     internal: '/reports/internal',
-    regulator: '/reports/regulator'
+    regulator: '/reports/regulator',
+    index: '/reports'
   },
   specificReport: {
     index: '/specific-report/:id',
