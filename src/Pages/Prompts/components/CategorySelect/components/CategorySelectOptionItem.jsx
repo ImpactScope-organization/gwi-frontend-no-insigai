@@ -1,10 +1,10 @@
-import { deletePromptCategory, updatePromptCategory } from '../categorySelectApi'
+import { deletePromptCategory, updatePromptCategory } from '../../../api/PromptCategoryApi'
 import { CloseCircleOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons'
 import { Modal } from 'antd'
 import { Formik, useFormikContext } from 'formik'
 import { useCallback, useState } from 'react'
-import { InputText } from '../../../../../../Components/Fields/InputText'
-import { SuccessButton } from '../../../../../../Components/Buttons/SuccessButton'
+import { InputText } from '../../../../../Components/Fields/InputText'
+import { SuccessButton } from '../../../../../Components/Buttons/SuccessButton'
 import * as Yup from 'yup'
 
 export const CategorySelectOptionItem = ({ item, refetchCategoryItems, toggleDropdownVisible }) => {
