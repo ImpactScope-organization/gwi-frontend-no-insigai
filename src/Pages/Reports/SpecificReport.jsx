@@ -1039,7 +1039,7 @@ const SpecificReport = () => {
                 {blockchainFileURL && (
                   <>
                     <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
-                      File in blockchain
+                      View report on chain
                     </p>
                     <a
                       href={blockchainFileURL}
