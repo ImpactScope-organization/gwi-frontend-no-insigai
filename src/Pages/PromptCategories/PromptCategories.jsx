@@ -4,7 +4,6 @@ import React from 'react'
 import { PageContentContainer } from '../../Components/Page/PageContentContainer/PageContentContainer'
 import { getRouteWithId, ROUTES } from '../../routes'
 import { ButtonLink } from '../../Components/ButtonLink/ButtonLink'
-import { usePrompts } from './usePrompts'
 import { CategorizedListItemLink } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemLink'
 import { CategorizedListContainer } from '../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
 import { CategorizedListItemDate } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemDate'
@@ -13,14 +12,15 @@ import { CategorizedListItemTitle } from '../../Components/CategorizedList/Categ
 import { CategorizedListItemCategoryContainer } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategoryContainer'
 import { CategorizedListItemCategory } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategory'
 import { PageTab } from '../../Components/Page/PageTab/PageTab'
+import { useRootPromptCategories } from './useRootPromptCategories'
 
-export const Prompts = () => {
-  const { prompts } = usePrompts()
+export const PromptCategories = () => {
+  const { rootPromptCategories } = useRootPromptCategories()
 
   return (
     <PageContainer>
-      <PageHeader title="Prompts" subTitle="Overview all of prompts here">
-        <ButtonLink to={ROUTES.prompts.create}>Add new prompt</ButtonLink>
+      <PageHeader title="Prompt Categories" subTitle="Overview all of prompt categories here">
+        <ButtonLink to={ROUTES.promptCategories.create}>Add new prompt category</ButtonLink>
       </PageHeader>
 
       <PageContentContainer>
@@ -30,18 +30,20 @@ export const Prompts = () => {
 
       <PageContentContainer>
         <CategorizedListContainer>
-          {prompts.map((prompt) => (
+          {rootPromptCategories.map((rootPromptCategory) => (
             <CategorizedListItemLink
-              to={getRouteWithId(ROUTES.prompts.edit, prompt?.id)}
-              key={`prompt_list_item_${prompt.id}`}
+              to={getRouteWithId(ROUTES.promptCategories.edit, rootPromptCategory?.id)}
+              key={`root_prompt_category_list_item_${rootPromptCategory.id}`}
             >
               <CategorizedListItemDate>
-                {handleDateFormat(prompt?.updatedAt)}
+                {handleDateFormat(rootPromptCategory?.updatedAt)}
               </CategorizedListItemDate>
-              <CategorizedListItemTitle>{prompt?.name}</CategorizedListItemTitle>
+              <CategorizedListItemTitle>{rootPromptCategory?.name}</CategorizedListItemTitle>
               <CategorizedListItemCategoryContainer>
-                Category:
-                <CategorizedListItemCategory>{prompt?.category}</CategorizedListItemCategory>
+                Quantitative:
+                <CategorizedListItemCategory>
+                  {rootPromptCategory?.isQuantitative ? 'Yes' : 'No'}
+                </CategorizedListItemCategory>
               </CategorizedListItemCategoryContainer>
             </CategorizedListItemLink>
           ))}

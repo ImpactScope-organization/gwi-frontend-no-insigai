@@ -1,97 +1,72 @@
-import React, { useCallback, useMemo, useState } from 'react'
-import { CaretDownOutlined, PlusOutlined } from '@ant-design/icons'
-import { Button, Divider, Input } from 'antd'
-import { createPromptCategory, getPromptCategories } from '../../api/PromptCategoryApi'
-import { useQuery } from '@tanstack/react-query'
-import { CategorySelectOptionItem } from './components/CategorySelectOptionItem'
-import { useFormikContext } from 'formik'
+import React from 'react'
+import { CaretDownOutlined } from '@ant-design/icons'
+import { CategorySelectGroupItem } from './components/CategorySelectGroupItem'
+import { CategorySelectGroupTitle } from './components/CategorySelectGroupTitle'
+import { useCategorySelect } from '../useCategorySelect'
 
 export const CategorySelect = ({ name }) => {
-  const formik = useFormikContext()
-  const [isDropdownVisible, setDropdownVisible] = useState(false)
-
-  const toggleDropdownVisible = useCallback(() => {
-    setDropdownVisible(!isDropdownVisible)
-  }, [isDropdownVisible])
-
-  const [newCategoryName, setNewCategoryName] = useState('')
-  const hasError = formik.touched[name] && formik.errors[name]
-
-  const { data: categoryItems, refetch: refetchCategoryItems } = useQuery({
-    queryKey: ['getPromptCategories'],
-    queryFn: () => getPromptCategories(),
-    initialData: []
-  })
-
-  const onCategoryNameChange = (event) => {
-    event.preventDefault()
-    setNewCategoryName(event.target.value)
-  }
-
-  const addCategoryItem = useCallback(
-    async (e) => {
-      e.preventDefault()
-      await createPromptCategory(newCategoryName)
-      await refetchCategoryItems()
-      setNewCategoryName('')
-    },
-    [newCategoryName, refetchCategoryItems]
-  )
-
-  const value = useMemo(() => {
-    return formik.values[name]
-      ? categoryItems.find(({ id }) => id === formik.values[name])?.name
-      : 'Select a category'
-  }, [categoryItems, formik.values, name])
+  const {
+    hasError,
+    errorMessage,
+    toggleDropdownVisible,
+    value,
+    isDropdownVisible,
+    groupedPromptCategories,
+    handleSelectCategory,
+    isDisabled
+  } = useCategorySelect(name)
 
   return (
     <div className="w-full">
-      <label htmlFor={newCategoryName} className="text-md text-darkBlack mb-1 font-semibold block">
-        Category
-      </label>
+      <label className="text-md text-darkBlack mb-1 font-semibold block">Category</label>
       <div>
         <div
-          className={`w-full bg-[#f5f4f4] border ${hasError ? 'border-[#ff0000]' : 'border-[#d9d9d9]'} rounded-md p-4 hover:border-primary cursor-pointer flex items-center justify-between`}
+          className={`
+            w-full border rounded-md p-4 cursor-pointer flex items-center justify-between
+            ${isDisabled ? `text-black/25 bg-black/5 border-[#d9d9d9]` : 'bg-[#f5f4f4] hover:border-primary'}
+            ${hasError ? 'border-[#ff0000]' : 'border-[#d9d9d9]'} 
+          `}
           onClick={toggleDropdownVisible}
         >
           <span>{value}</span>
           <CaretDownOutlined />
         </div>
-        <div className="bg-red-400 relative">
+        {isDropdownVisible && (
+          <div
+            className="bg-black opacity-20 w-full h-full absolute top-0 left-0 z-10 cursor-pointer"
+            onClick={toggleDropdownVisible}
+          />
+        )}
+        <div className="relative">
           {isDropdownVisible && (
-            <div className={`w-full bg-white rounded absolute mt-2 z-10 p-4 shadow-lg border`}>
+            <div className={`w-full bg-white rounded absolute mt-2 z-20 p-4 shadow-lg border`}>
               <div>
-                {categoryItems &&
-                  categoryItems.map((item) => (
-                    <CategorySelectOptionItem
-                      key={item.id}
-                      item={item}
-                      refetchCategoryItems={refetchCategoryItems}
-                      toggleDropdownVisible={toggleDropdownVisible}
-                    />
-                  ))}
-              </div>
-
-              <Divider className="my-2" />
-              <div className="pb-1 w-full flex gap-2">
-                <Input
-                  placeholder="New category"
-                  value={newCategoryName}
-                  onChange={onCategoryNameChange}
-                  onKeyDown={(e) => e.stopPropagation()}
-                />
-                <Button type="default" icon={<PlusOutlined />} onClick={addCategoryItem}>
-                  Add item
-                </Button>
+                {groupedPromptCategories && (
+                  <>
+                    <CategorySelectGroupTitle>Qualitative</CategorySelectGroupTitle>
+                    {groupedPromptCategories.qualitative.map((category) => (
+                      <CategorySelectGroupItem
+                        key={category.id}
+                        category={category}
+                        onClick={handleSelectCategory}
+                      />
+                    ))}
+                    {groupedPromptCategories.quantitative.map((category) => (
+                      <CategorySelectGroupItem
+                        key={category.id}
+                        category={category}
+                        onClick={handleSelectCategory}
+                      />
+                    ))}
+                  </>
+                )}
               </div>
             </div>
           )}
         </div>
       </div>
       <div className="ml-1">
-        {formik.touched[name] && formik.errors[name] ? (
-          <div className="text-[#ff0000]">{formik.errors[name]}</div>
-        ) : null}
+        {hasError ? <div className="text-[#ff0000]">{errorMessage}</div> : null}
       </div>
     </div>
   )
