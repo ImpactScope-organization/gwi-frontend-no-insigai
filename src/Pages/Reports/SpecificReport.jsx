@@ -8,9 +8,7 @@ import LoadingPage from '../../Components/loading'
 import CustomGaugeChart from '../../Components/gauge-chart'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import { Dropdown } from 'antd'
-import { scoringPagePrompts } from '../../utils/system-prompts'
-import { captureScreen, isValidData, toTitleCase } from '../../utils/helpers'
-import { RefBerklayDB } from '../../Constants/RefBerklayDB'
+import { captureScreen, toTitleCase } from '../../utils/helpers'
 import Switch from 'react-switch'
 import { Input } from 'antd'
 import { CustomReactQuill } from '../../Components/CustomReactQuill/CustomReactQuill'
@@ -73,115 +71,8 @@ const SpecificReport = () => {
     }
   }, [currentCompanyReport])
 
-  // greenwashing states
-  const [vagueTermsState, setvagueTermsState] = useState(() => ({
-    score: 0,
-    weight: 20,
-    divider: 3
-  }))
-  const [lackOfQuantitativeDataState, setlackOfQuantitativeDataState] = useState(() => ({
-    score: 0,
-    weight: 20,
-    divider: 3
-  }))
-  const [berkleyDBExistanceState, setberkleyDBExistanceState] = useState(() => ({
-    score: 0,
-    weight: 15,
-    divider: 1
-  }))
-  const [scope3EmissionsState, setscope3EmissionsState] = useState(() => ({
-    score: 0,
-    weight: 15,
-    divider: 2
-  }))
-  const [externalOffsetState, setexternalOffsetState] = useState(() => ({
-    score: 0,
-    weight: 15,
-    divider: 2
-  }))
-  const [netZeroState, setnetZeroState] = useState(() => ({
-    score: 0,
-    weight: 15,
-    divider: 2
-  }))
-  // Reporting risk states
-  const [targetTimelinesState, settargetTimelinesState] = useState(() => ({
-    score: 0,
-    weight: 20,
-    divider: 1
-  }))
-  const [stakeholdersEngagementState, setstakeholdersEngagementState] = useState(() => ({
-    score: 0,
-    weight: 20,
-    divider: 3
-  }))
-  const [reportsAnnuallyState, setreportsAnnuallyState] = useState(() => ({
-    score: 0,
-    weight: 15,
-    divider: 2
-  }))
-  const [sustainabilityInformationExistsState, setsustainabilityInformationExistsState] = useState(
-    () => ({
-      score: 0,
-      weight: 15,
-      divider: 1
-    })
-  )
-  const [materialityAssessmentState, setmaterialityAssessmentState] = useState(() => ({
-    score: 0,
-    weight: 20,
-    divider: 1
-  }))
-  // Greenwash Risk Percentage
-  let greenwashRiskPercentage = React.useMemo(() => {
-    if (currentCompanyReport?.greenwashRiskPercentage) {
-      return currentCompanyReport?.greenwashRiskPercentage
-    }
-    return parseInt(
-      (vagueTermsState?.score * vagueTermsState?.weight) / vagueTermsState?.divider +
-        (lackOfQuantitativeDataState?.score * lackOfQuantitativeDataState?.weight) /
-          lackOfQuantitativeDataState?.divider +
-        (reportsAnnuallyState?.score * reportsAnnuallyState?.weight) /
-          reportsAnnuallyState?.divider +
-        (scope3EmissionsState?.score * scope3EmissionsState?.weight) /
-          scope3EmissionsState?.divider +
-        (externalOffsetState?.score * externalOffsetState?.weight) / externalOffsetState?.divider +
-        (netZeroState?.score * netZeroState?.weight) / netZeroState?.divider
-    )
-  }, [
-    currentCompanyReport?.greenwashRiskPercentage,
-    vagueTermsState,
-    lackOfQuantitativeDataState,
-    reportsAnnuallyState,
-    scope3EmissionsState,
-    externalOffsetState,
-    netZeroState
-  ])
-  // Reporting Risk Percentage
-  let reportingRiskPercentage = React.useMemo(() => {
-    if (currentCompanyReport?.reportingRiskPercentage) {
-      return currentCompanyReport?.reportingRiskPercentage
-    }
-    return parseInt(
-      (targetTimelinesState?.score * targetTimelinesState?.weight) / targetTimelinesState?.divider +
-        (stakeholdersEngagementState?.score * stakeholdersEngagementState?.weight) /
-          stakeholdersEngagementState?.divider +
-        (berkleyDBExistanceState?.score * berkleyDBExistanceState?.weight) /
-          berkleyDBExistanceState?.divider +
-        (sustainabilityInformationExistsState?.score *
-          sustainabilityInformationExistsState?.weight) /
-          sustainabilityInformationExistsState?.divider +
-        (materialityAssessmentState?.score * materialityAssessmentState?.weight) /
-          materialityAssessmentState?.divider
-    )
-  }, [
-    currentCompanyReport?.reportingRiskPercentage,
-    targetTimelinesState,
-    stakeholdersEngagementState,
-    berkleyDBExistanceState,
-    sustainabilityInformationExistsState,
-    materialityAssessmentState
-  ])
+  const greenwashRiskPercentage = currentCompanyReport?.greenwashRiskPercentage
+  const reportingRiskPercentage = currentCompanyReport?.reportingRiskPercentage
 
   // Print Report
   const [isSendToBlockchainInProgress, setIsSendToBlockchainInProgress] = useState(false)
