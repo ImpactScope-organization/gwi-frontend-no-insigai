@@ -1,25 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import apiUrl from '../../utils/baseURL'
-import { formattedDate } from '../../utils/date'
-import LoadingPage from '../../Components/loading'
-import CustomGaugeChart from '../../Components/gauge-chart'
+import apiUrl from '../../../utils/baseURL'
+import { formattedDate } from '../../../utils/date'
+import LoadingPage from '../../../Components/loading'
+import CustomGaugeChart from '../../../Components/gauge-chart'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import { Dropdown } from 'antd'
-import { captureScreen, toTitleCase } from '../../utils/helpers'
+import { captureScreen, toTitleCase } from '../../../utils/helpers'
 import Switch from 'react-switch'
 import { Input } from 'antd'
-import { CustomReactQuill } from '../../Components/CustomReactQuill/CustomReactQuill'
-import { ReportContentItem } from '../../Components/ReportContentItem/ReportContentItem'
+import { CustomReactQuill } from '../../../Components/CustomReactQuill/CustomReactQuill'
+import { ReportContentItem } from '../../../Components/ReportContentItem/ReportContentItem'
 import { useNavigate, useParams } from 'react-router-dom'
-import { BackButtonLink } from '../../Components/BackButtonLink/BackButtonLink'
-import { ROUTES } from '../../routes'
-import { useGetCompanyReport } from '../../Hooks/reports-hooks'
-import { PageContainer } from '../../Components/Page/PageContainer/PageContainer'
+import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
+import { ROUTES } from '../../../routes'
+import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
+import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import html2canvas from 'html2canvas'
 
-const SpecificReport = () => {
+export const SpecificReport = () => {
   const navigate = useNavigate()
 
   const { id: reportId } = useParams()
@@ -830,5 +830,3 @@ const SpecificReport = () => {
     </PageContainer>
   )
 }
-
-export default SpecificReport
