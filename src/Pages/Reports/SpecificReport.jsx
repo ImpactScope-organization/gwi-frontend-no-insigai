@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -71,7 +70,7 @@ const SpecificReport = () => {
     }
   }, [currentCompanyReport])
 
-  const greenwashRiskPercentage = currentCompanyReport?.greenwashRiskPercentage
+  const greenwashingRiskPercentage = currentCompanyReport?.greenwashRiskPercentage
   const reportingRiskPercentage = currentCompanyReport?.reportingRiskPercentage
 
   // Print Report
@@ -109,7 +108,7 @@ const SpecificReport = () => {
     } finally {
       setIsSendToBlockchainInProgress(false)
     }
-  }, [])
+  }, [getCurrentCompanyReport, reportId])
 
   // // GPT Response
 
@@ -118,46 +117,6 @@ const SpecificReport = () => {
       setIsLoading(false)
     }
   }, [currentCompanyReportIsLoading])
-
-  useEffect(() => {
-    ;(async () => {
-      if (
-        contradictions > '' &&
-        potentialInconsistencies > '' &&
-        unsubstantiatedClaims > '' &&
-        (!currentCompanyReport?.contradiction ||
-          !currentCompanyReport?.potentialInconsistencies ||
-          !currentCompanyReport?.unsubstantiatedClaims ||
-          !currentCompanyReport?.greenwashRiskPercentage ||
-          !currentCompanyReport?.reportingRiskPercentage)
-      ) {
-        const response = await axios.put(
-          `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
-          {
-            contradiction: contradictions,
-            potentialInconsistencies,
-            unsubstantiatedClaims,
-            sources: JSON.stringify(sources),
-            greenwashRiskPercentage,
-            reportingRiskPercentage,
-            status: 'generated'
-          }
-        )
-        const { data } = response
-        console.log('===============Saved generated report=====================')
-        console.log(data)
-        console.log('====================================')
-        await getCurrentCompanyReport()
-      }
-    })()
-  }, [
-    contradictions,
-    potentialInconsistencies,
-    unsubstantiatedClaims,
-    sources,
-    greenwashRiskPercentage,
-    reportingRiskPercentage
-  ])
 
   const deleteCompanyHandler = async () => {
     const response = await axios.delete(`${apiUrl}/api/company/delete/${currentCompanyReport?.id}`)
@@ -513,13 +472,13 @@ const SpecificReport = () => {
                     } else if (modifyData?.unsubstantiatedClaims === '') {
                       return toast.warn('Unsubstantiated Claims field cannot be empty.')
                     } else if (
-                      !modifyData?.greenwashRiskPercentage &&
-                      typeof modifyData?.greenwashRiskPercentage !== typeof 1
+                      !modifyData?.greenwashRiskPercentage ||
+                      isNaN(modifyData?.greenwashRiskPercentage)
                     ) {
                       return toast.warn('Greenwash Risk  field cannot be empty.')
                     } else if (
-                      !modifyData?.reportingRiskPercentage &&
-                      typeof modifyData?.reportingRiskPercentage !== typeof 1
+                      !modifyData?.reportingRiskPercentage ||
+                      isNaN(modifyData?.reportingRiskPercentage)
                     ) {
                       return toast.warn('Reporting Risk field cannot be empty.')
                     } else if (modifyData?.jurisdiction === '') {
@@ -546,10 +505,6 @@ const SpecificReport = () => {
                         toast.success('Successfully updated the report.')
                       }
                       await getCurrentCompanyReport()
-                      setContradictions(modifyData?.contradiction)
-                      setPotentialInconsistencies(modifyData?.potentialInconsistencies)
-                      setunsubstantiatedClaims(modifyData?.unsubstantiatedClaims)
-                      setsources(modifyData?.sources)
 
                       setModifyData(null)
                     } catch (error) {
@@ -580,9 +535,9 @@ const SpecificReport = () => {
               <div className="overflow-hidden w-full px-2 flex justify-center items-center ">
                 <CustomGaugeChart
                   percentage={
-                    greenwashRiskPercentage && greenwashRiskPercentage <= 100
-                      ? parseInt(greenwashRiskPercentage)
-                      : greenwashRiskPercentage > 100
+                    greenwashingRiskPercentage && greenwashingRiskPercentage <= 100
+                      ? parseInt(greenwashingRiskPercentage)
+                      : greenwashingRiskPercentage > 100
                         ? 99
                         : 0
                   }
