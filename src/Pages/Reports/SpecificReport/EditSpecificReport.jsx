@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import apiUrl from '../../../utils/baseURL'
@@ -29,31 +29,10 @@ export const EditSpecificReport = () => {
   const [modifyData, setModifyData] = useState({})
 
   useEffect(() => {
-    console.log('currentCompanyReport', currentCompanyReport)
     setModifyData({
       ...currentCompanyReport,
       sources: currentCompanyReport?.sources ? JSON.parse(currentCompanyReport?.sources) : []
     })
-  }, [currentCompanyReport])
-
-  // description states
-  const [contradictions, setContradictions] = useState('')
-  const [potentialInconsistencies, setPotentialInconsistencies] = useState('')
-  const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState('')
-  // sources states
-
-  useEffect(() => {
-    if (currentCompanyReport?.contradiction) {
-      setContradictions(currentCompanyReport?.contradiction)
-    }
-
-    if (currentCompanyReport?.potentialInconsistencies) {
-      setPotentialInconsistencies(currentCompanyReport?.potentialInconsistencies)
-    }
-
-    if (currentCompanyReport?.unsubstantiatedClaims) {
-      setunsubstantiatedClaims(currentCompanyReport?.unsubstantiatedClaims)
-    }
   }, [currentCompanyReport])
 
   const handleInputUpdates = (name, value) => {
@@ -63,6 +42,7 @@ export const EditSpecificReport = () => {
   if (currentCompanyReportIsLoading) {
     return <LoadingPage title="Please wait..." />
   }
+
   return (
     <PageContainer>
       <BackButtonLink to={ROUTES.reports.internal} />
@@ -128,27 +108,21 @@ export const EditSpecificReport = () => {
           {/* Contradiction */}
           <EditReportContentItem
             title="Contradictions"
-            isModifying={isModifying}
             onChange={(value) => handleInputUpdates('contradiction', value)}
             modifyData={modifyData?.contradiction}
-            displayValue={contradictions}
           />
           {/*    Potential inconsistencies */}
           <EditReportContentItem
             title="Potential inconsistencies"
-            isModifying={isModifying}
             onChange={(value) => handleInputUpdates('potentialInconsistencies', value)}
             modifyData={modifyData?.potentialInconsistencies}
-            displayValue={potentialInconsistencies}
           />
 
           {/* Unsubstantiated claims */}
           <EditReportContentItem
             title="Unsubstantiated claims"
-            isModifying={isModifying}
             onChange={(value) => handleInputUpdates('unsubstantiatedClaims', value)}
             modifyData={modifyData?.unsubstantiatedClaims}
-            displayValue={unsubstantiatedClaims}
           />
 
           {/* Modify sources */}
