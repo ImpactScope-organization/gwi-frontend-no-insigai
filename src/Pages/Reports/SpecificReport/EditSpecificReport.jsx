@@ -11,13 +11,13 @@ import { captureScreen, toTitleCase } from '../../../utils/helpers'
 import Switch from 'react-switch'
 import { Input } from 'antd'
 import { CustomReactQuill } from '../../../Components/CustomReactQuill/CustomReactQuill'
-import { ReportContentItem } from '../../../Components/ReportContentItem/ReportContentItem'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
 import { ROUTES } from '../../../routes'
 import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import html2canvas from 'html2canvas'
+import { EditReportContentItem } from '../../../Components/EditReportContentItem/EditReportContentItem'
 
 export const EditSpecificReport = () => {
   const navigate = useNavigate()
@@ -217,7 +217,7 @@ export const EditSpecificReport = () => {
           </div>
 
           {/* Contradiction */}
-          <ReportContentItem
+          <EditReportContentItem
             title="Contradictions"
             isModifying={isModifying}
             onChange={(value) => handleInputUpdates('contradiction', value)}
@@ -225,7 +225,7 @@ export const EditSpecificReport = () => {
             displayValue={contradictions}
           />
           {/*    Potential inconsistencies */}
-          <ReportContentItem
+          <EditReportContentItem
             title="Potential inconsistencies"
             isModifying={isModifying}
             onChange={(value) => handleInputUpdates('potentialInconsistencies', value)}
@@ -234,7 +234,7 @@ export const EditSpecificReport = () => {
           />
 
           {/* Unsubstantiated claims */}
-          <ReportContentItem
+          <EditReportContentItem
             title="Unsubstantiated claims"
             isModifying={isModifying}
             onChange={(value) => handleInputUpdates('unsubstantiatedClaims', value)}
@@ -627,6 +627,7 @@ export const EditSpecificReport = () => {
                   </>
                 )}
               </div>
+              {/* todo make this as a component */}
               {(!blockchainTransactionURL || !blockchainFileURL) && (
                 <div className="flex flex-row gap-4 w-full">
                   <button
