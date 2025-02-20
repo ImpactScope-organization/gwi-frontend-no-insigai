@@ -30,7 +30,6 @@ const SpecificReport = () => {
     isLoading: currentCompanyReportIsLoading
   } = useGetCompanyReport(reportId)
 
-  const [isLoading, setIsLoading] = useState(true)
   const [isModifying, setIsModifying] = useState(false)
   const [modifyData, setModifyData] = useState(null)
 
@@ -110,14 +109,6 @@ const SpecificReport = () => {
     }
   }, [getCurrentCompanyReport, reportId])
 
-  // // GPT Response
-
-  useEffect(() => {
-    if (!currentCompanyReportIsLoading) {
-      setIsLoading(false)
-    }
-  }, [currentCompanyReportIsLoading])
-
   const deleteCompanyHandler = async () => {
     const response = await axios.delete(`${apiUrl}/api/company/delete/${currentCompanyReport?.id}`)
     const { data } = response
@@ -132,10 +123,8 @@ const SpecificReport = () => {
     setModifyData((prev) => ({ ...prev, [name]: value }))
   }
 
-  if (isLoading || currentCompanyReportIsLoading) {
-    return (
-      <LoadingPage title="Please wait..." description="Please wait, report is being generated." />
-    )
+  if (currentCompanyReportIsLoading) {
+    return <LoadingPage title="Please wait..." />
   }
   return (
     <PageContainer>
