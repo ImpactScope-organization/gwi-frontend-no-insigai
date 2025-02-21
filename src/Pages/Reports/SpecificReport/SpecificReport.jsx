@@ -12,6 +12,7 @@ import { ROUTES } from '../../../routes'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import { useSpecificReport } from './useSpecificReport'
 import { ReportMetaItem } from './components/ReportMetaItem'
+import { Sources } from './components/Sources'
 
 export const SpecificReport = () => {
   const {
@@ -69,50 +70,19 @@ export const SpecificReport = () => {
               />
             </div>
           </div>
-
-          {/* Contradiction */}
           <ReportContentItem
             title="Contradictions"
             displayValue={currentCompanyReport?.contradiction}
           />
-          {/*    Potential inconsistencies */}
           <ReportContentItem
             title="Potential inconsistencies"
             displayValue={currentCompanyReport?.potentialInconsistencies}
           />
-
-          {/* Unsubstantiated claims */}
           <ReportContentItem
             title="Unsubstantiated claims"
             displayValue={currentCompanyReport?.unsubstantiatedClaims}
           />
-
-          {/* sources */}
-          {sources?.length > 0 && (
-            <div className="mt-[32px]">
-              <h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">Sources</h2>
-              <div className="grid grid-cols-1 gap-6">
-                {sources?.map((source, index) => {
-                  return (source?.title || source?.Title) &&
-                    (source?.description || source?.Description) ? (
-                    <div className="group bg-[#F3F5F7] p-3 rounded-md" key={`${index}-read-source`}>
-                      <p className="text-reportGrey text-[1em] text-base font-medium">
-                        {source?.title || source?.Title}
-                      </p>
-                      <div
-                        className="text-darkBlack mt-[8px] text-[1em] text-base font-medium green-links"
-                        dangerouslySetInnerHTML={{
-                          __html: source?.description || source?.Description
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <React.Fragment key={`${index}-empty`} />
-                  )
-                })}
-              </div>
-            </div>
-          )}
+          <Sources sources={sources} />
         </div>
         <div>
           <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
