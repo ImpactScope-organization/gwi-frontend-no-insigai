@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toFixed } from '../../../utils/number'
 import html2canvas from 'html2canvas'
 import axios from 'axios'
@@ -113,31 +113,34 @@ export const useSpecificReport = () => {
     [currentCompanyReport?.id, getCurrentCompanyReport]
   )
 
-  const dropdownConfiguration = {
-    onClick: (e) => {
-      if (e.key === 1) {
-        captureScreen('report-container', currentCompanyReport?.companyName)
-      } else if (e.key === 2) {
-        if (
-          window.confirm(
-            `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
-          )
-        ) {
-          deleteCompanyHandler()
+  const dropdownConfiguration = useMemo(
+    () => ({
+      onClick: (e) => {
+        if (e.key === 1) {
+          captureScreen('report-container', currentCompanyReport?.companyName)
+        } else if (e.key === 2) {
+          if (
+            window.confirm(
+              `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
+            )
+          ) {
+            deleteCompanyHandler()
+          }
+        } else {
+          navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
         }
-      } else {
-        navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
-      }
-    },
-    items: [
-      { label: 'Modify Report', key: '0' },
-      {
-        label: 'Save as PDF',
-        key: '1'
       },
-      { label: 'Remove from DB', key: '2' }
-    ]
-  }
+      items: [
+        { label: 'Modify Report', key: '0' },
+        {
+          label: 'Save as PDF',
+          key: '1'
+        },
+        { label: 'Remove from DB', key: '2' }
+      ]
+    }),
+    [currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId]
+  )
 
   const handleRegulatorChange = useCallback(
     async (val) => {
