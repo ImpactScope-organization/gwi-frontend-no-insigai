@@ -31,21 +31,17 @@ export const SpecificReport = () => {
 
   // todo continue
   const [isRegulator, setIsRegulator] = useState(false)
+  const [isDemo, setIsDemo] = useState(false)
 
   // description states
-  const [potentialInconsistencies, setPotentialInconsistencies] = useState('')
+
   const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState('')
   // sources states
   const [sources, setsources] = useState([])
 
   useEffect(() => {
-    if (currentCompanyReport?.sentToRegulators) {
-      setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
-    }
-
-    if (currentCompanyReport?.potentialInconsistencies) {
-      setPotentialInconsistencies(currentCompanyReport?.potentialInconsistencies)
-    }
+    setIsDemo(!!currentCompanyReport?.isDemo)
+    setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
 
     if (currentCompanyReport?.unsubstantiatedClaims) {
       setunsubstantiatedClaims(currentCompanyReport?.unsubstantiatedClaims)
@@ -109,6 +105,7 @@ export const SpecificReport = () => {
 
   const handleIsDemoChange = useCallback(
     async (val) => {
+      setIsDemo(val)
       try {
         const response = await axios.put(
           `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
@@ -188,7 +185,7 @@ export const SpecificReport = () => {
           {/*    Potential inconsistencies */}
           <ReportContentItem
             title="Potential inconsistencies"
-            displayValue={potentialInconsistencies}
+            displayValue={currentCompanyReport?.potentialInconsistencies}
           />
 
           {/* Unsubstantiated claims */}
@@ -424,7 +421,7 @@ export const SpecificReport = () => {
                   <Switch
                     height={24}
                     onChange={handleIsDemoChange}
-                    checked={!!currentCompanyReport?.isDemo}
+                    checked={isDemo}
                     checkedIcon={false}
                     uncheckedIcon={false}
                     onColor="#4DC601"
