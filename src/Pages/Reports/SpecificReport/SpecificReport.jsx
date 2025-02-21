@@ -11,6 +11,7 @@ import { ROUTES } from '../../../routes'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import { useSpecificReport } from './useSpecificReport'
 import { QualitativeReportDetails } from './containers/QualitativeReportDetails/QualitativeReportDetails'
+import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
 
 export const SpecificReport = () => {
   const {
@@ -34,7 +35,7 @@ export const SpecificReport = () => {
         <QualitativeReportDetails currentCompanyReport={currentCompanyReport} />
 
         <div>
-          <QualitativeReportDetails currentCompanyReport={currentCompanyReport} />
+          <QuantitativeReportDetails />
           <div className="card_shadow mt-8 gap-4 rounded-2xl flex basis-4/12 flex-col z-50 p-[16px]">
             <h2 className="text-[18px] leading-[24px] font-[600]">Documents</h2>
             <div className="flex flex-row flex-nowrap justify-start items-center gap-2 cursor-pointer hover:bg-gray-200 p-2 rounded-2xl">

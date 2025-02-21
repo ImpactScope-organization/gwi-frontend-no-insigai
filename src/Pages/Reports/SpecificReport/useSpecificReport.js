@@ -1,19 +1,12 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { toFixed } from '../../../utils/number'
-import html2canvas from 'html2canvas'
+import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import apiUrl from '../../../utils/baseURL'
 import { toast } from 'react-toastify'
-import { ROUTES } from '../../../routes'
-import { captureScreen } from '../../../utils/helpers'
-import { getUrlWithParameters } from '../../../utils/route'
 import { formattedDate } from '../../../utils/date'
 
 export const useSpecificReport = () => {
-  const navigate = useNavigate()
-
   const { id: reportId } = useParams()
 
   const {
@@ -31,57 +24,6 @@ export const useSpecificReport = () => {
   }, [currentCompanyReport])
 
   // Print Report
-  const [isSendToBlockchainInProgress, setIsSendToBlockchainInProgress] = useState(false)
-
-  const handleSendToBlockchain = useCallback(async () => {
-    setIsSendToBlockchainInProgress(true)
-    try {
-      const element = document.querySelector('#report-container')
-
-      const canvas = await html2canvas(element)
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg'))
-
-      const file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' })
-      const formData = new FormData()
-      formData.append('file', file)
-
-      await axios.post(`${apiUrl}/api/blockchain/create/${reportId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Accept: '*/*',
-          'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8'
-        }
-      })
-      await getCurrentCompanyReport()
-    } catch (error) {
-      if (error?.response?.data?.message) {
-        toast.error(error?.response?.data?.message)
-      } else {
-        toast(error.message)
-      }
-    } finally {
-      setIsSendToBlockchainInProgress(false)
-    }
-  }, [getCurrentCompanyReport, reportId])
-
-  const deleteCompanyHandler = useCallback(async () => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
-      )
-    ) {
-      const response = await axios.delete(
-        `${apiUrl}/api/company/delete/${currentCompanyReport?.id}`
-      )
-      const { data } = response
-      if (data?.status === 'success') {
-        toast.success(data?.message)
-        navigate(ROUTES.reports.internal)
-      } else {
-        toast.error('something went wrong while deleting the report')
-      }
-    }
-  }, [currentCompanyReport, navigate])
 
   const handleIsDemoChange = useCallback(
     async (val) => {
@@ -104,34 +46,6 @@ export const useSpecificReport = () => {
     },
     [currentCompanyReport?.id, getCurrentCompanyReport]
   )
-
-  const dropdownConfiguration = useMemo(() => {
-    return {
-      onClick: ({ key }) => {
-        switch (key) {
-          case '1':
-            captureScreen('report-container', currentCompanyReport?.companyName)
-            break
-          case '2':
-            deleteCompanyHandler()
-            break
-          case '3':
-            navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
-            break
-          default:
-            break
-        }
-      },
-      items: [
-        { label: 'Modify Report', key: '0' },
-        {
-          label: 'Save as PDF',
-          key: '1'
-        },
-        { label: 'Remove from DB', key: '2' }
-      ]
-    }
-  }, [currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId])
 
   const handleRegulatorChange = useCallback(
     async (val) => {
@@ -161,25 +75,12 @@ export const useSpecificReport = () => {
     [currentCompanyReport]
   )
 
-  // greenwashingRiskPercentage,
-  //   reportingRiskPercentage,
-  //   blockchainTransactionURL,
-  //   blockchainFileURL,
-  //   handleSendToBlockchain,
-  //   isSendToBlockchainInProgress,
-  //   deleteCompanyHandler,
-  //   dropdownConfiguration,
-
   return {
     currentCompanyReport,
     currentCompanyReportIsLoading,
     isRegulator,
     isDemo,
-    handleSendToBlockchain,
-    isSendToBlockchainInProgress,
-    deleteCompanyHandler,
     handleIsDemoChange,
-    dropdownConfiguration,
     handleRegulatorChange
   }
 }
