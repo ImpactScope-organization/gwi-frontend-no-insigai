@@ -24,12 +24,10 @@ export const useSpecificReport = () => {
 
   const [isRegulator, setIsRegulator] = useState(false)
   const [isDemo, setIsDemo] = useState(false)
-  const [sources, setsources] = useState([])
 
   useEffect(() => {
     setIsDemo(!!currentCompanyReport?.isDemo)
     setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
-    setsources(JSON.parse(currentCompanyReport?.sources || '[]'))
   }, [currentCompanyReport])
 
   const greenwashingRiskPercentage = toFixed(currentCompanyReport?.greenwashRiskPercentage)
@@ -174,7 +172,6 @@ export const useSpecificReport = () => {
     currentCompanyReportIsLoading,
     isRegulator,
     isDemo,
-    sources,
     greenwashingRiskPercentage,
     reportingRiskPercentage,
     blockchainTransactionURL,

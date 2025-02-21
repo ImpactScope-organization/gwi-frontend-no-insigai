@@ -6,13 +6,11 @@ import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import { Dropdown } from 'antd'
 import { captureScreen, toTitleCase } from '../../../utils/helpers'
 import Switch from 'react-switch'
-import { ReportContentItem } from '../../../Components/ReportContentItem/ReportContentItem'
 import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
 import { ROUTES } from '../../../routes'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import { useSpecificReport } from './useSpecificReport'
-import { ReportMetaItem } from './components/ReportMetaItem'
-import { Sources } from './components/Sources'
+import { QualitativeReportDetails } from './containers/QualitativeReportDetails/QualitativeReportDetails'
 
 export const SpecificReport = () => {
   const {
@@ -20,7 +18,6 @@ export const SpecificReport = () => {
     currentCompanyReportIsLoading,
     isRegulator,
     isDemo,
-    sources,
     greenwashingRiskPercentage,
     reportingRiskPercentage,
     blockchainTransactionURL,
@@ -42,48 +39,8 @@ export const SpecificReport = () => {
 
       {/* Specific Report */}
       <div id="report-container" className="flex flex-col md:flex-row gap-6 max-w-[1120px] mx-auto">
-        <div
-          style={{
-            boxShadow:
-              '0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)'
-          }}
-          className="basis-8/12 max-w-[740px] p-[16px]  mx-auto rounded-2xl "
-        >
-          {/* Top */}
+        <QualitativeReportDetails currentCompanyReport={currentCompanyReport} />
 
-          <div>
-            <p className="leading-[24px] text-sm text-reportGrey font-medium">{formattedDate}</p>
-            <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
-              {currentCompanyReport?.companyName}
-            </h1>
-
-            <div className="mt-[16px]">
-              <ReportMetaItem title="Jurisdiction" content={currentCompanyReport?.jurisdiction} />
-              <ReportMetaItem title="Sector" content={currentCompanyReport?.sector} />
-              <ReportMetaItem
-                title="Annual Revenue"
-                content={currentCompanyReport?.annualRevenue}
-              />
-              <ReportMetaItem
-                title="Employees"
-                content={currentCompanyReport?.noOfEmployees?.toLocaleString()}
-              />
-            </div>
-          </div>
-          <ReportContentItem
-            title="Contradictions"
-            displayValue={currentCompanyReport?.contradiction}
-          />
-          <ReportContentItem
-            title="Potential inconsistencies"
-            displayValue={currentCompanyReport?.potentialInconsistencies}
-          />
-          <ReportContentItem
-            title="Unsubstantiated claims"
-            displayValue={currentCompanyReport?.unsubstantiatedClaims}
-          />
-          <Sources sources={sources} />
-        </div>
         <div>
           <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
             <h5 className="text-[18px] leading-[24px] font-[600]">Report</h5>
