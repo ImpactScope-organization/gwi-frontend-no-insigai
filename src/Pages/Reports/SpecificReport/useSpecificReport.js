@@ -30,14 +30,8 @@ export const useSpecificReport = () => {
     setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
   }, [currentCompanyReport])
 
-  const greenwashingRiskPercentage = toFixed(currentCompanyReport?.greenwashRiskPercentage)
-  const reportingRiskPercentage = toFixed(currentCompanyReport?.reportingRiskPercentage)
-
   // Print Report
   const [isSendToBlockchainInProgress, setIsSendToBlockchainInProgress] = useState(false)
-
-  const blockchainTransactionURL = currentCompanyReport?.blockchainTransactionURL
-  const blockchainFileURL = currentCompanyReport?.blockchainFileURL
 
   const handleSendToBlockchain = useCallback(async () => {
     setIsSendToBlockchainInProgress(true)
@@ -167,15 +161,20 @@ export const useSpecificReport = () => {
     [currentCompanyReport]
   )
 
+  // greenwashingRiskPercentage,
+  //   reportingRiskPercentage,
+  //   blockchainTransactionURL,
+  //   blockchainFileURL,
+  //   handleSendToBlockchain,
+  //   isSendToBlockchainInProgress,
+  //   deleteCompanyHandler,
+  //   dropdownConfiguration,
+
   return {
     currentCompanyReport,
     currentCompanyReportIsLoading,
     isRegulator,
     isDemo,
-    greenwashingRiskPercentage,
-    reportingRiskPercentage,
-    blockchainTransactionURL,
-    blockchainFileURL,
     handleSendToBlockchain,
     isSendToBlockchainInProgress,
     deleteCompanyHandler,
