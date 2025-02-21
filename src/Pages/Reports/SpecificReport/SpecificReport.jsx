@@ -17,6 +17,7 @@ import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import html2canvas from 'html2canvas'
 import { getUrlWithParameters } from '../../../utils/route'
+import { toFixed } from '../../../utils/number'
 
 export const SpecificReport = () => {
   const navigate = useNavigate()
@@ -29,31 +30,18 @@ export const SpecificReport = () => {
     isLoading: currentCompanyReportIsLoading
   } = useGetCompanyReport(reportId)
 
-  // todo continue
   const [isRegulator, setIsRegulator] = useState(false)
   const [isDemo, setIsDemo] = useState(false)
-
-  // description states
-
-  const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState('')
-  // sources states
   const [sources, setsources] = useState([])
 
   useEffect(() => {
     setIsDemo(!!currentCompanyReport?.isDemo)
     setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
-
-    if (currentCompanyReport?.unsubstantiatedClaims) {
-      setunsubstantiatedClaims(currentCompanyReport?.unsubstantiatedClaims)
-    }
-
-    if (currentCompanyReport?.sources) {
-      setsources(JSON.parse(currentCompanyReport?.sources))
-    }
+    setsources(JSON.parse(currentCompanyReport?.sources || '[]'))
   }, [currentCompanyReport])
 
-  const greenwashingRiskPercentage = currentCompanyReport?.greenwashRiskPercentage
-  const reportingRiskPercentage = currentCompanyReport?.reportingRiskPercentage
+  const greenwashingRiskPercentage = toFixed(currentCompanyReport?.greenwashRiskPercentage)
+  const reportingRiskPercentage = toFixed(currentCompanyReport?.reportingRiskPercentage)
 
   // Print Report
   const [isSendToBlockchainInProgress, setIsSendToBlockchainInProgress] = useState(false)
@@ -189,14 +177,17 @@ export const SpecificReport = () => {
           />
 
           {/* Unsubstantiated claims */}
-          <ReportContentItem title="Unsubstantiated claims" displayValue={unsubstantiatedClaims} />
+          <ReportContentItem
+            title="Unsubstantiated claims"
+            displayValue={currentCompanyReport?.unsubstantiatedClaims}
+          />
 
           {/* sources */}
-          <div className="mt-[32px]">
-            <h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">Sources</h2>
-            <div className="grid grid-cols-1 gap-6">
-              {sources?.length > 0 &&
-                sources?.map((source, index) => {
+          {sources?.length > 0 && (
+            <div className="mt-[32px]">
+              <h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">Sources</h2>
+              <div className="grid grid-cols-1 gap-6">
+                {sources?.map((source, index) => {
                   return (source?.title || source?.Title) &&
                     (source?.description || source?.Description) ? (
                     <div className="group bg-[#F3F5F7] p-3 rounded-md" key={`${index}-read-source`}>
@@ -214,22 +205,15 @@ export const SpecificReport = () => {
                     <React.Fragment key={`${index}-empty`} />
                   )
                 })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div>
           <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
             <h5 className="text-[18px] leading-[24px] font-[600]">Report</h5>
             <div className="overflow-hidden w-full px-2 flex justify-center items-center ">
-              <CustomGaugeChart
-                percentage={
-                  greenwashingRiskPercentage && greenwashingRiskPercentage <= 100
-                    ? parseInt(greenwashingRiskPercentage)
-                    : greenwashingRiskPercentage > 100
-                      ? 99
-                      : 0
-                }
-              />
+              <CustomGaugeChart percentage={greenwashingRiskPercentage} />
             </div>
             {/* Cols */}
             <div className="mt-[24px] grid grid-cols-2 lg:max-w-[370px]  gap-2 my-3 ">
