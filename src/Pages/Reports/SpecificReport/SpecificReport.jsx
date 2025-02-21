@@ -9,8 +9,6 @@ import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import { Dropdown } from 'antd'
 import { captureScreen, toTitleCase } from '../../../utils/helpers'
 import Switch from 'react-switch'
-import { Input } from 'antd'
-import { CustomReactQuill } from '../../../Components/CustomReactQuill/CustomReactQuill'
 import { ReportContentItem } from '../../../Components/ReportContentItem/ReportContentItem'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
@@ -31,27 +29,18 @@ export const SpecificReport = () => {
     isLoading: currentCompanyReportIsLoading
   } = useGetCompanyReport(reportId)
 
-  const [isDemo, setIsDemo] = useState(false)
+  // todo continue
   const [isRegulator, setIsRegulator] = useState(false)
 
   // description states
-  const [contradictions, setContradictions] = useState('')
   const [potentialInconsistencies, setPotentialInconsistencies] = useState('')
   const [unsubstantiatedClaims, setunsubstantiatedClaims] = useState('')
   // sources states
   const [sources, setsources] = useState([])
 
   useEffect(() => {
-    if (currentCompanyReport?.isDemo) {
-      setIsDemo(!!currentCompanyReport?.isDemo)
-    }
-
     if (currentCompanyReport?.sentToRegulators) {
       setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
-    }
-
-    if (currentCompanyReport?.contradiction) {
-      setContradictions(currentCompanyReport?.contradiction)
     }
 
     if (currentCompanyReport?.potentialInconsistencies) {
@@ -118,6 +107,27 @@ export const SpecificReport = () => {
     }
   }
 
+  const handleIsDemoChange = useCallback(
+    async (val) => {
+      try {
+        const response = await axios.put(
+          `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
+          {
+            isDemo: val
+          }
+        )
+        const { data } = response
+        if (data) {
+          toast.success(`Report is ${val === false ? 'removed from' : 'sent to'} demo`)
+          await getCurrentCompanyReport()
+        }
+      } catch (error) {
+        toast.error('Something went wrong.')
+      }
+    },
+    [currentCompanyReport?.id, getCurrentCompanyReport]
+  )
+
   if (currentCompanyReportIsLoading) {
     return <LoadingPage title="Please wait..." />
   }
@@ -171,7 +181,10 @@ export const SpecificReport = () => {
           </div>
 
           {/* Contradiction */}
-          <ReportContentItem title="Contradictions" displayValue={contradictions} />
+          <ReportContentItem
+            title="Contradictions"
+            displayValue={currentCompanyReport?.contradiction}
+          />
           {/*    Potential inconsistencies */}
           <ReportContentItem
             title="Potential inconsistencies"
@@ -410,26 +423,8 @@ export const SpecificReport = () => {
                 <div>
                   <Switch
                     height={24}
-                    onChange={async (val) => {
-                      setIsDemo(val)
-                      try {
-                        const response = await axios.put(
-                          `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
-                          {
-                            isDemo: val
-                          }
-                        )
-                        const { data } = response
-                        if (data) {
-                          toast.success(
-                            `Report is ${val === false ? 'removed from' : 'sent to'} demo`
-                          )
-                        }
-                      } catch (error) {
-                        toast.error('Something went wrong.')
-                      }
-                    }}
-                    checked={isDemo}
+                    onChange={handleIsDemoChange}
+                    checked={!!currentCompanyReport?.isDemo}
                     checkedIcon={false}
                     uncheckedIcon={false}
                     onColor="#4DC601"
