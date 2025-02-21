@@ -11,6 +11,7 @@ import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLin
 import { ROUTES } from '../../../routes'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import { useSpecificReport } from './useSpecificReport'
+import { ReportMetaItem } from './components/ReportMetaItem'
 
 export const SpecificReport = () => {
   const {
@@ -55,31 +56,17 @@ export const SpecificReport = () => {
               {currentCompanyReport?.companyName}
             </h1>
 
-            <div className="mt-[16px] grid grid-cols-5 max-w-[60%]">
-              <p className="text-reportGrey  col-span-2 text-[1em] text-base mb-1 font-medium">
-                Jurisdiction
-              </p>
-              <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
-                {currentCompanyReport?.jurisdiction}
-              </p>
-              <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-medium">
-                Sector
-              </p>
-              <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
-                {currentCompanyReport?.sector}
-              </p>
-              <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-medium">
-                Annual Revenue
-              </p>
-              <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
-                {currentCompanyReport?.annualRevenue}
-              </p>
-              <p className="text-reportGrey col-span-2 text-[1em] text-base mb-1 font-medium">
-                Employees
-              </p>
-              <p className="text-darkBlack col-span-3 ml-4 text-[1em] text-base mb-1 font-medium">
-                {currentCompanyReport?.noOfEmployees?.toLocaleString()}
-              </p>
+            <div className="mt-[16px]">
+              <ReportMetaItem title="Jurisdiction" content={currentCompanyReport?.jurisdiction} />
+              <ReportMetaItem title="Sector" content={currentCompanyReport?.sector} />
+              <ReportMetaItem
+                title="Annual Revenue"
+                content={currentCompanyReport?.annualRevenue}
+              />
+              <ReportMetaItem
+                title="Employees"
+                content={currentCompanyReport?.noOfEmployees?.toLocaleString()}
+              />
             </div>
           </div>
 
