@@ -5,6 +5,9 @@ import { Dropdown } from 'antd'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import React from 'react'
 import { useQuantitativeReportDetails } from './useQuantitativeReportDetails'
+import { ReportingRisk } from './components/ReportingRisk'
+import { ReportingRiskItem } from './components/ReportingRiskItem'
+import { ReportStatus } from './components/ReportStatus'
 
 export const QuantitativeReportDetails = () => {
   const {
@@ -26,56 +29,12 @@ export const QuantitativeReportDetails = () => {
         <CustomGaugeChart percentage={greenwashingRiskPercentage} />
       </div>
       {/* Cols */}
-      <div className="mt-[24px] grid grid-cols-2 lg:max-w-[370px]  gap-2 my-3 ">
-        <p className="text-reportGrey   text-[1em] text-base mb-1 font-medium">Reporting risk</p>
-        <div className="flex flex-row  items-center gap-[4px] flex-nowrap">
-          {Array.from({ length: 10 }).map((_item, index) => {
-            return (
-              <div
-                key={`${index}-bar`}
-                className={`w-[4px] h-[14px] rounded-sm ${
-                  (index + 1) * 10 <= parseInt(reportingRiskPercentage)
-                    ? 'bg-darkGreen'
-                    : 'bg-reportGrey '
-                }`}
-              ></div>
-            )
-          })}
-          <p className="text-darkBlack ml-[8px] text-[1em] text-base font-medium">
-            {parseInt(reportingRiskPercentage)}%
-          </p>
-        </div>
-        <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">GHG emissions</p>
-        <p className="text-darkBlack  text-[1em] text-base mb-1 font-medium">
+      <div className="mt-[24px] flex flex-col lg:max-w-[370px]  gap-2 my-3 ">
+        <ReportingRisk reportingRiskPercentage={reportingRiskPercentage} />
+        <ReportingRiskItem title="GHG emissions">
           {currentCompanyReport?.GHGEmissions}
-        </p>
-        <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">Report status</p>
-        <p className={`text-darkBlack justify-left  text-[1em] md:ml-0 text-base mb-1 `}>
-          <span
-            className={` text-white text-center py-1 px-3   rounded-3xl font-medium ${
-              currentCompanyReport?.pending === 'true' &&
-              currentCompanyReport?.disregard === 'false'
-                ? 'bg-foggyGrey'
-                : currentCompanyReport?.reviewing === 'true'
-                  ? 'bg-review'
-                  : currentCompanyReport?.reviewed === 'true'
-                    ? 'bg-darkGreen'
-                    : currentCompanyReport?.disregard === 'true'
-                      ? 'bg-danger'
-                      : 'bg-foggyGrey'
-            }`}
-          >
-            {currentCompanyReport?.pending === 'true' && currentCompanyReport?.disregard === 'false'
-              ? 'Pending Review'
-              : currentCompanyReport?.reviewing === 'true'
-                ? 'In Review'
-                : currentCompanyReport?.reviewed === 'true'
-                  ? 'Reviewed'
-                  : currentCompanyReport?.disregard === 'true'
-                    ? 'Disregard'
-                    : toTitleCase(currentCompanyReport?.status) || 'Generated'}
-          </span>
-        </p>
+        </ReportingRiskItem>
+        <ReportStatus currentCompanyReport={currentCompanyReport} />
         {blockchainTransactionURL && (
           <>
             <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">Timestamp</p>
