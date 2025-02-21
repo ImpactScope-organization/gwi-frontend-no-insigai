@@ -113,21 +113,21 @@ export const useSpecificReport = () => {
     [currentCompanyReport?.id, getCurrentCompanyReport]
   )
 
-  const dropdownConfiguration = useMemo(
-    () => ({
-      onClick: (e) => {
-        if (e.key === 1) {
-          captureScreen('report-container', currentCompanyReport?.companyName)
-        } else if (e.key === 2) {
-          if (
-            window.confirm(
-              `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
-            )
-          ) {
+  const dropdownConfiguration = useMemo(() => {
+    return {
+      onClick: ({ key }) => {
+        switch (key) {
+          case '1':
+            captureScreen('report-container', currentCompanyReport?.companyName)
+            break
+          case '2':
             deleteCompanyHandler()
-          }
-        } else {
-          navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
+            break
+          case '3':
+            navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
+            break
+          default:
+            break
         }
       },
       items: [
@@ -138,9 +138,8 @@ export const useSpecificReport = () => {
         },
         { label: 'Remove from DB', key: '2' }
       ]
-    }),
-    [currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId]
-  )
+    }
+  }, [currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId])
 
   const handleRegulatorChange = useCallback(
     async (val) => {
