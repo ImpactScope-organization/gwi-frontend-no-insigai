@@ -1,7 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import apiUrl from '../../../utils/baseURL'
+import React from 'react'
 import { formattedDate } from '../../../utils/date'
 import LoadingPage from '../../../Components/loading'
 import CustomGaugeChart from '../../../Components/gauge-chart'
@@ -10,108 +7,29 @@ import { Dropdown } from 'antd'
 import { captureScreen, toTitleCase } from '../../../utils/helpers'
 import Switch from 'react-switch'
 import { ReportContentItem } from '../../../Components/ReportContentItem/ReportContentItem'
-import { useNavigate, useParams } from 'react-router-dom'
 import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
 import { ROUTES } from '../../../routes'
-import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
-import html2canvas from 'html2canvas'
-import { getUrlWithParameters } from '../../../utils/route'
-import { toFixed } from '../../../utils/number'
+import { useSpecificReport } from './useSpecificReport'
 
 export const SpecificReport = () => {
-  const navigate = useNavigate()
-
-  const { id: reportId } = useParams()
-
   const {
-    refetch: getCurrentCompanyReport,
-    data: currentCompanyReport,
-    isLoading: currentCompanyReportIsLoading
-  } = useGetCompanyReport(reportId)
-
-  const [isRegulator, setIsRegulator] = useState(false)
-  const [isDemo, setIsDemo] = useState(false)
-  const [sources, setsources] = useState([])
-
-  useEffect(() => {
-    setIsDemo(!!currentCompanyReport?.isDemo)
-    setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
-    setsources(JSON.parse(currentCompanyReport?.sources || '[]'))
-  }, [currentCompanyReport])
-
-  const greenwashingRiskPercentage = toFixed(currentCompanyReport?.greenwashRiskPercentage)
-  const reportingRiskPercentage = toFixed(currentCompanyReport?.reportingRiskPercentage)
-
-  // Print Report
-  const [isSendToBlockchainInProgress, setIsSendToBlockchainInProgress] = useState(false)
-
-  const blockchainTransactionURL = currentCompanyReport?.blockchainTransactionURL
-  const blockchainFileURL = currentCompanyReport?.blockchainFileURL
-
-  const handleSendToBlockchain = useCallback(async () => {
-    setIsSendToBlockchainInProgress(true)
-    try {
-      const element = document.querySelector('#report-container')
-
-      const canvas = await html2canvas(element)
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg'))
-
-      const file = new File([blob], 'fileName.jpg', { type: 'image/jpeg' })
-      const formData = new FormData()
-      formData.append('file', file)
-
-      await axios.post(`${apiUrl}/api/blockchain/create/${reportId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Accept: '*/*',
-          'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8'
-        }
-      })
-      await getCurrentCompanyReport()
-    } catch (error) {
-      if (error?.response?.data?.message) {
-        toast.error(error?.response?.data?.message)
-      } else {
-        toast(error.message)
-      }
-    } finally {
-      setIsSendToBlockchainInProgress(false)
-    }
-  }, [getCurrentCompanyReport, reportId])
-
-  const deleteCompanyHandler = async () => {
-    const response = await axios.delete(`${apiUrl}/api/company/delete/${currentCompanyReport?.id}`)
-    const { data } = response
-    if (data?.status === 'success') {
-      toast.success(data?.message)
-      navigate(ROUTES.reports.internal)
-    } else {
-      toast.error('something went wrong while deleting the report')
-    }
-  }
-
-  const handleIsDemoChange = useCallback(
-    async (val) => {
-      setIsDemo(val)
-      try {
-        const response = await axios.put(
-          `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
-          {
-            isDemo: val
-          }
-        )
-        const { data } = response
-        if (data) {
-          toast.success(`Report is ${val === false ? 'removed from' : 'sent to'} demo`)
-          await getCurrentCompanyReport()
-        }
-      } catch (error) {
-        toast.error('Something went wrong.')
-      }
-    },
-    [currentCompanyReport?.id, getCurrentCompanyReport]
-  )
+    currentCompanyReport,
+    currentCompanyReportIsLoading,
+    isRegulator,
+    isDemo,
+    sources,
+    greenwashingRiskPercentage,
+    reportingRiskPercentage,
+    blockchainTransactionURL,
+    blockchainFileURL,
+    handleSendToBlockchain,
+    isSendToBlockchainInProgress,
+    deleteCompanyHandler,
+    handleIsDemoChange,
+    dropdownConfiguration,
+    handleRegulatorChange
+  } = useSpecificReport()
 
   if (currentCompanyReportIsLoading) {
     return <LoadingPage title="Please wait..." />
@@ -325,31 +243,7 @@ export const SpecificReport = () => {
                 <Dropdown
                   disabled={isSendToBlockchainInProgress}
                   trigger={['click']}
-                  menu={{
-                    onClick: (e) => {
-                      if (e.key === 1) {
-                        captureScreen('report-container', currentCompanyReport?.companyName)
-                      } else if (e.key === 2) {
-                        if (
-                          window.confirm(
-                            `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
-                          )
-                        ) {
-                          deleteCompanyHandler()
-                        }
-                      } else {
-                        navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
-                      }
-                    },
-                    items: [
-                      { label: 'Modify Report', key: '0' },
-                      {
-                        label: 'Save as PDF',
-                        key: '1'
-                      },
-                      { label: 'Remove from DB', key: '2' }
-                    ]
-                  }}
+                  menu={dropdownConfiguration}
                   placement="bottomRight"
                 >
                   <div className="py-[12px] px-[18px] rounded-md border bg-transparent flex justify-center items-center">
@@ -369,15 +263,7 @@ export const SpecificReport = () => {
                   Download as .pdf
                 </button>
                 <button
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
-                      )
-                    ) {
-                      deleteCompanyHandler()
-                    }
-                  }}
+                  onClick={deleteCompanyHandler}
                   className="bg-white border border-darkBlack rounded-lg w-full text-center justify-center flex py-[12px] col-span-1 px-[4px] text-darkBlack text-[16px] font-[600] leading-[24px]"
                 >
                   Remove from DB
@@ -421,35 +307,7 @@ export const SpecificReport = () => {
                 <div>
                   <Switch
                     height={24}
-                    onChange={async (val) => {
-                      setIsRegulator(val)
-                      try {
-                        const response = await axios.put(
-                          `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
-                          {
-                            sentToRegulators: val,
-                            sendToRegulatorsTimeStamp: formattedDate,
-                            pending:
-                              (currentCompanyReport?.reviewing === 'false' ||
-                                !currentCompanyReport?.reviewing) &&
-                              (currentCompanyReport?.reviewed === 'false' ||
-                                !currentCompanyReport?.reviewed) &&
-                              (currentCompanyReport?.disregard === 'false' ||
-                                !currentCompanyReport?.disregard)
-                                ? 'true'
-                                : 'false'
-                          }
-                        )
-                        const { data } = response
-                        if (data) {
-                          toast.success(
-                            `Report is ${val === false ? 'removed from' : 'sent to'} regulator`
-                          )
-                        }
-                      } catch (error) {
-                        toast.error('Something went wrong.')
-                      }
-                    }}
+                    onChange={handleRegulatorChange}
                     checked={isRegulator}
                     checkedIcon={false}
                     uncheckedIcon={false}
