@@ -76,40 +76,23 @@ export const useQuantitativeReportDetails = () => {
 
   const dropdownConfiguration = useMemo(() => {
     return {
-      onClick: ({ key }) => {
-        switch (key) {
-          case '1':
-            captureScreen('report-container', currentCompanyReport?.companyName)
-            break
-          case '2':
-            deleteCompanyHandler()
-            break
-          case '3':
-            navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
-            break
-          default:
-            break
-        }
-      },
       items: [
-        { label: 'Modify Report', key: '0' },
+        {
+          label: 'Modify Report',
+          onClick: () => {
+            navigate(getUrlWithParameters(ROUTES.specificReport.edit, { id: reportId }))
+          }
+        },
         {
           label: 'Save as PDF',
-          key: '1'
+          onClick: () => {
+            captureScreen('report-container', currentCompanyReport?.companyName)
+          }
         },
-        { label: 'Remove from DB', key: '2' }
+        { label: 'Remove from DB', onClick: deleteCompanyHandler }
       ]
     }
   }, [currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId])
-
-  // greenwashingRiskPercentage, *
-  //   reportingRiskPercentage, *
-  //   blockchainTransactionURL, *
-  //   blockchainFileURL, *
-  //   handleSendToBlockchain, *
-  //   isSendToBlockchainInProgress, *
-  //   deleteCompanyHandler, *
-  //   dropdownConfiguration, *
 
   return {
     currentCompanyReport,
