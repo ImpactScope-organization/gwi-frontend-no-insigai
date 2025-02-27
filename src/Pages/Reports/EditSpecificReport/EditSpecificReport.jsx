@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import apiUrl from '../../../utils/baseURL'
@@ -6,24 +6,24 @@ import { formattedDate } from '../../../utils/date'
 import LoadingPage from '../../../Components/loading'
 import { Input } from 'antd'
 import { CustomReactQuill } from '../../../Components/CustomReactQuill/CustomReactQuill'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
 import { ROUTES } from '../../../routes'
-import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
 import { EditReportContentItem } from '../../../Components/EditReportContentItem/EditReportContentItem'
 import { getUrlWithParameters } from '../../../utils/route'
+import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 
 export const EditSpecificReport = () => {
   const navigate = useNavigate()
 
-  const { id: reportId } = useParams()
+  const { reportId, currentCompanyReport, currentCompanyReportIsLoading, getCurrentCompanyReport } =
+    useCurrentCompanyReport()
 
-  const {
-    refetch: getCurrentCompanyReport,
-    data: currentCompanyReport,
-    isLoading: currentCompanyReportIsLoading
-  } = useGetCompanyReport(reportId)
+  const specificReportURL = useMemo(
+    () => getUrlWithParameters(ROUTES.specificReport.index, { id: reportId }),
+    [reportId]
+  )
 
   const isModifying = true
   const [modifyData, setModifyData] = useState({})
@@ -45,7 +45,7 @@ export const EditSpecificReport = () => {
 
   return (
     <PageContainer>
-      <BackButtonLink to={ROUTES.reports.internal} />
+      <BackButtonLink to={specificReportURL} />
 
       {/* Specific Report */}
       <div id="report-container" className="flex flex-col md:flex-row gap-6 max-w-[1120px] mx-auto">
@@ -347,7 +347,7 @@ export const EditSpecificReport = () => {
                       toast.error('Something went wrong while updating the report.')
                       setModifyData(null)
                     }
-                    navigate(getUrlWithParameters(ROUTES.specificReport.index, { id: reportId }))
+                    navigate(specificReportURL)
                   }}
                   className="bg-primary rounded-lg py-[12px] flex w-full justify-center text-[#fff] text-[16px] font-[600] leading-[24px]"
                 >
@@ -356,7 +356,7 @@ export const EditSpecificReport = () => {
                 <button
                   className="bg-transparent border border-darkBlack rounded-lg py-[12px] px-[4px] flex w-full justify-center text-darkBlack text-[16px] font-[600] leading-[24px]"
                   onClick={() => {
-                    navigate(getUrlWithParameters(ROUTES.specificReport.index, { id: reportId }))
+                    navigate(specificReportURL)
                   }}
                 >
                   Cancel

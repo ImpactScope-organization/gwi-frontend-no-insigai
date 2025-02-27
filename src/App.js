@@ -18,7 +18,7 @@ import { CreatePromptCategory } from './Pages/PromptCategories/CreatePromptCateg
 import { EditPromptPage } from './Pages/Prompts/EditPrompt/EditPromptPage'
 import { ProcessingDetailsReport } from './Pages/Reports/ProcessingDetailsReport/ProcessingDetailsReport'
 import { ProcessingReports } from './Pages/Reports/ProcessingReports/ProcessingReports'
-import { EditSpecificReport } from './Pages/Reports/SpecificReport/EditSpecificReport'
+import { EditSpecificReport } from './Pages/Reports/EditSpecificReport/EditSpecificReport'
 
 function App() {
   return (

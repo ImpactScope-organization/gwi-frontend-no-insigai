@@ -3,7 +3,7 @@ import axios from 'axios'
 import apiUrl from '../../../../../utils/baseURL'
 import { toast } from 'react-toastify'
 import { formattedDate } from '../../../../../utils/date'
-import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const useReportVisibility = () => {
   const { currentCompanyReport, getCurrentCompanyReport } = useCurrentCompanyReport()

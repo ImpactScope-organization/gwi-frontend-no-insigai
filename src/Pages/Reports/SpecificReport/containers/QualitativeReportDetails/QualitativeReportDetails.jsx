@@ -3,7 +3,7 @@ import { formattedDate } from '../../../../../utils/date'
 import { ReportMetaItem } from './components/ReportMetaItem'
 import { ReportContentItem } from '../../../../../Components/ReportContentItem/ReportContentItem'
 import { Sources } from './containers/Sources'
-import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const QualitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()

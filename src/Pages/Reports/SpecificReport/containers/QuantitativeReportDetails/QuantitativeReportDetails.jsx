@@ -8,7 +8,7 @@ import { useQuantitativeReportDetails } from './useQuantitativeReportDetails'
 import { ReportingRisk } from './components/ReportingRisk'
 import { ReportingRiskItem } from './components/ReportingRiskItem'
 import { ReportStatus } from './containers/ReportStatus'
-import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const QuantitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()

@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { ROUTES } from '../../../../../routes'
 import { captureScreen } from '../../../../../utils/helpers'
 import { getUrlWithParameters } from '../../../../../utils/route'
-import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const useQuantitativeReportDetails = () => {
   const navigate = useNavigate()

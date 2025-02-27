@@ -1,5 +1,5 @@
 import React from 'react'
-import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const ReportDocuments = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()

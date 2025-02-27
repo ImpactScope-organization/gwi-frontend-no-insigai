@@ -1,7 +1,7 @@
 import { ReportingRiskItem } from '../components/ReportingRiskItem'
 import { toTitleCase } from '../../../../../../utils/helpers'
 import React from 'react'
-import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../../hooks/useCurrentCompanyReport'
 
 export const ReportStatus = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()

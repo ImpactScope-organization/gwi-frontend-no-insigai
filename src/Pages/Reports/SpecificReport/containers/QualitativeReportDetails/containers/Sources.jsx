@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { toJSON } from '../../../../../../utils/json'
-import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../../hooks/useCurrentCompanyReport'
 
 export const Sources = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
