@@ -1,85 +1,29 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import apiUrl from '../../../../utils/baseURL'
+import React from 'react'
 import { formattedDate } from '../../../../utils/date'
 import LoadingPage from '../../../../Components/loading'
 import { Input } from 'antd'
 import { CustomReactQuill } from '../../../../Components/CustomReactQuill/CustomReactQuill'
 import { useNavigate } from 'react-router-dom'
 import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButtonLink'
-import { ROUTES } from '../../../../routes'
 import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
 import { EditReportContentItem } from '../../../../Components/EditReportContentItem/EditReportContentItem'
-import { getUrlWithParameters } from '../../../../utils/route'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 import { ReportDocuments } from '../components/ReportDocuments/ReportDocuments'
+import { useSpecificReportEdit } from './useSpecificReportEdit'
 
 export const SpecificReportEdit = () => {
   const navigate = useNavigate()
 
-  const { reportId, currentCompanyReport, currentCompanyReportIsLoading, getCurrentCompanyReport } =
-    useCurrentCompanyReport()
+  const { currentCompanyReport, currentCompanyReportIsLoading } = useCurrentCompanyReport()
 
-  const specificReportURL = useMemo(
-    () => getUrlWithParameters(ROUTES.specificReport.index, { id: reportId }),
-    [reportId]
-  )
-
-  const isModifying = true
-  const [modifyData, setModifyData] = useState({})
-
-  useEffect(() => {
-    setModifyData({
-      ...currentCompanyReport,
-      sources: currentCompanyReport?.sources ? JSON.parse(currentCompanyReport?.sources) : []
-    })
-  }, [currentCompanyReport])
-
-  const handleInputUpdates = (name, value) => {
-    setModifyData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const submitUpdateReport = useCallback(async () => {
-    if (modifyData?.contradiction === '') {
-      return toast.warn('Contradictions field cannot be empty.')
-    } else if (modifyData?.potentialInconsistencies === '') {
-      return toast.warn('Potential Inconsistencies field cannot be empty.')
-    } else if (modifyData?.unsubstantiatedClaims === '') {
-      return toast.warn('Unsubstantiated Claims field cannot be empty.')
-    } else if (!modifyData?.greenwashRiskPercentage || isNaN(modifyData?.greenwashRiskPercentage)) {
-      return toast.warn('Greenwash Risk  field cannot be empty.')
-    } else if (!modifyData?.reportingRiskPercentage || isNaN(modifyData?.reportingRiskPercentage)) {
-      return toast.warn('Reporting Risk field cannot be empty.')
-    } else if (modifyData?.jurisdiction === '') {
-      return toast.warn('Jurisdiction field cannot be empty.')
-    } else if (modifyData?.sector === '') {
-      return toast.warn('Sector field cannot be empty.')
-    } else if (modifyData?.annualRevenue === '') {
-      return toast.warn('Annual Revenue field cannot be empty.')
-    } else if (modifyData?.noOfEmployees === '') {
-      return toast.warn('no.of employees field cannot be empty.')
-    } else if (modifyData?.GHGEmissions === '') {
-      return toast.warn('GHG Emissions field cannot be empty.')
-    }
-    try {
-      const response = await axios.put(`${apiUrl}/api/company/update/${currentCompanyReport?.id}`, {
-        ...modifyData,
-        sources: JSON.stringify(modifyData?.sources)
-      })
-      const { data } = response
-      if (data) {
-        toast.success('Successfully updated the report.')
-      }
-      await getCurrentCompanyReport()
-
-      setModifyData(null)
-    } catch (error) {
-      toast.error('Something went wrong while updating the report.')
-      setModifyData(null)
-    }
-    navigate(specificReportURL)
-  }, [currentCompanyReport?.id, getCurrentCompanyReport, modifyData, navigate, specificReportURL])
+  const {
+    isModifying,
+    modifyData,
+    setModifyData,
+    handleInputUpdates,
+    submitUpdateReport,
+    specificReportURL
+  } = useSpecificReportEdit()
 
   if (currentCompanyReportIsLoading) {
     return <LoadingPage title="Please wait..." />
