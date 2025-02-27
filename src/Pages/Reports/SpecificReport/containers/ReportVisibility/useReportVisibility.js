@@ -1,19 +1,12 @@
-import { useParams } from 'react-router-dom'
-import { useGetCompanyReport } from '../../../Hooks/reports-hooks'
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
-import apiUrl from '../../../utils/baseURL'
+import apiUrl from '../../../../../utils/baseURL'
 import { toast } from 'react-toastify'
-import { formattedDate } from '../../../utils/date'
+import { formattedDate } from '../../../../../utils/date'
+import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
 
-export const useSpecificReport = () => {
-  const { id: reportId } = useParams()
-
-  const {
-    refetch: getCurrentCompanyReport,
-    data: currentCompanyReport,
-    isLoading: currentCompanyReportIsLoading
-  } = useGetCompanyReport(reportId)
+export const useReportVisibility = () => {
+  const { currentCompanyReport, getCurrentCompanyReport } = useCurrentCompanyReport()
 
   const [isRegulator, setIsRegulator] = useState(false)
   const [isDemo, setIsDemo] = useState(false)
@@ -22,8 +15,6 @@ export const useSpecificReport = () => {
     setIsDemo(!!currentCompanyReport?.isDemo)
     setIsRegulator(currentCompanyReport?.sentToRegulators === 'true')
   }, [currentCompanyReport])
-
-  // Print Report
 
   const handleIsDemoChange = useCallback(
     async (val) => {
@@ -76,8 +67,6 @@ export const useSpecificReport = () => {
   )
 
   return {
-    currentCompanyReport,
-    currentCompanyReportIsLoading,
     isRegulator,
     isDemo,
     handleIsDemoChange,
