@@ -6,7 +6,7 @@ import { PageContainer } from '../../../../Components/Page/PageContainer/PageCon
 import { QualitativeReportDetails } from './containers/QualitativeReportDetails/QualitativeReportDetails'
 import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
-import { ReportDocuments } from './containers/ReportDocuments/ReportDocuments'
+import { ReportDocuments } from '../components/ReportDocuments/ReportDocuments'
 import { ReportVisibility } from './containers/ReportVisibility/ReportVisibility'
 
 export const SpecificReportIndex = () => {
