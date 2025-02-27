@@ -1,15 +1,15 @@
 import React from 'react'
-import LoadingPage from '../../../Components/loading'
-import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
-import { ROUTES } from '../../../routes'
-import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
+import LoadingPage from '../../../../Components/loading'
+import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButtonLink'
+import { ROUTES } from '../../../../routes'
+import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
 import { QualitativeReportDetails } from './containers/QualitativeReportDetails/QualitativeReportDetails'
 import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 import { ReportDocuments } from './containers/ReportDocuments/ReportDocuments'
 import { ReportVisibility } from './containers/ReportVisibility/ReportVisibility'
 
-export const SpecificReport = () => {
+export const SpecificReportIndex = () => {
   const { currentCompanyReportIsLoading } = useCurrentCompanyReport()
 
   if (currentCompanyReportIsLoading) {

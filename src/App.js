@@ -9,7 +9,7 @@ import { NotFound } from './Pages/NotFound'
 import { InternalReport } from './Pages/Reports/InternalReport/InternalReport'
 import { RegulatorReport } from './Pages/Reports/RegulatorReport/RegulatorReport'
 import CreateReport from './Pages/Reports/CreateReport/CreateReport'
-import { SpecificReport } from './Pages/Reports/SpecificReport/SpecificReport'
+import { SpecificReportIndex } from './Pages/Reports/SpecificReport/SpecificReportIndex/SpecificReportIndex'
 import { Prompts } from './Pages/Prompts/Prompts'
 import { CreatePrompt } from './Pages/Prompts/CreatePrompt/CreatePrompt'
 import { PromptCategories } from './Pages/PromptCategories/PromptCategories'
@@ -18,7 +18,7 @@ import { CreatePromptCategory } from './Pages/PromptCategories/CreatePromptCateg
 import { EditPromptPage } from './Pages/Prompts/EditPrompt/EditPromptPage'
 import { ProcessingDetailsReport } from './Pages/Reports/ProcessingDetailsReport/ProcessingDetailsReport'
 import { ProcessingReports } from './Pages/Reports/ProcessingReports/ProcessingReports'
-import { EditSpecificReport } from './Pages/Reports/EditSpecificReport/EditSpecificReport'
+import { SpecificReportEdit } from './Pages/Reports/SpecificReport/SpecificReportEdit/SpecificReportEdit'
 
 function App() {
   return (
@@ -33,8 +33,8 @@ function App() {
         <Route path={ROUTES.reports.processing} element={<ProcessingReports />} />
         <Route path={ROUTES.reports.processingDetails} element={<ProcessingDetailsReport />} />
         <Route path={ROUTES.reports.create} element={<CreateReport />} />
-        <Route path={ROUTES.specificReport.index} element={<SpecificReport />} />
-        <Route path={ROUTES.specificReport.edit} element={<EditSpecificReport />} />
+        <Route path={ROUTES.specificReport.index} element={<SpecificReportIndex />} />
+        <Route path={ROUTES.specificReport.edit} element={<SpecificReportEdit />} />
         <Route path={ROUTES.prompts.index} element={<Prompts />} />
         <Route path={ROUTES.prompts.create} element={<CreatePrompt />} />
         <Route path={ROUTES.prompts.edit} element={<EditPromptPage />} />

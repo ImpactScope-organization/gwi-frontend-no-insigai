@@ -1,20 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import apiUrl from '../../../utils/baseURL'
-import { formattedDate } from '../../../utils/date'
-import LoadingPage from '../../../Components/loading'
+import apiUrl from '../../../../utils/baseURL'
+import { formattedDate } from '../../../../utils/date'
+import LoadingPage from '../../../../Components/loading'
 import { Input } from 'antd'
-import { CustomReactQuill } from '../../../Components/CustomReactQuill/CustomReactQuill'
+import { CustomReactQuill } from '../../../../Components/CustomReactQuill/CustomReactQuill'
 import { useNavigate } from 'react-router-dom'
-import { BackButtonLink } from '../../../Components/BackButtonLink/BackButtonLink'
-import { ROUTES } from '../../../routes'
-import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
-import { EditReportContentItem } from '../../../Components/EditReportContentItem/EditReportContentItem'
-import { getUrlWithParameters } from '../../../utils/route'
+import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButtonLink'
+import { ROUTES } from '../../../../routes'
+import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
+import { EditReportContentItem } from '../../../../Components/EditReportContentItem/EditReportContentItem'
+import { getUrlWithParameters } from '../../../../utils/route'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 
-export const EditSpecificReport = () => {
+export const SpecificReportEdit = () => {
   const navigate = useNavigate()
 
   const { reportId, currentCompanyReport, currentCompanyReportIsLoading, getCurrentCompanyReport } =

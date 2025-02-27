@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
-import apiUrl from '../../../../../utils/baseURL'
+import apiUrl from '../../../../../../utils/baseURL'
 import { toast } from 'react-toastify'
-import { formattedDate } from '../../../../../utils/date'
+import { formattedDate } from '../../../../../../utils/date'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const useReportVisibility = () => {

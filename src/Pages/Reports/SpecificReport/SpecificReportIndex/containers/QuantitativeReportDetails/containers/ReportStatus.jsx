@@ -1,5 +1,5 @@
 import { ReportingRiskItem } from '../components/ReportingRiskItem'
-import { toTitleCase } from '../../../../../../utils/helpers'
+import { toTitleCase } from '../../../../../../../utils/helpers'
 import React from 'react'
 import { useCurrentCompanyReport } from '../../../../hooks/useCurrentCompanyReport'
 

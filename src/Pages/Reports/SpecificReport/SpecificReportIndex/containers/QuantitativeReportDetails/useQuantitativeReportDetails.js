@@ -1,13 +1,13 @@
-import { toFixed } from '../../../../../utils/number'
+import { toFixed } from '../../../../../../utils/number'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useMemo, useState } from 'react'
 import html2canvas from 'html2canvas'
 import axios from 'axios'
-import apiUrl from '../../../../../utils/baseURL'
+import apiUrl from '../../../../../../utils/baseURL'
 import { toast } from 'react-toastify'
-import { ROUTES } from '../../../../../routes'
-import { captureScreen } from '../../../../../utils/helpers'
-import { getUrlWithParameters } from '../../../../../utils/route'
+import { ROUTES } from '../../../../../../routes'
+import { captureScreen } from '../../../../../../utils/helpers'
+import { getUrlWithParameters } from '../../../../../../utils/route'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const useQuantitativeReportDetails = () => {
