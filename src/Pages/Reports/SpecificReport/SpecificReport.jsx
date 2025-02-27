@@ -7,16 +7,12 @@ import { PageContainer } from '../../../Components/Page/PageContainer/PageContai
 import { useSpecificReport } from './useSpecificReport'
 import { QualitativeReportDetails } from './containers/QualitativeReportDetails/QualitativeReportDetails'
 import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
+import { useCurrentCompanyReport } from './hooks/useCurrentCompanyReport'
 
 export const SpecificReport = () => {
-  const {
-    currentCompanyReport,
-    currentCompanyReportIsLoading,
-    isRegulator,
-    isDemo,
-    handleIsDemoChange,
-    handleRegulatorChange
-  } = useSpecificReport()
+  const { currentCompanyReport, currentCompanyReportIsLoading } = useCurrentCompanyReport()
+
+  const { isRegulator, isDemo, handleIsDemoChange, handleRegulatorChange } = useSpecificReport()
 
   if (currentCompanyReportIsLoading) {
     return <LoadingPage title="Please wait..." />
@@ -27,7 +23,7 @@ export const SpecificReport = () => {
 
       {/* Specific Report */}
       <div id="report-container" className="flex flex-col md:flex-row gap-6 max-w-[1120px] mx-auto">
-        <QualitativeReportDetails currentCompanyReport={currentCompanyReport} />
+        <QualitativeReportDetails />
 
         <div>
           <QuantitativeReportDetails />

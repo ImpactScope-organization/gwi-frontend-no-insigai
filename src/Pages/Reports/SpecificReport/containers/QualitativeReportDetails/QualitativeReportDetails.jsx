@@ -2,9 +2,12 @@ import React from 'react'
 import { formattedDate } from '../../../../../utils/date'
 import { ReportMetaItem } from './components/ReportMetaItem'
 import { ReportContentItem } from '../../../../../Components/ReportContentItem/ReportContentItem'
-import { Sources } from './components/Sources'
+import { Sources } from './containers/Sources'
+import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
 
-export const QualitativeReportDetails = ({ currentCompanyReport }) => {
+export const QualitativeReportDetails = () => {
+  const { currentCompanyReport } = useCurrentCompanyReport()
+
   return (
     <div
       style={{
@@ -42,7 +45,7 @@ export const QualitativeReportDetails = ({ currentCompanyReport }) => {
         title="Unsubstantiated claims"
         displayValue={currentCompanyReport?.unsubstantiatedClaims}
       />
-      <Sources currentCompanyReport={currentCompanyReport} />
+      <Sources />
     </div>
   )
 }

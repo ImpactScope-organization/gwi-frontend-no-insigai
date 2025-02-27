@@ -1,21 +1,18 @@
 import { toFixed } from '../../../../../utils/number'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useCallback, useMemo, useState } from 'react'
 import html2canvas from 'html2canvas'
 import axios from 'axios'
 import apiUrl from '../../../../../utils/baseURL'
 import { toast } from 'react-toastify'
-import { useGetCompanyReport } from '../../../../../Hooks/reports-hooks'
 import { ROUTES } from '../../../../../routes'
 import { captureScreen } from '../../../../../utils/helpers'
 import { getUrlWithParameters } from '../../../../../utils/route'
+import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
 
 export const useQuantitativeReportDetails = () => {
   const navigate = useNavigate()
-  const { id: reportId } = useParams()
-
-  const { refetch: getCurrentCompanyReport, data: currentCompanyReport } =
-    useGetCompanyReport(reportId)
+  const { getCurrentCompanyReport, currentCompanyReport, reportId } = useCurrentCompanyReport()
 
   const [isSendToBlockchainInProgress, setIsSendToBlockchainInProgress] = useState(false)
 
@@ -95,7 +92,6 @@ export const useQuantitativeReportDetails = () => {
   }, [currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId])
 
   return {
-    currentCompanyReport,
     greenwashingRiskPercentage,
     reportingRiskPercentage,
     blockchainTransactionURL,

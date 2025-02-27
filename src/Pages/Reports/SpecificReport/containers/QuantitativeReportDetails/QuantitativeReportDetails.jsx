@@ -1,5 +1,5 @@
 import CustomGaugeChart from '../../../../../Components/gauge-chart'
-import { captureScreen, toTitleCase } from '../../../../../utils/helpers'
+import { captureScreen } from '../../../../../utils/helpers'
 import { formattedDate } from '../../../../../utils/date'
 import { Dropdown } from 'antd'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
@@ -7,11 +7,13 @@ import React from 'react'
 import { useQuantitativeReportDetails } from './useQuantitativeReportDetails'
 import { ReportingRisk } from './components/ReportingRisk'
 import { ReportingRiskItem } from './components/ReportingRiskItem'
-import { ReportStatus } from './components/ReportStatus'
+import { ReportStatus } from './containers/ReportStatus'
+import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
 
 export const QuantitativeReportDetails = () => {
+  const { currentCompanyReport } = useCurrentCompanyReport()
+
   const {
-    currentCompanyReport,
     greenwashingRiskPercentage,
     reportingRiskPercentage,
     blockchainTransactionURL,
@@ -34,7 +36,7 @@ export const QuantitativeReportDetails = () => {
         <ReportingRiskItem title="GHG emissions">
           {currentCompanyReport?.GHGEmissions}
         </ReportingRiskItem>
-        <ReportStatus currentCompanyReport={currentCompanyReport} />
+        <ReportStatus />
         {blockchainTransactionURL && (
           <>
             <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">Timestamp</p>
