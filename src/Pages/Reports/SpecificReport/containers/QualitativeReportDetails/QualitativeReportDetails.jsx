@@ -1,16 +1,10 @@
+import React from 'react'
 import { formattedDate } from '../../../../../utils/date'
 import { ReportMetaItem } from './components/ReportMetaItem'
 import { ReportContentItem } from '../../../../../Components/ReportContentItem/ReportContentItem'
 import { Sources } from './components/Sources'
-import React, { useEffect, useState } from 'react'
 
 export const QualitativeReportDetails = ({ currentCompanyReport }) => {
-  const [sources, setsources] = useState([])
-
-  useEffect(() => {
-    setsources(JSON.parse(currentCompanyReport?.sources || '[]'))
-  }, [currentCompanyReport])
-
   return (
     <div
       style={{
@@ -48,7 +42,7 @@ export const QualitativeReportDetails = ({ currentCompanyReport }) => {
         title="Unsubstantiated claims"
         displayValue={currentCompanyReport?.unsubstantiatedClaims}
       />
-      <Sources sources={sources} />
+      <Sources currentCompanyReport={currentCompanyReport} />
     </div>
   )
 }
