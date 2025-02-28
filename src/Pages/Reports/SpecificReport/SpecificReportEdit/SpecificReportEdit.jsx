@@ -6,7 +6,7 @@ import { CustomReactQuill } from '../../../../Components/CustomReactQuill/Custom
 import { useNavigate } from 'react-router-dom'
 import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButtonLink'
 import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
-import { EditReportContentItem } from '../../../../Components/EditReportContentItem/EditReportContentItem'
+import { DynamicTextarea } from './components/DynamicTextarea/DynamicTextarea'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 import { ReportDocuments } from '../components/ReportDocuments/ReportDocuments'
 import { useSpecificReportEdit } from './useSpecificReportEdit'
@@ -70,24 +70,12 @@ export const SpecificReportEdit = () => {
               </div>
 
               {/* Contradiction */}
-              <EditReportContentItem
-                title="Contradictions"
-                onChange={(value) => handleInputUpdates('contradiction', value)}
-                modifyData={modifyData?.contradiction}
-              />
+              <DynamicTextarea label="Contradictions" name="contradiction" />
               {/*    Potential inconsistencies */}
-              <EditReportContentItem
-                title="Potential inconsistencies"
-                onChange={(value) => handleInputUpdates('potentialInconsistencies', value)}
-                modifyData={modifyData?.potentialInconsistencies}
-              />
+              <DynamicTextarea label="Potential inconsistencies" name="potentialInconsistencies" />
 
               {/* Unsubstantiated claims */}
-              <EditReportContentItem
-                title="Unsubstantiated claims"
-                onChange={(value) => handleInputUpdates('unsubstantiatedClaims', value)}
-                modifyData={modifyData?.unsubstantiatedClaims}
-              />
+              <DynamicTextarea label="Unsubstantiated claims" name="unsubstantiatedClaims" />
 
               {/* Modify sources */}
               {isModifying && (
