@@ -1,12 +1,10 @@
 import { useSpecificReportURL } from '../../hooks/useSpecificReportURL'
 import { SpecificReportInputPercentage } from '../../components/SpecificReportInputText/SpecificReportInputPercentage'
 import { SpecificReportInputText } from '../../components/SpecificReportInputText/SpecificReportInputText'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useFormikContext } from 'formik'
 
 export const EditQuantitativeReportDetails = () => {
-  const navigate = useNavigate()
-
   const formik = useFormikContext()
 
   const { specificReportURL } = useSpecificReportURL()
@@ -28,15 +26,12 @@ export const EditQuantitativeReportDetails = () => {
         >
           Update report
         </button>
-        <button
-          type="button"
+        <Link
+          to={specificReportURL}
           className="bg-transparent border border-darkBlack rounded-lg py-[12px] px-[4px] flex w-full justify-center text-darkBlack text-[16px] font-[600] leading-[24px]"
-          onClick={() => {
-            navigate(specificReportURL)
-          }}
         >
           Cancel
-        </button>
+        </Link>
       </div>
     </div>
   )
