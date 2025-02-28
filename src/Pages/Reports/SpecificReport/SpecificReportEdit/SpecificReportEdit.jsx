@@ -54,9 +54,9 @@ export const SpecificReportEdit = () => {
               {/* Top */}
 
               <div>
-                <p className="leading-[24px] text-sm text-reportGrey font-medium">
+                <h3 className="leading-[24px] text-sm text-reportGrey font-medium">
                   {formattedDate}
-                </p>
+                </h3>
                 <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
                   {currentCompanyReport?.companyName}
                 </h1>
