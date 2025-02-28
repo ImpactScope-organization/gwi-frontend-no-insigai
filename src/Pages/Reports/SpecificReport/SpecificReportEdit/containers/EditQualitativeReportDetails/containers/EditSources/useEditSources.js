@@ -24,14 +24,14 @@ export const useEditSources = () => {
 
   const onTitleChange = useCallback(
     (e, index) => {
-      const upcomingSources = sources?.map((cSource, cIndex) => {
-        if (cIndex === index) {
+      const upcomingSources = sources?.map((currentSource, currentIndex) => {
+        if (currentIndex === index) {
           return {
-            ...cSource,
+            ...currentSource,
             title: e.target.value
           }
         }
-        return cSource
+        return currentSource
       })
       setSources(upcomingSources)
       syncFormikSources(upcomingSources)
@@ -41,14 +41,14 @@ export const useEditSources = () => {
 
   const onDescriptionChange = useCallback(
     (upcomingValue, index) => {
-      const upcomingSources = sources?.map((cSource, cIndex) => {
-        if (cIndex === index) {
+      const upcomingSources = sources?.map((currentSource, currentIndex) => {
+        if (currentIndex === index) {
           return {
-            ...cSource,
+            ...currentSource,
             description: upcomingValue
           }
         }
-        return cSource
+        return currentSource
       })
       setSources(upcomingSources)
       syncFormikSources(upcomingSources)
