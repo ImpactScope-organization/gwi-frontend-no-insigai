@@ -15,9 +15,9 @@ export const Sources = () => {
             {sources?.map((source, index) => {
               return source?.title && source?.description ? (
                 <div className="group bg-[#F3F5F7] p-3 rounded-md" key={`${index}-read-source`}>
-                  <p className="text-reportGrey text-[1em] text-base font-medium">
+                  <h3 className="text-reportGrey text-[1em] text-base font-medium">
                     {source?.title}
-                  </p>
+                  </h3>
                   <div
                     className="text-darkBlack mt-[8px] text-[1em] text-base font-medium green-links"
                     dangerouslySetInnerHTML={{
