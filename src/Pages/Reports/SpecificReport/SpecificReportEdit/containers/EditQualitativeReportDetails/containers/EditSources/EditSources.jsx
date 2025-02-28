@@ -17,9 +17,72 @@ export const EditSources = () => {
     }
   }, [formik.values?.sources, sourcesSet])
 
-  const saveSources = useCallback(() => {
-    formik.setFieldValue('sources', JSON.stringify(sources))
-  }, [formik, sources])
+  const syncFormikSources = useCallback(
+    (sourcesToSet) => {
+      formik.setFieldValue('sources', JSON.stringify(sourcesToSet))
+    },
+    [formik]
+  )
+
+  const onTitleChange = useCallback(
+    (e, index) => {
+      const upcomingSources = sources?.map((cSource, cIndex) => {
+        if (cIndex === index) {
+          return {
+            ...cSource,
+            title: e.target.value
+          }
+        }
+        return cSource
+      })
+      setSources(upcomingSources)
+      syncFormikSources(upcomingSources)
+    },
+    [sources, syncFormikSources]
+  )
+
+  const onDescriptionChange = useCallback(
+    (upcomingValue, index) => {
+      const upcomingSources = sources?.map((cSource, cIndex) => {
+        if (cIndex === index) {
+          return {
+            ...cSource,
+            description: upcomingValue
+          }
+        }
+        return cSource
+      })
+      setSources(upcomingSources)
+      syncFormikSources(upcomingSources)
+    },
+    [sources, syncFormikSources]
+  )
+
+  const onAddSource = useCallback(() => {
+    const upcomingSources = [
+      ...sources,
+      {
+        title: '',
+        description: ''
+      }
+    ]
+    setSources(() => upcomingSources)
+  }, [sources])
+
+  const onDeleteSource = useCallback(
+    (source, index) => {
+      if (
+        window.confirm(
+          `Are you sure you want to delete this Source? \n${source?.title || source?.Title}`
+        )
+      ) {
+        const upcomingSources = sources?.filter((_, indexToFilter) => indexToFilter !== index)
+        setSources(upcomingSources)
+        syncFormikSources(upcomingSources)
+      }
+    },
+    [sources, syncFormikSources]
+  )
 
   return (
     <div className="grid grid-cols-1 gap-6">
@@ -33,19 +96,7 @@ export const EditSources = () => {
                   type="button"
                   className="hover:opacity-25"
                   data-testid="SpecificReport.DeleteButton"
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        `Are you sure you want to delete this Source? \n${source?.title || source?.Title}`
-                      )
-                    ) {
-                      const upcomingSources = sources?.filter(
-                        (_, indexToFilter) => indexToFilter !== index
-                      )
-                      setSources(upcomingSources)
-                      saveSources()
-                    }
-                  }}
+                  onClick={() => onDeleteSource(source, index)}
                 >
                   ❌
                 </button>
@@ -55,56 +106,16 @@ export const EditSources = () => {
                 <Input
                   type="text"
                   variant="borderless"
-                  value={source?.title || source?.Title}
-                  onChange={(e) => {
-                    setSources(
-                      sources?.map((cSource, cIndex) => {
-                        if (cIndex === index) {
-                          if (cSource.hasOwnProperty('title')) {
-                            return {
-                              ...cSource,
-                              title: e.target.value
-                            }
-                          } else {
-                            return {
-                              ...cSource,
-                              Title: e.target.value
-                            }
-                          }
-                        }
-                        return cSource
-                      })
-                    )
-                    saveSources()
-                  }}
+                  value={source?.title}
+                  onChange={(e) => onTitleChange(e, index)}
                   className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
                 />
               </div>
               <div className="focus-within:border-primary rounded-lg mt-[16px] p-[16px] border border-1 focus-withing:border-primary">
                 <p className="text-reportGrey text-[1em] text-base font-medium mb-2">Text</p>
                 <CustomReactQuill
-                  value={source?.description || source?.Description}
-                  onChange={(upcomingValue) => {
-                    setSources(
-                      sources?.map((cSource, cIndex) => {
-                        if (cIndex === index) {
-                          if (cSource.hasOwnProperty('Description')) {
-                            return {
-                              ...cSource,
-                              Description: upcomingValue
-                            }
-                          } else {
-                            return {
-                              ...cSource,
-                              description: upcomingValue
-                            }
-                          }
-                        }
-                        return cSource
-                      })
-                    )
-                    saveSources()
-                  }}
+                  value={source?.description}
+                  onChange={(upcomingValue) => onDescriptionChange(upcomingValue, index)}
                 />
               </div>
             </div>
@@ -114,16 +125,7 @@ export const EditSources = () => {
         <button
           className="bg-primary rounded-lg py-[12px] flex w-full justify-center text-[#fff] text-[16px] font-[600] leading-[24px]"
           type="button"
-          onClick={() => {
-            const upcomingSources = [
-              ...sources,
-              {
-                Title: '',
-                Description: ''
-              }
-            ]
-            setSources(upcomingSources)
-          }}
+          onClick={onAddSource}
         >
           Add Source
         </button>
