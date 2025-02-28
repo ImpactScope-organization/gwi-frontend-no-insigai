@@ -2,9 +2,12 @@ import { useSpecificReportURL } from '../../hooks/useSpecificReportURL'
 import { SpecificReportInputPercentage } from '../../components/SpecificReportInputText/SpecificReportInputPercentage'
 import { SpecificReportInputText } from '../../components/SpecificReportInputText/SpecificReportInputText'
 import { useNavigate } from 'react-router-dom'
+import { useFormikContext } from 'formik'
 
 export const EditQuantitativeReportDetails = () => {
   const navigate = useNavigate()
+
+  const formik = useFormikContext()
 
   const { specificReportURL } = useSpecificReportURL()
 
@@ -20,7 +23,8 @@ export const EditQuantitativeReportDetails = () => {
       <div className="flex items-center gap-4 ">
         <button
           type="submit"
-          className="bg-primary rounded-lg py-[12px] flex w-full justify-center text-[#fff] text-[16px] font-[600] leading-[24px]"
+          className="bg-primary disabled:bg-gray-300 rounded-lg py-[12px] flex w-full justify-center text-[#fff] text-[16px] font-[600] leading-[24px]"
+          disabled={!formik.isValid}
         >
           Update report
         </button>
