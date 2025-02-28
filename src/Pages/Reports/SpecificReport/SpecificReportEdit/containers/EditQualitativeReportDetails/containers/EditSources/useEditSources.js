@@ -13,7 +13,7 @@ export const useEditSources = () => {
       setSources(toJSON(formik.values?.sources))
       setSourcesSet(true)
     }
-  }, [formik.values?.sources, sourcesSet])
+  }, [formik, sourcesSet])
 
   const syncFormikSources = useCallback(
     (sourcesToSet) => {
@@ -69,11 +69,7 @@ export const useEditSources = () => {
 
   const onDeleteSource = useCallback(
     (source, index) => {
-      if (
-        window.confirm(
-          `Are you sure you want to delete this Source? \n${source?.title || source?.Title}`
-        )
-      ) {
+      if (window.confirm(`Are you sure you want to delete this Source? \n${source?.title}`)) {
         const upcomingSources = sources?.filter((_, indexToFilter) => indexToFilter !== index)
         setSources(upcomingSources)
         syncFormikSources(upcomingSources)

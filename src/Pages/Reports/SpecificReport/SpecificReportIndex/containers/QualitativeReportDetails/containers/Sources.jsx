@@ -13,16 +13,15 @@ export const Sources = () => {
           <h2 className="text-[18px] mb-[16px] leading-[24px] font-[600]">Sources</h2>
           <div className="grid grid-cols-1 gap-6">
             {sources?.map((source, index) => {
-              return (source?.title || source?.Title) &&
-                (source?.description || source?.Description) ? (
+              return source?.title && source?.description ? (
                 <div className="group bg-[#F3F5F7] p-3 rounded-md" key={`${index}-read-source`}>
                   <p className="text-reportGrey text-[1em] text-base font-medium">
-                    {source?.title || source?.Title}
+                    {source?.title}
                   </p>
                   <div
                     className="text-darkBlack mt-[8px] text-[1em] text-base font-medium green-links"
                     dangerouslySetInnerHTML={{
-                      __html: source?.description || source?.Description
+                      __html: source?.description
                     }}
                   />
                 </div>

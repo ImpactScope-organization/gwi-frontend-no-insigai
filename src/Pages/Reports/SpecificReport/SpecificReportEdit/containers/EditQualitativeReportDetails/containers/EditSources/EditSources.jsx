@@ -29,7 +29,7 @@ export const EditSources = () => {
                 <Input
                   type="text"
                   variant="borderless"
-                  value={source?.title || source?.Title}
+                  value={source?.title}
                   onChange={(e) => onTitleChange(e, index)}
                   className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
                 />
@@ -37,7 +37,7 @@ export const EditSources = () => {
               <div className="focus-within:border-primary rounded-lg mt-[16px] p-[16px] border border-1 focus-withing:border-primary">
                 <p className="text-reportGrey text-[1em] text-base font-medium mb-2">Text</p>
                 <CustomReactQuill
-                  value={source?.description || source?.Description}
+                  value={source?.description}
                   onChange={(upcomingValue) => onDescriptionChange(upcomingValue, index)}
                 />
               </div>
