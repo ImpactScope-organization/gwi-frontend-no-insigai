@@ -20,7 +20,7 @@ export const SpecificReportInputText = ({ name, label }) => {
         status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
         className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
       />
-      <div className="ml-1">
+      <div className="mt-1">
         {formik.touched[name] && formik.errors[name] ? (
           <div className="text-[#ff0000]">{formik.errors[name]}</div>
         ) : null}
