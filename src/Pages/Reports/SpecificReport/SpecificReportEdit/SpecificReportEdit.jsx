@@ -13,6 +13,7 @@ import { useSpecificReportEdit } from './useSpecificReportEdit'
 import { useSpecificReportEditFormik } from './useSpecificReportEditFormik'
 import { Form, FormikProvider } from 'formik'
 import { SpecificReportInputText } from './components/SpecificReportInputText/SpecificReportInputText'
+import { SpecificReportInputPercentage } from './components/SpecificReportInputText/SpecificReportInputPercentage'
 
 export const SpecificReportEdit = () => {
   const navigate = useNavigate()
@@ -201,64 +202,16 @@ export const SpecificReportEdit = () => {
                 <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
                   <h5 className="text-[18px] leading-[24px] font-[600]">Report</h5>
                   <div className="flex flex-col gap-[16px] my-[24px]">
-                    <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
-                      <p className="text-reportGrey text-[1em] text-base font-medium">
-                        Greenwashing risk
-                      </p>
-                      <div className="flex items-center gap-1 mt-[8px]">
-                        <input
-                          type="number"
-                          min={0}
-                          max={100}
-                          // variant="borderless"
-                          value={modifyData?.greenwashRiskPercentage}
-                          onChange={(e) => {
-                            e.preventDefault()
-                            if (e.target.value <= 100 && e.target.value >= 0) {
-                              handleInputUpdates('greenwashRiskPercentage', e.target.value)
-                            }
-                          }}
-                          // suffix={<p className="text-reportGrey">%</p>}
-                          className="w-full border-none p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden focus:border-none focus:outline-none"
-                        />
-                        <p className="text-reportGrey">%</p>
-                      </div>
-                    </div>
-                    <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
-                      <p className="text-reportGrey text-[1em] text-base font-medium">
-                        Reporting risk
-                      </p>
-                      <div className="flex items-center gap-1 mt-[8px]">
-                        <input
-                          type="number"
-                          min={0}
-                          max={100}
-                          value={modifyData?.reportingRiskPercentage}
-                          onChange={(e) => {
-                            e.preventDefault()
-                            if (e.target.value <= 100 && e.target.value >= 0) {
-                              handleInputUpdates('reportingRiskPercentage', e.target.value)
-                            }
-                          }}
-                          className="w-full border-none p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden focus:border-none focus:outline-none"
-                        />
-                        <p className="text-reportGrey">%</p>
-                      </div>
-                    </div>
-                    <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
-                      <p className="text-reportGrey text-[1em] text-base font-medium">
-                        GHG emissions
-                      </p>
-                      <Input
-                        type="text"
-                        variant="borderless"
-                        value={modifyData?.GHGEmissions}
-                        onChange={(e) => {
-                          handleInputUpdates('GHGEmissions', e.target.value)
-                        }}
-                        className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
-                      />
-                    </div>
+                    <SpecificReportInputPercentage
+                      name="greenwashRiskPercentage"
+                      label="Greenwashing risk"
+                    />
+                    <SpecificReportInputPercentage
+                      name="reportingRiskPercentage"
+                      label="Reporting risk"
+                    />
+
+                    <SpecificReportInputText name="GHGEmissions" label="GHG emissions" />
                   </div>
                   <div className="flex items-center gap-4 ">
                     <button

@@ -24,18 +24,16 @@ export const useSpecificReportEditFormik = () => {
       GHGEmissions: ''
     },
     validationSchema: Yup.object({
-      contradiction: Yup.string().required('Contradictions field cannot be empty.'),
-      potentialInconsistencies: Yup.string().required(
-        'Potential Inconsistencies field cannot be empty.'
-      ),
-      unsubstantiatedClaims: Yup.string().required('Unsubstantiated Claims field cannot be empty.'),
-      greenwashRiskPercentage: Yup.string().required('Greenwashing Risk field cannot be empty.'),
-      reportingRiskPercentage: Yup.string().required('Reporting Risk field cannot be empty.'),
-      jurisdiction: Yup.string().required('Jurisdiction field cannot be empty.'),
-      sector: Yup.string().required('Sector field cannot be empty.'),
-      annualRevenue: Yup.string().required('Annual Revenue field cannot be empty.'),
-      noOfEmployees: Yup.string().required('No. of Employees field cannot be empty.'),
-      GHGEmissions: Yup.string().required('GHG Emissions field cannot be empty.')
+      contradiction: Yup.string().required(),
+      potentialInconsistencies: Yup.string().required(),
+      unsubstantiatedClaims: Yup.string().required(),
+      greenwashRiskPercentage: Yup.number().max(100).min(0).required(),
+      reportingRiskPercentage: Yup.number().max(100).min(0).required(),
+      jurisdiction: Yup.string().required(),
+      sector: Yup.string().required(),
+      annualRevenue: Yup.string().required(),
+      noOfEmployees: Yup.string().required(),
+      GHGEmissions: Yup.string().required()
     }),
     onSubmit: async (values) => {
       await handleSubmitEditPromptCategory(values)
