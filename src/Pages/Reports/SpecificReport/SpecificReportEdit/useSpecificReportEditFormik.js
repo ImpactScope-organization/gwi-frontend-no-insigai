@@ -36,13 +36,13 @@ export const useSpecificReportEditFormik = () => {
       GHGEmissions: Yup.string().required()
     }),
     onSubmit: async (values) => {
-      await handleSubmitEditPromptCategory(values)
+      await handleUpdateReport(values)
     }
   })
 
   const { resetFormikFilled } = useFillFormik(editSpecificReportFormik, currentCompanyReport)
 
-  const handleSubmitEditPromptCategory = useCallback(
+  const handleUpdateReport = useCallback(
     async (currentCompanyReportForm) => {
       try {
         await axios.put(`${apiUrl}/api/company/update/${reportId}`, {
