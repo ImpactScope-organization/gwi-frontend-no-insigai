@@ -4,8 +4,8 @@ import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButton
 import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 import { ReportDocuments } from '../components/ReportDocuments/ReportDocuments'
-import { useSpecificReportEdit } from './useSpecificReportEdit'
-import { useSpecificReportEditFormik } from './useSpecificReportEditFormik'
+import { useSpecificReportURL } from './hooks/useSpecificReportURL'
+import { useSpecificReportEditFormik } from './hooks/useSpecificReportEditFormik'
 import { Form, FormikProvider } from 'formik'
 import { EditQualitativeReportDetails } from './containers/EditQualitativeReportDetails/EditQualitativeReportDetails'
 import { EditQuantitativeReportDetails } from './containers/EditQuantitativeReportDetails/EditQuantitativeReportDetails'
@@ -13,7 +13,7 @@ import { EditQuantitativeReportDetails } from './containers/EditQuantitativeRepo
 export const SpecificReportEdit = () => {
   const { currentCompanyReportIsLoading } = useCurrentCompanyReport()
 
-  const { specificReportURL } = useSpecificReportEdit()
+  const { specificReportURL } = useSpecificReportURL()
 
   const { editSpecificReportFormik } = useSpecificReportEditFormik()
 
