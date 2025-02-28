@@ -16,12 +16,11 @@ export const QuantitativeReportDetails = () => {
   const {
     greenwashingRiskPercentage,
     reportingRiskPercentage,
-    blockchainTransactionURL,
-    blockchainFileURL,
     handleSendToBlockchain,
     isSendToBlockchainInProgress,
     deleteCompanyHandler,
-    dropdownConfiguration
+    dropdownConfiguration,
+    storedOnBlockchain
   } = useQuantitativeReportDetails()
 
   return (
@@ -40,7 +39,7 @@ export const QuantitativeReportDetails = () => {
         <BlockchainDetails />
       </div>
       {/* todo make this as a component */}
-      {(!blockchainTransactionURL || !blockchainFileURL) && (
+      {!storedOnBlockchain && (
         <div className="flex flex-row gap-4 w-full">
           <button
             disabled={isSendToBlockchainInProgress}
@@ -63,7 +62,7 @@ export const QuantitativeReportDetails = () => {
           </Dropdown>
         </div>
       )}
-      {blockchainTransactionURL && blockchainFileURL && (
+      {storedOnBlockchain && (
         <div className="flex flex-row justify-center gap-2 col-span-2 w-full">
           <button
             onClick={() => captureScreen('report-container', currentCompanyReport?.companyName)}
