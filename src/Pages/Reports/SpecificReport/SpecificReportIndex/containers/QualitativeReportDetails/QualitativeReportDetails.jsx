@@ -15,8 +15,6 @@ export const QualitativeReportDetails = () => {
       }}
       className="basis-8/12 max-w-[740px] p-[16px]  mx-auto rounded-2xl "
     >
-      {/* Top */}
-
       <div>
         <p className="leading-[24px] text-sm text-reportGrey font-medium">{formattedDate}</p>
         <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
