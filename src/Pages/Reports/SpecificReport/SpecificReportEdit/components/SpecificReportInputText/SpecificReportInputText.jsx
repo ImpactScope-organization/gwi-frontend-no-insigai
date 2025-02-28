@@ -7,7 +7,7 @@ export const SpecificReportInputText = ({ name, label }) => {
 
   return (
     <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
-      <p className="text-reportGrey text-[1em] text-base font-medium">{label}</p>
+      <h3 className="text-reportGrey text-[1em] text-base font-medium">{label}</h3>
       <Input
         variant="borderless"
         id={name}
