@@ -15,8 +15,6 @@ export const EditQualitativeReportDetails = () => {
       }}
       className="basis-8/12 max-w-[740px] p-[16px]  mx-auto rounded-2xl "
     >
-      {/* Top */}
-
       <div>
         <h3 className="leading-[24px] text-sm text-reportGrey font-medium">{formattedDate}</h3>
         <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
@@ -31,12 +29,8 @@ export const EditQualitativeReportDetails = () => {
         </div>
       </div>
 
-      {/* Contradiction */}
       <DynamicTextarea label="Contradictions" name="contradiction" />
-      {/*    Potential inconsistencies */}
       <DynamicTextarea label="Potential inconsistencies" name="potentialInconsistencies" />
-
-      {/* Unsubstantiated claims */}
       <DynamicTextarea label="Unsubstantiated claims" name="unsubstantiatedClaims" />
 
       <EditSources />
