@@ -1,35 +1,19 @@
 import React from 'react'
-import { formattedDate } from '../../../../utils/date'
 import LoadingPage from '../../../../Components/loading'
-import { Input } from 'antd'
-import { CustomReactQuill } from '../../../../Components/CustomReactQuill/CustomReactQuill'
-import { useNavigate } from 'react-router-dom'
 import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButtonLink'
 import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
-import { DynamicTextarea } from './components/DynamicTextarea/DynamicTextarea'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 import { ReportDocuments } from '../components/ReportDocuments/ReportDocuments'
 import { useSpecificReportEdit } from './useSpecificReportEdit'
 import { useSpecificReportEditFormik } from './useSpecificReportEditFormik'
 import { Form, FormikProvider } from 'formik'
-import { SpecificReportInputText } from './components/SpecificReportInputText/SpecificReportInputText'
-import { SpecificReportInputPercentage } from './components/SpecificReportInputText/SpecificReportInputPercentage'
 import { EditQualitativeReportDetails } from './containers/EditQualitativeReportDetails/EditQualitativeReportDetails'
 import { EditQuantitativeReportDetails } from './containers/EditQuantitativeReportDetails/EditQuantitativeReportDetails'
 
 export const SpecificReportEdit = () => {
-  const navigate = useNavigate()
+  const { currentCompanyReportIsLoading } = useCurrentCompanyReport()
 
-  const { currentCompanyReport, currentCompanyReportIsLoading } = useCurrentCompanyReport()
-
-  const {
-    isModifying,
-    modifyData,
-    setModifyData,
-    handleInputUpdates,
-    submitUpdateReport,
-    specificReportURL
-  } = useSpecificReportEdit()
+  const { specificReportURL } = useSpecificReportEdit()
 
   const { editSpecificReportFormik } = useSpecificReportEditFormik()
 
@@ -42,7 +26,6 @@ export const SpecificReportEdit = () => {
       <BackButtonLink to={specificReportURL} />
       <FormikProvider value={editSpecificReportFormik}>
         <Form>
-          {/* Specific Report */}
           <div
             id="report-container"
             className="flex flex-col md:flex-row gap-6 max-w-[1120px] mx-auto"

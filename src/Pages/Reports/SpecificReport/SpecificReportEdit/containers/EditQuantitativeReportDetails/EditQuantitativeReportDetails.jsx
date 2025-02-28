@@ -2,19 +2,11 @@ import { useSpecificReportEdit } from '../../useSpecificReportEdit'
 import { SpecificReportInputPercentage } from '../../components/SpecificReportInputText/SpecificReportInputPercentage'
 import { SpecificReportInputText } from '../../components/SpecificReportInputText/SpecificReportInputText'
 import { useNavigate } from 'react-router-dom'
-import { ReportDocuments } from '../../../components/ReportDocuments/ReportDocuments'
 
 export const EditQuantitativeReportDetails = () => {
   const navigate = useNavigate()
 
-  const {
-    isModifying,
-    modifyData,
-    setModifyData,
-    handleInputUpdates,
-    submitUpdateReport,
-    specificReportURL
-  } = useSpecificReportEdit()
+  const { submitUpdateReport, specificReportURL } = useSpecificReportEdit()
 
   return (
     <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">

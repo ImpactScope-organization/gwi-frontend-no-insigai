@@ -8,16 +8,9 @@ import { useSpecificReportEdit } from '../../useSpecificReportEdit'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const EditQualitativeReportDetails = () => {
-  const { currentCompanyReport, currentCompanyReportIsLoading } = useCurrentCompanyReport()
+  const { currentCompanyReport } = useCurrentCompanyReport()
 
-  const {
-    isModifying,
-    modifyData,
-    setModifyData,
-    handleInputUpdates,
-    submitUpdateReport,
-    specificReportURL
-  } = useSpecificReportEdit()
+  const { isModifying, modifyData, setModifyData } = useSpecificReportEdit()
 
   return (
     <div
