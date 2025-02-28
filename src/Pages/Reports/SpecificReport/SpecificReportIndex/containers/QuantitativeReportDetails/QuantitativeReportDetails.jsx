@@ -1,6 +1,5 @@
 import CustomGaugeChart from '../../../../../../Components/gauge-chart'
 import { captureScreen } from '../../../../../../utils/helpers'
-import { formattedDate } from '../../../../../../utils/date'
 import { Dropdown } from 'antd'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import React from 'react'
@@ -9,6 +8,7 @@ import { ReportingRisk } from './components/ReportingRisk'
 import { ReportingRiskItem } from './components/ReportingRiskItem'
 import { ReportStatus } from './containers/ReportStatus'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
+import { BlockchainDetails } from './components/BlockchainDetails'
 
 export const QuantitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
@@ -37,38 +37,7 @@ export const QuantitativeReportDetails = () => {
           {currentCompanyReport?.GHGEmissions}
         </ReportingRiskItem>
         <ReportStatus />
-        {blockchainTransactionURL && (
-          <>
-            <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">Timestamp</p>
-            <a className="col-span-1 text-[1em] text-base mb-1 font-medium">{formattedDate}</a>
-            <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
-              Solana Transaction
-            </p>
-            <a
-              href={`${blockchainTransactionURL}`}
-              target="_blank"
-              rel="noreferrer"
-              className="text-darkGreen col-span-1 truncate text-[1em]  mb-1 font-medium"
-            >
-              {blockchainTransactionURL}
-            </a>
-          </>
-        )}
-        {blockchainFileURL && (
-          <>
-            <p className="text-reportGrey  text-[1em] text-base mb-1 font-medium">
-              View report on chain
-            </p>
-            <a
-              href={blockchainFileURL}
-              target="_blank"
-              rel="noreferrer"
-              className="text-darkGreen truncate text-[1em] text-base mb-1 font-medium"
-            >
-              {blockchainFileURL}
-            </a>
-          </>
-        )}
+        <BlockchainDetails />
       </div>
       {/* todo make this as a component */}
       {(!blockchainTransactionURL || !blockchainFileURL) && (

@@ -18,8 +18,6 @@ export const useQuantitativeReportDetails = () => {
 
   const greenwashingRiskPercentage = toFixed(currentCompanyReport?.greenwashRiskPercentage)
   const reportingRiskPercentage = toFixed(currentCompanyReport?.reportingRiskPercentage)
-  const blockchainTransactionURL = currentCompanyReport?.blockchainTransactionURL
-  const blockchainFileURL = currentCompanyReport?.blockchainFileURL
 
   const handleSendToBlockchain = useCallback(async () => {
     setIsSendToBlockchainInProgress(true)
@@ -94,8 +92,6 @@ export const useQuantitativeReportDetails = () => {
   return {
     greenwashingRiskPercentage,
     reportingRiskPercentage,
-    blockchainTransactionURL,
-    blockchainFileURL,
     handleSendToBlockchain,
     isSendToBlockchainInProgress,
     deleteCompanyHandler,
