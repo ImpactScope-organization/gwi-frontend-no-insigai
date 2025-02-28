@@ -45,10 +45,7 @@ export const useSpecificReportEditFormik = () => {
   const handleUpdateReport = useCallback(
     async (currentCompanyReportForm) => {
       try {
-        await axios.put(`${apiUrl}/api/company/update/${reportId}`, {
-          ...currentCompanyReportForm,
-          sources: JSON.stringify(currentCompanyReportForm?.sources)
-        })
+        await axios.put(`${apiUrl}/api/company/update/${reportId}`, currentCompanyReportForm)
         await getCurrentCompanyReport()
         resetFormikFilled()
         toast.success('Report saved successfully')

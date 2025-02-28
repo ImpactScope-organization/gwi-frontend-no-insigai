@@ -1,6 +1,6 @@
 import { Input } from 'antd'
 import { CustomReactQuill } from '../../../../../../../../Components/CustomReactQuill/CustomReactQuill'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useFormikContext } from 'formik'
 import { toJSON } from '../../../../../../../../utils/json'
 
@@ -16,6 +16,10 @@ export const EditSources = () => {
       setSourcesSet(true)
     }
   }, [formik.values?.sources, sourcesSet])
+
+  const saveSources = useCallback(() => {
+    formik.setFieldValue('sources', JSON.stringify(sources))
+  }, [formik, sources])
 
   return (
     <div className="grid grid-cols-1 gap-6">
@@ -39,6 +43,7 @@ export const EditSources = () => {
                         (_, indexToFilter) => indexToFilter !== index
                       )
                       setSources(upcomingSources)
+                      saveSources()
                     }
                   }}
                 >
@@ -70,6 +75,7 @@ export const EditSources = () => {
                         return cSource
                       })
                     )
+                    saveSources()
                   }}
                   className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
                 />
@@ -97,6 +103,7 @@ export const EditSources = () => {
                         return cSource
                       })
                     )
+                    saveSources()
                   }}
                 />
               </div>
