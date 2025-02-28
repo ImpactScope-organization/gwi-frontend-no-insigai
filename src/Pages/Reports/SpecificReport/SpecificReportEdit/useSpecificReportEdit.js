@@ -55,14 +55,14 @@ export const useSpecificReportEdit = () => {
       return toast.warn('GHG Emissions field cannot be empty.')
     }
     try {
-      const response = await axios.put(`${apiUrl}/api/company/update/${currentCompanyReport?.id}`, {
-        ...modifyData,
-        sources: JSON.stringify(modifyData?.sources)
-      })
-      const { data } = response
-      if (data) {
-        toast.success('Successfully updated the report.')
-      }
+      // const response = await axios.put(`${apiUrl}/api/company/update/${currentCompanyReport?.id}`, {
+      //   ...modifyData,
+      //   sources: JSON.stringify(modifyData?.sources)
+      // })
+      // const { data } = response
+      // if (data) {
+      //   toast.success('Successfully updated the report.')
+      // }
       await getCurrentCompanyReport()
 
       setModifyData(null)

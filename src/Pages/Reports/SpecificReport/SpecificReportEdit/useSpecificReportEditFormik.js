@@ -60,4 +60,8 @@ export const useSpecificReportEditFormik = () => {
     },
     [getCurrentCompanyReport, reportId, resetFormikFilled]
   )
+
+  return {
+    editSpecificReportFormik
+  }
 }
