@@ -3,7 +3,7 @@ import apiUrl from '../utils/baseURL'
 
 class ReportService {
   async getCompanyReport(companyId) {
-    const { data } = await axios.get(`${apiUrl}/api/company/${companyId}`)
+    const { data } = await axios.get(`${apiUrl}/api/report/${companyId}`)
     return data?.result
   }
   async getReportByReportQueueId(reportQueueId) {
@@ -14,7 +14,7 @@ class ReportService {
   }
 
   async getAllInitializedReport() {
-    const { data } = await axios.get(`${apiUrl}/api/company/all`)
+    const { data } = await axios.get(`${apiUrl}/api/report/all`)
     return data?.results
   }
 
