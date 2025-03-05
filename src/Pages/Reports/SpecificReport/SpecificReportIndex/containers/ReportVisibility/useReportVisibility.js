@@ -21,7 +21,7 @@ export const useReportVisibility = () => {
       setIsDemo(val)
       try {
         const response = await axios.put(
-          `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
+          `${apiUrl}/api/report/update/${currentCompanyReport?.id}`,
           {
             isDemo: val
           }
@@ -43,7 +43,7 @@ export const useReportVisibility = () => {
       setIsRegulator(val)
       try {
         const response = await axios.put(
-          `${apiUrl}/api/company/update/${currentCompanyReport?.id}`,
+          `${apiUrl}/api/report/update/${currentCompanyReport?.id}`,
           {
             sentToRegulators: val,
             sendToRegulatorsTimeStamp: formattedDate,
