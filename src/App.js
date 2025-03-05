@@ -20,6 +20,7 @@ import { ProcessingDetailsReport } from './Pages/Reports/ProcessingDetailsReport
 import { ProcessingReports } from './Pages/Reports/ProcessingReports/ProcessingReports'
 import { SpecificReportEdit } from './Pages/Reports/SpecificReport/SpecificReportEdit/SpecificReportEdit'
 import { Companies } from './Pages/Companies/Companies'
+import { CreateCompany } from './Pages/Companies/CreateCompany/CreateCompany'
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path={ROUTES.reports.processingDetails} element={<ProcessingDetailsReport />} />
         <Route path={ROUTES.reports.create} element={<CreateReport />} />
         <Route path={ROUTES.companies.index} element={<Companies />} />
+        <Route path={ROUTES.companies.create} element={<CreateCompany />} />
         <Route path={ROUTES.specificReport.index} element={<SpecificReportIndex />} />
         <Route path={ROUTES.specificReport.edit} element={<SpecificReportEdit />} />
         <Route path={ROUTES.prompts.index} element={<Prompts />} />
