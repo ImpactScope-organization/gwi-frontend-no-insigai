@@ -5,6 +5,7 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { getUrlWithParameters } from '../../../utils/route'
 import { ROUTES } from '../../../routes'
+import { createCompany } from '../api/CompanyApi'
 
 export const useCreateCompany = () => {
   const navigate = useNavigate()
@@ -26,11 +27,9 @@ export const useCreateCompany = () => {
   const handleCreateCompany = useCallback(
     async (company) => {
       try {
-        console.log(company)
-        // const {
-        //   result: { id }
-        // } = await createPromptCategory(promptCategory)
-        const id = '33'
+        const {
+          result: { id }
+        } = await createCompany(company)
         toast.success('Company saved successfully')
         navigate(getUrlWithParameters(ROUTES.companies.details, { id }))
       } catch (error) {
