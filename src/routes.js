@@ -9,6 +9,7 @@ export const ROUTES = {
   companies: {
     index: '/companies',
     create: '/companies/create',
+    details: '/companies/:id',
     edit: '/companies/:id/edit'
   },
   promptCategories: {

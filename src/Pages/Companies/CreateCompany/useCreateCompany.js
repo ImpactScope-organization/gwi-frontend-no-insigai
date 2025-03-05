@@ -32,7 +32,7 @@ export const useCreateCompany = () => {
         // } = await createPromptCategory(promptCategory)
         const id = '33'
         toast.success('Company saved successfully')
-        navigate(getUrlWithParameters(ROUTES.companies.edit, { id }))
+        navigate(getUrlWithParameters(ROUTES.companies.details, { id }))
       } catch (error) {
         console.error('Error submitting form:', error)
         toast.error('Error submitting form:', error)
