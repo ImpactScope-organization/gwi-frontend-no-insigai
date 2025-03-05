@@ -19,6 +19,7 @@ import { EditPromptPage } from './Pages/Prompts/EditPrompt/EditPromptPage'
 import { ProcessingDetailsReport } from './Pages/Reports/ProcessingDetailsReport/ProcessingDetailsReport'
 import { ProcessingReports } from './Pages/Reports/ProcessingReports/ProcessingReports'
 import { SpecificReportEdit } from './Pages/Reports/SpecificReport/SpecificReportEdit/SpecificReportEdit'
+import { Companies } from './Pages/Companies/Companies'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path={ROUTES.reports.processing} element={<ProcessingReports />} />
         <Route path={ROUTES.reports.processingDetails} element={<ProcessingDetailsReport />} />
         <Route path={ROUTES.reports.create} element={<CreateReport />} />
+        <Route path={ROUTES.companies.index} element={<Companies />} />
         <Route path={ROUTES.specificReport.index} element={<SpecificReportIndex />} />
         <Route path={ROUTES.specificReport.edit} element={<SpecificReportEdit />} />
         <Route path={ROUTES.prompts.index} element={<Prompts />} />

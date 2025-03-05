@@ -6,6 +6,11 @@ export const ROUTES = {
     create: '/prompts/create',
     edit: '/prompts/:id/edit'
   },
+  companies: {
+    index: '/companies',
+    create: '/companies/create',
+    edit: '/companies/:id/edit'
+  },
   promptCategories: {
     index: '/prompt-categories',
     create: '/prompt-categories/create',
