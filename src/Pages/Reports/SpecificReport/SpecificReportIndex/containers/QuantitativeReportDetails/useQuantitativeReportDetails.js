@@ -59,9 +59,7 @@ export const useQuantitativeReportDetails = () => {
         `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
       )
     ) {
-      const response = await axios.delete(
-        `${apiUrl}/api/company/delete/${currentCompanyReport?.id}`
-      )
+      const response = await axios.delete(`${apiUrl}/api/report/delete/${currentCompanyReport?.id}`)
       const { data } = response
       if (data?.status === 'success') {
         toast.success(data?.message)
