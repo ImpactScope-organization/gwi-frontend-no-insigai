@@ -36,12 +36,12 @@ export const QualitativeReportDetails = () => {
         displayValue={currentCompanyReport?.contradiction}
       />
       <ReportContentItem
-        title="Potential inconsistencies"
-        displayValue={currentCompanyReport?.potentialInconsistencies}
-      />
-      <ReportContentItem
         title="Unsubstantiated claims"
         displayValue={currentCompanyReport?.unsubstantiatedClaims}
+      />
+      <ReportContentItem
+        title="Potential inconsistencies"
+        displayValue={currentCompanyReport?.potentialInconsistencies}
       />
       <Sources />
     </div>
