@@ -1,8 +1,8 @@
 import React from 'react'
 import { formattedDate } from '../../../../../../utils/date'
 import { ReportMetaItem } from './components/ReportMetaItem'
-import { ReportContentItem } from './components/ReportContentItem'
-import { Sources } from './containers/Sources'
+import { ReportContentItem } from '../../../components/ReportContentItem'
+import { Sources } from '../../../containers/Sources'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
 export const QualitativeReportDetails = () => {
