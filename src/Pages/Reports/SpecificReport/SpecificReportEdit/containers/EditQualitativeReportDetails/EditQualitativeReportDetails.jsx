@@ -30,7 +30,6 @@ export const EditQualitativeReportDetails = () => {
       </div>
 
       <DynamicTextarea label="Contradictions" name="contradiction" />
-      <DynamicTextarea label="Potential inconsistencies" name="potentialInconsistencies" />
       <DynamicTextarea label="Unsubstantiated claims" name="unsubstantiatedClaims" />
 
       <EditSources />
