@@ -3,7 +3,8 @@ import { formattedDate } from '../../../../../../utils/date'
 import { SpecificReportInputText } from '../../components/SpecificReportInputText/SpecificReportInputText'
 import { DynamicTextarea } from '../../components/DynamicTextarea/DynamicTextarea'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
-import { EditSources } from './containers/EditSources/EditSources'
+import { ReportContentItem } from '../../../components/ReportContentItem'
+import { Sources } from '../../../containers/Sources'
 
 export const EditQualitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
@@ -30,10 +31,13 @@ export const EditQualitativeReportDetails = () => {
       </div>
 
       <DynamicTextarea label="Contradictions" name="contradiction" />
-      <DynamicTextarea label="Potential inconsistencies" name="potentialInconsistencies" />
       <DynamicTextarea label="Unsubstantiated claims" name="unsubstantiatedClaims" />
 
-      <EditSources />
+      <ReportContentItem
+        title="Potential inconsistencies"
+        displayValue={currentCompanyReport?.potentialInconsistencies}
+      />
+      <Sources />
     </div>
   )
 }

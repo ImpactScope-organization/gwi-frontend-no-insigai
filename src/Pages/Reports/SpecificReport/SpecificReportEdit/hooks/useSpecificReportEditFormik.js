@@ -13,7 +13,6 @@ export const useSpecificReportEditFormik = () => {
   const editSpecificReportFormik = useFormik({
     initialValues: {
       contradiction: '',
-      potentialInconsistencies: '',
       unsubstantiatedClaims: '',
       greenwashRiskPercentage: 0,
       reportingRiskPercentage: 0,
@@ -25,7 +24,6 @@ export const useSpecificReportEditFormik = () => {
     },
     validationSchema: Yup.object({
       contradiction: Yup.string().required(),
-      potentialInconsistencies: Yup.string().required(),
       unsubstantiatedClaims: Yup.string().required(),
       greenwashRiskPercentage: Yup.number().max(100).min(0).required(),
       reportingRiskPercentage: Yup.number().max(100).min(0).required(),
