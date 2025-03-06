@@ -4,6 +4,7 @@ import { SpecificReportInputText } from '../../components/SpecificReportInputTex
 import { DynamicTextarea } from '../../components/DynamicTextarea/DynamicTextarea'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 import { EditSources } from './containers/EditSources/EditSources'
+import { ReportContentItem } from '../../../SpecificReportIndex/containers/QualitativeReportDetails/components/ReportContentItem'
 
 export const EditQualitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
@@ -32,6 +33,10 @@ export const EditQualitativeReportDetails = () => {
       <DynamicTextarea label="Contradictions" name="contradiction" />
       <DynamicTextarea label="Unsubstantiated claims" name="unsubstantiatedClaims" />
 
+      <ReportContentItem
+        title="Potential inconsistencies"
+        displayValue={currentCompanyReport?.potentialInconsistencies}
+      />
       <EditSources />
     </div>
   )
