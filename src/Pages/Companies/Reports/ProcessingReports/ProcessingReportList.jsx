@@ -5,8 +5,10 @@ import { CategorizedListItemTitle } from '../../../../Components/CategorizedList
 import { CategorizedListItemCategoryContainer } from '../../../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategoryContainer'
 import { CategorizedListItemCategory } from '../../../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategory'
 import { handleDateFormat } from '../../../../utils/date'
-import { getRouteWithId, ROUTES } from '../../../../routes'
+import { getRouteWithParams, ROUTES } from '../../../../routes'
+import { useParams } from 'react-router-dom'
 export const ProcessingReportList = ({ data }) => {
+  const { companyId } = useParams()
   return (
     <>
       {!data ||
@@ -19,7 +21,10 @@ export const ProcessingReportList = ({ data }) => {
         data?.length > 0 &&
         data?.map((report) => (
           <CategorizedListItemLink
-            to={getRouteWithId(ROUTES.reports.processingDetails, report?.id)}
+            to={getRouteWithParams(ROUTES.companies.reports.processingDetails, {
+              companyId,
+              reportQueueId: report?.id
+            })}
             key={`report_queue_list_item_${report?.id}`}
           >
             <CategorizedListItemDate>{handleDateFormat(report?.createdAt)}</CategorizedListItemDate>

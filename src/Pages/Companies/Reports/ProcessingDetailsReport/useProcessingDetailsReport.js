@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useGetReportByReportQueueId } from '../../../../Hooks/reports-hooks'
 
 export const useProcessingDetailsReport = () => {
-  const { id: reportQueueId } = useParams()
+  const { reportQueueId } = useParams()
   const { data: report, refetch: refetchReport } = useGetReportByReportQueueId(reportQueueId)
 
   const {

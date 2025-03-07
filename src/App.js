@@ -42,6 +42,10 @@ function App() {
         <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
         <Route path={ROUTES.companies.reports.regulator} element={<RegulatorReport />} />
         <Route path={ROUTES.companies.reports.processing} element={<ProcessingReports />} />
+        <Route
+          path={ROUTES.companies.reports.processingDetails}
+          element={<ProcessingDetailsReport />}
+        />
         <Route path={ROUTES.companies.reports.report.index} element={<SpecificReportIndex />} />
         <Route path={ROUTES.companies.reports.report.edit} element={<SpecificReportEdit />} />
         <Route path={ROUTES.specificReport.index} element={<SpecificReportIndex />} />
