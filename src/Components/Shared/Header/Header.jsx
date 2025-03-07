@@ -8,12 +8,12 @@ const Header = () => {
     <div className="bg-darkBlack">
       <div className="flex justify-between items-center py-5 w-[90%] mx-auto ">
         {/* Left */}
-        <Link to={ROUTES.reports.internal} className="flex justify-between gap-20 items-center">
+        <Link to={ROUTES.companies.index} className="flex justify-between gap-20 items-center">
           <img src="/assets/logo.png" alt="logo" />
         </Link>
 
         <div className="flex justify-center items-center gap-10">
-          <HeaderLink to={ROUTES.reports.internal} pathToBeActive={ROUTES.reports.index}>
+          <HeaderLink to={ROUTES.companies.index} pathToBeActive={ROUTES.companies.index}>
             Reports
           </HeaderLink>
           <HeaderLink to={ROUTES.prompts.index}>Prompts</HeaderLink>

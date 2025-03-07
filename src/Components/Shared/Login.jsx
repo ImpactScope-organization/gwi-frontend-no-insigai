@@ -34,7 +34,7 @@ const Login = () => {
 
           // todo implement jwt
           login(data?.result)
-          navigate(ROUTES.reports.internal)
+          navigate(ROUTES.companies.index)
         })
       } catch (err) {
         toast.error(err?.response?.data?.message)

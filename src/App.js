@@ -30,7 +30,7 @@ function App() {
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Routes>
-        <Route path={ROUTES.home} element={<Navigate to={ROUTES.reports.internal} />} />
+        <Route path={ROUTES.home} element={<Navigate to={ROUTES.companies.index} />} />
         <Route path={ROUTES.reports.internal} element={<InternalReport />} />
         <Route path={ROUTES.reports.regulator} element={<RegulatorReport />} />
         <Route path={ROUTES.reports.processing} element={<ProcessingReports />} />
@@ -39,6 +39,7 @@ function App() {
         <Route path={ROUTES.companies.index} element={<Companies />} />
         <Route path={ROUTES.companies.details} element={<CompanyDetails />} />
         <Route path={ROUTES.companies.create} element={<CreateCompany />} />
+        <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
         <Route path={ROUTES.specificReport.index} element={<SpecificReportIndex />} />
         <Route path={ROUTES.specificReport.edit} element={<SpecificReportEdit />} />
         <Route path={ROUTES.prompts.index} element={<Prompts />} />
