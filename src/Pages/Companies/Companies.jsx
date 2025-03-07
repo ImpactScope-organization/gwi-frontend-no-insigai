@@ -1,6 +1,6 @@
 import { PageHeader } from '../../Components/Page/PageHeader/PageHeader'
 import { ButtonLink } from '../../Components/ButtonLink/ButtonLink'
-import { getRouteWithId, ROUTES } from '../../routes'
+import { getRouteWithId, getRouteWithParams, ROUTES } from '../../routes'
 import { CategorizedListContainer } from '../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
 import React from 'react'
 import { PageContainer } from '../../Components/Page/PageContainer/PageContainer'
@@ -35,7 +35,7 @@ export const Companies = () => {
           data?.length > 0 &&
           data?.map((company) => (
             <CategorizedListItemLink
-              to={getRouteWithId(ROUTES.companies.details, company?.id)}
+              to={getRouteWithParams(ROUTES.companies.reports.internal, { companyId: company?.id })}
               key={`company_list_item_${company?.id}`}
             >
               <CategorizedListItemDate>

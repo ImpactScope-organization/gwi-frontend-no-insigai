@@ -9,8 +9,15 @@ export const ROUTES = {
   companies: {
     index: '/companies',
     create: '/companies/create',
-    details: '/companies/:id',
-    edit: '/companies/:id/edit'
+    edit: '/companies/:companyId/edit',
+    reports: {
+      internal: '/companies/:companyId/reports/internal',
+      regulator: '/companies/:companyId/reports/regulator',
+      processing: '/companies/:companyId/reports/processing',
+      processingDetails: '/companies/:companyId/reports/processing/:id',
+      index: '/companies/:companyId/reports',
+      create: '/companies/:companyId/reports/create'
+    }
   },
   promptCategories: {
     index: '/prompt-categories',
@@ -35,6 +42,13 @@ export const ROUTES = {
 export const getRouteWithId = (route, id) => {
   if (id) {
     return route.replace(':id', id)
+  }
+  return route
+}
+
+export const getRouteWithParams = (route, paramGroup) => {
+  for (const key of Object.keys(paramGroup)) {
+    route = route.replace(`:${key}`, paramGroup[key])
   }
   return route
 }

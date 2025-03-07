@@ -1,19 +1,20 @@
-import { PageHeader } from '../../../Components/Page/PageHeader/PageHeader'
 import { ButtonLink } from '../../../Components/ButtonLink/ButtonLink'
 import { ROUTES } from '../../../routes'
 import React from 'react'
 import { CategorizedListContainer } from '../../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
 import { PageContainer } from '../../../Components/Page/PageContainer/PageContainer'
+import { TitleWithBackButton } from '../../../Components/TitleWithBackButton/TitleWithBackButton'
 
 export const CompanyDetails = () => {
   return (
     <PageContainer>
-      <PageHeader
-        title="First Group Company name should be replaced"
+      <TitleWithBackButton
+        title="Companies"
         subTitle="Overview all of companies here"
+        to={ROUTES.companies.index}
       >
         <ButtonLink to={ROUTES.companies.create}>Edit company details</ButtonLink>
-      </PageHeader>
+      </TitleWithBackButton>
       <CategorizedListContainer>hello</CategorizedListContainer>
     </PageContainer>
   )
