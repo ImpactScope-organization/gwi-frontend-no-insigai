@@ -35,7 +35,9 @@ export const Companies = () => {
           data?.length > 0 &&
           data?.map((company) => (
             <CategorizedListItemLink
-              to={getRouteWithParams(ROUTES.companies.reports.internal, { companyId: company?.id })}
+              to={getRouteWithParams(ROUTES.companies.reports.internal, {
+                companyId: company?.companyId
+              })}
               key={`company_list_item_${company?.id}`}
             >
               <CategorizedListItemDate>

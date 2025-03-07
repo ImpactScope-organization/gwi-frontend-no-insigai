@@ -1,14 +1,16 @@
 import React from 'react'
 import { ReportContainer } from '../components/ReportContainer/ReportContainer'
-import { useGetAllInitializedReports } from '../../../../Hooks/reports-hooks'
 import { ReportList } from '../components/ReportList/ReportList'
+import { useGetCompanyInternalReports } from '../../api/CompanyApiQuery'
+import { useParams } from 'react-router-dom'
 
 export const InternalReport = () => {
-  const { data } = useGetAllInitializedReports()
+  const { companyId } = useParams()
+  const { data } = useGetCompanyInternalReports(companyId)
 
   return (
     <ReportContainer>
-      <ReportList data={data} />
+      <ReportList data={data?.results} />
     </ReportContainer>
   )
 }
