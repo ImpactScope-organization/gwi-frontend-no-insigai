@@ -11,7 +11,12 @@ export const fetchCompanyList = async () => {
   return response.data
 }
 
-export const getCompanyInternalReports = async (id) => {
-  const response = await axios.get(`${apiUrl}/api/company/${id}/reports/internal`)
+export const getCompany = async (companyId) => {
+  const response = await axios.get(`${apiUrl}/api/company/${companyId}`)
+  return response.data
+}
+
+export const getCompanyInternalReports = async (companyId) => {
+  const response = await axios.get(`${apiUrl}/api/company/${companyId}/reports/internal`)
   return response.data
 }

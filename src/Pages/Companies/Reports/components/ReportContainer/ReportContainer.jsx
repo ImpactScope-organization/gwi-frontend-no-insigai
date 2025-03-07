@@ -7,14 +7,16 @@ import { PageContentContainer } from '../../../../../Components/Page/PageContent
 import { CategorizedListContainer } from '../../../../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
 import { PageTab } from '../../../../../Components/Page/PageTab/PageTab'
 import { useParams } from 'react-router-dom'
+import { useGetCompany } from '../../../api/CompanyApiQuery'
 
 export const ReportContainer = ({ children }) => {
   const { companyId } = useParams()
+  const { data } = useGetCompany(companyId)
 
   return (
     <PageContainer>
-      <PageHeader title="Companies" subTitle="Overview all of companies here">
-        <ButtonLink to={ROUTES.reports.create}>Add new company</ButtonLink>
+      <PageHeader title={data?.result?.name} subTitle={data?.result?.companyId}>
+        <ButtonLink to={ROUTES.reports.create}>Add new report</ButtonLink>
       </PageHeader>
 
       {/* Tabs Container */}
