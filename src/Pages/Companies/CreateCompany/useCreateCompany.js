@@ -28,10 +28,10 @@ export const useCreateCompany = () => {
     async (company) => {
       try {
         const {
-          result: { id }
+          result: { companyId }
         } = await createCompany(company)
         toast.success('Company saved successfully')
-        navigate(getUrlWithParameters(ROUTES.companies.details, { id }))
+        navigate(getUrlWithParameters(ROUTES.companies.reports.internal, { companyId }))
       } catch (error) {
         console.error('Error submitting form:', error)
         toast.error('Error submitting form:', error)
