@@ -25,3 +25,8 @@ export const getCompanyRegulatorReports = async (companyId) => {
   const response = await axios.get(`${apiUrl}/api/company/${companyId}/reports/regulator`)
   return response.data
 }
+
+export const getCompanyProcessingReports = async (companyId) => {
+  const response = await axios.get(`${apiUrl}/api/company/${companyId}/reports/processing`)
+  return response.data
+}

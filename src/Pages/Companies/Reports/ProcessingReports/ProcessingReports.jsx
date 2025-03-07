@@ -1,18 +1,16 @@
 import React from 'react'
 import { ReportContainer } from '../components/ReportContainer/ReportContainer'
-import { useQuery } from '@tanstack/react-query'
-import { fetchReportQueueList } from '../api/ReportQueueApi'
 import { ProcessingReportList } from './ProcessingReportList'
+import { useGetCompanyProcessingReports } from '../../api/CompanyApiQuery'
+import { useParams } from 'react-router-dom'
 
 export const ProcessingReports = () => {
-  const { data } = useQuery({
-    queryKey: ['fetchReportQueueList'],
-    queryFn: () => fetchReportQueueList()
-  })
+  const { companyId } = useParams()
+  const { data } = useGetCompanyProcessingReports(companyId)
 
   return (
     <ReportContainer>
-      <ProcessingReportList data={data} />
+      <ProcessingReportList data={data?.results} />
     </ReportContainer>
   )
 }

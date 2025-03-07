@@ -35,7 +35,13 @@ export const ReportContainer = ({ children }) => {
         >
           Sent to regulator
         </PageTab>
-        <PageTab to={ROUTES.reports.processing}>Processing reports</PageTab>
+        <PageTab
+          to={getRouteWithParams(ROUTES.companies.reports.processing, {
+            companyId
+          })}
+        >
+          Processing reports
+        </PageTab>
       </PageContentContainer>
 
       {/* Reports Container */}
