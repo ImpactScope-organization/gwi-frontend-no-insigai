@@ -14,7 +14,7 @@ const Header = () => {
 
         <div className="flex justify-center items-center gap-10">
           <HeaderLink to={ROUTES.companies.index} pathToBeActive={ROUTES.companies.index}>
-            Reports
+            Companies
           </HeaderLink>
           <HeaderLink to={ROUTES.prompts.index}>Prompts</HeaderLink>
           <ConnectWallet
