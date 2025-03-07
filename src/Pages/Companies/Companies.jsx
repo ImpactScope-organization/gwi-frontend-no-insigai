@@ -10,14 +10,10 @@ import { handleDateFormat } from '../../utils/date'
 import { CategorizedListItemTitle } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemTitle'
 import { CategorizedListItemCategoryContainer } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategoryContainer'
 import { CategorizedListItemCategory } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategory'
-import { useQuery } from '@tanstack/react-query'
-import { fetchCompanyList } from './api/CompanyApi'
+import { useFetchCompanyList } from './api/CompanyApiQuery'
 
 export const Companies = () => {
-  const { data } = useQuery({
-    queryKey: ['fetchCompanyList'],
-    queryFn: () => fetchCompanyList()
-  })
+  const { data } = useFetchCompanyList()
 
   return (
     <PageContainer>
