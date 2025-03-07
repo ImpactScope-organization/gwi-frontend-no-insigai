@@ -1,10 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchCompanyList, getCompany, getCompanyInternalReports } from './CompanyApi'
+import {
+  fetchCompanyList,
+  getCompany,
+  getCompanyInternalReports,
+  getCompanyRegulatorReports
+} from './CompanyApi'
 
 export const useGetCompanyInternalReports = (companyId) => {
   return useQuery({
     queryKey: ['useGetCompanyInternalReports', companyId],
     queryFn: () => getCompanyInternalReports(companyId),
+    staleTime: 60000
+  })
+}
+
+export const useGetCompanyRegulatorReports = (companyId) => {
+  return useQuery({
+    queryKey: ['useGetCompanyRegulatorReports', companyId],
+    queryFn: () => getCompanyRegulatorReports(companyId),
     staleTime: 60000
   })
 }

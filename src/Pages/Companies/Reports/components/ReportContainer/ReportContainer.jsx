@@ -28,7 +28,13 @@ export const ReportContainer = ({ children }) => {
         >
           Internal reports
         </PageTab>
-        <PageTab to={ROUTES.reports.regulator}>Sent to regulator</PageTab>
+        <PageTab
+          to={getRouteWithParams(ROUTES.companies.reports.regulator, {
+            companyId
+          })}
+        >
+          Sent to regulator
+        </PageTab>
         <PageTab to={ROUTES.reports.processing}>Processing reports</PageTab>
       </PageContentContainer>
 
