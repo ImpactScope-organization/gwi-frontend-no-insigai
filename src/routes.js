@@ -16,7 +16,11 @@ export const ROUTES = {
       processing: '/companies/:companyId/reports/processing',
       processingDetails: '/companies/:companyId/reports/processing/:id',
       index: '/companies/:companyId/reports',
-      create: '/companies/:companyId/reports/create'
+      create: '/companies/:companyId/reports/create',
+      report: {
+        index: '/companies/:companyId/reports/:reportId',
+        edit: '/companies/:companyId/reports/:reportId/edit'
+      }
     }
   },
   promptCategories: {

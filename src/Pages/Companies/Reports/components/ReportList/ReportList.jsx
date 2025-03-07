@@ -1,5 +1,5 @@
 import React from 'react'
-import { getRouteWithId, ROUTES } from '../../../../../routes'
+import { getRouteWithParams, ROUTES } from '../../../../../routes'
 import { handleDateFormat } from '../../../../../utils/date'
 import { CategorizedListItemLink } from '../../../../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemLink'
 import { CategorizedListItemDate } from '../../../../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemDate'
@@ -20,7 +20,10 @@ export const ReportList = ({ data }) => {
         data?.length > 0 &&
         data?.map((report) => (
           <CategorizedListItemLink
-            to={getRouteWithId(ROUTES.specificReport.index, report?.id)}
+            to={getRouteWithParams(ROUTES.companies.reports.report.index, {
+              companyId: report?.companyId,
+              reportId: report?.id
+            })}
             key={`report_list_item_${report?.id}`}
           >
             <CategorizedListItemDate>{handleDateFormat(report?.createdAt)}</CategorizedListItemDate>

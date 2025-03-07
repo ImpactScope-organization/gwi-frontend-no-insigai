@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useGetCompanyReport } from '../../../../../Hooks/reports-hooks'
 
 export const useCurrentCompanyReport = () => {
-  const { id: reportId } = useParams()
+  const { reportId } = useParams()
 
   const {
     refetch: getCurrentCompanyReport,
