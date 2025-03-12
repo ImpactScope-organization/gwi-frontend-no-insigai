@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import Header from './Components/Shared/Header/Header'
+import { Header } from './Components/Shared/Header/Header'
 import Login from './Components/Shared/Login'
 import 'react-quill-new/dist/quill.snow.css'
 import { ROUTES } from './routes'

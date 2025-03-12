@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ROUTES } from '../../../routes'
 import { HeaderLink } from './HeaderLink'
 
-const Header = () => {
+export const Header = () => {
   return (
     <div className="bg-darkBlack">
       <div className="flex justify-between items-center py-5 w-[90%] mx-auto ">
@@ -27,5 +27,3 @@ const Header = () => {
     </div>
   )
 }
-
-export default Header
