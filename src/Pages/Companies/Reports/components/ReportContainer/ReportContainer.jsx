@@ -17,7 +17,7 @@ export const ReportContainer = ({ children }) => {
     <PageContainer>
       <PageHeaderWithBackButton
         title={data?.result?.name}
-        subTitle={data?.result?.companyId}
+        subTitle={data?.result?.jurisdiction}
         to={ROUTES.companies.index}
       >
         <div className="flex gap-4">
