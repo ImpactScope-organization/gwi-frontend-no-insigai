@@ -23,11 +23,11 @@ const CreateReport = () => {
         <div className="grid w-full">
           <div className="w-1/2 mx-auto flex justify-center items-center flex-col">
             <h1 className="text-darkBlack font-bold text-3xl leading-[64px] mb-1">
-              Add new company
+              Add new report
             </h1>
             <p className="mb-8">
-              Add the company source file to add the company to the report queue. <br />
-              You will see the processing status after submitting the company.
+              Add the report source file to add the report to the report queue. <br />
+              You will see the processing status after submitting the report.
             </p>
             {/* File Upload */}
             <FormikProvider value={formik}>
@@ -39,7 +39,7 @@ const CreateReport = () => {
                 disabled={!formik.isValid}
                 onClick={formik.submitForm}
               >
-                Add new company
+                Add new report
               </SuccessButton>
             </FormikProvider>
           </div>
