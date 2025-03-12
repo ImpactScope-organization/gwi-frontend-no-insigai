@@ -1,19 +1,25 @@
 import React from 'react'
 import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButtonLink'
-import { ROUTES } from '../../../../routes'
+import { getRouteWithParams, ROUTES } from '../../../../routes'
 import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
 import { FormikProvider } from 'formik'
 import { useCreateReport } from './useCreateReport'
 import { FileInput } from '../../../../Components/Fields/FileInput'
 import { SuccessButton } from '../../../../Components/Buttons/SuccessButton'
+import { useParams } from 'react-router-dom'
 
 const CreateReport = () => {
+  const { companyId } = useParams()
   const { formik, isLoading } = useCreateReport()
 
   return (
     <PageContainer>
       <div className="pb-10">
-        <BackButtonLink to={ROUTES.reports.internal} />
+        <BackButtonLink
+          to={getRouteWithParams(ROUTES.companies.reports.internal, {
+            companyId
+          })}
+        />
         <div className="grid w-full">
           <div className="w-1/2 mx-auto flex justify-center items-center flex-col">
             <h1 className="text-darkBlack font-bold text-3xl leading-[64px] mb-1">

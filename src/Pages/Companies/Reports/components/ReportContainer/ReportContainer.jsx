@@ -16,7 +16,13 @@ export const ReportContainer = ({ children }) => {
   return (
     <PageContainer>
       <PageHeader title={data?.result?.name} subTitle={data?.result?.companyId}>
-        <ButtonLink to={ROUTES.reports.create}>Add new report</ButtonLink>
+        <ButtonLink
+          to={getRouteWithParams(ROUTES.companies.reports.create, {
+            companyId
+          })}
+        >
+          Add new report
+        </ButtonLink>
       </PageHeader>
 
       {/* Tabs Container */}
