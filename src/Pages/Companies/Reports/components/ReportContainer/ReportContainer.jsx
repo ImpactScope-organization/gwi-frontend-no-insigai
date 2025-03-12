@@ -20,7 +20,7 @@ export const ReportContainer = ({ children }) => {
         subTitle={data?.result?.companyId}
         to={ROUTES.companies.index}
       >
-        <div class="flex gap-4">
+        <div className="flex gap-4">
           <ButtonLink
             bgColor={'bg-yellow-500'}
             to={getRouteWithParams(ROUTES.companies.edit, {

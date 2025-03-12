@@ -1,16 +1,20 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { getUrlWithParameters } from '../../../utils/route'
-import { ROUTES } from '../../../routes'
-import { createCompany } from '../api/CompanyApi'
+import { useGetCompany } from '../api/CompanyApiQuery'
+import { useFillFormik } from '../../../Hooks/useFillFormik'
 
 export const useEditCompany = () => {
+  const { companyId } = useParams()
   const navigate = useNavigate()
+  const { data, refetch: refetchCompany } = useGetCompany(companyId)
+  const company = data?.result
 
-  const createCompanyFormik = useFormik({
+  console.log(company)
+
+  const editCompanyFormik = useFormik({
     initialValues: {
       name: '',
       companyId: ''
@@ -23,24 +27,27 @@ export const useEditCompany = () => {
       await handleCreateCompany(values)
     }
   })
+  const { resetFormikFilled } = useFillFormik(editCompanyFormik, company)
 
   const handleCreateCompany = useCallback(
     async (company) => {
       try {
-        const {
-          result: { companyId }
-        } = await createCompany(company)
+        //  edit company
+        // const {
+        //   result: { companyId }
+        // } = await createCompany(company)
         toast.success('Company saved successfully')
-        navigate(getUrlWithParameters(ROUTES.companies.reports.internal, { companyId }))
+        await refetchCompany()
+        resetFormikFilled()
       } catch (error) {
         console.error('Error submitting form:', error)
         toast.error('Error submitting form:', error)
       }
     },
-    [navigate]
+    [refetchCompany, resetFormikFilled]
   )
 
   return {
-    createCompanyFormik
+    editCompanyFormik
   }
 }

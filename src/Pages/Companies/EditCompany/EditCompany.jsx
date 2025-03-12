@@ -10,16 +10,16 @@ import { useParams } from 'react-router-dom'
 
 export const EditCompany = () => {
   const { companyId } = useParams()
-  const { createCompanyFormik } = useEditCompany()
+  const { editCompanyFormik } = useEditCompany()
 
   return (
     <TitleWithBackButton
-      title="Edit Company add company name"
+      title={`Edit ${editCompanyFormik.values.name}`}
       to={getRouteWithParams(ROUTES.companies.reports.internal, {
         companyId
       })}
     >
-      <FormikProvider value={createCompanyFormik}>
+      <FormikProvider value={editCompanyFormik}>
         <div className="flex flex-col w-full gap-4 lg:flex-row">
           <Form className="flex flex-col gap-4 w-full">
             <div className="flex flex-col lg:w-2/3 xl:w-1/2 gap-4">
@@ -29,10 +29,7 @@ export const EditCompany = () => {
               </div>
 
               <div className="flex w-full gap-4">
-                <SuccessButton
-                  onClick={createCompanyFormik.submitForm}
-                  icon={<CheckSquareFilled />}
-                >
+                <SuccessButton onClick={editCompanyFormik.submitForm} icon={<CheckSquareFilled />}>
                   Save company
                 </SuccessButton>
               </div>

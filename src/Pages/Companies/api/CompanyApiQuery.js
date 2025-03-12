@@ -2,7 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import {
   fetchCompanyList,
   getCompany,
-  getCompanyInternalReports, getCompanyProcessingReports,
+  getCompanyInternalReports,
+  getCompanyProcessingReports,
   getCompanyRegulatorReports
 } from './CompanyApi'
 
