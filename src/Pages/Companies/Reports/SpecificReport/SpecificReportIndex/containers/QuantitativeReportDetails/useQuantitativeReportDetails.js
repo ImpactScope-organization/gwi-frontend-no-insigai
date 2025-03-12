@@ -63,12 +63,16 @@ export const useQuantitativeReportDetails = () => {
       const { data } = response
       if (data?.status === 'success') {
         toast.success(data?.message)
-        navigate(ROUTES.reports.internal)
+        navigate(
+          getRouteWithParams(ROUTES.companies.reports.internal, {
+            companyId
+          })
+        )
       } else {
         toast.error('something went wrong while deleting the report')
       }
     }
-  }, [currentCompanyReport, navigate])
+  }, [companyId, currentCompanyReport, navigate])
 
   const dropdownConfiguration = useMemo(() => {
     return {

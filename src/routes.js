@@ -28,18 +28,6 @@ export const ROUTES = {
     create: '/prompt-categories/create',
     edit: '/prompt-categories/:id/edit'
   },
-  reports: {
-    internal: '/reports/internal',
-    regulator: '/reports/regulator',
-    processing: '/reports/processing',
-    processingDetails: '/reports/processing/:id',
-    index: '/reports',
-    create: '/reports/create'
-  },
-  specificReport: {
-    index: '/specific-report/:id',
-    edit: '/specific-report/:id/edit'
-  },
   notFound: '*'
 }
 
