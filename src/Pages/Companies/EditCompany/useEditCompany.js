@@ -32,12 +32,12 @@ export const useEditCompany = () => {
       GHGEmissions: Yup.string().required()
     }),
     onSubmit: async (values) => {
-      await handleCreateCompany(values)
+      await handleEditCompany(values)
     }
   })
   const { resetFormikFilled } = useFillFormik(editCompanyFormik, company)
 
-  const handleCreateCompany = useCallback(
+  const handleEditCompany = useCallback(
     async (company) => {
       try {
         await updateCompany(companyId, company)
