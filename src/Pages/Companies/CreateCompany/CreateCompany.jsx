@@ -2,7 +2,6 @@ import { TitleWithBackButton } from '../../../Components/TitleWithBackButton/Tit
 import { ROUTES } from '../../../routes'
 import { Form, FormikProvider } from 'formik'
 import { InputText } from '../../../Components/Fields/InputText'
-import { QuantitativeToggle } from '../../../Components/Fields/QuantitativeToggle'
 import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
