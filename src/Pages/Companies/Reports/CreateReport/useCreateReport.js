@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { createReportQueueItem } from '../api/ReportQueueApi'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getRouteWithId, getRouteWithParams, ROUTES } from '../../../../routes'
+import { getRouteWithParams, ROUTES } from '../../../../routes'
 import { useLoading } from '../../../../Hooks/useLoading'
 
 export const useCreateReport = () => {
