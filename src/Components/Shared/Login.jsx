@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 import { useState } from 'react'
 
-const Login = () => {
+export const Login = () => {
   const [requestLoading, setRequestLoading] = useState(false)
 
   const { login } = useAuthContext()
@@ -34,7 +34,7 @@ const Login = () => {
 
           // todo implement jwt
           login(data?.result)
-          navigate(ROUTES.reports.internal)
+          navigate(ROUTES.companies.index)
         })
       } catch (err) {
         toast.error(err?.response?.data?.message)
@@ -158,5 +158,3 @@ const Login = () => {
     </div>
   )
 }
-
-export default Login

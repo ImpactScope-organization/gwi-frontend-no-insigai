@@ -6,7 +6,7 @@ export const HeaderLink = ({ to, pathToBeActive = undefined, children }) => {
   return (
     <Link
       to={to}
-      className={`text-white hover:text-green-300 cursor-pointer ${isRouteActive && 'text-primary'}`}
+      className={`hover:text-green-300 cursor-pointer ${isRouteActive ? 'text-primary' : 'text-white'}`}
     >
       {children}
     </Link>
