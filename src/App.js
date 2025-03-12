@@ -21,7 +21,6 @@ import { ProcessingReports } from './Pages/Companies/Reports/ProcessingReports/P
 import { SpecificReportEdit } from './Pages/Companies/Reports/SpecificReport/SpecificReportEdit/SpecificReportEdit'
 import { Companies } from './Pages/Companies/Companies'
 import { CreateCompany } from './Pages/Companies/CreateCompany/CreateCompany'
-import { CompanyDetails } from './Pages/Companies/CompanyDetails/CompanyDetails'
 import { EditCompany } from './Pages/Companies/EditCompany/EditCompany'
 
 function App() {
@@ -33,7 +32,6 @@ function App() {
       <Routes>
         <Route path={ROUTES.home} element={<Navigate to={ROUTES.companies.index} />} />
         <Route path={ROUTES.companies.index} element={<Companies />} />
-        <Route path={ROUTES.companies.details} element={<CompanyDetails />} />
         <Route path={ROUTES.companies.create} element={<CreateCompany />} />
         <Route path={ROUTES.companies.edit} element={<EditCompany />} />
         <Route path={ROUTES.companies.reports.create} element={<CreateReport />} />
