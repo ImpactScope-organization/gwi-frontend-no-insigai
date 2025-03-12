@@ -5,19 +5,17 @@ import { PageContainer } from '../../../../../Components/Page/PageContainer/Page
 import { PageContentContainer } from '../../../../../Components/Page/PageContentContainer/PageContentContainer'
 import { CategorizedListContainer } from '../../../../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
 import { PageTab } from '../../../../../Components/Page/PageTab/PageTab'
-import { useParams } from 'react-router-dom'
 import { useGetCompany } from '../../../api/CompanyApiQuery'
 import { PageHeaderWithBackButton } from '../../../../../Components/Page/PageHeaderWithBackButton/PageHeaderWithBackButton'
 
 export const ReportContainer = ({ children }) => {
-  const { companyId } = useParams()
-  const { data } = useGetCompany(companyId)
+  const { company, companyId } = useGetCompany()
 
   return (
     <PageContainer>
       <PageHeaderWithBackButton
-        title={data?.result?.name}
-        subTitle={data?.result?.jurisdiction}
+        title={company?.name}
+        subTitle={company?.jurisdiction}
         to={ROUTES.companies.index}
       >
         <div className="flex gap-4">

@@ -47,7 +47,7 @@ export const useCreateReport = () => {
         finishLoading()
       }
     },
-    [finishLoading, getForm, navigate, startLoading]
+    [companyId, finishLoading, getForm, navigate, startLoading]
   )
 
   const formik = useFormik({

@@ -6,14 +6,11 @@ import { FormikProvider } from 'formik'
 import { useCreateReport } from './useCreateReport'
 import { FileInput } from '../../../../Components/Fields/FileInput'
 import { SuccessButton } from '../../../../Components/Buttons/SuccessButton'
-import { useParams } from 'react-router-dom'
 import { useGetCompany } from '../../api/CompanyApiQuery'
 
 const CreateReport = () => {
-  const { companyId } = useParams()
   const { formik, isLoading } = useCreateReport()
-  const { data } = useGetCompany(companyId)
-  const company = data?.result
+  const { company, companyId } = useGetCompany()
 
   return (
     <PageContainer>

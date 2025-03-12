@@ -6,11 +6,11 @@ import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
 import { useEditCompany } from './useEditCompany'
-import { useParams } from 'react-router-dom'
+import { useGetCompany } from '../api/CompanyApiQuery'
 
 export const EditCompany = () => {
-  const { companyId } = useParams()
-  const { editCompanyFormik, company } = useEditCompany()
+  const { companyId, company } = useGetCompany()
+  const { editCompanyFormik } = useEditCompany()
 
   return (
     <TitleWithBackButton

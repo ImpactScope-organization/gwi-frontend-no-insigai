@@ -97,7 +97,7 @@ export const useQuantitativeReportDetails = () => {
         { label: 'Remove from DB', onClick: deleteCompanyHandler }
       ]
     }
-  }, [currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId])
+  }, [companyId, currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId])
 
   return {
     greenwashingRiskPercentage,

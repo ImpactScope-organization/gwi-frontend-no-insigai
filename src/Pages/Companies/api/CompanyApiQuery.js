@@ -6,21 +6,34 @@ import {
   getCompanyProcessingReports,
   getCompanyRegulatorReports
 } from './CompanyApi'
+import { useParams } from 'react-router-dom'
 
-export const useGetCompanyInternalReports = (companyId) => {
-  return useQuery({
+export const useGetCompanyInternalReports = () => {
+  const { companyId } = useParams()
+
+  const { data } = useQuery({
     queryKey: ['useGetCompanyInternalReports', companyId],
     queryFn: () => getCompanyInternalReports(companyId),
     staleTime: 60000
   })
+
+  return {
+    internalReports: data?.results
+  }
 }
 
-export const useGetCompanyRegulatorReports = (companyId) => {
-  return useQuery({
+export const useGetCompanyRegulatorReports = () => {
+  const { companyId } = useParams()
+
+  const { data } = useQuery({
     queryKey: ['useGetCompanyRegulatorReports', companyId],
     queryFn: () => getCompanyRegulatorReports(companyId),
     staleTime: 60000
   })
+
+  return {
+    regulatorReports: data?.results
+  }
 }
 
 export const useFetchCompanyList = () => {
@@ -30,18 +43,31 @@ export const useFetchCompanyList = () => {
   })
 }
 
-export const useGetCompany = (companyId) => {
-  return useQuery({
+export const useGetCompany = () => {
+  const { companyId } = useParams()
+
+  const { data, refetch: refetchCompany } = useQuery({
     queryKey: ['getCompany', companyId],
     queryFn: () => getCompany(companyId),
     staleTime: 60000
   })
+
+  return {
+    companyId,
+    company: data?.result,
+    refetchCompany
+  }
 }
 
-export const useGetCompanyProcessingReports = (companyId) => {
-  return useQuery({
+export const useGetCompanyProcessingReports = () => {
+  const { companyId } = useParams()
+  const { data } = useQuery({
     queryKey: ['getCompanyProcessingReports', companyId],
     queryFn: () => getCompanyProcessingReports(companyId),
     staleTime: 60000
   })
+
+  return {
+    processingReports: data?.results
+  }
 }

@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCallback } from 'react'
@@ -8,9 +7,7 @@ import { useFillFormik } from '../../../Hooks/useFillFormik'
 import { updateCompany } from '../api/CompanyApi'
 
 export const useEditCompany = () => {
-  const { companyId } = useParams()
-  const { data, refetch: refetchCompany } = useGetCompany(companyId)
-  const company = data?.result
+  const { companyId, company, refetchCompany } = useGetCompany()
 
   const editCompanyFormik = useFormik({
     initialValues: {
@@ -53,7 +50,6 @@ export const useEditCompany = () => {
   )
 
   return {
-    company,
     editCompanyFormik
   }
 }
