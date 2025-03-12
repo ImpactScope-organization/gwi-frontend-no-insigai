@@ -20,13 +20,23 @@ export const ReportContainer = ({ children }) => {
         subTitle={data?.result?.companyId}
         to={ROUTES.companies.index}
       >
-        <ButtonLink
-          to={getRouteWithParams(ROUTES.companies.reports.create, {
-            companyId
-          })}
-        >
-          Add new report
-        </ButtonLink>
+        <div class="flex gap-4">
+          <ButtonLink
+            bgColor={'bg-yellow-500'}
+            to={getRouteWithParams(ROUTES.companies.edit, {
+              companyId
+            })}
+          >
+            Edit company
+          </ButtonLink>
+          <ButtonLink
+            to={getRouteWithParams(ROUTES.companies.reports.create, {
+              companyId
+            })}
+          >
+            Add new report
+          </ButtonLink>
+        </div>
       </PageHeaderWithBackButton>
 
       {/* Tabs Container */}
