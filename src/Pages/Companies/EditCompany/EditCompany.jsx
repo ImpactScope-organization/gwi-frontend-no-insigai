@@ -10,11 +10,11 @@ import { useParams } from 'react-router-dom'
 
 export const EditCompany = () => {
   const { companyId } = useParams()
-  const { editCompanyFormik } = useEditCompany()
+  const { editCompanyFormik, company } = useEditCompany()
 
   return (
     <TitleWithBackButton
-      title={`Edit ${editCompanyFormik.values.name}`}
+      title={`Edit ${company?.name}`}
       to={getRouteWithParams(ROUTES.companies.reports.internal, {
         companyId
       })}

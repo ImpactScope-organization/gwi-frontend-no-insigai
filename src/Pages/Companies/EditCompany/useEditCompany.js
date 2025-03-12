@@ -5,14 +5,12 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { useGetCompany } from '../api/CompanyApiQuery'
 import { useFillFormik } from '../../../Hooks/useFillFormik'
+import { updateCompany } from '../api/CompanyApi'
 
 export const useEditCompany = () => {
   const { companyId } = useParams()
-  const navigate = useNavigate()
   const { data, refetch: refetchCompany } = useGetCompany(companyId)
   const company = data?.result
-
-  console.log(company)
 
   const editCompanyFormik = useFormik({
     initialValues: {
@@ -32,10 +30,7 @@ export const useEditCompany = () => {
   const handleCreateCompany = useCallback(
     async (company) => {
       try {
-        //  edit company
-        // const {
-        //   result: { companyId }
-        // } = await createCompany(company)
+        await updateCompany(companyId, company)
         toast.success('Company saved successfully')
         await refetchCompany()
         resetFormikFilled()
@@ -44,10 +39,11 @@ export const useEditCompany = () => {
         toast.error('Error submitting form:', error)
       }
     },
-    [refetchCompany, resetFormikFilled]
+    [companyId, refetchCompany, resetFormikFilled]
   )
 
   return {
+    company,
     editCompanyFormik
   }
 }

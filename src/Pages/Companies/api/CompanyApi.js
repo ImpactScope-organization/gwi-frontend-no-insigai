@@ -6,6 +6,11 @@ export const createCompany = async (company) => {
   return response.data
 }
 
+export const updateCompany = async (companyId, company) => {
+  const response = await axios.put(`${apiUrl}/api/company/${companyId}/update`, company)
+  return response.data
+}
+
 export const fetchCompanyList = async () => {
   const response = await axios.get(`${apiUrl}/api/company`)
   return response.data
