@@ -13,7 +13,7 @@ export const ReportList = ({ data }) => {
       {!data ||
         (data?.length === 0 && (
           <h1 className="w-[calc(100vw-100px text-center)]">
-            No records found. Please add a new company.
+            No records found. Please add a new report.
           </h1>
         ))}
       {data &&
