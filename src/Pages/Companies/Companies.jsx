@@ -41,8 +41,8 @@ export const Companies = () => {
               </CategorizedListItemDate>
               <CategorizedListItemTitle>{company?.name}</CategorizedListItemTitle>
               <CategorizedListItemCategoryContainer>
-                <div>Company Id:</div>
-                <CategorizedListItemCategory>{company?.companyId}</CategorizedListItemCategory>
+                <div>Jurisdiction:</div>
+                <CategorizedListItemCategory>{company?.jurisdiction}</CategorizedListItemCategory>
               </CategorizedListItemCategoryContainer>
             </CategorizedListItemLink>
           ))}
