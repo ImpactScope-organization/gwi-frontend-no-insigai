@@ -32,11 +32,11 @@ function App() {
 
       <Routes>
         <Route path={ROUTES.home} element={<Navigate to={ROUTES.companies.index} />} />
-        <Route path={ROUTES.companies.reports.create} element={<CreateReport />} />
         <Route path={ROUTES.companies.index} element={<Companies />} />
         <Route path={ROUTES.companies.details} element={<CompanyDetails />} />
         <Route path={ROUTES.companies.create} element={<CreateCompany />} />
         <Route path={ROUTES.companies.edit} element={<EditCompany />} />
+        <Route path={ROUTES.companies.reports.create} element={<CreateReport />} />
         <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
         <Route path={ROUTES.companies.reports.regulator} element={<RegulatorReport />} />
         <Route path={ROUTES.companies.reports.processing} element={<ProcessingReports />} />
