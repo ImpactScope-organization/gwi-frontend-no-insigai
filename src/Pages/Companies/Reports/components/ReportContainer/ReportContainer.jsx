@@ -2,12 +2,12 @@ import React from 'react'
 import { getRouteWithParams, ROUTES } from '../../../../../routes'
 import { ButtonLink } from '../../../../../Components/ButtonLink/ButtonLink'
 import { PageContainer } from '../../../../../Components/Page/PageContainer/PageContainer'
-import { PageHeader } from '../../../../../Components/Page/PageHeader/PageHeader'
 import { PageContentContainer } from '../../../../../Components/Page/PageContentContainer/PageContentContainer'
 import { CategorizedListContainer } from '../../../../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
 import { PageTab } from '../../../../../Components/Page/PageTab/PageTab'
 import { useParams } from 'react-router-dom'
 import { useGetCompany } from '../../../api/CompanyApiQuery'
+import { PageHeaderWithBackButton } from '../../../../../Components/Page/PageHeaderWithBackButton/PageHeaderWithBackButton'
 
 export const ReportContainer = ({ children }) => {
   const { companyId } = useParams()
@@ -15,7 +15,11 @@ export const ReportContainer = ({ children }) => {
 
   return (
     <PageContainer>
-      <PageHeader title={data?.result?.name} subTitle={data?.result?.companyId}>
+      <PageHeaderWithBackButton
+        title={data?.result?.name}
+        subTitle={data?.result?.companyId}
+        to={ROUTES.companies.index}
+      >
         <ButtonLink
           to={getRouteWithParams(ROUTES.companies.reports.create, {
             companyId
@@ -23,7 +27,7 @@ export const ReportContainer = ({ children }) => {
         >
           Add new report
         </ButtonLink>
-      </PageHeader>
+      </PageHeaderWithBackButton>
 
       {/* Tabs Container */}
       <PageContentContainer>
