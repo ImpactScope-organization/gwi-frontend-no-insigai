@@ -12,11 +12,13 @@ export const useCreatePrompt = () => {
 
   const [output, setOutput] = useState(undefined)
 
-  const getForm = useCallback(({ name, category, prompt, file }) => {
+  const getForm = useCallback(({ name, category, prompt, file, temperature, gptModel }) => {
     const formData = new FormData()
 
     formData.append('name', name)
     formData.append('category', category)
+    formData.append('temperature', temperature)
+    formData.append('gptModel', gptModel)
     formData.append('prompt', prompt)
     formData.append('file', file)
 
