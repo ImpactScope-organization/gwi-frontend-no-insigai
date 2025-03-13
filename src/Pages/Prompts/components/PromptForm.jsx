@@ -9,6 +9,8 @@ import { PromptOutput } from './PromptOutput'
 import React from 'react'
 import { ExistingFileInput } from '../../../Components/Fields/ExistingFileInput'
 import { CategorySelect } from './CategorySelect/CategorySelect'
+import { InputNumber } from '../../../Components/Fields/InputNumber'
+import { InputGPTModel } from '../../../Components/Fields/InputGPTModel'
 
 export const PromptForm = ({ handleTest, output, edit = false }) => {
   const { submitForm, values } = useFormikContext()
@@ -19,6 +21,10 @@ export const PromptForm = ({ handleTest, output, edit = false }) => {
         <div className="flex w-full gap-4">
           <InputText name="name" label="Name" />
           <CategorySelect name="category" />
+        </div>
+        <div className="flex w-full gap-4">
+          <InputNumber name="temperature" label="Temperature" />
+          <InputGPTModel name="gptModel" label="GPT Model" />
         </div>
         <InputTextarea name="prompt" label="Prompt" />
         {edit ? (

@@ -2,7 +2,7 @@ import React from 'react'
 import { CaretDownOutlined } from '@ant-design/icons'
 import { CategorySelectGroupItem } from './components/CategorySelectGroupItem'
 import { CategorySelectGroupTitle } from './components/CategorySelectGroupTitle'
-import { useCategorySelect } from '../useCategorySelect'
+import { useCategorySelect } from './useCategorySelect'
 
 export const CategorySelect = ({ name }) => {
   const {
