@@ -44,13 +44,15 @@ export const useEditPromptValues = () => {
   const { isFormikFilled, resetFormikFilled } = useFillFormik(formik, prompt)
 
   const handleSubmit = useCallback(
-    async ({ name, category, prompt, file_update }) => {
+    async ({ name, category, prompt, file_update, temperature, gptModel }) => {
       try {
         await updatePrompt(id, {
           category,
           name,
           prompt,
-          file_update
+          file_update,
+          temperature,
+          gptModel
         })
         await refetchPrompt()
         resetFormikFilled()
