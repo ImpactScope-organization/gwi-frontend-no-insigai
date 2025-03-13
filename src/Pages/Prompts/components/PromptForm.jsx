@@ -12,6 +12,7 @@ import { CategorySelect } from './CategorySelect/CategorySelect'
 import { InputNumber } from '../../../Components/Fields/InputNumber'
 import { InputGPTModel } from '../../../Components/Fields/InputGPTModel/InputGPTModel'
 import { useGPTModel } from '../../../Hooks/useGPTModel/useGPTModel'
+import { Alert } from 'antd'
 
 export const PromptForm = ({ handleTest, output, edit = false }) => {
   const { submitForm, values } = useFormikContext()
@@ -33,7 +34,14 @@ export const PromptForm = ({ handleTest, output, edit = false }) => {
           <InputNumber name="temperature" label="Temperature" />
           <InputGPTModel name="gptModel" label="GPT Model" />
         </div>
-        {isTemperatureIgnored && <div>fa</div>}
+        {isTemperatureIgnored && (
+          <Alert
+            message="GPT Model does not support temperature"
+            description="You selected a GPT model which does not support temperature, your prompt will run as it is, but the temperature field will be ignored."
+            type="info"
+            showIcon
+          />
+        )}
         <InputTextarea name="prompt" label="Prompt" />
         {edit ? (
           <ExistingFileInput name="file" updateName="file_update" />
