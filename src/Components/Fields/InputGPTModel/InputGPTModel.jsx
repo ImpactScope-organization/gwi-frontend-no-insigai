@@ -19,7 +19,7 @@ export const InputGPTModel = ({ name, label }) => {
         placeholder={label}
         optionFilterProp="label"
         value={formik.values[name]}
-        onChange={formik.handleChange}
+        onChange={(value) => formik.setFieldValue(name, value)}
         onBlur={formik.handleBlur}
         status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
         options={gptModels}
