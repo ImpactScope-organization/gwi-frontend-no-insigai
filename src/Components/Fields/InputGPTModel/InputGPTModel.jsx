@@ -1,10 +1,10 @@
 import { Select } from 'antd'
 import { useFormikContext } from 'formik'
-import { useInputGPTModel } from './useInputGPTModel'
+import { useGPTModel } from '../../../Hooks/useGPTModel/useGPTModel'
 
 export const InputGPTModel = ({ name, label }) => {
   const formik = useFormikContext()
-  const { gptModels } = useInputGPTModel()
+  const { gptModels } = useGPTModel()
 
   return (
     <div className="w-full">
