@@ -1,23 +1,28 @@
-import { Input } from 'antd'
+import { Select } from 'antd'
 import { useFormikContext } from 'formik'
+import { useInputGPTModel } from './useInputGPTModel'
 
 export const InputGPTModel = ({ name, label }) => {
   const formik = useFormikContext()
+  const { gptModels } = useInputGPTModel()
 
   return (
     <div className="w-full">
       <label htmlFor={name} className="text-md text-darkBlack mb-1 font-semibold block">
         {label}
       </label>
-      <Input
+      <Select
+        className="w-full"
+        showSearch
         id={name}
         name={name}
         placeholder={label}
-        type="text"
+        optionFilterProp="label"
+        value={formik.values[name]}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values[name]}
         status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
+        options={gptModels}
       />
       <div className="ml-1">
         {formik.touched[name] && formik.errors[name] ? (

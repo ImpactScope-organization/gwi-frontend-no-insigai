@@ -10,7 +10,7 @@ import React from 'react'
 import { ExistingFileInput } from '../../../Components/Fields/ExistingFileInput'
 import { CategorySelect } from './CategorySelect/CategorySelect'
 import { InputNumber } from '../../../Components/Fields/InputNumber'
-import { InputGPTModel } from '../../../Components/Fields/InputGPTModel'
+import { InputGPTModel } from '../../../Components/Fields/InputGPTModel/InputGPTModel'
 
 export const PromptForm = ({ handleTest, output, edit = false }) => {
   const { submitForm, values } = useFormikContext()
