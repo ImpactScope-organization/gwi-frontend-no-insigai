@@ -31,7 +31,7 @@ export const PromptForm = ({ handleTest, output, edit = false }) => {
           <CategorySelect name="category" />
         </div>
         <div className="flex w-full gap-4">
-          <InputNumber name="temperature" label="Temperature" />
+          <InputNumber name="temperature" label="Temperature" min={0} max={1} />
           <InputGPTModel name="gptModel" label="GPT Model" />
         </div>
         {isTemperatureIgnored && (
