@@ -28,13 +28,17 @@ export const useEditPromptValues = () => {
       name: '',
       category: '',
       prompt: '',
+      temperature: 0.2,
+      gptModel: 'gpt-4o',
       file: null,
       file_update: null
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
       category: Yup.string().required('Category is required'),
-      prompt: Yup.string().required('Prompt is required')
+      prompt: Yup.string().required('Prompt is required'),
+      temperature: Yup.number().required('Temperature is required'),
+      gptModel: Yup.string().required('GPT Model is required')
     }),
     onSubmit: async (values) => {
       await handleSubmit(values)
@@ -44,13 +48,15 @@ export const useEditPromptValues = () => {
   const { isFormikFilled, resetFormikFilled } = useFillFormik(formik, prompt)
 
   const handleSubmit = useCallback(
-    async ({ name, category, prompt, file_update }) => {
+    async ({ name, category, prompt, file_update, temperature, gptModel }) => {
       try {
         await updatePrompt(id, {
           category,
           name,
           prompt,
-          file_update
+          file_update,
+          temperature,
+          gptModel
         })
         await refetchPrompt()
         resetFormikFilled()

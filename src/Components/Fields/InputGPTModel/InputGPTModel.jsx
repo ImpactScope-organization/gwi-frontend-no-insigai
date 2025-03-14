@@ -1,30 +1,28 @@
-import { InputNumber as InputNumberAntd } from 'antd'
-import React from 'react'
+import { Select } from 'antd'
 import { useFormikContext } from 'formik'
+import { useGPTModel } from '../../../Hooks/useGPTModel/useGPTModel'
 
-export const InputNumber = ({ name, label, ...props }) => {
+export const InputGPTModel = ({ name, label }) => {
   const formik = useFormikContext()
+  const { gptModels } = useGPTModel()
+
   return (
     <div className="w-full">
       <label htmlFor={name} className="text-md text-darkBlack mb-1 font-semibold block">
         {label}
       </label>
-      <InputNumberAntd
+      <Select
+        className="w-full"
+        showSearch
         id={name}
-        controls={false}
         name={name}
         placeholder={label}
-        className="w-full"
-        type="number"
-        onChange={(value) => {
-          if (value !== null) {
-            formik.setFieldValue(name, value)
-          }
-        }}
-        onBlur={formik.handleBlur}
+        optionFilterProp="label"
         value={formik.values[name]}
+        onChange={(value) => formik.setFieldValue(name, value)}
+        onBlur={formik.handleBlur}
         status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
-        {...props}
+        options={gptModels}
       />
       <div className="ml-1">
         {formik.touched[name] && formik.errors[name] ? (

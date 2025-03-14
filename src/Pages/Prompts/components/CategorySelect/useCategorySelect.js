@@ -1,8 +1,8 @@
 import { useFormikContext } from 'formik'
 import { useCallback, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { getGroupedPromptCategories } from '../../PromptCategories/api/PromptCategoryApi'
-import { useEditPrompt } from '../EditPrompt/context/EditPromptContext'
+import { getGroupedPromptCategories } from '../../../PromptCategories/api/PromptCategoryApi'
+import { useEditPrompt } from '../../EditPrompt/context/EditPromptContext'
 
 export const useCategorySelect = (name) => {
   const { prompt } = useEditPrompt()
