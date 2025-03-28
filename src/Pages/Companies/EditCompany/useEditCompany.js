@@ -13,6 +13,7 @@ export const useEditCompany = () => {
     initialValues: {
       name: '',
       companyId: '',
+      xURL: '',
       jurisdiction: '',
       sector: '',
       annualRevenue: '',
@@ -22,6 +23,7 @@ export const useEditCompany = () => {
     validationSchema: Yup.object({
       name: Yup.string().required(),
       companyId: Yup.string().required(),
+      xURL: Yup.string().required(),
       jurisdiction: Yup.string().required(),
       sector: Yup.string().required(),
       annualRevenue: Yup.string().required(),

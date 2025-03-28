@@ -26,6 +26,7 @@ export const EditCompany = () => {
               <div className="flex flex-col w-full gap-4">
                 <InputText name="name" label="Name" />
                 <InputText name="companyId" label="Company Id" />
+                <InputText name="xURL" label="X URL" />
                 <InputText name="jurisdiction" label="Jurisdiction" />
                 <InputText name="sector" label="Sector" />
                 <InputText name="annualRevenue" label="Annual Revenue" />
