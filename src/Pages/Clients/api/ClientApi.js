@@ -5,3 +5,8 @@ export const createClient = async (client) => {
   const response = await axios.post(`${apiUrl}/api/client/create`, client)
   return response.data
 }
+
+export const fetchClientList = async () => {
+  const response = await axios.get(`${apiUrl}/api/client`)
+  return response.data
+}

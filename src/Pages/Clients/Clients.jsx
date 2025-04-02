@@ -8,11 +8,10 @@ import { CategorizedListItemLink } from '../../Components/CategorizedList/Catego
 import { CategorizedListItemDate } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemDate'
 import { handleDateFormat } from '../../utils/date'
 import { CategorizedListItemTitle } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemTitle'
-import { CategorizedListItemCategoryContainer } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategoryContainer'
-import { CategorizedListItemCategory } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategory'
+import { useFetchClientList } from './api/ClientApiQuery'
 
 export const Clients = () => {
-  const data = []
+  const { data } = useFetchClientList()
 
   return (
     <PageContainer>
@@ -39,10 +38,6 @@ export const Clients = () => {
                 {handleDateFormat(client?.createdAt)}
               </CategorizedListItemDate>
               <CategorizedListItemTitle>{client?.name}</CategorizedListItemTitle>
-              <CategorizedListItemCategoryContainer>
-                <div>Jurisdiction:</div>
-                <CategorizedListItemCategory>{client?.jurisdiction}</CategorizedListItemCategory>
-              </CategorizedListItemCategoryContainer>
             </CategorizedListItemLink>
           ))}
       </CategorizedListContainer>
