@@ -24,6 +24,7 @@ import { CreateCompany } from './Pages/Companies/CreateCompany/CreateCompany'
 import { EditCompany } from './Pages/Companies/EditCompany/EditCompany'
 import { Clients } from './Pages/Clients/Clients'
 import { CreateClient } from './Pages/Clients/CreateClient/CreateClient'
+import { EditClient } from './Pages/Clients/EditClient/EditClient'
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path={ROUTES.companies.reports.report.edit} element={<SpecificReportEdit />} />
         <Route path={ROUTES.clients.index} element={<Clients />} />
         <Route path={ROUTES.clients.create} element={<CreateClient />} />
+        <Route path={ROUTES.clients.edit} element={<EditClient />} />
         <Route path={ROUTES.prompts.index} element={<Prompts />} />
         <Route path={ROUTES.prompts.create} element={<CreatePrompt />} />
         <Route path={ROUTES.prompts.edit} element={<EditPromptPage />} />

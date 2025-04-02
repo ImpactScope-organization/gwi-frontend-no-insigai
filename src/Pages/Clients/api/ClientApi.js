@@ -10,3 +10,13 @@ export const fetchClientList = async () => {
   const response = await axios.get(`${apiUrl}/api/client`)
   return response.data
 }
+
+export const getClient = async (id) => {
+  const response = await axios.get(`${apiUrl}/api/client/${id}`)
+  return response.data
+}
+
+export const updateClient = async (clientId, client) => {
+  const response = await axios.put(`${apiUrl}/api/client/${clientId}/update`, client)
+  return response.data
+}
