@@ -22,6 +22,7 @@ import { SpecificReportEdit } from './Pages/Companies/Reports/SpecificReport/Spe
 import { Companies } from './Pages/Companies/Companies'
 import { CreateCompany } from './Pages/Companies/CreateCompany/CreateCompany'
 import { EditCompany } from './Pages/Companies/EditCompany/EditCompany'
+import { Clients } from './Pages/Clients/Clients'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         />
         <Route path={ROUTES.companies.reports.report.index} element={<SpecificReportIndex />} />
         <Route path={ROUTES.companies.reports.report.edit} element={<SpecificReportEdit />} />
+        <Route path={ROUTES.clients.index} element={<Clients />} />
         <Route path={ROUTES.prompts.index} element={<Prompts />} />
         <Route path={ROUTES.prompts.create} element={<CreatePrompt />} />
         <Route path={ROUTES.prompts.edit} element={<EditPromptPage />} />
