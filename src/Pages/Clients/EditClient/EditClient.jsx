@@ -11,7 +11,7 @@ export const EditClient = () => {
   const { client } = useGetClient()
 
   return (
-    <TitleWithBackButton title={`Edit client: ${client?.name}`} to={ROUTES.clients.index}>
+    <TitleWithBackButton title={client?.name} to={ROUTES.clients.index}>
       <EditClientForm />
       <Divider className="my-8" />
       <CreateClientUserForm />
