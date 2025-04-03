@@ -9,11 +9,15 @@ import { ClientUserList } from './components/ClientUserList/ClientUserList'
 export const EditClient = () => {
   return (
     <TitleWithBackButton to={ROUTES.clients.index}>
-      <EditClientForm />
-      <Divider className="my-8" />
-      <CreateClientUserForm />
-      <Divider className="my-8" />
-      <ClientUserList />
+      <div className="flex flex-col items-center">
+        <div className="lg:w-2/3 2xl:w-1/2">
+          <EditClientForm />
+          <Divider className="my-8" />
+          <CreateClientUserForm />
+          <Divider className="my-8" />
+          <ClientUserList />
+        </div>
+      </div>
     </TitleWithBackButton>
   )
 }
