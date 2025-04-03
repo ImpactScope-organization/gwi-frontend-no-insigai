@@ -14,7 +14,9 @@ export const EditClientUserListItem = ({ clientUser }) => {
           <InputText name="email" label="E-Mail" />
           <InputPassword name="password" label="Password" />
 
-          <SuccessButton onClick={editClientUserListItemFormik.submitForm}>Save</SuccessButton>
+          <div className="mt-7">
+            <SuccessButton type="submit">Save</SuccessButton>
+          </div>
         </div>
       </Form>
     </FormikProvider>

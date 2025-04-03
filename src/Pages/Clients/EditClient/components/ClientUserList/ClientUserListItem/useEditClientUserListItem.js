@@ -2,7 +2,6 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
-import { updateClient } from '../../../../api/ClientApi/ClientApi'
 import { toast } from 'react-toastify'
 
 export const useEditClientUserListItem = ({ clientUser }) => {
