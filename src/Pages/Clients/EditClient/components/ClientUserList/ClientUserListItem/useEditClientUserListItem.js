@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
+import { updateClientUser } from '../../../../api/ClientUserApi/ClientUserApi'
 
 export const useEditClientUserListItem = ({ clientUser }) => {
   const editClientUserListItemFormik = useFormik({
@@ -26,11 +27,13 @@ export const useEditClientUserListItem = ({ clientUser }) => {
   const { resetFormikFilled } = useFillFormik(editClientUserListItemFormik, clientUser)
 
   const handleEditClientUserListItem = useCallback(
-    async (clientUser) => {
+    async (clientUserForm) => {
       try {
-        // await updateClient(clientUser.id, client)
+        await updateClientUser({
+          ...clientUserForm,
+          clientUser
+        })
         toast.success(`Client user ${clientUser.email} saved successfully`)
-        // await refetchClient()
         resetFormikFilled()
         editClientUserListItemFormik.resetForm()
       } catch (error) {
