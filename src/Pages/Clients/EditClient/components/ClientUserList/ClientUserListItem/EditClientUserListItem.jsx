@@ -13,6 +13,7 @@ export const EditClientUserListItem = ({ clientUser }) => {
         <div className="hover:bg-green-100 flex flex-row gap-4 mb-4">
           <InputText name="email" label="E-Mail" />
           <InputPassword name="password" label="Password" />
+          <InputPassword name="passwordAgain" label="Password Again" />
 
           <div className="mt-7">
             <SuccessButton type="submit">Save</SuccessButton>

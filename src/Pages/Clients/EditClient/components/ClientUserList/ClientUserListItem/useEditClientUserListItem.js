@@ -8,11 +8,15 @@ export const useEditClientUserListItem = ({ clientUser }) => {
   const editClientUserListItemFormik = useFormik({
     initialValues: {
       email: '',
-      password: ''
+      password: '',
+      passwordAgain: ''
     },
     validationSchema: Yup.object({
       email: Yup.string().email().required(),
-      password: Yup.string().required()
+      password: Yup.string().required(),
+      passwordAgain: Yup.string()
+        .required()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
     }),
     onSubmit: async (values) => {
       console.log(values)
