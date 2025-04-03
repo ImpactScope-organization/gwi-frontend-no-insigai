@@ -4,8 +4,11 @@ import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { updateClientUser } from '../../../../api/ClientUserApi/ClientUserApi'
+import { useListClientUsers } from '../../../../api/ClientUserApi/ClientUserApiQuery'
 
 export const useEditClientUserListItem = ({ clientUser }) => {
+  const { refetchClientUsers } = useListClientUsers()
+
   const editClientUserListItemFormik = useFormik({
     initialValues: {
       email: '',
@@ -18,7 +21,6 @@ export const useEditClientUserListItem = ({ clientUser }) => {
       passwordAgain: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
     }),
     onSubmit: async (values) => {
-      console.log(values)
       await handleEditClientUserListItem(values)
     }
   })
@@ -28,18 +30,19 @@ export const useEditClientUserListItem = ({ clientUser }) => {
     async (clientUserForm) => {
       try {
         await updateClientUser({
-          ...clientUserForm,
-          clientUser
+          ...clientUser,
+          ...clientUserForm
         })
         toast.success(`Client user ${clientUser.email} saved successfully`)
-        resetFormikFilled()
+        await refetchClientUsers()
         editClientUserListItemFormik.resetForm()
+        resetFormikFilled()
       } catch (error) {
         console.error('Error submitting form:', error)
         toast.error('Error submitting form:', error)
       }
     },
-    [editClientUserListItemFormik, resetFormikFilled]
+    [clientUser, editClientUserListItemFormik, refetchClientUsers, resetFormikFilled]
   )
 
   return {
