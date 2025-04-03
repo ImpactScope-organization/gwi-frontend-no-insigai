@@ -6,29 +6,38 @@ import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
 import { useEditClient } from './useEditClient'
+import { Divider } from 'antd'
+import { EditClientForm } from './components/EditClientForm'
 
 export const EditClient = () => {
   const { editClientFormik, client } = useEditClient()
 
   return (
-    <TitleWithBackButton title={`Edit ${client?.name}`} to={ROUTES.clients.index}>
+    <TitleWithBackButton title={`Edit client: ${client?.name}`} to={ROUTES.clients.index}>
       <FormikProvider value={editClientFormik}>
-        <div className="flex flex-col w-full gap-4 lg:flex-row">
-          <Form className="flex flex-col gap-4 w-full">
-            <div className="flex flex-col lg:w-2/3 xl:w-1/2 gap-4">
-              <div className="flex flex-col w-full gap-4">
-                <InputText name="name" label="Name" />
-              </div>
-
-              <div className="flex w-full gap-4">
-                <SuccessButton onClick={editClientFormik.submitForm} icon={<CheckSquareFilled />}>
-                  Save client
-                </SuccessButton>
-              </div>
-            </div>
-          </Form>
-        </div>
+        <EditClientForm />
       </FormikProvider>
+      <Divider className="my-2" />
+      <table className="table-auto w-full">
+        <thead>
+          <tr>
+            <th>E-Mail</th>
+            <th>Password</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {/*{subCategories &&*/}
+          {/*  subCategories.map((subCategory) => (*/}
+          {/*    <SubCategoryEditListItem*/}
+          {/*      key={subCategory.id}*/}
+          {/*      subCategory={subCategory}*/}
+          {/*      refetchSubCategories={refetchSubCategories}*/}
+          {/*    />*/}
+          {/*  ))}*/}
+        </tbody>
+      </table>
+      <Divider className="my-2" />
     </TitleWithBackButton>
   )
 }
