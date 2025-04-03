@@ -10,15 +10,15 @@ export const useFetchClientList = () => {
 }
 
 export const useGetClient = () => {
-  const { id } = useParams()
+  const { clientId } = useParams()
   const { data, refetch: refetchClient } = useQuery({
-    queryKey: ['getClient', id],
-    queryFn: () => getClient(id),
+    queryKey: ['getClient', clientId],
+    queryFn: () => getClient(clientId),
     staleTime: 60000
   })
 
   return {
-    clientId: id,
+    clientId,
     client: data?.result,
     refetchClient
   }

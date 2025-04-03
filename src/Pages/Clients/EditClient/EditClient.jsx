@@ -5,6 +5,7 @@ import { Divider } from 'antd'
 import { EditClientForm } from './components/EditClientForm/EditClientForm'
 import { useGetClient } from '../api/ClientApi/ClientApiQuery'
 import { CreateClientUserForm } from './components/CreateClientUserForm/CreateClientUserForm'
+import { ClientUserList } from './components/ClientUserList/ClientUserList'
 
 export const EditClient = () => {
   const { client } = useGetClient()
@@ -15,26 +16,7 @@ export const EditClient = () => {
       <Divider className="my-8" />
       <CreateClientUserForm />
       <Divider className="my-8" />
-      <table className="table-auto w-full">
-        <thead>
-          <tr>
-            <th>E-Mail</th>
-            <th>Password</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {/*{subCategories &&*/}
-          {/*  subCategories.map((subCategory) => (*/}
-          {/*    <SubCategoryEditListItem*/}
-          {/*      key={subCategory.id}*/}
-          {/*      subCategory={subCategory}*/}
-          {/*      refetchSubCategories={refetchSubCategories}*/}
-          {/*    />*/}
-          {/*  ))}*/}
-        </tbody>
-      </table>
-      <Divider className="my-2" />
+      <ClientUserList />
     </TitleWithBackButton>
   )
 }

@@ -26,10 +26,10 @@ export const useCreateClient = () => {
     async (client) => {
       try {
         const {
-          result: { id }
+          result: { id: clientId }
         } = await createClient(client)
         toast.success('Company saved successfully')
-        navigate(getUrlWithParameters(ROUTES.clients.edit, { id }))
+        navigate(getUrlWithParameters(ROUTES.clients.edit, { clientId }))
       } catch (error) {
         console.error('Error submitting form:', error)
         toast.error('Error submitting form:', error)

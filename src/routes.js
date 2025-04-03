@@ -9,7 +9,7 @@ export const ROUTES = {
   clients: {
     index: '/clients',
     create: '/clients/create',
-    edit: '/clients/:id/edit'
+    edit: '/clients/:clientId/edit'
   },
   companies: {
     index: '/companies',

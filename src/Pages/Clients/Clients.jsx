@@ -30,7 +30,7 @@ export const Clients = () => {
           data?.map((client) => (
             <CategorizedListItemLink
               to={getRouteWithParams(ROUTES.clients.edit, {
-                id: client?.id
+                clientId: client?.id
               })}
               key={`client_list_item_${client?.id}`}
             >
