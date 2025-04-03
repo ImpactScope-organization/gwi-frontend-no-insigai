@@ -6,11 +6,8 @@ export const InputPassword = ({ name, label }) => {
   const formik = useFormikContext()
   return (
     <div className="w-full">
-      <label htmlFor={name} className="text-md text-darkBlack mb-1 font-semibold block">
-        {label}
-      </label>
+      <label className="text-md text-darkBlack mb-1 font-semibold block">{label}</label>
       <Input
-        id={name}
         name={name}
         placeholder={label}
         type="password"

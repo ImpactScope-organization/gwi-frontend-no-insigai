@@ -1,25 +1,19 @@
 import React from 'react'
+import { useListClientUsers } from '../../../api/ClientUserApi/ClientUserApiQuery'
+import { EditClientUserListItem } from './ClientUserListItem/EditClientUserListItem'
+import { FormHeading } from '../../../../../Components/Text/FormHeading'
 
 export const ClientUserList = () => {
+  const { clientUsers } = useListClientUsers()
   return (
-    <table className="table-auto w-full">
-      <thead>
-        <tr>
-          <th>E-Mail</th>
-          <th>Password</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {/*{subCategories &&*/}
-        {/*  subCategories.map((subCategory) => (*/}
-        {/*    <SubCategoryEditListItem*/}
-        {/*      key={subCategory.id}*/}
-        {/*      subCategory={subCategory}*/}
-        {/*      refetchSubCategories={refetchSubCategories}*/}
-        {/*    />*/}
-        {/*  ))}*/}
-      </tbody>
-    </table>
+    <div>
+      <FormHeading>Edit existing client users</FormHeading>
+      <div>
+        {clientUsers &&
+          clientUsers.map((clientUser) => (
+            <EditClientUserListItem key={clientUser.id} clientUser={clientUser} />
+          ))}
+      </div>
+    </div>
   )
 }

@@ -5,6 +5,7 @@ import { SuccessButton } from '../../../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
 import { InputPassword } from '../../../../../Components/Fields/InputPassword'
+import { FormHeading } from '../../../../../Components/Text/FormHeading'
 
 export const CreateClientUserForm = () => {
   const { createClientUserFormik } = useCreateClientUserForm()
@@ -13,7 +14,7 @@ export const CreateClientUserForm = () => {
     <FormikProvider value={createClientUserFormik}>
       <Form>
         <div className="flex flex-col w-full gap-4">
-          <h1 className="mb-2 font-bold text-2xl">Create new user for client</h1>
+          <FormHeading>Create new user for client</FormHeading>
           <div className="flex flex-row w-full gap-4 mb-4">
             <InputText name="email" label="E-Mail" />
             <InputPassword name="password" label="Password" />

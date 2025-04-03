@@ -4,6 +4,7 @@ import { SuccessButton } from '../../../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
 import { useEditClientForm } from './useEditClientForm'
+import { FormHeading } from '../../../../../Components/Text/FormHeading'
 
 export const EditClientForm = () => {
   const { editClientFormik } = useEditClientForm()
@@ -12,7 +13,7 @@ export const EditClientForm = () => {
     <FormikProvider value={editClientFormik}>
       <Form>
         <div className="flex flex-col w-full gap-4">
-          <h1 className="mb-2 font-bold text-2xl">Edit client</h1>
+          <FormHeading>Edit client</FormHeading>
           <div className="flex flex-col w-full gap-4">
             <InputText name="name" label="Name" />
           </div>
