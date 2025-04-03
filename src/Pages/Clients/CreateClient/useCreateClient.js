@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { getUrlWithParameters } from '../../../utils/route'
 import { ROUTES } from '../../../routes'
-import { createClient } from '../api/ClientApi'
+import { createClient } from '../api/ClientApi/ClientApi'
 
 export const useCreateClient = () => {
   const navigate = useNavigate()

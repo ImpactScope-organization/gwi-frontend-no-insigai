@@ -3,7 +3,7 @@ import { ROUTES } from '../../../routes'
 import React from 'react'
 import { Divider } from 'antd'
 import { EditClientForm } from './components/EditClientForm/EditClientForm'
-import { useGetClient } from '../api/ClientApiQuery'
+import { useGetClient } from '../api/ClientApi/ClientApiQuery'
 import { CreateClientUserForm } from './components/CreateClientUserForm/CreateClientUserForm'
 
 export const EditClient = () => {

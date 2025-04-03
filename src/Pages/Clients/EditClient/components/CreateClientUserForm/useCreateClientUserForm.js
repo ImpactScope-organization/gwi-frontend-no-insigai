@@ -1,8 +1,9 @@
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useGetClient } from '../../../api/ClientApiQuery'
+import { useGetClient } from '../../../api/ClientApi/ClientApiQuery'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
+import { createClientUser } from '../../../api/ClientUserApi/ClientUserApi'
 
 export const useCreateClientUserForm = () => {
   const { clientId } = useGetClient()
@@ -21,16 +22,18 @@ export const useCreateClientUserForm = () => {
     }
   })
 
-  const handleCreateClientUser = useCallback(async (clientUser) => {
-    try {
-      // await createCompany(clientUser)
-      // todo implement backend
-      toast.success('Client user created successfully')
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      toast.error('Error submitting form:', error)
-    }
-  }, [])
+  const handleCreateClientUser = useCallback(
+    async (clientUser) => {
+      try {
+        await createClientUser(clientId, clientUser)
+        toast.success('Client user created successfully')
+      } catch (error) {
+        console.error('Error submitting form:', error)
+        toast.error('Error submitting form:', error)
+      }
+    },
+    [clientId]
+  )
 
   return {
     createClientUserFormik

@@ -3,8 +3,8 @@ import * as Yup from 'yup'
 import { useFillFormik } from '../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { useGetClient } from '../../../api/ClientApiQuery'
-import { updateClient } from '../../../api/ClientApi'
+import { useGetClient } from '../../../api/ClientApi/ClientApiQuery'
+import { updateClient } from '../../../api/ClientApi/ClientApi'
 
 export const useEditClientForm = () => {
   const { client, clientId, refetchClient } = useGetClient()

@@ -8,7 +8,7 @@ import { CategorizedListItemLink } from '../../Components/CategorizedList/Catego
 import { CategorizedListItemDate } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemDate'
 import { handleDateFormat } from '../../utils/date'
 import { CategorizedListItemTitle } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemTitle'
-import { useFetchClientList } from './api/ClientApiQuery'
+import { useFetchClientList } from './api/ClientApi/ClientApiQuery'
 
 export const Clients = () => {
   const { data } = useFetchClientList()
