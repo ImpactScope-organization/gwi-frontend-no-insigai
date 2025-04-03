@@ -7,7 +7,7 @@ export const ClientUserList = () => {
   const { clientUsers } = useListClientUsers()
   return (
     <div>
-      <FormHeading>Edit existing client users</FormHeading>
+      <FormHeading className="mb-6">Edit existing client users</FormHeading>
       <div>
         {clientUsers &&
           clientUsers.map((clientUser) => (
