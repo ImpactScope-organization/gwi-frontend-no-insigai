@@ -4,6 +4,7 @@ import React from 'react'
 import { Divider } from 'antd'
 import { EditClientForm } from './components/EditClientForm/EditClientForm'
 import { useGetClient } from '../api/ClientApiQuery'
+import { CreateClientUserForm } from './components/CreateClientUserForm/CreateClientUserForm'
 
 export const EditClient = () => {
   const { client } = useGetClient()
@@ -11,8 +12,9 @@ export const EditClient = () => {
   return (
     <TitleWithBackButton title={`Edit client: ${client?.name}`} to={ROUTES.clients.index}>
       <EditClientForm />
-      <Divider className="my-2" />
-
+      <Divider className="my-8" />
+      <CreateClientUserForm />
+      <Divider className="my-8" />
       <table className="table-auto w-full">
         <thead>
           <tr>
