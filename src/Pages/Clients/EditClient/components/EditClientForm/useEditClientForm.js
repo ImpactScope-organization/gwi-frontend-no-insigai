@@ -1,12 +1,12 @@
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useFillFormik } from '../../../Hooks/useFillFormik'
+import { useFillFormik } from '../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { useGetClient } from '../api/ClientApiQuery'
-import { updateClient } from '../api/ClientApi'
+import { useGetClient } from '../../../api/ClientApiQuery'
+import { updateClient } from '../../../api/ClientApi'
 
-export const useEditClient = () => {
+export const useEditClientForm = () => {
   const { client, clientId, refetchClient } = useGetClient()
 
   const editClientFormik = useFormik({

@@ -1,23 +1,18 @@
 import { TitleWithBackButton } from '../../../Components/TitleWithBackButton/TitleWithBackButton'
 import { ROUTES } from '../../../routes'
-import { Form, FormikProvider } from 'formik'
-import { InputText } from '../../../Components/Fields/InputText'
-import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
-import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
-import { useEditClient } from './useEditClient'
 import { Divider } from 'antd'
-import { EditClientForm } from './components/EditClientForm'
+import { EditClientForm } from './components/EditClientForm/EditClientForm'
+import { useGetClient } from '../api/ClientApiQuery'
 
 export const EditClient = () => {
-  const { editClientFormik, client } = useEditClient()
+  const { client } = useGetClient()
 
   return (
     <TitleWithBackButton title={`Edit client: ${client?.name}`} to={ROUTES.clients.index}>
-      <FormikProvider value={editClientFormik}>
-        <EditClientForm />
-      </FormikProvider>
+      <EditClientForm />
       <Divider className="my-2" />
+
       <table className="table-auto w-full">
         <thead>
           <tr>
