@@ -28,8 +28,7 @@ export const useCreateClientUserForm = () => {
         await createClientUser(clientId, clientUser)
         toast.success('Client user created successfully')
       } catch (error) {
-        console.error('Error submitting form:', error)
-        toast.error('Error submitting form:', error)
+        toast.error(`Error submitting form: ${error?.response?.data?.message}`)
       }
     },
     [clientId]
