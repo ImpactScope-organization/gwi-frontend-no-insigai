@@ -39,7 +39,7 @@ export const useEditClientUserListItem = ({ clientUser }) => {
         resetFormikFilled()
       } catch (error) {
         console.error('Error submitting form:', error)
-        toast.error('Error submitting form:', error)
+        toast.error(`Error submitting form: ${error?.response?.data?.message}`)
       }
     },
     [clientUser, editClientUserListItemFormik, refetchClientUsers, resetFormikFilled]
