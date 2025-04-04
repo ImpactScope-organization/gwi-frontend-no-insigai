@@ -33,7 +33,7 @@ export const useEditClientUserListItem = ({ clientUser }) => {
           ...clientUser,
           ...clientUserForm
         })
-        toast.success(`Client user ${clientUser.email} saved successfully`)
+        toast.success(`Client user ${clientUserForm.email} saved successfully`)
         await refetchClientUsers()
         editClientUserListItemFormik.resetForm()
         resetFormikFilled()
