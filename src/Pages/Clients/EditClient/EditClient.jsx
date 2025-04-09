@@ -10,11 +10,11 @@ export const EditClient = () => {
   return (
     <TitleWithBackButton to={ROUTES.clients.index}>
       <div className="flex flex-col items-center">
-        <div className="lg:w-2/3 2xl:w-1/2">
+        <div className="lg:w-2/3 2xl:w-1/2 gap-y-4 flex flex-col">
           <EditClientForm />
-          <Divider className="my-8" />
+          <Divider />
           <CreateClientUserForm />
-          <Divider className="my-8" />
+          <Divider />
           <ClientUserList />
         </div>
       </div>
