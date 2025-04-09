@@ -1,26 +1,26 @@
 import React from 'react'
-import Switch from 'react-switch'
+import { ClientItem } from './components/ClientItem'
+import { useFetchClientList } from '../../../../../../../../Clients/api/ClientApi/ClientApiQuery'
+import { useCurrentCompanyReport } from '../../../../../hooks/useCurrentCompanyReport'
 
 export const ClientVisibility = () => {
+  const { data: clients } = useFetchClientList()
+  const { currentCompanyReport } = useCurrentCompanyReport()
+
+  const clientsMapping = clients?.map((client) => {
+    return {
+      ...client,
+      isSelected: currentCompanyReport?.clientIds?.includes(client.id) || false
+    }
+  })
+
   return (
     <div className="flex-col">
       <h2 className="text-[18px] leading-[24px] font-[600]">Specific clients</h2>
       <div className="flex flex-row gap-2 w-full justify-between">
-        <div className="flex flex-row gap-2 w-full justify-between">
-          <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
-            <span className="truncate">Demo</span>
-          </h2>
-          <div>
-            <Switch
-              height={24}
-              onChange={() => {}}
-              checked={false}
-              checkedIcon={false}
-              uncheckedIcon={false}
-              onColor="#4DC601"
-            />
-          </div>
-        </div>
+        {clientsMapping?.map((client) => (
+          <ClientItem key={client.id} client={client} />
+        ))}
       </div>
     </div>
   )
