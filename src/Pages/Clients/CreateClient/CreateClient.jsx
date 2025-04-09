@@ -1,10 +1,10 @@
+import React from 'react'
 import { TitleWithBackButton } from '../../../Components/TitleWithBackButton/TitleWithBackButton'
 import { ROUTES } from '../../../routes'
 import { Form, FormikProvider } from 'formik'
 import { InputText } from '../../../Components/Fields/InputText'
 import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
-import React from 'react'
 import { useCreateClient } from './useCreateClient'
 
 export const CreateClient = () => {
