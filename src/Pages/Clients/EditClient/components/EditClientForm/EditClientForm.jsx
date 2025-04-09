@@ -1,8 +1,8 @@
+import React from 'react'
 import { Form, FormikProvider } from 'formik'
 import { InputText } from '../../../../../Components/Fields/InputText'
 import { SuccessButton } from '../../../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
-import React from 'react'
 import { useEditClientForm } from './useEditClientForm'
 import { FormHeading } from '../../../../../Components/Text/FormHeading'
 
