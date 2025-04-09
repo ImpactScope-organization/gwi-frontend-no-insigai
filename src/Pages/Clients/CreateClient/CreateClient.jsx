@@ -13,21 +13,15 @@ export const CreateClient = () => {
   return (
     <TitleWithBackButton title="New Client" to={ROUTES.clients.index}>
       <FormikProvider value={createClientFormik}>
-        <div className="flex flex-col w-full gap-4 lg:flex-row">
-          <Form className="flex flex-col gap-4 w-full">
-            <div className="flex flex-col lg:w-2/3 xl:w-1/2 gap-4">
-              <div className="flex flex-col w-full gap-4">
-                <InputText name="name" label="Name" />
-              </div>
+        <Form>
+          <div className="flex flex-col lg:w-2/3 xl:w-1/2 gap-4">
+            <InputText name="name" label="Name" />
 
-              <div className="flex w-full gap-4">
-                <SuccessButton onClick={createClientFormik.submitForm} icon={<CheckSquareFilled />}>
-                  Save client
-                </SuccessButton>
-              </div>
-            </div>
-          </Form>
-        </div>
+            <SuccessButton onClick={createClientFormik.submitForm} icon={<CheckSquareFilled />}>
+              Save client
+            </SuccessButton>
+          </div>
+        </Form>
       </FormikProvider>
     </TitleWithBackButton>
   )
