@@ -16,6 +16,7 @@ export const Header = () => {
             Companies
           </HeaderLink>
           <HeaderLink to={ROUTES.prompts.index}>Prompts</HeaderLink>
+          <HeaderLink to={ROUTES.clients.index}>Clients</HeaderLink>
           <ConnectWallet
             accentColor="#f213a4"
             colorMode="dark"

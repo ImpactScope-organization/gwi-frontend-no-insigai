@@ -1,27 +1,20 @@
-import { InputNumber as InputNumberAntd } from 'antd'
+import { Input } from 'antd'
 import React from 'react'
 import { useFormikContext } from 'formik'
 
-export const InputNumber = ({ name, label, ...props }) => {
+export const InputPassword = ({ name, label }) => {
   const formik = useFormikContext()
   return (
     <div className="w-full">
       <label className="text-md text-darkBlack mb-1 font-semibold block">{label}</label>
-      <InputNumberAntd
-        controls={false}
+      <Input
         name={name}
         placeholder={label}
-        className="w-full"
-        type="number"
-        onChange={(value) => {
-          if (value !== null) {
-            formik.setFieldValue(name, value)
-          }
-        }}
+        type="password"
+        onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values[name]}
         status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
-        {...props}
       />
       <div className="ml-1">
         {formik.touched[name] && formik.errors[name] ? (

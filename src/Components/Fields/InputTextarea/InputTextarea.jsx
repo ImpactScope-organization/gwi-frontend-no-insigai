@@ -12,11 +12,8 @@ export const InputTextarea = ({ name, label }) => {
 
   return (
     <div>
-      <label htmlFor="name" className="text-md text-darkBlack mb-1 font-semibold block">
-        {label}
-      </label>
+      <label className="text-md text-darkBlack mb-1 font-semibold block">{label}</label>
       <TextArea
-        id={name}
         name={name}
         placeholder={label}
         type="text"
