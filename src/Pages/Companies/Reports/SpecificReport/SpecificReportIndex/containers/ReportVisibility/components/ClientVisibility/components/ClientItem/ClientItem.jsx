@@ -1,8 +1,6 @@
 import React from 'react'
 import Switch from 'react-switch'
 import { useCurrentCompanyReport } from '../../../../../../../hooks/useCurrentCompanyReport'
-import axios from 'axios'
-import apiUrl from '../../../../../../../../../../../utils/baseURL'
 import { useClientItem } from './useClientItem'
 
 export const ClientItem = ({ client }) => {
@@ -11,9 +9,7 @@ export const ClientItem = ({ client }) => {
 
   return (
     <div className="flex flex-row gap-2 w-full justify-between">
-      <h2 className="text-[16px] leading-[24px] mt-1 font-[500]">
-        <span className="truncate">{client.name}</span>
-      </h2>
+      <h2 className="text-[16px] leading-[24px] font-[500] block">{client.name}</h2>
       <div>
         <Switch
           height={24}
