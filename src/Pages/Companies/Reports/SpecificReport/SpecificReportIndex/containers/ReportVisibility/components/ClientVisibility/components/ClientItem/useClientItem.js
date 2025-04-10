@@ -1,7 +1,5 @@
 import { useCallback } from 'react'
 import { useCurrentCompanyReport } from '../../../../../../../hooks/useCurrentCompanyReport'
-import axios from 'axios'
-import apiUrl from '../../../../../../../../../../../utils/baseURL'
 import { updateReport } from '../../../../../../../../api/ReportApi'
 
 export const useClientItem = ({ client }) => {
