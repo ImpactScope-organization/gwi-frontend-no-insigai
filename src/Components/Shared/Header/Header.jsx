@@ -2,7 +2,7 @@ import { ConnectWallet } from '@thirdweb-dev/react'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../../../routes'
 import { HeaderLink } from './HeaderLink'
-import { UserInfo } from './components/UserInfo'
+import { UserDropdown } from './components/UserDropdown'
 
 export const Header = () => {
   return (
@@ -18,7 +18,7 @@ export const Header = () => {
           </HeaderLink>
           <HeaderLink to={ROUTES.prompts.index}>Prompts</HeaderLink>
           <HeaderLink to={ROUTES.clients.index}>Clients</HeaderLink>
-          <UserInfo />
+          <UserDropdown />
         </div>
       </div>
     </div>
