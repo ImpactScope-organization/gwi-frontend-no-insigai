@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { useCurrentCompanyReport } from '../../../../../../../hooks/useCurrentCompanyReport'
 import axios from 'axios'
 import apiUrl from '../../../../../../../../../../../utils/baseURL'
+import { updateReport } from '../../../../../../../../api/ReportApi'
 
 export const useClientItem = ({ client }) => {
   const { getCurrentCompanyReport, currentCompanyReport, reportId } = useCurrentCompanyReport()
@@ -20,7 +21,7 @@ export const useClientItem = ({ client }) => {
   const handleClientChange = async (selected) => {
     const clientIds = getFilteredClientIds(selected)
 
-    await axios.put(`${apiUrl}/api/report/update/${reportId}`, {
+    await updateReport(reportId, {
       clientIds
     })
     await getCurrentCompanyReport()

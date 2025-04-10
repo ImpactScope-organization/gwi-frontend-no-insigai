@@ -4,8 +4,7 @@ import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
-import axios from 'axios'
-import apiUrl from '../../../../../../utils/baseURL'
+import { updateReport } from '../../../api/ReportApi'
 
 export const useSpecificReportEditFormik = () => {
   const { getCurrentCompanyReport, reportId, currentCompanyReport } = useCurrentCompanyReport()
@@ -43,7 +42,7 @@ export const useSpecificReportEditFormik = () => {
   const handleUpdateReport = useCallback(
     async (currentCompanyReportForm) => {
       try {
-        await axios.put(`${apiUrl}/api/report/update/${reportId}`, currentCompanyReportForm)
+        await updateReport(reportId, currentCompanyReportForm)
         await getCurrentCompanyReport()
         resetFormikFilled()
         toast.success('Report saved successfully')
