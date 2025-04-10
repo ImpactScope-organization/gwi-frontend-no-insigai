@@ -1,18 +1,9 @@
 import React from 'react'
 import { ClientItem } from './components/ClientItem/ClientItem'
-import { useFetchClientList } from '../../../../../../../../Clients/api/ClientApi/ClientApiQuery'
-import { useCurrentCompanyReport } from '../../../../../hooks/useCurrentCompanyReport'
+import { useClientVisibility } from './useClientVisibility'
 
 export const ClientVisibility = () => {
-  const { data: clients } = useFetchClientList()
-  const { currentCompanyReport } = useCurrentCompanyReport()
-
-  const clientToggleList = clients?.map((client) => {
-    return {
-      ...client,
-      isSelected: currentCompanyReport?.clientIds?.includes(client.id) || false
-    }
-  })
+  const { clientToggleList } = useClientVisibility()
 
   return (
     <div className="flex-col">
