@@ -9,24 +9,28 @@ const AuthContext = createContext({
 })
 
 const USER_TOKEN_STORAGE_KEY = 'userInfo'
+const ACCESS_TOKEN_STORAGE_KEY = 'accessToken'
+const REFRESH_TOKEN_STORAGE_KEY = 'refreshToken'
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLocalStorageFetched, setIsLocalStorageFetched] = useState(false)
   const navigate = useNavigate()
 
-  const login = useCallback((userToken) => {
-    localStorage.setItem(USER_TOKEN_STORAGE_KEY, userToken)
+  const login = useCallback(({ accessToken, refreshToken }) => {
+    localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken)
+    localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken)
     setIsAuthenticated(true)
   }, [])
 
   const logout = useCallback(() => {
-    localStorage.removeItem(USER_TOKEN_STORAGE_KEY)
+    localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
+    localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY)
     setIsAuthenticated(false)
   }, [])
 
   useEffect(() => {
-    const userInfo = localStorage.getItem(USER_TOKEN_STORAGE_KEY)
+    const userInfo = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
     if (userInfo) {
       setIsAuthenticated(true)
     }
@@ -37,7 +41,7 @@ export const AuthProvider = ({ children }) => {
     if (isLocalStorageFetched && !isAuthenticated) {
       navigate(ROUTES.login)
     }
-  }, [isAuthenticated, isLocalStorageFetched])
+  }, [isAuthenticated, isLocalStorageFetched, navigate])
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

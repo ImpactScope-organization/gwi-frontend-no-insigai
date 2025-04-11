@@ -32,7 +32,6 @@ export const Login = () => {
           setRequestLoading(false)
           toast.success('Logged in Successfully')
 
-          // todo implement jwt
           login(data?.result)
           navigate(ROUTES.companies.index)
         })
