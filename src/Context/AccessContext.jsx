@@ -1,28 +1,19 @@
-import React, { createContext, useState, useEffect, useContext, useCallback, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../routes'
-import { jwtDecode } from 'jwt-decode'
+import React, { createContext, useContext, useCallback, useMemo } from 'react'
+import { useAuthContext } from './AuthContext'
 
 const AccessContext = createContext({
-  isAuthenticated: false,
-  login: () => {},
-  logout: () => {}
+  userRoles: {
+    isAdmin: false,
+    isRegulator: false,
+    isDemo: false
+  },
+  isClientAvailable: () => {}
 })
 
-const ACCESS_TOKEN_STORAGE_KEY = 'accessToken'
-const REFRESH_TOKEN_STORAGE_KEY = 'refreshToken'
-
 export const AccessContextProvider = ({ children }) => {
-  const [roles, setRoles] = useState([])
-  const [availableClientIds, setAvailableClientIds] = useState([])
-
-  const navigate = useNavigate()
-
-  const loadJWTContent = useCallback((accessToken) => {
-    const { roles: rolesToSet, clientIds: clientIdsToSet } = jwtDecode(accessToken)
-    setRoles(rolesToSet)
-    setAvailableClientIds(clientIdsToSet)
-  }, [])
+  const {
+    userInfo: { roles, clientIds }
+  } = useAuthContext()
 
   const userRoles = useMemo(() => {
     return {
@@ -34,16 +25,16 @@ export const AccessContextProvider = ({ children }) => {
 
   const isClientAvailable = useCallback(
     (clientId) => {
-      return availableClientIds.includes(clientId)
+      return clientIds.includes(clientId)
     },
-    [availableClientIds]
+    [clientIds]
   )
 
   return (
-    <AuthContext.Provider value={{ userRoles, isClientAvailable }}>
+    <AccessContext.Provider value={{ userRoles, isClientAvailable }}>
       {children}
-    </AuthContext.Provider>
+    </AccessContext.Provider>
   )
 }
 
-export const useAccessContext = () => useContext(Acc)
+export const useAccessContext = () => useContext(AccessContext)
