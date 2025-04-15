@@ -1,8 +1,9 @@
-import axios from 'axios'
-import apiUrl from '../../../../utils/baseURL'
+import { getApi } from '../../../../utils/api'
 
 export const createReportQueueItem = async (data) => {
-  const response = await axios.post(`${apiUrl}/api/report-queue/create`, data, {
+  const response = await (
+    await getApi()
+  ).post(`/api/report-queue/create`, data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -11,6 +12,6 @@ export const createReportQueueItem = async (data) => {
 }
 
 export const fetchReportQueueStatus = async (id) => {
-  const response = await axios.get(`${apiUrl}/api/report-queue/${id}`)
+  const response = await (await getApi()).get(`/api/report-queue/${id}`)
   return response.data
 }

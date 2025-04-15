@@ -1,6 +1,5 @@
-import axios from 'axios'
-import apiUrl from '../../../../utils/baseURL'
+import { getApi } from '../../../../utils/api'
 
 export const updateReport = async (reportId, data) => {
-  await axios.put(`${apiUrl}/api/report/update/${reportId}`, data)
+  await (await getApi()).put(`/api/report/update/${reportId}`, data)
 }

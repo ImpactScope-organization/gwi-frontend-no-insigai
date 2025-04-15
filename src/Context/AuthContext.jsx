@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext, useCallback, use
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../routes'
 import { jwtDecode } from 'jwt-decode'
+import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY } from '../utils/auth'
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -14,9 +15,6 @@ const AuthContext = createContext({
     clientIds: []
   }
 })
-
-const ACCESS_TOKEN_STORAGE_KEY = 'accessToken'
-const REFRESH_TOKEN_STORAGE_KEY = 'refreshToken'
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
