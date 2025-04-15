@@ -28,18 +28,16 @@ export const Login = () => {
     onSubmit: async (values) => {
       try {
         setRequestLoading(true)
-        await axios.post(`${apiUrl}/api/regulator/login`, values).then(({ data }) => {
+        await axios.post(`${apiUrl}/api/auth/login`, values).then(({ data }) => {
           setRequestLoading(false)
           toast.success('Logged in Successfully')
 
-          // todo implement jwt
           login(data?.result)
           navigate(ROUTES.companies.index)
         })
       } catch (err) {
         toast.error(err?.response?.data?.message)
         setRequestLoading(false)
-        // console.error(err);
       }
     }
   })

@@ -6,6 +6,7 @@ import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './Context/AuthContext'
 import { ConfigProvider } from 'antd'
+import { AccessContextProvider } from './Context/AccessContext'
 
 const activeChainId = ChainId.Sepolia
 
@@ -26,7 +27,9 @@ root.render(
           }}
         >
           <AuthProvider>
-            <App />
+            <AccessContextProvider>
+              <App />
+            </AccessContextProvider>
           </AuthProvider>
         </ConfigProvider>
       </ThirdwebProvider>
