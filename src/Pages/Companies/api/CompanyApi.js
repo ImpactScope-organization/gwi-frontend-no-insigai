@@ -1,14 +1,12 @@
-import axios from 'axios'
-import apiUrl from '../../../utils/baseURL'
 import { getApi } from '../../../utils/api'
 
 export const createCompany = async (company) => {
-  const response = await axios.post(`${apiUrl}/api/company/create`, company)
+  const response = await (await getApi()).post(`/api/company/create`, company)
   return response.data
 }
 
 export const updateCompany = async (companyId, company) => {
-  const response = await axios.put(`${apiUrl}/api/company/${companyId}/update`, company)
+  const response = await (await getApi()).put(`/api/company/${companyId}/update`, company)
   return response.data
 }
 
@@ -18,21 +16,21 @@ export const fetchCompanyList = async () => {
 }
 
 export const getCompany = async (companyId) => {
-  const response = await axios.get(`${apiUrl}/api/company/${companyId}`)
+  const response = await (await getApi()).get(`/api/company/${companyId}`)
   return response.data
 }
 
 export const getCompanyInternalReports = async (companyId) => {
-  const response = await axios.get(`${apiUrl}/api/company/${companyId}/reports/internal`)
+  const response = await (await getApi()).get(`/api/company/${companyId}/reports/internal`)
   return response.data
 }
 
 export const getCompanyRegulatorReports = async (companyId) => {
-  const response = await axios.get(`${apiUrl}/api/company/${companyId}/reports/regulator`)
+  const response = await (await getApi()).get(`/api/company/${companyId}/reports/regulator`)
   return response.data
 }
 
 export const getCompanyProcessingReports = async (companyId) => {
-  const response = await axios.get(`${apiUrl}/api/company/${companyId}/reports/processing`)
+  const response = await (await getApi()).get(`/api/company/${companyId}/reports/processing`)
   return response.data
 }

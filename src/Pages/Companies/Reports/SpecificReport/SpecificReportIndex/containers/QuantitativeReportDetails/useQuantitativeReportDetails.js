@@ -2,12 +2,11 @@ import { toFixed } from '../../../../../../../utils/number'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useCallback, useMemo, useState } from 'react'
 import html2canvas from 'html2canvas'
-import axios from 'axios'
-import apiUrl from '../../../../../../../utils/baseURL'
 import { toast } from 'react-toastify'
 import { getRouteWithParams, ROUTES } from '../../../../../../../routes'
 import { captureScreen } from '../../../../../../../utils/helpers'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
+import { getApi } from '../../../../../../../utils/api'
 
 export const useQuantitativeReportDetails = () => {
   const navigate = useNavigate()
@@ -34,7 +33,9 @@ export const useQuantitativeReportDetails = () => {
       const formData = new FormData()
       formData.append('file', file)
 
-      await axios.post(`${apiUrl}/api/blockchain/create/${reportId}`, formData, {
+      await (
+        await getApi()
+      ).post(`/api/blockchain/create/${reportId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Accept: '*/*',
@@ -59,7 +60,9 @@ export const useQuantitativeReportDetails = () => {
         `Are you sure you want to delete this Report? \n${currentCompanyReport?.companyName}`
       )
     ) {
-      const response = await axios.delete(`${apiUrl}/api/report/delete/${currentCompanyReport?.id}`)
+      const response = await (
+        await getApi()
+      ).delete(`/api/report/delete/${currentCompanyReport?.id}`)
       const { data } = response
       if (data?.status === 'success') {
         toast.success(data?.message)
