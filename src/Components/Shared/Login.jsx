@@ -1,13 +1,12 @@
 import { useFormik } from 'formik'
 import { loginModalScehma } from '../../validation-schema'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 import RequestLoader from './RequestLoader'
-import apiUrl from '../../utils/baseURL'
 import { useAuthContext } from '../../Context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 import { useState } from 'react'
+import { getApi } from '../../utils/api'
 
 export const Login = () => {
   const [requestLoading, setRequestLoading] = useState(false)
@@ -28,7 +27,8 @@ export const Login = () => {
     onSubmit: async (values) => {
       try {
         setRequestLoading(true)
-        await axios.post(`${apiUrl}/api/auth/login`, values).then(({ data }) => {
+
+        await (await getApi()).post(`/api/auth/login`, values).then(({ data }) => {
           setRequestLoading(false)
           toast.success('Logged in Successfully')
 

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import apiUrl from '../../../utils/baseURL'
+import { getApi } from '../../../utils/api'
 
 export const createCompany = async (company) => {
   const response = await axios.post(`${apiUrl}/api/company/create`, company)
@@ -12,7 +13,7 @@ export const updateCompany = async (companyId, company) => {
 }
 
 export const fetchCompanyList = async () => {
-  const response = await axios.get(`${apiUrl}/api/company`)
+  const response = await (await getApi()).get(`/api/company`)
   return response.data
 }
 
