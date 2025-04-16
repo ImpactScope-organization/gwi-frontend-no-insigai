@@ -8,8 +8,6 @@ export const InputUserSearch = ({ name }) => {
   const formik = useFormikContext()
 
   const [searchResults, setSearchResults] = useState([])
-  const [value, setValue] = useState()
-  const [email, setEmail] = useState()
 
   const handleSearch = useCallback(async (email) => {
     if (email?.length > 2) {
@@ -29,17 +27,18 @@ export const InputUserSearch = ({ name }) => {
 
   const handleChange = useCallback(
     (newValue) => {
-      setValue(newValue)
-      setEmail(searchResults.find((user) => user.id === newValue)?.email)
       formik.setFieldValue(name, newValue)
     },
-    [formik, name, searchResults]
+    [formik, name]
   )
 
+  const email = useMemo(() => {
+    return searchResults.find((user) => user.id === formik.values[name])?.email
+  }, [formik.values, name, searchResults])
+
   const handleClear = useCallback(() => {
-    setValue(null)
-    setEmail(null)
-  }, [])
+    formik.setFieldValue(name, null)
+  }, [formik, name])
 
   return (
     <div className="flex flex-row w-full gap-4">
@@ -48,7 +47,7 @@ export const InputUserSearch = ({ name }) => {
         <Select
           className="w-full"
           showSearch
-          value={value}
+          value={formik.values[name]}
           placeholder="Search for email"
           defaultActiveFirstOption={false}
           suffixIcon={null}
@@ -61,7 +60,7 @@ export const InputUserSearch = ({ name }) => {
       </div>
       <div className="w-full flex flex-col gap-4">
         <label className="font-bold">Selected user</label>
-        {value ? (
+        {formik.values[name] ? (
           <div className="w-full flex items-center justify-center bg-darkGreen text-white rounded-md p-4 relative">
             <span>{email}</span>
             <button
