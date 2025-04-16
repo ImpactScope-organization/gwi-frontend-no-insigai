@@ -4,9 +4,11 @@ import * as Yup from 'yup'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { addExistingUserToClient } from '../../../api/ClientUserApi/ClientUserApi'
+import { useListClientUsers } from '../../../api/ClientUserApi/ClientUserApiQuery'
 
 export const useAddExistingUserToClientForm = () => {
   const { clientId } = useGetClient()
+  const { refetchClientUsers } = useListClientUsers()
 
   const addExistingUserToClientFormik = useFormik({
     initialValues: {
@@ -28,12 +30,13 @@ export const useAddExistingUserToClientForm = () => {
           id
         })
         addExistingUserToClientFormik.resetForm()
+        await refetchClientUsers()
         toast.success('Client user added successfully')
       } catch (error) {
         toast.error(`Error submitting form: ${error?.response?.data?.message}`)
       }
     },
-    [clientId]
+    [addExistingUserToClientFormik, clientId, refetchClientUsers]
   )
 
   return {
