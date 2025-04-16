@@ -27,6 +27,7 @@ export const useAddExistingUserToClientForm = () => {
           clientId,
           id
         })
+        addExistingUserToClientFormik.resetForm()
         toast.success('Client user added successfully')
       } catch (error) {
         toast.error(`Error submitting form: ${error?.response?.data?.message}`)
