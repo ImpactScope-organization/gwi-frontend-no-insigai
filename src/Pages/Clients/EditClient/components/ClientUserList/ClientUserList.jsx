@@ -13,6 +13,7 @@ export const ClientUserList = () => {
           clientUsers.map((clientUser) => (
             <EditClientUserListItem key={clientUser.id} clientUser={clientUser} />
           ))}
+        {clientUsers?.length === 0 && <div>No users are connected to the client.</div>}
       </div>
     </div>
   )
