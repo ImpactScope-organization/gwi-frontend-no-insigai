@@ -2,8 +2,11 @@ import { Select } from 'antd'
 import { useCallback, useMemo, useState } from 'react'
 import { searchUsersByEmail } from '../../../../api/UserApi/UserApi'
 import { CloseCircleOutlined } from '@ant-design/icons'
+import { useFormikContext } from 'formik'
 
-export const InputUserSearch = () => {
+export const InputUserSearch = ({ name }) => {
+  const formik = useFormikContext()
+
   const [searchResults, setSearchResults] = useState([])
   const [value, setValue] = useState()
   const [email, setEmail] = useState()
@@ -28,8 +31,9 @@ export const InputUserSearch = () => {
     (newValue) => {
       setValue(newValue)
       setEmail(searchResults.find((user) => user.id === newValue)?.email)
+      formik.setFieldValue(name, newValue)
     },
-    [searchResults]
+    [formik, name, searchResults]
   )
 
   const handleClear = useCallback(() => {
