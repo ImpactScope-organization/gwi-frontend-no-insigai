@@ -16,3 +16,10 @@ export const addExistingUserToClient = async (clientUser) => {
   ).put(`/api/client/${clientUser.clientId}/user/${clientUser.id}/add`)
   return response.data
 }
+
+export const removeExistingUserToClient = async (clientUser) => {
+  const response = await (
+    await getApi()
+  ).delete(`/api/client/${clientUser.clientId}/user/${clientUser.id}/remove`)
+  return response.data
+}

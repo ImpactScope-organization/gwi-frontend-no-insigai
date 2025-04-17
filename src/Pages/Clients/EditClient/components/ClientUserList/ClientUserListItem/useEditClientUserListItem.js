@@ -5,9 +5,10 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { useListClientUsers } from '../../../../api/ClientUserApi/ClientUserApiQuery'
 import { updateUser } from '../../../../api/UserApi/UserApi'
+import { removeExistingUserToClient } from '../../../../api/ClientUserApi/ClientUserApi'
 
 export const useEditClientUserListItem = ({ clientUser }) => {
-  const { refetchClientUsers } = useListClientUsers()
+  const { refetchClientUsers, clientId } = useListClientUsers()
 
   const editClientUserListItemFormik = useFormik({
     initialValues: {
@@ -45,7 +46,22 @@ export const useEditClientUserListItem = ({ clientUser }) => {
     [clientUser, editClientUserListItemFormik, refetchClientUsers, resetFormikFilled]
   )
 
+  const handleRemoveClientUser = useCallback(async () => {
+    try {
+      await removeExistingUserToClient({
+        clientId,
+        id: clientUser.id
+      })
+      toast.success(`Client user ${clientUser.email} removed successfully`)
+      await refetchClientUsers()
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      toast.error(`Error submitting form: ${error?.response?.data?.message}`)
+    }
+  }, [clientId, clientUser, refetchClientUsers])
+
   return {
-    editClientUserListItemFormik
+    editClientUserListItemFormik,
+    handleRemoveClientUser
   }
 }

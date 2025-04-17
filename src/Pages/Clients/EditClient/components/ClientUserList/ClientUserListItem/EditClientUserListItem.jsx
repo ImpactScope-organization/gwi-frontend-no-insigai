@@ -4,9 +4,12 @@ import { InputPassword } from '../../../../../../Components/Fields/InputPassword
 import { useEditClientUserListItem } from './useEditClientUserListItem'
 import { Form, FormikProvider } from 'formik'
 import { SuccessButton } from '../../../../../../Components/Buttons/SuccessButton'
+import { DangerButton } from '../../../../../../Components/Buttons/DangerButton'
 
 export const EditClientUserListItem = ({ clientUser }) => {
-  const { editClientUserListItemFormik } = useEditClientUserListItem({ clientUser })
+  const { editClientUserListItemFormik, handleRemoveClientUser } = useEditClientUserListItem({
+    clientUser
+  })
   return (
     <FormikProvider value={editClientUserListItemFormik}>
       <Form>
@@ -15,8 +18,9 @@ export const EditClientUserListItem = ({ clientUser }) => {
           <InputPassword name="password" label="Password" />
           <InputPassword name="passwordAgain" label="Password Again" />
 
-          <div className="mt-7">
+          <div className="mt-7 flex gap-4">
             <SuccessButton type="submit">Save</SuccessButton>
+            <DangerButton onClick={handleRemoveClientUser}>Remove</DangerButton>
           </div>
         </div>
       </Form>
