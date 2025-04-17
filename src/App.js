@@ -25,6 +25,8 @@ import { EditCompany } from './Pages/Companies/EditCompany/EditCompany'
 import { Clients } from './Pages/Clients/Clients'
 import { CreateClient } from './Pages/Clients/CreateClient/CreateClient'
 import { EditClient } from './Pages/Clients/EditClient/EditClient'
+import { RoleRoute } from './Components/Restrict/RoleRoute/RoleRoute'
+import { ROLES } from './utils/roles'
 
 function App() {
   return (
@@ -47,15 +49,17 @@ function App() {
         />
         <Route path={ROUTES.companies.reports.report.index} element={<SpecificReportIndex />} />
         <Route path={ROUTES.companies.reports.report.edit} element={<SpecificReportEdit />} />
-        <Route path={ROUTES.clients.index} element={<Clients />} />
-        <Route path={ROUTES.clients.create} element={<CreateClient />} />
-        <Route path={ROUTES.clients.edit} element={<EditClient />} />
-        <Route path={ROUTES.prompts.index} element={<Prompts />} />
-        <Route path={ROUTES.prompts.create} element={<CreatePrompt />} />
-        <Route path={ROUTES.prompts.edit} element={<EditPromptPage />} />
-        <Route path={ROUTES.promptCategories.index} element={<PromptCategories />} />
-        <Route path={ROUTES.promptCategories.edit} element={<EditPromptCategory />} />
-        <Route path={ROUTES.promptCategories.create} element={<CreatePromptCategory />} />
+        <Route element={<RoleRoute role={ROLES.ADMIN} />}>
+          <Route path={ROUTES.clients.index} element={<Clients />} />
+          <Route path={ROUTES.clients.create} element={<CreateClient />} />
+          <Route path={ROUTES.clients.edit} element={<EditClient />} />
+          <Route path={ROUTES.prompts.index} element={<Prompts />} />
+          <Route path={ROUTES.prompts.create} element={<CreatePrompt />} />
+          <Route path={ROUTES.prompts.edit} element={<EditPromptPage />} />
+          <Route path={ROUTES.promptCategories.index} element={<PromptCategories />} />
+          <Route path={ROUTES.promptCategories.edit} element={<EditPromptCategory />} />
+          <Route path={ROUTES.promptCategories.create} element={<CreatePromptCategory />} />
+        </Route>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.notFound} element={<NotFound />} />
       </Routes>
