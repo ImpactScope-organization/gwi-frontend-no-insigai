@@ -28,6 +28,7 @@ export const useEditClientUserListItem = ({ clientUser }) => {
       await handleEditClientUserListItem(values)
     }
   })
+
   const { resetFormikFilled } = useFillFormik(editClientUserListItemFormik, clientUser)
 
   const handleEditClientUserListItem = useCallback(
