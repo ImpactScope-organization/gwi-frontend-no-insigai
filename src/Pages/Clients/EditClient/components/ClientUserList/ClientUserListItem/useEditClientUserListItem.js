@@ -3,8 +3,8 @@ import * as Yup from 'yup'
 import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { updateClientUser } from '../../../../api/ClientUserApi/ClientUserApi'
 import { useListClientUsers } from '../../../../api/ClientUserApi/ClientUserApiQuery'
+import { updateUser } from '../../../../api/UserApi/UserApi'
 
 export const useEditClientUserListItem = ({ clientUser }) => {
   const { refetchClientUsers } = useListClientUsers()
@@ -29,7 +29,7 @@ export const useEditClientUserListItem = ({ clientUser }) => {
   const handleEditClientUserListItem = useCallback(
     async (clientUserForm) => {
       try {
-        await updateClientUser({
+        await updateUser({
           ...clientUser,
           ...clientUserForm
         })

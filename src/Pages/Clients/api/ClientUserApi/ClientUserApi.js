@@ -10,13 +10,6 @@ export const fetchClientUserList = async (clientId) => {
   return response.data
 }
 
-export const updateClientUser = async (clientUser) => {
-  // todo check!!!
-  const response = await (
-    await getApi()
-  ).put(`/api/client/${clientUser.clientId}/user/${clientUser.id}/update`, clientUser)
-  return response.data
-}
 export const addExistingUserToClient = async (clientUser) => {
   const response = await (
     await getApi()
