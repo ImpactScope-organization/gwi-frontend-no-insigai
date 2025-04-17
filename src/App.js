@@ -39,10 +39,12 @@ function App() {
         <Route element={<AuthRoute />}>
           <Route path={ROUTES.home} element={<Navigate to={ROUTES.companies.index} />} />
           <Route path={ROUTES.companies.index} element={<Companies />} />
+
           <Route element={<RoleRoute role={ROLES.ADMIN} />}>
             <Route path={ROUTES.companies.create} element={<CreateCompany />} />
             <Route path={ROUTES.companies.edit} element={<EditCompany />} />
           </Route>
+
           <Route path={ROUTES.companies.reports.create} element={<CreateReport />} />
           <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
           <Route path={ROUTES.companies.reports.regulator} element={<RegulatorReport />} />
@@ -53,6 +55,7 @@ function App() {
           />
           <Route path={ROUTES.companies.reports.report.index} element={<SpecificReportIndex />} />
           <Route path={ROUTES.companies.reports.report.edit} element={<SpecificReportEdit />} />
+
           <Route element={<RoleRoute role={ROLES.ADMIN} />}>
             <Route path={ROUTES.clients.index} element={<Clients />} />
             <Route path={ROUTES.clients.create} element={<CreateClient />} />
