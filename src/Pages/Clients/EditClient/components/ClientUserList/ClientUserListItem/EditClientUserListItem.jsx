@@ -5,6 +5,7 @@ import { useEditClientUserListItem } from './useEditClientUserListItem'
 import { Form, FormikProvider } from 'formik'
 import { SuccessButton } from '../../../../../../Components/Buttons/SuccessButton'
 import { DangerButton } from '../../../../../../Components/Buttons/DangerButton'
+import { LabelledText } from '../../../../../../Components/Text/LabelledText'
 
 export const EditClientUserListItem = ({ clientUser }) => {
   const { editClientUserListItemFormik, handleRemoveClientUser, modalContent } =
@@ -15,7 +16,7 @@ export const EditClientUserListItem = ({ clientUser }) => {
     <FormikProvider value={editClientUserListItemFormik}>
       <Form>
         <div className="flex flex-row gap-4 mb-4">
-          <InputText name="email" label="E-Mail" />
+          <LabelledText label="E-Mail">{editClientUserListItemFormik.values.email}</LabelledText>
           <InputPassword name="password" label="Password" />
           <InputPassword name="passwordAgain" label="Password Again" />
 
