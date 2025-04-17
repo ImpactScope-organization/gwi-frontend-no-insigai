@@ -64,16 +64,18 @@ export const AuthProvider = ({ children }) => {
 
   const userInfo = useMemo(() => {
     if (!!accessToken) {
-      const { roles, clientIds } = jwtDecode(accessToken)
+      const { roles, clientIds, email } = jwtDecode(accessToken)
       return {
         roles,
-        clientIds
+        clientIds,
+        email
       }
     }
 
     return {
       roles: [],
-      clientIds: []
+      clientIds: [],
+      email: undefined
     }
   }, [accessToken])
 

@@ -1,9 +1,10 @@
 import { UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 import { useAuthContext } from '../../../../Context/AuthContext'
+import { Divider } from 'antd'
 
 export const UserDropdown = () => {
-  const { logout } = useAuthContext()
+  const { logout, userInfo } = useAuthContext()
   const [userDropdownVisible, setUserDropdownVisible] = useState(false)
 
   return (
@@ -23,7 +24,9 @@ export const UserDropdown = () => {
             className="w-full h-full fixed top-0 left-0"
             onClick={() => setUserDropdownVisible(false)}
           ></div>
-          <div className="absolute -right-4 top-16 bg-white p-2 w-48 text-right rounded-lg shadow-gray-400 shadow-md">
+          <div className="absolute -right-4 top-16 bg-white p-2 text-right rounded-lg shadow-gray-400 shadow-md">
+            <div className="p-2">{userInfo.email}</div>
+            <Divider className="m-1" />
             <button
               className="hover:bg-gray-200 w-full text-right p-2 rounded"
               onClick={() => {
