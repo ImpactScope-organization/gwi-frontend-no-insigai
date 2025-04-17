@@ -5,6 +5,7 @@ import { FormHeading } from '../../../../../Components/Text/FormHeading'
 
 export const ClientUserList = () => {
   const { clientUsers } = useListClientUsers()
+
   return (
     <div>
       <FormHeading className="mb-6">Edit existing client users</FormHeading>
@@ -13,6 +14,7 @@ export const ClientUserList = () => {
           clientUsers.map((clientUser) => (
             <EditClientUserListItem key={clientUser.id} clientUser={clientUser} />
           ))}
+        {clientUsers?.length === 0 && <div>No users are connected to the client.</div>}
       </div>
     </div>
   )

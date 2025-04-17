@@ -3,11 +3,15 @@ import * as Yup from 'yup'
 import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { updateClientUser } from '../../../../api/ClientUserApi/ClientUserApi'
 import { useListClientUsers } from '../../../../api/ClientUserApi/ClientUserApiQuery'
+import { updateUser } from '../../../../api/UserApi/UserApi'
+import { removeClientFromExistingUser } from '../../../../api/ClientUserApi/ClientUserApi'
+import { Modal } from 'antd'
+import { ExclamationCircleFilled } from '@ant-design/icons'
 
 export const useEditClientUserListItem = ({ clientUser }) => {
-  const { refetchClientUsers } = useListClientUsers()
+  const { refetchClientUsers, clientId } = useListClientUsers()
+  const [{ confirm }, modalContent] = Modal.useModal()
 
   const editClientUserListItemFormik = useFormik({
     initialValues: {
@@ -24,12 +28,13 @@ export const useEditClientUserListItem = ({ clientUser }) => {
       await handleEditClientUserListItem(values)
     }
   })
+
   const { resetFormikFilled } = useFillFormik(editClientUserListItemFormik, clientUser)
 
   const handleEditClientUserListItem = useCallback(
     async (clientUserForm) => {
       try {
-        await updateClientUser({
+        await updateUser({
           ...clientUser,
           ...clientUserForm
         })
@@ -45,7 +50,30 @@ export const useEditClientUserListItem = ({ clientUser }) => {
     [clientUser, editClientUserListItemFormik, refetchClientUsers, resetFormikFilled]
   )
 
+  const handleRemoveClientUser = useCallback(async () => {
+    confirm({
+      title: `Do you want to remove "${clientUser.email}" from the user?`,
+      icon: <ExclamationCircleFilled />,
+      content: 'If you want to revert this action add this user again',
+      async onOk() {
+        try {
+          await removeClientFromExistingUser({
+            clientId,
+            id: clientUser.id
+          })
+          toast.success(`Client user ${clientUser.email} removed successfully`)
+          await refetchClientUsers()
+        } catch (error) {
+          console.error('Error submitting form:', error)
+          toast.error(`Error submitting form: ${error?.response?.data?.message}`)
+        }
+      }
+    })
+  }, [clientId, clientUser, confirm, refetchClientUsers])
+
   return {
-    editClientUserListItemFormik
+    editClientUserListItemFormik,
+    handleRemoveClientUser,
+    modalContent
   }
 }

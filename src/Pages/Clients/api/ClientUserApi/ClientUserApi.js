@@ -10,9 +10,16 @@ export const fetchClientUserList = async (clientId) => {
   return response.data
 }
 
-export const updateClientUser = async (clientUser) => {
+export const addClientToExistingUser = async (clientUser) => {
   const response = await (
     await getApi()
-  ).put(`/api/client/${clientUser.clientId}/user/${clientUser.id}/update`, clientUser)
+  ).put(`/api/client/${clientUser.clientId}/user/${clientUser.id}/add`)
+  return response.data
+}
+
+export const removeClientFromExistingUser = async (clientUser) => {
+  const response = await (
+    await getApi()
+  ).delete(`/api/client/${clientUser.clientId}/user/${clientUser.id}/remove`)
   return response.data
 }

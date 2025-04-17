@@ -5,6 +5,7 @@ import { Divider } from 'antd'
 import { EditClientForm } from './components/EditClientForm/EditClientForm'
 import { CreateClientUserForm } from './components/CreateClientUserForm/CreateClientUserForm'
 import { ClientUserList } from './components/ClientUserList/ClientUserList'
+import { AddExistingUserToClientForm } from './components/AddExistingUserToClientForm/AddExistingUserToClientForm'
 
 export const EditClient = () => {
   return (
@@ -14,6 +15,8 @@ export const EditClient = () => {
           <EditClientForm />
           <Divider />
           <CreateClientUserForm />
+          <Divider />
+          <AddExistingUserToClientForm />
           <Divider />
           <ClientUserList />
         </div>
