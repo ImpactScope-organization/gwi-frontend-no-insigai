@@ -8,6 +8,7 @@ import { Form, FormikProvider } from 'formik'
 
 export const AddExistingUserToClientForm = () => {
   const { addExistingUserToClientFormik } = useAddExistingUserToClientForm()
+
   return (
     <FormikProvider value={addExistingUserToClientFormik}>
       <Form>
