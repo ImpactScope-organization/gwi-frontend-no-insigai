@@ -12,7 +12,8 @@ const AuthContext = createContext({
   refreshToken: undefined,
   userInfo: {
     roles: [],
-    clientIds: []
+    clientIds: [],
+    email: undefined
   }
 })
 
