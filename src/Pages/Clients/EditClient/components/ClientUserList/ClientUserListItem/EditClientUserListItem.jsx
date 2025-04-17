@@ -7,9 +7,10 @@ import { SuccessButton } from '../../../../../../Components/Buttons/SuccessButto
 import { DangerButton } from '../../../../../../Components/Buttons/DangerButton'
 
 export const EditClientUserListItem = ({ clientUser }) => {
-  const { editClientUserListItemFormik, handleRemoveClientUser } = useEditClientUserListItem({
-    clientUser
-  })
+  const { editClientUserListItemFormik, handleRemoveClientUser, modalContent } =
+    useEditClientUserListItem({
+      clientUser
+    })
   return (
     <FormikProvider value={editClientUserListItemFormik}>
       <Form>
@@ -23,6 +24,7 @@ export const EditClientUserListItem = ({ clientUser }) => {
             <DangerButton onClick={handleRemoveClientUser}>Remove</DangerButton>
           </div>
         </div>
+        {modalContent}
       </Form>
     </FormikProvider>
   )

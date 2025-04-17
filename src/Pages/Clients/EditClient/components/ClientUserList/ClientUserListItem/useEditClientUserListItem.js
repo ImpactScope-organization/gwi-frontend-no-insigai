@@ -6,9 +6,12 @@ import { toast } from 'react-toastify'
 import { useListClientUsers } from '../../../../api/ClientUserApi/ClientUserApiQuery'
 import { updateUser } from '../../../../api/UserApi/UserApi'
 import { removeExistingUserToClient } from '../../../../api/ClientUserApi/ClientUserApi'
+import { Modal } from 'antd'
+import { ExclamationCircleFilled } from '@ant-design/icons'
 
 export const useEditClientUserListItem = ({ clientUser }) => {
   const { refetchClientUsers, clientId } = useListClientUsers()
+  const [{ confirm }, modalContent] = Modal.useModal()
 
   const editClientUserListItemFormik = useFormik({
     initialValues: {
@@ -47,21 +50,29 @@ export const useEditClientUserListItem = ({ clientUser }) => {
   )
 
   const handleRemoveClientUser = useCallback(async () => {
-    try {
-      await removeExistingUserToClient({
-        clientId,
-        id: clientUser.id
-      })
-      toast.success(`Client user ${clientUser.email} removed successfully`)
-      await refetchClientUsers()
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      toast.error(`Error submitting form: ${error?.response?.data?.message}`)
-    }
-  }, [clientId, clientUser, refetchClientUsers])
+    confirm({
+      title: `Do you want to remove "${clientUser.email}" from the user?`,
+      icon: <ExclamationCircleFilled />,
+      content: 'If you want to revert this action add this user again',
+      async onOk() {
+        try {
+          await removeExistingUserToClient({
+            clientId,
+            id: clientUser.id
+          })
+          toast.success(`Client user ${clientUser.email} removed successfully`)
+          await refetchClientUsers()
+        } catch (error) {
+          console.error('Error submitting form:', error)
+          toast.error(`Error submitting form: ${error?.response?.data?.message}`)
+        }
+      }
+    })
+  }, [clientId, clientUser, confirm, refetchClientUsers])
 
   return {
     editClientUserListItemFormik,
-    handleRemoveClientUser
+    handleRemoveClientUser,
+    modalContent
   }
 }
