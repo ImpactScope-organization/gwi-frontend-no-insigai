@@ -5,6 +5,7 @@ import { FormHeading } from '../../../../../Components/Text/FormHeading'
 
 export const ClientUserList = () => {
   const { clientUsers } = useListClientUsers()
+
   return (
     <div>
       <FormHeading className="mb-6">Edit existing client users</FormHeading>
