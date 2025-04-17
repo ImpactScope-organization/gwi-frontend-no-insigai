@@ -2,7 +2,7 @@ import { FormHeading } from '../../../../../Components/Text/FormHeading'
 import { SuccessButton } from '../../../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
-import { InputUserSearch } from './components/InputUserSearch'
+import { InputUserSearch } from './components/InputUserSearch/InputUserSearch'
 import { useAddExistingUserToClientForm } from './useAddExistingUserToClientForm'
 import { Form, FormikProvider } from 'formik'
 
