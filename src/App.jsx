@@ -29,7 +29,7 @@ import { RoleRoute } from './Components/Restrict/RoleRoute/RoleRoute'
 import { ROLES } from './utils/roles'
 import { AuthRoute } from './Components/Restrict/AuthRoute/AuthRoute'
 
-function App() {
+export const App = () => {
   return (
     <div className="App">
       <Header />
@@ -74,5 +74,3 @@ function App() {
     </div>
   )
 }
-
-export default App
