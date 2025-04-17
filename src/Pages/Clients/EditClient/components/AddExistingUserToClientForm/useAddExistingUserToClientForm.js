@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { addExistingUserToClient } from '../../../api/ClientUserApi/ClientUserApi'
+import { addClientToExistingUser } from '../../../api/ClientUserApi/ClientUserApi'
 import { useListClientUsers } from '../../../api/ClientUserApi/ClientUserApiQuery'
 
 export const useAddExistingUserToClientForm = () => {
@@ -25,7 +25,7 @@ export const useAddExistingUserToClientForm = () => {
   const handleAddExistingUserToClientFormik = useCallback(
     async ({ id }) => {
       try {
-        await addExistingUserToClient({
+        await addClientToExistingUser({
           clientId,
           id
         })

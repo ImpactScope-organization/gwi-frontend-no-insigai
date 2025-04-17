@@ -5,7 +5,7 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { useListClientUsers } from '../../../../api/ClientUserApi/ClientUserApiQuery'
 import { updateUser } from '../../../../api/UserApi/UserApi'
-import { removeExistingUserToClient } from '../../../../api/ClientUserApi/ClientUserApi'
+import { removeClientFromExistingUser } from '../../../../api/ClientUserApi/ClientUserApi'
 import { Modal } from 'antd'
 import { ExclamationCircleFilled } from '@ant-design/icons'
 
@@ -57,7 +57,7 @@ export const useEditClientUserListItem = ({ clientUser }) => {
       content: 'If you want to revert this action add this user again',
       async onOk() {
         try {
-          await removeExistingUserToClient({
+          await removeClientFromExistingUser({
             clientId,
             id: clientUser.id
           })
