@@ -1,5 +1,4 @@
 import React from 'react'
-import { InputText } from '../../../../../../Components/Fields/InputText'
 import { InputPassword } from '../../../../../../Components/Fields/InputPassword'
 import { useEditClientUserListItem } from './useEditClientUserListItem'
 import { Form, FormikProvider } from 'formik'
