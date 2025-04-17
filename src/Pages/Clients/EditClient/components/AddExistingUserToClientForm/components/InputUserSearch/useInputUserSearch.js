@@ -38,11 +38,14 @@ export const useInputUserSearch = ({ name }) => {
     formik.setFieldValue(name, null)
   }, [formik, name])
 
+  const value = formik.values[name]
+
   return {
     handleSearch,
     transformedSearchResults,
     handleChange,
     email,
-    handleClear
+    handleClear,
+    value
   }
 }

@@ -1,11 +1,9 @@
 import { Select } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
-import { useFormikContext } from 'formik'
 import { useInputUserSearch } from './useInputUserSearch'
 
 export const InputUserSearch = ({ name }) => {
-  const formik = useFormikContext()
-  const { handleSearch, transformedSearchResults, handleChange, email, handleClear } =
+  const { handleSearch, transformedSearchResults, handleChange, email, handleClear, value } =
     useInputUserSearch({ name })
 
   return (
@@ -15,7 +13,7 @@ export const InputUserSearch = ({ name }) => {
         <Select
           className="w-full"
           showSearch
-          value={formik.values[name]}
+          value={value}
           placeholder="Search for email"
           defaultActiveFirstOption={false}
           suffixIcon={null}
@@ -28,7 +26,7 @@ export const InputUserSearch = ({ name }) => {
       </div>
       <div className="w-full flex flex-col gap-4">
         <label className="font-bold">Selected user</label>
-        {formik.values[name] ? (
+        {value ? (
           <div className="w-full flex items-center justify-center bg-darkGreen text-white rounded-md p-4 relative">
             <span>{email}</span>
             <button
