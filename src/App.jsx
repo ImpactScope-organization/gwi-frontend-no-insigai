@@ -45,16 +45,21 @@ export const App = () => {
             <Route path={ROUTES.companies.edit} element={<EditCompany />} />
           </Route>
 
-          <Route path={ROUTES.companies.reports.create} element={<CreateReport />} />
-          <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
+          <Route element={<RoleRoute role={ROLES.ADMIN} />}>
+            <Route path={ROUTES.companies.reports.create} element={<CreateReport />} />
+            <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
+            <Route path={ROUTES.companies.reports.processing} element={<ProcessingReports />} />
+          </Route>
           <Route path={ROUTES.companies.reports.regulator} element={<RegulatorReport />} />
-          <Route path={ROUTES.companies.reports.processing} element={<ProcessingReports />} />
-          <Route
-            path={ROUTES.companies.reports.processingDetails}
-            element={<ProcessingDetailsReport />}
-          />
+
+          <Route element={<RoleRoute role={ROLES.ADMIN} />}>
+            <Route
+              path={ROUTES.companies.reports.processingDetails}
+              element={<ProcessingDetailsReport />}
+            />
+            <Route path={ROUTES.companies.reports.report.edit} element={<SpecificReportEdit />} />
+          </Route>
           <Route path={ROUTES.companies.reports.report.index} element={<SpecificReportIndex />} />
-          <Route path={ROUTES.companies.reports.report.edit} element={<SpecificReportEdit />} />
 
           <Route element={<RoleRoute role={ROLES.ADMIN} />}>
             <Route path={ROUTES.clients.index} element={<Clients />} />
