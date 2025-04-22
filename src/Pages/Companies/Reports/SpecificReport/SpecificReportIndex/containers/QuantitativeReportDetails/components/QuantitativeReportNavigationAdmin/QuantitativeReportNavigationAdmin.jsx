@@ -2,10 +2,10 @@ import { Dropdown } from 'antd'
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import { captureScreen } from '../../../../../../../../../utils/helpers'
 import React from 'react'
-import { useQuantitativeReportNavigation } from './useQuantitativeReportNavigation'
+import { useQuantitativeReportNavigationAdmin } from './useQuantitativeReportNavigationAdmin'
 import { useCurrentCompanyReport } from '../../../../../hooks/useCurrentCompanyReport'
 
-export const QuantitativeReportNavigation = () => {
+export const QuantitativeReportNavigationAdmin = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
 
   const {
@@ -14,7 +14,7 @@ export const QuantitativeReportNavigation = () => {
     deleteCompanyHandler,
     dropdownConfiguration,
     storedOnBlockchain
-  } = useQuantitativeReportNavigation()
+  } = useQuantitativeReportNavigationAdmin()
 
   return (
     <>

@@ -7,7 +7,7 @@ import { getApi } from '../../../../../../../../../utils/api'
 import { getRouteWithParams, ROUTES } from '../../../../../../../../../routes'
 import { captureScreen } from '../../../../../../../../../utils/helpers'
 
-export const useQuantitativeReportNavigation = () => {
+export const useQuantitativeReportNavigationAdmin = () => {
   const navigate = useNavigate()
   const { companyId } = useParams()
   const { getCurrentCompanyReport, currentCompanyReport, reportId } = useCurrentCompanyReport()

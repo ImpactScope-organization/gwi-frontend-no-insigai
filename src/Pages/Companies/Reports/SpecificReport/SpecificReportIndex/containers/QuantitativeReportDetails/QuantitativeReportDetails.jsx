@@ -1,7 +1,4 @@
 import CustomGaugeChart from '../../../../../../../Components/gauge-chart'
-import { captureScreen } from '../../../../../../../utils/helpers'
-import { Dropdown } from 'antd'
-import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 import React from 'react'
 import { useQuantitativeReportDetails } from './useQuantitativeReportDetails'
 import { ReportingRisk } from './components/ReportingRisk'
@@ -9,9 +6,13 @@ import { ReportingRiskItem } from './components/ReportingRiskItem'
 import { ReportStatus } from './containers/ReportStatus'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 import { BlockchainDetails } from './components/BlockchainDetails'
-import { QuantitativeReportNavigation } from './components/QuantitativeReportNavigation/QuantitativeReportNavigation'
+import { QuantitativeReportNavigationAdmin } from './components/QuantitativeReportNavigationAdmin/QuantitativeReportNavigationAdmin'
+import { useAccessContext } from '../../../../../../../Context/AccessContext'
+import { QuantitativeReportNavigationRegulator } from './components/QuantitativeReportNavigationRegulator/QuantitativeReportNavigationRegulator'
 
 export const QuantitativeReportDetails = () => {
+  const { userRoles } = useAccessContext()
+
   const { currentCompanyReport } = useCurrentCompanyReport()
 
   const { greenwashingRiskPercentage, reportingRiskPercentage } = useQuantitativeReportDetails()
@@ -31,7 +32,8 @@ export const QuantitativeReportDetails = () => {
         <ReportStatus />
         <BlockchainDetails />
       </div>
-      <QuantitativeReportNavigation />
+      {userRoles.isAdmin && <QuantitativeReportNavigationAdmin />}
+      {userRoles.isRegulator && <QuantitativeReportNavigationRegulator />}
     </div>
   )
 }
