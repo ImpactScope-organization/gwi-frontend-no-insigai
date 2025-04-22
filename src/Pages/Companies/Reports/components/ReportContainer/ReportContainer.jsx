@@ -9,9 +9,11 @@ import { useGetCompany } from '../../../api/CompanyApiQuery'
 import { PageHeaderWithBackButton } from '../../../../../Components/Page/PageHeaderWithBackButton/PageHeaderWithBackButton'
 import { ROLES } from '../../../../../utils/roles'
 import { RoleRender } from '../../../../../Components/Restrict/RoleRender/RoleRender'
+import { useAccessContext } from '../../../../../Context/AccessContext'
 
 export const ReportContainer = ({ children }) => {
   const { company, companyId } = useGetCompany()
+  const { getCompanyRouteByRole } = useAccessContext()
 
   return (
     <PageContainer>
@@ -44,7 +46,7 @@ export const ReportContainer = ({ children }) => {
       {/* Tabs Container */}
       <PageContentContainer>
         <PageTab
-          to={getRouteWithParams(ROUTES.companies.reports.internal, {
+          to={getCompanyRouteByRole({
             companyId
           })}
         >

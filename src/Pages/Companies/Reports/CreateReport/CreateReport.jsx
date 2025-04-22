@@ -1,22 +1,23 @@
 import React from 'react'
 import { BackButtonLink } from '../../../../Components/BackButtonLink/BackButtonLink'
-import { getRouteWithParams, ROUTES } from '../../../../routes'
 import { PageContainer } from '../../../../Components/Page/PageContainer/PageContainer'
 import { FormikProvider } from 'formik'
 import { useCreateReport } from './useCreateReport'
 import { FileInput } from '../../../../Components/Fields/FileInput'
 import { SuccessButton } from '../../../../Components/Buttons/SuccessButton'
 import { useGetCompany } from '../../api/CompanyApiQuery'
+import { useAccessContext } from '../../../../Context/AccessContext'
 
 const CreateReport = () => {
   const { formik, isLoading } = useCreateReport()
   const { company, companyId } = useGetCompany()
+  const { getCompanyRouteByRole } = useAccessContext()
 
   return (
     <PageContainer>
       <div className="pb-10">
         <BackButtonLink
-          to={getRouteWithParams(ROUTES.companies.reports.internal, {
+          to={getCompanyRouteByRole({
             companyId
           })}
         />

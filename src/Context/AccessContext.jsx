@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useCallback, useMemo } from 'react'
 import { useAuthContext } from './AuthContext'
 import { ROLES } from '../utils/roles'
+import { getRouteWithParams, ROUTES } from '../routes'
 
 const AccessContext = createContext({
   userRoles: {
@@ -9,7 +10,8 @@ const AccessContext = createContext({
     isDemo: false
   },
   isClientAvailable: () => {},
-  hasRole: () => {}
+  hasRole: () => {},
+  getCompanyRouteByRole: () => {}
 })
 
 export const AccessContextProvider = ({ children }) => {
@@ -39,8 +41,20 @@ export const AccessContextProvider = ({ children }) => {
     [roles]
   )
 
+  const getCompanyRouteByRole = useCallback(
+    (params) => {
+      return getRouteWithParams(
+        userRoles.isAdmin ? ROUTES.companies.reports.internal : ROUTES.companies.reports.regulator,
+        params
+      )
+    },
+    [userRoles.isAdmin]
+  )
+
   return (
-    <AccessContext.Provider value={{ userRoles, isClientAvailable, hasRole }}>
+    <AccessContext.Provider
+      value={{ userRoles, isClientAvailable, hasRole, getCompanyRouteByRole }}
+    >
       {children}
     </AccessContext.Provider>
   )

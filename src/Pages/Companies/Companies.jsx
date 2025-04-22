@@ -1,6 +1,6 @@
 import { PageHeader } from '../../Components/Page/PageHeader/PageHeader'
 import { ButtonLink } from '../../Components/ButtonLink/ButtonLink'
-import { getRouteWithParams, ROUTES } from '../../routes'
+import { ROUTES } from '../../routes'
 import { CategorizedListContainer } from '../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
 import React from 'react'
 import { PageContainer } from '../../Components/Page/PageContainer/PageContainer'
@@ -13,9 +13,11 @@ import { CategorizedListItemCategory } from '../../Components/CategorizedList/Ca
 import { useFetchCompanyList } from './api/CompanyApiQuery'
 import { RoleRender } from '../../Components/Restrict/RoleRender/RoleRender'
 import { ROLES } from '../../utils/roles'
+import { useAccessContext } from '../../Context/AccessContext'
 
 export const Companies = () => {
   const { data } = useFetchCompanyList()
+  const { getCompanyRouteByRole } = useAccessContext()
 
   return (
     <PageContainer>
@@ -35,7 +37,7 @@ export const Companies = () => {
           data?.length > 0 &&
           data?.map((company) => (
             <CategorizedListItemLink
-              to={getRouteWithParams(ROUTES.companies.reports.internal, {
+              to={getCompanyRouteByRole({
                 companyId: company?.companyId
               })}
               key={`company_list_item_${company?.id}`}

@@ -6,11 +6,13 @@ import { useCurrentCompanyReport } from '../../../../../hooks/useCurrentCompanyR
 import { getApi } from '../../../../../../../../../utils/api'
 import { getRouteWithParams, ROUTES } from '../../../../../../../../../routes'
 import { captureScreen } from '../../../../../../../../../utils/helpers'
+import { useAccessContext } from '../../../../../../../../../Context/AccessContext'
 
 export const useQuantitativeReportNavigationAdmin = () => {
   const navigate = useNavigate()
   const { companyId } = useParams()
   const { getCurrentCompanyReport, currentCompanyReport, reportId } = useCurrentCompanyReport()
+  const { getCompanyRouteByRole } = useAccessContext()
 
   const [isSendToBlockchainInProgress, setIsSendToBlockchainInProgress] = useState(false)
 
@@ -63,7 +65,7 @@ export const useQuantitativeReportNavigationAdmin = () => {
       if (data?.status === 'success') {
         toast.success(data?.message)
         navigate(
-          getRouteWithParams(ROUTES.companies.reports.internal, {
+          getCompanyRouteByRole({
             companyId
           })
         )
