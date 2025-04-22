@@ -32,26 +32,28 @@ export const ReportContainer = ({ children }) => {
             >
               Edit company
             </ButtonLink>
+            <ButtonLink
+              to={getRouteWithParams(ROUTES.companies.reports.create, {
+                companyId
+              })}
+            >
+              Add new report
+            </ButtonLink>
           </RoleRender>
-          <ButtonLink
-            to={getRouteWithParams(ROUTES.companies.reports.create, {
-              companyId
-            })}
-          >
-            Add new report
-          </ButtonLink>
         </div>
       </PageHeaderWithBackButton>
 
       {/* Tabs Container */}
       <PageContentContainer>
-        <PageTab
-          to={getCompanyRouteByRole({
-            companyId
-          })}
-        >
-          Internal reports
-        </PageTab>
+        <RoleRender role={ROLES.ADMIN}>
+          <PageTab
+            to={getCompanyRouteByRole({
+              companyId
+            })}
+          >
+            Internal reports
+          </PageTab>
+        </RoleRender>
         <PageTab
           to={getRouteWithParams(ROUTES.companies.reports.regulator, {
             companyId
@@ -59,13 +61,15 @@ export const ReportContainer = ({ children }) => {
         >
           Sent to regulator
         </PageTab>
-        <PageTab
-          to={getRouteWithParams(ROUTES.companies.reports.processing, {
-            companyId
-          })}
-        >
-          Processing reports
-        </PageTab>
+        <RoleRender role={ROLES.ADMIN}>
+          <PageTab
+            to={getRouteWithParams(ROUTES.companies.reports.processing, {
+              companyId
+            })}
+          >
+            Processing reports
+          </PageTab>
+        </RoleRender>
       </PageContentContainer>
 
       {/* Reports Container */}
