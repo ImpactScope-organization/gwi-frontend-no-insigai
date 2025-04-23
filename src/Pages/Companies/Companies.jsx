@@ -19,6 +19,8 @@ export const Companies = () => {
   const { data } = useFetchCompanyList()
   const { getCompanyRouteByRole } = useAccessContext()
 
+  const hasCompanies = data && data?.length > 0
+
   return (
     <PageContainer>
       <PageHeader title="Companies" subTitle="Overview all of companies here">
@@ -27,14 +29,12 @@ export const Companies = () => {
         </RoleRender>
       </PageHeader>
       <CategorizedListContainer>
-        {!data ||
-          (data?.length === 0 && (
-            <h1 className="w-[calc(100vw-100px text-center)]">
-              No records found. Please add a new company.
-            </h1>
-          ))}
-        {data &&
-          data?.length > 0 &&
+        {!hasCompanies && (
+          <h1 className="w-[calc(100vw-100px text-center)]">
+            No records found. Please add a new company.
+          </h1>
+        )}
+        {hasCompanies &&
           data?.map((company) => (
             <CategorizedListItemLink
               to={getCompanyRouteByRole({
