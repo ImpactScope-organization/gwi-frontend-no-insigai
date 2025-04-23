@@ -7,9 +7,13 @@ import { CategorizedListContainer } from '../../../../../Components/CategorizedL
 import { PageTab } from '../../../../../Components/Page/PageTab/PageTab'
 import { useGetCompany } from '../../../api/CompanyApiQuery'
 import { PageHeaderWithBackButton } from '../../../../../Components/Page/PageHeaderWithBackButton/PageHeaderWithBackButton'
+import { ROLES } from '../../../../../utils/roles'
+import { RoleRender } from '../../../../../Components/Restrict/RoleRender/RoleRender'
+import { useAccessContext } from '../../../../../Context/AccessContext'
 
 export const ReportContainer = ({ children }) => {
   const { company, companyId } = useGetCompany()
+  const { getCompanyRouteByRole } = useAccessContext()
 
   return (
     <PageContainer>
@@ -19,33 +23,37 @@ export const ReportContainer = ({ children }) => {
         to={ROUTES.companies.index}
       >
         <div className="flex gap-4">
-          <ButtonLink
-            bgColor={'bg-yellow-500'}
-            to={getRouteWithParams(ROUTES.companies.edit, {
-              companyId
-            })}
-          >
-            Edit company
-          </ButtonLink>
-          <ButtonLink
-            to={getRouteWithParams(ROUTES.companies.reports.create, {
-              companyId
-            })}
-          >
-            Add new report
-          </ButtonLink>
+          <RoleRender role={ROLES.ADMIN}>
+            <ButtonLink
+              bgColor={'bg-yellow-500'}
+              to={getRouteWithParams(ROUTES.companies.edit, {
+                companyId
+              })}
+            >
+              Edit company
+            </ButtonLink>
+            <ButtonLink
+              to={getRouteWithParams(ROUTES.companies.reports.create, {
+                companyId
+              })}
+            >
+              Add new report
+            </ButtonLink>
+          </RoleRender>
         </div>
       </PageHeaderWithBackButton>
 
       {/* Tabs Container */}
       <PageContentContainer>
-        <PageTab
-          to={getRouteWithParams(ROUTES.companies.reports.internal, {
-            companyId
-          })}
-        >
-          Internal reports
-        </PageTab>
+        <RoleRender role={ROLES.ADMIN}>
+          <PageTab
+            to={getCompanyRouteByRole({
+              companyId
+            })}
+          >
+            Internal reports
+          </PageTab>
+        </RoleRender>
         <PageTab
           to={getRouteWithParams(ROUTES.companies.reports.regulator, {
             companyId
@@ -53,13 +61,15 @@ export const ReportContainer = ({ children }) => {
         >
           Sent to regulator
         </PageTab>
-        <PageTab
-          to={getRouteWithParams(ROUTES.companies.reports.processing, {
-            companyId
-          })}
-        >
-          Processing reports
-        </PageTab>
+        <RoleRender role={ROLES.ADMIN}>
+          <PageTab
+            to={getRouteWithParams(ROUTES.companies.reports.processing, {
+              companyId
+            })}
+          >
+            Processing reports
+          </PageTab>
+        </RoleRender>
       </PageContentContainer>
 
       {/* Reports Container */}

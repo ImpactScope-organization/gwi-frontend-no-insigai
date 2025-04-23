@@ -3,12 +3,12 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { getUrlWithParameters } from '../../../utils/route'
-import { ROUTES } from '../../../routes'
 import { createCompany } from '../api/CompanyApi'
+import { useAuthContext } from '../../../Context/AuthContext'
 
 export const useCreateCompany = () => {
   const navigate = useNavigate()
+  const { getCompanyRouteByRole } = useAuthContext()
 
   const createCompanyFormik = useFormik({
     initialValues: {
@@ -41,13 +41,13 @@ export const useCreateCompany = () => {
           result: { companyId }
         } = await createCompany(company)
         toast.success('Company saved successfully')
-        navigate(getUrlWithParameters(ROUTES.companies.reports.internal, { companyId }))
+        navigate(getCompanyRouteByRole({ companyId }))
       } catch (error) {
         console.error('Error submitting form:', error)
         toast.error('Error submitting form:', error)
       }
     },
-    [navigate]
+    [getCompanyRouteByRole, navigate]
   )
 
   return {

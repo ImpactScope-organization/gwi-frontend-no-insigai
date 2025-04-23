@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useCallback, useMemo } from 'react'
 import { useAuthContext } from './AuthContext'
+import { ROLES } from '../utils/roles'
+import { getRouteWithParams, ROUTES } from '../routes'
 
 const AccessContext = createContext({
   userRoles: {
@@ -7,7 +9,9 @@ const AccessContext = createContext({
     isRegulator: false,
     isDemo: false
   },
-  isClientAvailable: () => {}
+  isClientAvailable: () => {},
+  hasRole: () => {},
+  getCompanyRouteByRole: () => {}
 })
 
 export const AccessContextProvider = ({ children }) => {
@@ -17,9 +21,9 @@ export const AccessContextProvider = ({ children }) => {
 
   const userRoles = useMemo(() => {
     return {
-      isAdmin: roles.includes('admin'),
-      isRegulator: roles.includes('regulator'),
-      isDemo: roles.includes('demo')
+      isAdmin: roles.includes(ROLES.ADMIN),
+      isRegulator: roles.includes(ROLES.REGULATOR),
+      isDemo: roles.includes(ROLES.DEMO)
     }
   }, [roles])
 
@@ -30,8 +34,27 @@ export const AccessContextProvider = ({ children }) => {
     [clientIds]
   )
 
+  const hasRole = useCallback(
+    (role) => {
+      return roles.includes(role)
+    },
+    [roles]
+  )
+
+  const getCompanyRouteByRole = useCallback(
+    (params) => {
+      return getRouteWithParams(
+        userRoles.isAdmin ? ROUTES.companies.reports.internal : ROUTES.companies.reports.regulator,
+        params
+      )
+    },
+    [userRoles.isAdmin]
+  )
+
   return (
-    <AccessContext.Provider value={{ userRoles, isClientAvailable }}>
+    <AccessContext.Provider
+      value={{ userRoles, isClientAvailable, hasRole, getCompanyRouteByRole }}
+    >
       {children}
     </AccessContext.Provider>
   )

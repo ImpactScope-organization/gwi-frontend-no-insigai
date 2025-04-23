@@ -1,5 +1,4 @@
 import { TitleWithBackButton } from '../../../Components/TitleWithBackButton/TitleWithBackButton'
-import { getRouteWithParams, ROUTES } from '../../../routes'
 import { Form, FormikProvider } from 'formik'
 import { InputText } from '../../../Components/Fields/InputText'
 import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
@@ -7,15 +6,17 @@ import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
 import { useEditCompany } from './useEditCompany'
 import { useGetCompany } from '../api/CompanyApiQuery'
+import { useAccessContext } from '../../../Context/AccessContext'
 
 export const EditCompany = () => {
   const { companyId, company } = useGetCompany()
   const { editCompanyFormik } = useEditCompany()
+  const { getCompanyRouteByRole } = useAccessContext()
 
   return (
     <TitleWithBackButton
       title={`Edit ${company?.name}`}
-      to={getRouteWithParams(ROUTES.companies.reports.internal, {
+      to={getCompanyRouteByRole({
         companyId
       })}
     >

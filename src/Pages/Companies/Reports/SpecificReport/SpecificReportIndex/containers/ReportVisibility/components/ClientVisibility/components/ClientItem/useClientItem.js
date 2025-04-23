@@ -1,9 +1,11 @@
 import { useCallback } from 'react'
 import { useCurrentCompanyReport } from '../../../../../../../hooks/useCurrentCompanyReport'
 import { updateReport } from '../../../../../../../../api/ReportApi'
+import { useGetCompanyRegulatorReports } from '../../../../../../../../../api/CompanyApiQuery'
 
 export const useClientItem = ({ client }) => {
   const { getCurrentCompanyReport, currentCompanyReport, reportId } = useCurrentCompanyReport()
+  const { refetchRegulatorReports } = useGetCompanyRegulatorReports()
 
   const getFilteredClientIds = useCallback(
     (selected) => {
@@ -23,6 +25,7 @@ export const useClientItem = ({ client }) => {
       clientIds
     })
     await getCurrentCompanyReport()
+    await refetchRegulatorReports()
   }
 
   return {

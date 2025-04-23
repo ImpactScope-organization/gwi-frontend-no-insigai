@@ -25,14 +25,15 @@ export const useGetCompanyInternalReports = () => {
 export const useGetCompanyRegulatorReports = () => {
   const { companyId } = useParams()
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['useGetCompanyRegulatorReports', companyId],
     queryFn: () => getCompanyRegulatorReports(companyId),
     staleTime: 60000
   })
 
   return {
-    regulatorReports: data?.results
+    regulatorReports: data?.results,
+    refetchRegulatorReports: refetch
   }
 }
 
