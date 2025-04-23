@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY)
 
     setTokens(undefined, undefined)
+
     const queryClient = new QueryClient()
     queryClient.clear()
   }, [setTokens])
