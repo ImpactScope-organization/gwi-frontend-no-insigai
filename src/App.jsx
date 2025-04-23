@@ -50,6 +50,7 @@ export const App = () => {
             <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
             <Route path={ROUTES.companies.reports.processing} element={<ProcessingReports />} />
           </Route>
+
           <Route path={ROUTES.companies.reports.regulator} element={<RegulatorReport />} />
 
           <Route element={<RoleRoute role={ROLES.ADMIN} />}>
