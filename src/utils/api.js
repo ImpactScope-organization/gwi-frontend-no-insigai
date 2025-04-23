@@ -1,6 +1,7 @@
 import axios from 'axios'
 import apiUrl from './baseURL'
 import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY } from './auth'
+import { toast } from 'react-toastify'
 
 const ApiInstance = axios.create({
   baseURL: apiUrl,
@@ -47,6 +48,12 @@ export async function getApi() {
           }
         } catch (refreshError) {
           console.error('Failed to refresh token:', refreshError)
+
+          toast.error('Session expired, please login again')
+          localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
+          localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY)
+          window.location.href = '/login'
+
           return Promise.reject(refreshError)
         }
       }
