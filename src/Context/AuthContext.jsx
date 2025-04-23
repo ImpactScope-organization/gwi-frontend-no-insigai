@@ -24,6 +24,8 @@ export const AuthProvider = ({ children }) => {
   const setTokens = useCallback((accessTokenToSet, refreshTokenToSet) => {
     setAccessToken(accessTokenToSet)
     setRefreshToken(refreshTokenToSet)
+
+    setIsAuthenticated(!!accessTokenToSet)
   }, [])
 
   const login = useCallback(
@@ -31,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, loginAccessToken)
       localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, loginRefreshToken)
       setTokens(loginAccessToken, loginRefreshToken)
-      setIsAuthenticated(true)
     },
     [setTokens]
   )
@@ -39,16 +40,16 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(() => {
     localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
     localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY)
+
     setTokens(undefined, undefined)
-    setIsAuthenticated(false)
   }, [setTokens])
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
     const storedRefreshToken = localStorage.getItem(REFRESH_TOKEN_STORAGE_KEY)
+
     if (storedAccessToken) {
       setTokens(storedAccessToken, storedRefreshToken)
-      setIsAuthenticated(true)
     }
     setIsLocalStorageFetched(true)
   }, [setTokens])
