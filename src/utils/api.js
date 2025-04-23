@@ -49,7 +49,7 @@ export async function getApi() {
         } catch (refreshError) {
           console.error('Failed to refresh token:', refreshError)
 
-          toast.error('Session expired, please login again')
+          toast.error(`Authorization error: ${error?.response?.data?.message}`)
           localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
           localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY)
           window.location.href = '/login'
