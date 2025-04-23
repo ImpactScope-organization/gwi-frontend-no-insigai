@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
     ({ accessToken: loginAccessToken, refreshToken: loginRefreshToken }) => {
       localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, loginAccessToken)
       localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, loginRefreshToken)
+
       setTokens(loginAccessToken, loginRefreshToken)
     },
     [setTokens]
@@ -57,6 +58,7 @@ export const AuthProvider = ({ children }) => {
   const userInfo = useMemo(() => {
     if (!!accessToken) {
       const { roles, clientIds, email } = jwtDecode(accessToken)
+
       return {
         roles,
         clientIds,
