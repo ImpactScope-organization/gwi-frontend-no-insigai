@@ -14,6 +14,7 @@ const ApiInstance = axios.create({
 export async function getApi() {
   ApiInstance.interceptors.request.use((config) => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN_STORAGE_KEY)
+
     if (accessToken) {
       config.headers = { ...config.headers, Authorization: `Bearer ${accessToken}` }
     }
@@ -44,6 +45,7 @@ export async function getApi() {
             localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken)
 
             originalRequest.headers.Authorization = `Bearer ${accessToken}`
+
             return ApiInstance(originalRequest)
           }
         } catch (refreshError) {
