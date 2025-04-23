@@ -73,7 +73,7 @@ export const useQuantitativeReportNavigationAdmin = () => {
         toast.error('something went wrong while deleting the report')
       }
     }
-  }, [companyId, currentCompanyReport, navigate])
+  }, [companyId, currentCompanyReport, getCompanyRouteByRole, navigate])
 
   const dropdownConfiguration = useMemo(() => {
     return {
@@ -98,7 +98,7 @@ export const useQuantitativeReportNavigationAdmin = () => {
         { label: 'Remove from DB', onClick: deleteCompanyHandler }
       ]
     }
-  }, [companyId, currentCompanyReport?.companyName, deleteCompanyHandler, navigate, reportId])
+  }, [companyId, currentCompanyReport, deleteCompanyHandler, navigate, reportId])
 
   return {
     handleSendToBlockchain,
