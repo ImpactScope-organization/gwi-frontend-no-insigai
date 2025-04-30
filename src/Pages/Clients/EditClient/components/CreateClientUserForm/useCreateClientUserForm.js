@@ -35,7 +35,7 @@ export const useCreateClientUserForm = () => {
         toast.error(`Error submitting form: ${error?.response?.data?.message}`)
       }
     },
-    [clientId]
+    [clientId, createClientUserFormik, refetchClientUsers]
   )
 
   return {
