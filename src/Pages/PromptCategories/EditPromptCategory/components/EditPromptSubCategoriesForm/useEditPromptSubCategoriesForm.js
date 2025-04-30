@@ -9,6 +9,7 @@ export const useEditPromptSubCategoriesForm = () => {
   const { id } = useParams()
 
   const [subCategoryName, setSubCategoryName] = useState('')
+  const [subCategoryReportDatabaseSlug, setSubCategoryReportDatabaseSlug] = useState('')
 
   const {
     data: { result: subCategories },
@@ -23,20 +24,28 @@ export const useEditPromptSubCategoriesForm = () => {
     setSubCategoryName(event.target.value)
   }
 
+  const onSubCategoryReportDatabaseSlugChange = (event) => {
+    setSubCategoryReportDatabaseSlug(event.target.value)
+  }
+
   const createSubCategory = useCallback(async () => {
     await createPromptCategory({
       name: subCategoryName,
+      reportDatabaseSlug: subCategoryReportDatabaseSlug,
       parentId: id,
       isQuantitative: true
     })
     await refetchSubCategories()
     setSubCategoryName('')
+    setSubCategoryReportDatabaseSlug('')
     toast.success('Sub category created successfully')
-  }, [id, subCategoryName, refetchSubCategories])
+  }, [subCategoryName, subCategoryReportDatabaseSlug, id, refetchSubCategories])
 
   return {
     subCategoryName,
     onSubCategoryNameChange,
+    subCategoryReportDatabaseSlug,
+    onSubCategoryReportDatabaseSlugChange,
     createSubCategory,
     subCategories,
     refetchSubCategories
