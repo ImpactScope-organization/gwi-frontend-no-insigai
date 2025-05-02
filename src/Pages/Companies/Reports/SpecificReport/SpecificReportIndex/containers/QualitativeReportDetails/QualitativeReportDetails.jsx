@@ -13,7 +13,7 @@ export const QualitativeReportDetails = () => {
       style={{
         boxShadow: '0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)'
       }}
-      className="basis-8/12 max-w-[740px] p-[16px]  mx-auto rounded-2xl "
+      className="p-[16px] rounded-2xl "
     >
       <div>
         <p className="leading-[24px] text-sm text-reportGrey font-medium">{formattedDate}</p>

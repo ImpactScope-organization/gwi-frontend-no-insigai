@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom'
 import { RoleRender } from '../../../../../Components/Restrict/RoleRender/RoleRender'
 import { ROLES } from '../../../../../utils/roles'
 import { useAccessContext } from '../../../../../Context/AccessContext'
+import { ReportNavigation } from './containers/ReportNavigation/ReportNavigation'
 
 export const SpecificReportIndex = () => {
   const { companyId } = useParams()
@@ -22,17 +23,26 @@ export const SpecificReportIndex = () => {
   }
   return (
     <PageContainer>
-      <BackButtonLink
-        to={getCompanyRouteByRole({
-          companyId
-        })}
-      />
+      <div className="flex justify-between items-center mb-6 gap-4">
+        <div className="w-1/3 lg:w-2/3">
+          <BackButtonLink
+            to={getCompanyRouteByRole({
+              companyId
+            })}
+          />
+        </div>
+        <div className="w-2/3 lg:w-1/3">
+          <ReportNavigation />
+        </div>
+      </div>
 
-      <div id="report-container" className="flex flex-col md:flex-row gap-6 max-w-[1120px] mx-auto">
-        <QualitativeReportDetails />
+      <div id="report-container" className="flex flex-col-reverse lg:flex-row gap-6 mx-auto">
+        <div className="w-full lg:w-2/3">
+          <QualitativeReportDetails />
+        </div>
 
-        <div>
-          <div className="flex flex-col gap-8">
+        <div className="w-full lg:w-1/3">
+          <div className="flex flex-col gap-6">
             {(!currentCompanyReport?.quantitativePercentages ||
               currentCompanyReport?.quantitativePercentages?.length === 0) && (
               <LegacyQuantitativeReportDetails />

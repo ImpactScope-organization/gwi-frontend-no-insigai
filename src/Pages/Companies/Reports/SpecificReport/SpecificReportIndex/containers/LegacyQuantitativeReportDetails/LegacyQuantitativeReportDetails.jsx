@@ -6,13 +6,8 @@ import { ReportingRiskItem } from './components/ReportingRiskItem'
 import { ReportStatus } from './containers/ReportStatus'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 import { BlockchainDetails } from './components/BlockchainDetails'
-import { QuantitativeReportNavigationAdmin } from './components/QuantitativeReportNavigationAdmin/QuantitativeReportNavigationAdmin'
-import { useAccessContext } from '../../../../../../../Context/AccessContext'
-import { QuantitativeReportNavigationRegulator } from './components/QuantitativeReportNavigationRegulator/QuantitativeReportNavigationRegulator'
 
 export const LegacyQuantitativeReportDetails = () => {
-  const { userRoles } = useAccessContext()
-
   const { currentCompanyReport } = useCurrentCompanyReport()
 
   const { greenwashingRiskPercentage, reportingRiskPercentage } = useQuantitativeReportDetails()
@@ -32,8 +27,6 @@ export const LegacyQuantitativeReportDetails = () => {
         <ReportStatus />
         <BlockchainDetails />
       </div>
-      {userRoles.isAdmin && <QuantitativeReportNavigationAdmin />}
-      {userRoles.isRegulator && <QuantitativeReportNavigationRegulator />}
     </div>
   )
 }
