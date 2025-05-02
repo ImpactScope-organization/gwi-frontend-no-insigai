@@ -13,7 +13,7 @@ export const QuantitativeReportDetailListItem = ({ quantitativePercentage }) => 
         </div>
 
         <Divider className="m-0" />
-        <h3 className="m-0 p-0 font-bold">Details</h3>
+        <h3 className="font-bold">Details</h3>
         <div className="flex flex-col gap-2">
           {quantitativePercentage.components.map((quantitativePercentageComponent) => (
             <ReportingRiskBarChart
