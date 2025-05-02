@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 
 export const GaugeChart = ({ percentage = 0, title }) => {
-  const [svgSize, setSvgSize] = useState({ width: 0, height: 0 })
+  const [, setSvgSize] = useState({ width: 0, height: 0 })
   const svgRef = useRef(null)
 
   const calculateSize = () => {
