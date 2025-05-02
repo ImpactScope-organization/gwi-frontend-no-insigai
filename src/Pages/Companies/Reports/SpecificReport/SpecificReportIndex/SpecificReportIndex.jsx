@@ -32,11 +32,16 @@ export const SpecificReportIndex = () => {
         <QualitativeReportDetails />
 
         <div>
-          {!currentCompanyReport?.quantitativePercentages && <LegacyQuantitativeReportDetails />}
-          <ReportDocuments />
-          <RoleRender role={ROLES.ADMIN}>
-            <ReportVisibility />
-          </RoleRender>
+          <div className="flex flex-col gap-8">
+            {(!currentCompanyReport?.quantitativePercentages ||
+              currentCompanyReport?.quantitativePercentages?.length === 0) && (
+              <LegacyQuantitativeReportDetails />
+            )}
+            <ReportDocuments />
+            <RoleRender role={ROLES.ADMIN}>
+              <ReportVisibility />
+            </RoleRender>
+          </div>
         </div>
       </div>
     </PageContainer>
