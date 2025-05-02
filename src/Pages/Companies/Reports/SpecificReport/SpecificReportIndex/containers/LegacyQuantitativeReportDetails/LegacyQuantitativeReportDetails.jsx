@@ -1,8 +1,8 @@
-import { GaugeChart } from '../../../../../../../Components/gauge-chart/GaugeChart'
+import { GaugeChart } from '../../components/GaugeChart/GaugeChart'
 import React from 'react'
 import { useQuantitativeReportDetails } from './useQuantitativeReportDetails'
-import { ReportingRisk } from './components/ReportingRisk'
 import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportDetailsCard'
+import { ReportingRiskBarChart } from '../../components/ReportingRiskBarChart/ReportingRiskBarChart'
 
 export const LegacyQuantitativeReportDetails = () => {
   const { greenwashingRiskPercentage, reportingRiskPercentage } = useQuantitativeReportDetails()
@@ -14,7 +14,7 @@ export const LegacyQuantitativeReportDetails = () => {
       </div>
       {/* Cols */}
       <div className="mt-[24px] flex flex-col lg:max-w-[370px]  gap-2 my-3 ">
-        <ReportingRisk reportingRiskPercentage={reportingRiskPercentage} />
+        <ReportingRiskBarChart title="Reporting risk" percentage={reportingRiskPercentage} />
       </div>
     </ReportDetailsCard>
   )
