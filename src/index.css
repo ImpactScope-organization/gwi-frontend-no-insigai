@@ -16,7 +16,7 @@ body {
 }
 
 .subtitle-text {
-  @apply text-[#8A929D] text-[24px] font-normal font-karla leading-[36px] mb-7;
+  @apply text-[#8A929D] text-[24px] font-normal font-karla leading-[36px];
 }
 /* Modify the scrollbar */
 /* For WebKit-based browsers */

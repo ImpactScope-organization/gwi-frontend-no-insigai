@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 
-const CustomGaugeChart = ({ percentage = 0 }) => {
-  const [svgSize, setSvgSize] = useState({ width: 0, height: 0 })
+export const GaugeChart = ({ percentage = 0, title }) => {
+  const [, setSvgSize] = useState({ width: 0, height: 0 })
   const svgRef = useRef(null)
 
   const calculateSize = () => {
@@ -40,7 +40,7 @@ const CustomGaugeChart = ({ percentage = 0 }) => {
           fill="#8A929D"
           className="font-medium leading-[20px] text-reportGrey"
         >
-          Greenwashing risk
+          {title}
         </text>
         <text
           x={center + 10}
@@ -76,5 +76,3 @@ const CustomGaugeChart = ({ percentage = 0 }) => {
     </div>
   )
 }
-
-export default CustomGaugeChart

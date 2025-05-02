@@ -24,8 +24,8 @@ export const useSpecificReportEditFormik = () => {
     validationSchema: Yup.object({
       contradiction: Yup.string().required(),
       unsubstantiatedClaims: Yup.string().required(),
-      greenwashRiskPercentage: Yup.number().max(100).min(0).required(),
-      reportingRiskPercentage: Yup.number().max(100).min(0).required(),
+      greenwashRiskPercentage: Yup.number().max(100).min(0),
+      reportingRiskPercentage: Yup.number().max(100).min(0),
       jurisdiction: Yup.string().required(),
       sector: Yup.string().required(),
       annualRevenue: Yup.string().required(),
