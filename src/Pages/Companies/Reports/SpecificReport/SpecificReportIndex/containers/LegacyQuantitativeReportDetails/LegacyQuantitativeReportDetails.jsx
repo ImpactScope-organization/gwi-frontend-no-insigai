@@ -12,7 +12,6 @@ export const LegacyQuantitativeReportDetails = () => {
       <div className="overflow-hidden w-full px-2 flex justify-center items-center ">
         <GaugeChart percentage={greenwashingRiskPercentage} title="Greenwashing risk" />
       </div>
-      {/* Cols */}
       <div className="mt-[24px] flex flex-col lg:max-w-[370px]  gap-2 my-3 ">
         <ReportingRiskBarChart title="Reporting risk" percentage={reportingRiskPercentage} />
       </div>
