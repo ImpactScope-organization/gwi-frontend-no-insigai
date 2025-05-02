@@ -12,7 +12,7 @@ export const EditPromptContainer = ({ children }) => {
 
   return (
     <PageContainer className="pb-10">
-      <div className="flex mb-6">
+      <div className="flex mb-8">
         <div className="flex items-top w-full gap-8">
           <BackButtonLink to={ROUTES.prompts.index} />
           <h2 className="text-darkBlack font-bold text-3xl">{formik.values?.name}</h2>
