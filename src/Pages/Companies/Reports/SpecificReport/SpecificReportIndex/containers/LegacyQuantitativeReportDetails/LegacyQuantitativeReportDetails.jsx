@@ -1,4 +1,4 @@
-import CustomGaugeChart from '../../../../../../../Components/gauge-chart'
+import { GaugeChart } from '../../../../../../../Components/gauge-chart/GaugeChart'
 import React from 'react'
 import { useQuantitativeReportDetails } from './useQuantitativeReportDetails'
 import { ReportingRisk } from './components/ReportingRisk'
@@ -10,7 +10,7 @@ export const LegacyQuantitativeReportDetails = () => {
   return (
     <ReportDetailsCard title="Report">
       <div className="overflow-hidden w-full px-2 flex justify-center items-center ">
-        <CustomGaugeChart percentage={greenwashingRiskPercentage} />
+        <GaugeChart percentage={greenwashingRiskPercentage} title="Greenwashing risk" />
       </div>
       {/* Cols */}
       <div className="mt-[24px] flex flex-col lg:max-w-[370px]  gap-2 my-3 ">

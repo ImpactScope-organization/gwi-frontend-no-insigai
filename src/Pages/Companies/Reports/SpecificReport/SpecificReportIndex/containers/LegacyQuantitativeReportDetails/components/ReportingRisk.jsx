@@ -13,7 +13,7 @@ export const ReportingRisk = ({ reportingRiskPercentage }) => (
                 ? 'bg-darkGreen'
                 : 'bg-reportGrey '
             }`}
-          ></div>
+          />
         )
       })}
       <p className="text-darkBlack ml-[8px] text-[1em] text-base font-medium">

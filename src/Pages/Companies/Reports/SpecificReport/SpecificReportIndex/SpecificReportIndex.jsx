@@ -13,6 +13,7 @@ import { ROLES } from '../../../../../utils/roles'
 import { useAccessContext } from '../../../../../Context/AccessContext'
 import { ReportNavigation } from './containers/ReportNavigation/ReportNavigation'
 import { ReportInfo } from './containers/ReportInfo/ReportInfo'
+import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
 
 export const SpecificReportIndex = () => {
   const { companyId } = useParams()
@@ -44,9 +45,11 @@ export const SpecificReportIndex = () => {
 
         <div className="w-full lg:w-1/3">
           <div className="flex flex-col gap-6">
-            {(!currentCompanyReport?.quantitativePercentages ||
-              currentCompanyReport?.quantitativePercentages?.length === 0) && (
+            {!currentCompanyReport?.quantitativePercentages ||
+            currentCompanyReport?.quantitativePercentages?.length === 0 ? (
               <LegacyQuantitativeReportDetails />
+            ) : (
+              <QuantitativeReportDetails />
             )}
             <ReportInfo />
             <ReportDocuments />
