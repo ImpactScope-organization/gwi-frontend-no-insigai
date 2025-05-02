@@ -8,7 +8,7 @@ import { ROLES } from '../../../utils/roles'
 export const Header = () => {
   return (
     <div className="bg-darkBlack">
-      <div className="flex justify-between items-center py-5 w-[90%] mx-auto ">
+      <div className="px-4 sm:px-8 xl:px-0 xl:max-w-[1120px] mx-auto flex justify-between items-center py-5">
         <Link to={ROUTES.companies.index} className="flex justify-between gap-20 items-center">
           <img src="/assets/logo.png" alt="logo" />
         </Link>
