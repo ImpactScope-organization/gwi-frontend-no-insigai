@@ -25,7 +25,7 @@ export const SpecificReportIndex = () => {
   }
   return (
     <PageContainer>
-      <div className="flex justify-between items-center gap-6 mb-6">
+      <div className="flex justify-between items-center gap-8 mb-8">
         <div className="w-1/3 lg:w-2/3">
           <BackButtonLink
             to={getCompanyRouteByRole({
@@ -38,13 +38,13 @@ export const SpecificReportIndex = () => {
         </div>
       </div>
 
-      <div id="report-container" className="flex flex-col lg:flex-row gap-6 mx-auto">
+      <div id="report-container" className="flex flex-col lg:flex-row gap-8 mx-auto">
         <div className="w-full lg:w-2/3">
           <QualitativeReportDetails />
         </div>
 
         <div className="w-full lg:w-1/3">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-8">
             {!currentCompanyReport?.quantitativePercentages ||
             currentCompanyReport?.quantitativePercentages?.length === 0 ? (
               <LegacyQuantitativeReportDetails />
