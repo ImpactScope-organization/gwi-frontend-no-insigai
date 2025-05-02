@@ -12,6 +12,7 @@ import { RoleRender } from '../../../../../Components/Restrict/RoleRender/RoleRe
 import { ROLES } from '../../../../../utils/roles'
 import { useAccessContext } from '../../../../../Context/AccessContext'
 import { ReportNavigation } from './containers/ReportNavigation/ReportNavigation'
+import { ReportInfo } from './containers/ReportInfo/ReportInfo'
 
 export const SpecificReportIndex = () => {
   const { companyId } = useParams()
@@ -47,6 +48,7 @@ export const SpecificReportIndex = () => {
               currentCompanyReport?.quantitativePercentages?.length === 0) && (
               <LegacyQuantitativeReportDetails />
             )}
+            <ReportInfo />
             <ReportDocuments />
             <RoleRender role={ROLES.ADMIN}>
               <ReportVisibility />
