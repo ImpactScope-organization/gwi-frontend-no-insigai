@@ -38,7 +38,7 @@ export const SpecificReportIndex = () => {
         </div>
       </div>
 
-      <div id="report-container" className="flex flex-col-reverse lg:flex-row gap-6 mx-auto">
+      <div id="report-container" className="flex flex-col lg:flex-row gap-6 mx-auto">
         <div className="w-full lg:w-2/3">
           <QualitativeReportDetails />
         </div>
