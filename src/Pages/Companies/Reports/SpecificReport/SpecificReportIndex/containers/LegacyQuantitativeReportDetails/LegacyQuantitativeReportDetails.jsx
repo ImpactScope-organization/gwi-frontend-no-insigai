@@ -10,7 +10,7 @@ import { QuantitativeReportNavigationAdmin } from './components/QuantitativeRepo
 import { useAccessContext } from '../../../../../../../Context/AccessContext'
 import { QuantitativeReportNavigationRegulator } from './components/QuantitativeReportNavigationRegulator/QuantitativeReportNavigationRegulator'
 
-export const QuantitativeReportDetails = () => {
+export const LegacyQuantitativeReportDetails = () => {
   const { userRoles } = useAccessContext()
 
   const { currentCompanyReport } = useCurrentCompanyReport()

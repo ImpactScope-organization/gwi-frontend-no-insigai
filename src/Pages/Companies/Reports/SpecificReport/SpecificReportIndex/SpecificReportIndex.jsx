@@ -3,7 +3,7 @@ import LoadingPage from '../../../../../Components/loading'
 import { BackButtonLink } from '../../../../../Components/BackButtonLink/BackButtonLink'
 import { PageContainer } from '../../../../../Components/Page/PageContainer/PageContainer'
 import { QualitativeReportDetails } from './containers/QualitativeReportDetails/QualitativeReportDetails'
-import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
+import { LegacyQuantitativeReportDetails } from './containers/LegacyQuantitativeReportDetails/LegacyQuantitativeReportDetails'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 import { ReportDocuments } from '../components/ReportDocuments/ReportDocuments'
 import { ReportVisibility } from './containers/ReportVisibility/ReportVisibility'
@@ -14,7 +14,7 @@ import { useAccessContext } from '../../../../../Context/AccessContext'
 
 export const SpecificReportIndex = () => {
   const { companyId } = useParams()
-  const { currentCompanyReportIsLoading } = useCurrentCompanyReport()
+  const { currentCompanyReportIsLoading, currentCompanyReport } = useCurrentCompanyReport()
   const { getCompanyRouteByRole } = useAccessContext()
 
   if (currentCompanyReportIsLoading) {
@@ -32,7 +32,7 @@ export const SpecificReportIndex = () => {
         <QualitativeReportDetails />
 
         <div>
-          <QuantitativeReportDetails />
+          {!currentCompanyReport?.quantitativePercentages && <LegacyQuantitativeReportDetails />}
           <ReportDocuments />
           <RoleRender role={ROLES.ADMIN}>
             <ReportVisibility />
