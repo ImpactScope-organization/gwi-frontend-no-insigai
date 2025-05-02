@@ -20,6 +20,10 @@ export const SpecificReportIndex = () => {
   const { currentCompanyReportIsLoading, currentCompanyReport } = useCurrentCompanyReport()
   const { getCompanyRouteByRole } = useAccessContext()
 
+  const isReportDetailsLegacy =
+    !currentCompanyReport?.quantitativePercentages ||
+    currentCompanyReport?.quantitativePercentages?.length === 0
+
   if (currentCompanyReportIsLoading) {
     return <LoadingPage title="Please wait..." />
   }
@@ -45,8 +49,7 @@ export const SpecificReportIndex = () => {
 
         <div className="w-full lg:w-1/3">
           <div className="flex flex-col gap-8">
-            {!currentCompanyReport?.quantitativePercentages ||
-            currentCompanyReport?.quantitativePercentages?.length === 0 ? (
+            {isReportDetailsLegacy ? (
               <LegacyQuantitativeReportDetails />
             ) : (
               <QuantitativeReportDetails />
