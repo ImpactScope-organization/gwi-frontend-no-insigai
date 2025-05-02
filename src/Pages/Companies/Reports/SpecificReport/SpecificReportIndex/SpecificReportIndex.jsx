@@ -23,7 +23,7 @@ export const SpecificReportIndex = () => {
   }
   return (
     <PageContainer>
-      <div className="flex justify-between items-center mb-6 gap-4">
+      <div className="flex justify-between items-center gap-6 mb-6">
         <div className="w-1/3 lg:w-2/3">
           <BackButtonLink
             to={getCompanyRouteByRole({
