@@ -4,7 +4,7 @@ import { ReportMetaItem } from './components/ReportMetaItem'
 import { ReportContentItem } from '../../../components/ReportContentItem'
 import { Sources } from '../../../containers/Sources'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
-import { ReportDetailsCard } from '../../components/ReportDetailsCard/ReportDetailsCard'
+import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportDetailsCard'
 
 export const QualitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()

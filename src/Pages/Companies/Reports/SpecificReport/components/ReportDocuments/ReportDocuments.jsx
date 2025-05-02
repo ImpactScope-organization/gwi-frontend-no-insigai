@@ -1,6 +1,6 @@
 import React from 'react'
 import { useCurrentCompanyReport } from '../../hooks/useCurrentCompanyReport'
-import { ReportDetailsCard } from '../../SpecificReportIndex/components/ReportDetailsCard/ReportDetailsCard'
+import { ReportDetailsCard } from '../ReportDetailsCard/ReportDetailsCard'
 
 export const ReportDocuments = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()

@@ -3,7 +3,7 @@ import { ReportStatus } from '../LegacyQuantitativeReportDetails/containers/Repo
 import { BlockchainDetails } from '../LegacyQuantitativeReportDetails/components/BlockchainDetails'
 import React from 'react'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
-import { ReportDetailsCard } from '../../components/ReportDetailsCard/ReportDetailsCard'
+import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportDetailsCard'
 
 export const ReportInfo = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ClientItem } from './components/ClientItem/ClientItem'
 import { useClientVisibility } from './useClientVisibility'
-import { ReportDetailsCard } from '../../../../components/ReportDetailsCard/ReportDetailsCard'
+import { ReportDetailsCard } from '../../../../../components/ReportDetailsCard/ReportDetailsCard'
 
 export const ClientVisibility = () => {
   const { clientToggleList } = useClientVisibility()

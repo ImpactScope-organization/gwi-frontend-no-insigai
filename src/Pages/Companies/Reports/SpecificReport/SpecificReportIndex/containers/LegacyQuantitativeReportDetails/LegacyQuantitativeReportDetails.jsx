@@ -2,7 +2,7 @@ import CustomGaugeChart from '../../../../../../../Components/gauge-chart'
 import React from 'react'
 import { useQuantitativeReportDetails } from './useQuantitativeReportDetails'
 import { ReportingRisk } from './components/ReportingRisk'
-import { ReportDetailsCard } from '../../components/ReportDetailsCard/ReportDetailsCard'
+import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportDetailsCard'
 
 export const LegacyQuantitativeReportDetails = () => {
   const { greenwashingRiskPercentage, reportingRiskPercentage } = useQuantitativeReportDetails()
