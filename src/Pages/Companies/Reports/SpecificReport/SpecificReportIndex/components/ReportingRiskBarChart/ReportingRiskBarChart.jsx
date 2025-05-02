@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { ReportingRiskItem } from '../../containers/LegacyQuantitativeReportDetails/components/ReportingRiskItem'
 
 export const ReportingRiskBarChart = ({ percentage, title }) => {
+  const percentageItems = useMemo(() => Array.from({ length: 10 }), [])
+
   return (
     <ReportingRiskItem title={title}>
       <div className="flex flex-row items-center gap-[4px] flex-nowrap">
-        {Array.from({ length: 10 }).map((_item, index) => {
+        {percentageItems.map((_item, index) => {
           return (
             <div
               key={`${index}-bar`}
