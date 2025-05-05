@@ -14,6 +14,7 @@ export const useCreateCompany = () => {
     initialValues: {
       name: '',
       companyId: '',
+      isin: '',
       jurisdiction: '',
       sector: '',
       annualRevenue: '',
@@ -23,6 +24,7 @@ export const useCreateCompany = () => {
     validationSchema: Yup.object({
       name: Yup.string().required(),
       companyId: Yup.string().required(),
+      isin: Yup.string().required(),
       jurisdiction: Yup.string().required(),
       sector: Yup.string().required(),
       annualRevenue: Yup.string().required(),
