@@ -21,7 +21,10 @@ export const ROUTES = {
       processing: '/companies/:companyId/reports/processing',
       processingDetails: '/companies/:companyId/reports/processing/:reportQueueId',
       index: '/companies/:companyId/reports',
-      create: '/companies/:companyId/reports/create',
+      create: {
+        manual: '/companies/:companyId/reports/create/manual',
+        document: '/companies/:companyId/reports/create/document'
+      },
       report: {
         index: '/companies/:companyId/reports/:reportId',
         edit: '/companies/:companyId/reports/:reportId/edit'

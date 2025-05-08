@@ -8,7 +8,7 @@ import { ROUTES } from './routes'
 import { NotFound } from './Pages/NotFound'
 import { InternalReport } from './Pages/Companies/Reports/InternalReport/InternalReport'
 import { RegulatorReport } from './Pages/Companies/Reports/RegulatorReport/RegulatorReport'
-import CreateReport from './Pages/Companies/Reports/CreateReport/CreateReport'
+import { CreateManualReport } from './Pages/Companies/Reports/Create/CreateManualReport/CreateManualReport'
 import { SpecificReportIndex } from './Pages/Companies/Reports/SpecificReport/SpecificReportIndex/SpecificReportIndex'
 import { Prompts } from './Pages/Prompts/Prompts'
 import { CreatePrompt } from './Pages/Prompts/CreatePrompt/CreatePrompt'
@@ -46,7 +46,7 @@ export const App = () => {
           </Route>
 
           <Route element={<RoleRoute role={ROLES.ADMIN} />}>
-            <Route path={ROUTES.companies.reports.create} element={<CreateReport />} />
+            <Route path={ROUTES.companies.reports.create.manual} element={<CreateManualReport />} />
             <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
             <Route path={ROUTES.companies.reports.processing} element={<ProcessingReports />} />
           </Route>
