@@ -7,6 +7,7 @@ import { SuccessButton } from '../../../../../../../Components/Buttons/SuccessBu
 export const CompanyDocumentInput = () => {
   const { companyDocuments } = useGetCompanyDocuments()
   const [year, setYear] = useState()
+  const [yearDocument, setYearDocument] = useState()
 
   const yearDocuments = useMemo(
     () => companyDocuments?.find((document) => document.year === year)?.documents,
@@ -22,6 +23,7 @@ export const CompanyDocumentInput = () => {
             className="w-full"
             onChange={(yearToSet) => {
               setYear(yearToSet)
+              setYearDocument(undefined)
             }}
           >
             {companyDocuments &&
@@ -33,9 +35,10 @@ export const CompanyDocumentInput = () => {
           </Select>
           <Select
             className="w-full"
-            onChange={(yearToSet) => {
-              setYear(yearToSet)
+            onChange={(yearDocumentToSet) => {
+              setYearDocument(yearDocumentToSet)
             }}
+            value={yearDocument}
           >
             {yearDocuments &&
               yearDocuments.map(({ documentId, title }) => (
