@@ -1,9 +1,10 @@
 import { useGetCompanyDocuments } from '../../../../../api/CompanyApiQuery'
-import { Select } from 'antd'
+import { Select, Tag } from 'antd'
 import { useCallback, useMemo, useState } from 'react'
 import { CategorySelectGroupTitle } from '../../../../../../Prompts/components/CategorySelect/components/CategorySelectGroupTitle'
 import { SuccessButton } from '../../../../../../../Components/Buttons/SuccessButton'
 import { useFormikContext } from 'formik'
+import { TagWithClose } from '../../../../../../../Components/TagWithClose/TagWithClose'
 
 export const CompanyDocumentInput = ({ name }) => {
   const formik = useFormikContext()
@@ -17,10 +18,28 @@ export const CompanyDocumentInput = ({ name }) => {
     [companyDocuments, year]
   )
 
+  const currentCompanyDocuments = useMemo(() => {
+    return (
+      flattenedCompanyDocuments?.filter((document) =>
+        formik.values[name].includes(document.documentId)
+      ) || []
+    )
+  }, [flattenedCompanyDocuments, formik.values, name])
+
   const handleAddDocument = useCallback(() => {
     formik.setFieldValue(name, formik.values[name].concat(yearDocument))
     setYearDocument(undefined)
   }, [formik, name, yearDocument])
+
+  const handleRemoveDocument = useCallback(
+    (documentId) => {
+      formik.setFieldValue(
+        name,
+        formik.values[name].filter((id) => id !== documentId)
+      )
+    },
+    [formik, name]
+  )
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -63,24 +82,14 @@ export const CompanyDocumentInput = ({ name }) => {
       <div>
         <CategorySelectGroupTitle>Documents</CategorySelectGroupTitle>
         {formik.values[name]?.length > 0 ? (
-          <div className="flex flex-col gap-2">
-            {formik.values[name].map((documentId) => {
-              const document = flattenedCompanyDocuments.find(
-                (document) => document.documentId === documentId
-              )
+          <div className="flex gap-4 bg-gray-100 p-4 rounded-lg">
+            {currentCompanyDocuments.map(({ year, title, documentId }) => {
               return (
-                <div key={documentId} className="flex gap-2">
-                  <span>{document?.title}</span>
-                  <SuccessButton
-                    onClick={() => {
-                      formik.setFieldValue(
-                        name,
-                        formik.values[name].filter((id) => id !== documentId)
-                      )
-                    }}
-                  >
-                    Remove
-                  </SuccessButton>
+                <div>
+                  <TagWithClose
+                    tag={`${year} - ${title}`}
+                    onClose={() => handleRemoveDocument(documentId)}
+                  />
                 </div>
               )
             })}
