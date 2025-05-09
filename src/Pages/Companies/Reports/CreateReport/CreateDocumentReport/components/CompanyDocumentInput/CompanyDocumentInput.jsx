@@ -49,7 +49,7 @@ export const CompanyDocumentInput = ({ name }) => {
           >
             {yearDocuments &&
               yearDocuments.map(({ documentId, title }) => (
-                <Select.Option key={documentId} value={documentId}>
+                <Select.Option key={`company_documet_${documentId}`} value={documentId}>
                   {title}
                 </Select.Option>
               ))}
@@ -66,7 +66,7 @@ export const CompanyDocumentInput = ({ name }) => {
             <div className="flex gap-4">
               {currentCompanyDocuments.map(({ year, title, documentId }) => {
                 return (
-                  <div>
+                  <div key={`company_document_tag_${documentId}`}>
                     <TagWithClose
                       tag={`${year} - ${title}`}
                       onClose={() => handleRemoveDocument(documentId)}
