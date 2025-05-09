@@ -8,7 +8,7 @@ import { useFormikContext } from 'formik'
 export const CompanyDocumentInput = ({ name }) => {
   const formik = useFormikContext()
 
-  const { companyDocuments } = useGetCompanyDocuments()
+  const { companyDocuments, flattenedCompanyDocuments } = useGetCompanyDocuments()
   const [year, setYear] = useState()
   const [yearDocument, setYearDocument] = useState()
 
@@ -65,10 +65,12 @@ export const CompanyDocumentInput = ({ name }) => {
         {formik.values[name]?.length > 0 ? (
           <div className="flex flex-col gap-2">
             {formik.values[name].map((documentId) => {
-              const document = yearDocuments.find((document) => document.documentId === documentId)
+              const document = flattenedCompanyDocuments.find(
+                (document) => document.documentId === documentId
+              )
               return (
                 <div key={documentId} className="flex gap-2">
-                  <span>{document.title}</span>
+                  <span>{document?.title}</span>
                   <SuccessButton
                     onClick={() => {
                       formik.setFieldValue(

@@ -73,6 +73,10 @@ export const useGetCompanyDocuments = () => {
   return {
     companyId,
     companyDocuments: data?.result,
+    flattenedCompanyDocuments: data?.result?.reduce(
+      (acc, { documents }) => acc.concat(documents),
+      []
+    ),
     refetchCompanyDocuments
   }
 }
