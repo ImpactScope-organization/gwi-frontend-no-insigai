@@ -28,6 +28,7 @@ import { EditClient } from './Pages/Clients/EditClient/EditClient'
 import { RoleRoute } from './Components/Restrict/RoleRoute/RoleRoute'
 import { ROLES } from './utils/roles'
 import { AuthRoute } from './Components/Restrict/AuthRoute/AuthRoute'
+import { CreateDocumentReport } from './Pages/Companies/Reports/CreateReport/CreateDocumentReport/CreateDocumentReport'
 
 export const App = () => {
   return (
@@ -47,6 +48,10 @@ export const App = () => {
 
           <Route element={<RoleRoute role={ROLES.ADMIN} />}>
             <Route path={ROUTES.companies.reports.create.manual} element={<CreateManualReport />} />
+            <Route
+              path={ROUTES.companies.reports.create.document}
+              element={<CreateDocumentReport />}
+            />
             <Route path={ROUTES.companies.reports.internal} element={<InternalReport />} />
             <Route path={ROUTES.companies.reports.processing} element={<ProcessingReports />} />
           </Route>

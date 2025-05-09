@@ -33,7 +33,7 @@ export const ReportContainer = ({ children }) => {
               Edit company
             </ButtonLink>
             <ButtonLink
-              to={getRouteWithParams(ROUTES.companies.reports.create.manual, {
+              to={getRouteWithParams(ROUTES.companies.reports.create.document, {
                 companyId
               })}
             >

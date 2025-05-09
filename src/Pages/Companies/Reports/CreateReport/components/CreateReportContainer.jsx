@@ -19,26 +19,26 @@ export const CreateReportContainer = ({ children }) => {
   return (
     <PageContainer>
       <PageHeaderWithBackButton
-        title={`Add new manual report for ${company?.name}`}
+        title={`Add new report for ${company?.name}`}
         to={getCompanyRouteByRole({
           companyId
         })}
       />
       <PageContentContainer>
         <PageTab
-          to={getRouteWithParams(ROUTES.companies.reports.create.manual, {
-            companyId
-          })}
-        >
-          Manual Report
-        </PageTab>
-
-        <PageTab
           to={getRouteWithParams(ROUTES.companies.reports.create.document, {
             companyId
           })}
         >
           Document Report
+        </PageTab>
+
+        <PageTab
+          to={getRouteWithParams(ROUTES.companies.reports.create.manual, {
+            companyId
+          })}
+        >
+          Manual Report
         </PageTab>
       </PageContentContainer>
 
