@@ -1,6 +1,7 @@
 import { useGetCompanyDocuments } from '../../../api/CompanyApiQuery'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { createDocumentReportQueueItem } from '../../api/ReportQueueApi'
 
 export const useCreateDocumentReport = () => {
   const { companyDocuments } = useGetCompanyDocuments()
@@ -14,8 +15,8 @@ export const useCreateDocumentReport = () => {
       title: Yup.string().required(),
       documents: Yup.array().min(1).required()
     }),
-    onSubmit: (values) => {
-      console.log('Form submitted with values:', values)
+    async onSubmit(values) {
+      await createDocumentReportQueueItem(values)
     }
   })
 
