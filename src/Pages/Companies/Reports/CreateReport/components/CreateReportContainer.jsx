@@ -1,0 +1,49 @@
+import { PageHeaderWithBackButton } from '../../../../../Components/Page/PageHeaderWithBackButton/PageHeaderWithBackButton'
+import { getRouteWithParams, ROUTES } from '../../../../../routes'
+import { RoleRender } from '../../../../../Components/Restrict/RoleRender/RoleRender'
+import { ROLES } from '../../../../../utils/roles'
+import { ButtonLink } from '../../../../../Components/ButtonLink/ButtonLink'
+import React from 'react'
+import { PageContainer } from '../../../../../Components/Page/PageContainer/PageContainer'
+import { useGetCompany } from '../../../api/CompanyApiQuery'
+import { BackButtonLink } from '../../../../../Components/BackButtonLink/BackButtonLink'
+import { useAccessContext } from '../../../../../Context/AccessContext'
+import { PageContentContainer } from '../../../../../Components/Page/PageContentContainer/PageContentContainer'
+import { PageTab } from '../../../../../Components/Page/PageTab/PageTab'
+import { CategorizedListContainer } from '../../../../../Components/CategorizedList/CategorizedListContainer/CategorizedListContainer'
+
+export const CreateReportContainer = ({ children }) => {
+  const { company, companyId } = useGetCompany()
+  const { getCompanyRouteByRole } = useAccessContext()
+
+  return (
+    <PageContainer>
+      <PageHeaderWithBackButton
+        title={`Add new manual report for ${company?.name}`}
+        to={getCompanyRouteByRole({
+          companyId
+        })}
+      />
+      <PageContentContainer>
+        <PageTab
+          to={getRouteWithParams(ROUTES.companies.reports.create.manual, {
+            companyId
+          })}
+        >
+          Manual Report
+        </PageTab>
+
+        <PageTab
+          to={getRouteWithParams(ROUTES.companies.reports.create.document, {
+            companyId
+          })}
+        >
+          Document Report
+        </PageTab>
+      </PageContentContainer>
+
+      {/* Reports Container */}
+      <div>{children}</div>
+    </PageContainer>
+  )
+}
