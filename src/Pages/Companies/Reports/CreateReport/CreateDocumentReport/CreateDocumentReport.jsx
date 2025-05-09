@@ -4,6 +4,7 @@ import { CompanyDocumentInput } from './components/CompanyDocumentInput/CompanyD
 import { Form, FormikProvider } from 'formik'
 import { InputText } from '../../../../../Components/Fields/InputText'
 import React from 'react'
+import { SuccessButton } from '../../../../../Components/Buttons/SuccessButton'
 
 export const CreateDocumentReport = () => {
   const { createDocumentReportFormik } = useCreateDocumentReport()
@@ -17,6 +18,10 @@ export const CreateDocumentReport = () => {
               <InputText name="title" label="Report title" />
 
               <CompanyDocumentInput name="documents" />
+
+              <SuccessButton onClick={createDocumentReportFormik.submitForm}>
+                Create report
+              </SuccessButton>
             </div>
           </Form>
         </FormikProvider>
