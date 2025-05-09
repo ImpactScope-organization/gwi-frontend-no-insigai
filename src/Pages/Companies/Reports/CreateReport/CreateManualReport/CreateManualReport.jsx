@@ -15,16 +15,17 @@ export const CreateManualReport = () => {
           <div className="mx-auto flex justify-center items-center flex-col gap-4 w-full">
             {/* File Upload */}
             <FormikProvider value={formik}>
-              <div className="w-full">
+              <div className="w-full flex flex-col gap-4">
                 <FileInput name="file" accept=".xlsx" />
+
+                <SuccessButton
+                  isLoading={isLoading}
+                  disabled={!formik.isValid}
+                  onClick={formik.submitForm}
+                >
+                  Add new report
+                </SuccessButton>
               </div>
-              <SuccessButton
-                isLoading={isLoading}
-                disabled={!formik.isValid}
-                onClick={formik.submitForm}
-              >
-                Add new report
-              </SuccessButton>
             </FormikProvider>
           </div>
         </div>
