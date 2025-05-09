@@ -81,22 +81,24 @@ export const CompanyDocumentInput = ({ name }) => {
       </div>
       <div>
         <CategorySelectGroupTitle>Documents</CategorySelectGroupTitle>
-        {formik.values[name]?.length > 0 ? (
-          <div className="flex gap-4 bg-gray-100 p-4 rounded-lg">
-            {currentCompanyDocuments.map(({ year, title, documentId }) => {
-              return (
-                <div>
-                  <TagWithClose
-                    tag={`${year} - ${title}`}
-                    onClose={() => handleRemoveDocument(documentId)}
-                  />
-                </div>
-              )
-            })}
-          </div>
-        ) : (
-          <div>No documents selected</div>
-        )}
+        <div className="bg-gray-100 p-4 rounded-lg">
+          {formik.values[name]?.length > 0 ? (
+            <div className="flex gap-4">
+              {currentCompanyDocuments.map(({ year, title, documentId }) => {
+                return (
+                  <div>
+                    <TagWithClose
+                      tag={`${year} - ${title}`}
+                      onClose={() => handleRemoveDocument(documentId)}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div>No documents selected, use the inputs to select a document or more.</div>
+          )}
+        </div>
       </div>
     </div>
   )
