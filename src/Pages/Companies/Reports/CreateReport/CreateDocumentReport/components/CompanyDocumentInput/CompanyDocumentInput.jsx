@@ -3,8 +3,12 @@ import { CategorySelectGroupTitle } from '../../../../../../Prompts/components/C
 import { SuccessButton } from '../../../../../../../Components/Buttons/SuccessButton'
 import { TagWithClose } from '../../../../../../../Components/TagWithClose/TagWithClose'
 import { useCompanyDocumentInput } from './useCompanyDocumentInput'
+import React from 'react'
+import { useFormikContext } from 'formik'
 
 export const CompanyDocumentInput = ({ name }) => {
+  const formik = useFormikContext()
+
   const {
     hasDocuments,
     companyDocuments,
@@ -74,6 +78,9 @@ export const CompanyDocumentInput = ({ name }) => {
           ) : (
             <div>No documents selected, use the inputs to select a document or more.</div>
           )}
+          {formik.touched[name] && formik.errors[name] ? (
+            <div className="text-[#ff0000]">{formik.errors[name]}</div>
+          ) : null}
         </div>
       </div>
     </div>
