@@ -1,10 +1,13 @@
 import { useGetCompanyDocuments } from '../../../../../api/CompanyApiQuery'
 import { Select } from 'antd'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { CategorySelectGroupTitle } from '../../../../../../Prompts/components/CategorySelect/components/CategorySelectGroupTitle'
 import { SuccessButton } from '../../../../../../../Components/Buttons/SuccessButton'
+import { useFormikContext } from 'formik'
 
-export const CompanyDocumentInput = () => {
+export const CompanyDocumentInput = ({ name }) => {
+  const formik = useFormikContext()
+
   const { companyDocuments } = useGetCompanyDocuments()
   const [year, setYear] = useState()
   const [yearDocument, setYearDocument] = useState()
@@ -13,6 +16,11 @@ export const CompanyDocumentInput = () => {
     () => companyDocuments?.find((document) => document.year === year)?.documents,
     [companyDocuments, year]
   )
+
+  const handleAddDocument = useCallback(() => {
+    formik.setFieldValue(name, formik.values[name].concat(yearDocument))
+    setYearDocument(undefined)
+  }, [formik, name, yearDocument])
 
   return (
     <div className="flex flex-col w-full gap-4">
@@ -48,13 +56,36 @@ export const CompanyDocumentInput = () => {
               ))}
           </Select>
           <div>
-            <SuccessButton>Add</SuccessButton>
+            <SuccessButton onClick={handleAddDocument}>Add</SuccessButton>
           </div>
         </div>
       </div>
       <div>
         <CategorySelectGroupTitle>Documents</CategorySelectGroupTitle>
-        <div>No documents selected</div>
+        {formik.values[name]?.length > 0 ? (
+          <div className="flex flex-col gap-2">
+            {formik.values[name].map((documentId) => {
+              const document = yearDocuments.find((document) => document.documentId === documentId)
+              return (
+                <div key={documentId} className="flex gap-2">
+                  <span>{document.title}</span>
+                  <SuccessButton
+                    onClick={() => {
+                      formik.setFieldValue(
+                        name,
+                        formik.values[name].filter((id) => id !== documentId)
+                      )
+                    }}
+                  >
+                    Remove
+                  </SuccessButton>
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div>No documents selected</div>
+        )}
       </div>
     </div>
   )

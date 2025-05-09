@@ -16,7 +16,7 @@ export const CreateDocumentReport = () => {
             <div className="w-full flex flex-col gap-4">
               <InputText name="title" label="Report title" />
 
-              <CompanyDocumentInput />
+              <CompanyDocumentInput name="documents" />
             </div>
           </Form>
         </FormikProvider>
