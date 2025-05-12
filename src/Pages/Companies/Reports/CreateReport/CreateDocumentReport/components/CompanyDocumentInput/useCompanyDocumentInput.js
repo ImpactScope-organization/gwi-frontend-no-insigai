@@ -9,10 +9,13 @@ export const useCompanyDocumentInput = ({ name }) => {
   const [year, setYear] = useState()
   const [yearDocument, setYearDocument] = useState()
 
-  const yearDocuments = useMemo(
-    () => companyDocuments?.find((document) => document.year === year)?.documents,
-    [companyDocuments, year]
-  )
+  const yearDocuments = useMemo(() => {
+    return (
+      companyDocuments
+        ?.find((document) => document.year === year)
+        ?.documents?.sort((a, b) => a.reportType.localeCompare(b.reportType)) || []
+    )
+  }, [companyDocuments, year])
 
   const currentCompanyDocuments = useMemo(() => {
     return (

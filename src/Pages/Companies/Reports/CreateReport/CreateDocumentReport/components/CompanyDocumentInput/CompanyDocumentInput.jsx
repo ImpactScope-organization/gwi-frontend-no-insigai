@@ -48,9 +48,9 @@ export const CompanyDocumentInput = ({ name }) => {
             value={yearDocument}
           >
             {yearDocuments &&
-              yearDocuments.map(({ documentId, title }) => (
+              yearDocuments.map(({ documentId, reportType }) => (
                 <Select.Option key={`company_documet_${documentId}`} value={documentId}>
-                  {title}
+                  {reportType}
                 </Select.Option>
               ))}
           </Select>
