@@ -39,6 +39,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "DISABLE_ESLINT_PLUGIN=true CI=false react-app-rewired --max_old_space_size=8192 build",
+    "lint:fix": "prettier --write .",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "format": "prettier --write ."
