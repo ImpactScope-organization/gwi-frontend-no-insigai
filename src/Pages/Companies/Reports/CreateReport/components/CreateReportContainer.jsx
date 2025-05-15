@@ -37,7 +37,6 @@ export const CreateReportContainer = ({ children }) => {
         </PageTab>
       </PageContentContainer>
 
-      {/* Reports Container */}
       <div>{children}</div>
     </PageContainer>
   )
