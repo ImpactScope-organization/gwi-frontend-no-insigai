@@ -34,3 +34,8 @@ export const getCompanyProcessingReports = async (companyId) => {
   const response = await (await getApi()).get(`/api/company/${companyId}/reports/processing`)
   return response.data
 }
+
+export const getCompanyDocuments = async (companyId) => {
+  const response = await (await getApi()).get(`/api/company/${companyId}/documents`)
+  return response.data
+}

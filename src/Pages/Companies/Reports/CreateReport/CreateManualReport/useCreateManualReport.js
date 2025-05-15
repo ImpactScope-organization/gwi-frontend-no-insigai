@@ -2,12 +2,12 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { createReportQueueItem } from '../api/ReportQueueApi'
+import { createManualReportQueueItem } from '../../api/ReportQueueApi'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getRouteWithParams, ROUTES } from '../../../../routes'
-import { useLoading } from '../../../../Hooks/useLoading'
+import { getRouteWithParams, ROUTES } from '../../../../../routes'
+import { useLoading } from '../../../../../Hooks/useLoading'
 
-export const useCreateReport = () => {
+export const useCreateManualReport = () => {
   const navigate = useNavigate()
   const { companyId } = useParams()
 
@@ -31,7 +31,7 @@ export const useCreateReport = () => {
       try {
         const {
           result: { id }
-        } = await createReportQueueItem(getForm(values))
+        } = await createManualReportQueueItem(getForm(values))
 
         toast.success('Report saved successfully')
         navigate(

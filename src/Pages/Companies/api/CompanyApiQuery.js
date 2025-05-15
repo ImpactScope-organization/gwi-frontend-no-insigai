@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import {
   fetchCompanyList,
   getCompany,
+  getCompanyDocuments,
   getCompanyInternalReports,
   getCompanyProcessingReports,
   getCompanyRegulatorReports
@@ -57,6 +58,26 @@ export const useGetCompany = () => {
     companyId,
     company: data?.result,
     refetchCompany
+  }
+}
+
+export const useGetCompanyDocuments = () => {
+  const { companyId } = useParams()
+
+  const { data, refetch: refetchCompanyDocuments } = useQuery({
+    queryKey: ['useGetCompanyDocuments', companyId],
+    queryFn: () => getCompanyDocuments(companyId),
+    staleTime: 60000
+  })
+
+  return {
+    companyId,
+    companyDocuments: data?.result,
+    flattenedCompanyDocuments: data?.result?.reduce(
+      (acc, { documents }) => acc.concat(documents),
+      []
+    ),
+    refetchCompanyDocuments
   }
 }
 

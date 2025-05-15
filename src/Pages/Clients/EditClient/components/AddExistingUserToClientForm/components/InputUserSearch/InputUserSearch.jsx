@@ -1,6 +1,7 @@
 import { Select } from 'antd'
 import { CloseCircleOutlined } from '@ant-design/icons'
 import { useInputUserSearch } from './useInputUserSearch'
+import { TagWithClose } from '../../../../../../../Components/TagWithClose/TagWithClose'
 
 export const InputUserSearch = ({ name }) => {
   const { handleSearch, transformedSearchResults, handleChange, email, handleClear, value } =
@@ -27,15 +28,7 @@ export const InputUserSearch = ({ name }) => {
       <div className="w-full flex flex-col gap-4">
         <label className="font-bold">Selected user</label>
         {value ? (
-          <div className="w-full flex items-center justify-center bg-darkGreen text-white rounded-md p-4 relative">
-            <span>{email}</span>
-            <button
-              className="absolute -right-2 -top-2 text-red-400 bg-white text-xl leading-4 w-6 h-6 rounded-full hover:text-red-600"
-              onClick={handleClear}
-            >
-              <CloseCircleOutlined />
-            </button>
-          </div>
+          <TagWithClose tag={email} onClose={handleClear} />
         ) : (
           <div className="flex w-full">No user selected, search for one :)</div>
         )}
