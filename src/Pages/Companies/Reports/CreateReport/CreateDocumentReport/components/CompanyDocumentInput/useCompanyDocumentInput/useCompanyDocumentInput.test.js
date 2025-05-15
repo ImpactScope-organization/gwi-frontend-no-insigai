@@ -3,27 +3,31 @@ import { useCompanyDocumentInput } from './useCompanyDocumentInput'
 import { useFormikContext } from 'formik'
 import { useGetCompanyDocuments } from '../../../../../../api/CompanyApiQuery'
 
+const mockInputName = 'documents'
+
+const mockFormikContextValue = jest.fn()
+const mockSetFieldValue = jest.fn()
+
 jest.mock('formik', () => ({
-  useFormikContext: jest.fn()
+  useFormikContext: () => ({
+    values: { [mockInputName]: mockFormikContextValue() },
+    setFieldValue: mockSetFieldValue
+  })
 }))
 
 jest.mock('../../../../../../api/CompanyApiQuery', () => ({
   useGetCompanyDocuments: jest.fn()
 }))
 
-const mockInputName = 'documents'
-
 describe('useCompanyDocumentInput', () => {
-  const mockSetFieldValue = jest.fn()
-
   beforeEach(() => {
     jest.clearAllMocks()
-    useFormikContext.mockReturnValue({
-      values: { documents: [] },
-      setFieldValue: mockSetFieldValue
-    })
+    mockFormikContextValue.mockReturnValue([])
     useGetCompanyDocuments.mockReturnValue({
-      companyDocuments: [{ year: 2023, documents: [{ reportType: 'A' }, { reportType: 'B' }] }],
+      companyDocuments: [
+        { year: 2023, documents: [{ reportType: 'B' }, { reportType: 'A' }] },
+        { year: 2022, documents: [{ reportType: 'D' }] }
+      ],
       flattenedCompanyDocuments: [{ documentId: 1 }, { documentId: 2 }]
     })
   })
@@ -32,18 +36,42 @@ describe('useCompanyDocumentInput', () => {
     const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
 
     expect(result.current.hasDocuments).toBe(false)
-    expect(result.current.companyDocuments).toHaveLength(1)
+    expect(result.current.companyDocuments).toHaveLength(2)
     expect(result.current.yearDocuments).toEqual([])
   })
 
-  it('should update year and filter yearDocuments', () => {
-    const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+  describe('yearDocuments', () => {
+    it('should list active year yearDocuments', () => {
+      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
 
-    act(() => {
-      result.current.setYear(2023)
+      act(() => {
+        result.current.setYear(2022)
+      })
+
+      expect(result.current.yearDocuments).toEqual([{ reportType: 'D' }])
     })
+    it('should sort yearDocuments', () => {
+      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
 
-    expect(result.current.yearDocuments).toEqual([{ reportType: 'A' }, { reportType: 'B' }])
+      act(() => {
+        result.current.setYear(2023)
+      })
+
+      expect(result.current.yearDocuments).toEqual([{ reportType: 'A' }, { reportType: 'B' }])
+    })
+  })
+
+  describe('currentCompanyDocuments', () => {
+    it('should list current company documents', () => {
+      mockFormikContextValue.mockReturnValue([1, 2])
+      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+
+      act(() => {
+        result.current.setYearDocument(1)
+      })
+
+      expect(result.current.currentCompanyDocuments).toEqual([{ documentId: 1 }, { documentId: 2 }])
+    })
   })
 
   it('should add a document', () => {
@@ -61,10 +89,7 @@ describe('useCompanyDocumentInput', () => {
   })
 
   it('should remove a document', () => {
-    useFormikContext.mockReturnValue({
-      values: { documents: [1, 2] },
-      setFieldValue: mockSetFieldValue
-    })
+    mockFormikContextValue.mockReturnValue([1, 2])
 
     const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
 
