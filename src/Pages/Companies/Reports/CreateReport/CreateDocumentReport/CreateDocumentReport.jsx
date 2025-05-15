@@ -19,6 +19,7 @@ export const CreateDocumentReport = () => {
 
               <CompanyDocumentInput name="documents" />
 
+              {/* todo loading */}
               <SuccessButton onClick={createDocumentReportFormik.submitForm}>
                 Create report
               </SuccessButton>
