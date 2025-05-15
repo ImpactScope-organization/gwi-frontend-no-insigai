@@ -1,12 +1,16 @@
 import { renderHook, act } from '@testing-library/react'
 import { useCompanyDocumentInput } from './useCompanyDocumentInput'
-import { useFormikContext } from 'formik'
 import { useGetCompanyDocuments } from '../../../../../../api/CompanyApiQuery'
 
 const mockInputName = 'documents'
 
 const mockFormikContextValue = jest.fn()
 const mockSetFieldValue = jest.fn()
+const mockFlattenedCompanyDocuments = [
+  { documentId: 1, reportType: 'B', year: 2023 },
+  { documentId: 2, reportType: 'A', year: 2023 },
+  { documentId: 3, reportType: 'D', year: 2022 }
+]
 
 jest.mock('formik', () => ({
   useFormikContext: () => ({
@@ -25,10 +29,13 @@ describe('useCompanyDocumentInput', () => {
     mockFormikContextValue.mockReturnValue([])
     useGetCompanyDocuments.mockReturnValue({
       companyDocuments: [
-        { year: 2023, documents: [{ reportType: 'B' }, { reportType: 'A' }] },
-        { year: 2022, documents: [{ reportType: 'D' }] }
+        {
+          year: 2023,
+          documents: [mockFlattenedCompanyDocuments[0], mockFlattenedCompanyDocuments[1]]
+        },
+        { year: 2022, documents: [mockFlattenedCompanyDocuments[3]] }
       ],
-      flattenedCompanyDocuments: [{ documentId: 1 }, { documentId: 2 }]
+      flattenedCompanyDocuments: mockFlattenedCompanyDocuments
     })
   })
 
@@ -63,14 +70,16 @@ describe('useCompanyDocumentInput', () => {
 
   describe('currentCompanyDocuments', () => {
     it('should list current company documents', () => {
-      mockFormikContextValue.mockReturnValue([1, 2])
+      mockFormikContextValue.mockReturnValue([
+        mockFlattenedCompanyDocuments[0].documentId,
+        mockFlattenedCompanyDocuments[2].documentId
+      ])
       const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
 
-      act(() => {
-        result.current.setYearDocument(1)
-      })
-
-      expect(result.current.currentCompanyDocuments).toEqual([{ documentId: 1 }, { documentId: 2 }])
+      expect(result.current.currentCompanyDocuments).toEqual([
+        mockFlattenedCompanyDocuments[0],
+        mockFlattenedCompanyDocuments[2]
+      ])
     })
   })
 
