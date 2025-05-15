@@ -38,8 +38,7 @@ describe('useCompanyDocumentInput', () => {
           documents: mock2023Documents
         },
         { year: 2022, documents: mock2022Documents }
-      ],
-      flattenedCompanyDocuments: mockFlattenedCompanyDocuments
+      ]
     })
   })
 
@@ -49,6 +48,14 @@ describe('useCompanyDocumentInput', () => {
     expect(result.current.hasDocuments).toBe(false)
     expect(result.current.companyDocuments).toHaveLength(2)
     expect(result.current.yearDocuments).toEqual([])
+  })
+
+  describe('flattenedCompanyDocuments', () => {
+    it('should flatten company documents', () => {
+      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+
+      expect(result.current.flattenedCompanyDocuments).toEqual(mockFlattenedCompanyDocuments)
+    })
   })
 
   describe('yearDocuments', () => {

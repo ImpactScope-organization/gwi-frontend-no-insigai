@@ -5,9 +5,13 @@ import { useCallback, useMemo, useState } from 'react'
 export const useCompanyDocumentInput = ({ name }) => {
   const formik = useFormikContext()
 
-  const { companyDocuments, flattenedCompanyDocuments } = useGetCompanyDocuments()
+  const { companyDocuments } = useGetCompanyDocuments()
   const [year, setYear] = useState()
   const [yearDocument, setYearDocument] = useState()
+
+  const flattenedCompanyDocuments = useMemo(() => {
+    return companyDocuments?.reduce((acc, { documents }) => acc.concat(documents), [])
+  }, [companyDocuments])
 
   const yearDocuments = useMemo(() => {
     return (
@@ -43,6 +47,7 @@ export const useCompanyDocumentInput = ({ name }) => {
   const hasDocuments = useMemo(() => formik.values[name]?.length > 0, [formik.values, name])
 
   return {
+    flattenedCompanyDocuments,
     hasDocuments,
     companyDocuments,
     yearDocuments,
