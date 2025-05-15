@@ -6,11 +6,15 @@ const mockInputName = 'documents'
 
 const mockFormikContextValue = jest.fn()
 const mockSetFieldValue = jest.fn()
-const mockFlattenedCompanyDocuments = [
+
+const mock2023Documents = [
   { documentId: 1, reportType: 'B', year: 2023 },
-  { documentId: 2, reportType: 'A', year: 2023 },
-  { documentId: 3, reportType: 'D', year: 2022 }
+  { documentId: 2, reportType: 'A', year: 2023 }
 ]
+
+const mock2022Documents = [{ documentId: 3, reportType: 'C', year: 2022 }]
+
+const mockFlattenedCompanyDocuments = [...mock2023Documents, ...mock2022Documents]
 
 jest.mock('formik', () => ({
   useFormikContext: () => ({
@@ -31,9 +35,9 @@ describe('useCompanyDocumentInput', () => {
       companyDocuments: [
         {
           year: 2023,
-          documents: [mockFlattenedCompanyDocuments[0], mockFlattenedCompanyDocuments[1]]
+          documents: mock2023Documents
         },
-        { year: 2022, documents: [mockFlattenedCompanyDocuments[3]] }
+        { year: 2022, documents: mock2022Documents }
       ],
       flattenedCompanyDocuments: mockFlattenedCompanyDocuments
     })
@@ -55,7 +59,7 @@ describe('useCompanyDocumentInput', () => {
         result.current.setYear(2022)
       })
 
-      expect(result.current.yearDocuments).toEqual([{ reportType: 'D' }])
+      expect(result.current.yearDocuments).toEqual(mock2022Documents)
     })
     it('should sort yearDocuments', () => {
       const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
@@ -64,7 +68,7 @@ describe('useCompanyDocumentInput', () => {
         result.current.setYear(2023)
       })
 
-      expect(result.current.yearDocuments).toEqual([{ reportType: 'A' }, { reportType: 'B' }])
+      expect(result.current.yearDocuments).toEqual(mock2023Documents)
     })
   })
 
@@ -83,29 +87,33 @@ describe('useCompanyDocumentInput', () => {
     })
   })
 
-  it('should add a document', () => {
-    const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+  describe('handleAddDocument', () => {
+    it('should add a document', () => {
+      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
 
-    act(() => {
-      result.current.setYearDocument(1)
+      act(() => {
+        result.current.setYearDocument(1)
+      })
+
+      act(() => {
+        result.current.handleAddDocument()
+      })
+
+      expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [1])
     })
-
-    act(() => {
-      result.current.handleAddDocument()
-    })
-
-    expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [1])
   })
 
-  it('should remove a document', () => {
-    mockFormikContextValue.mockReturnValue([1, 2])
+  describe('handleRemoveDocument', () => {
+    it('should remove a document', () => {
+      mockFormikContextValue.mockReturnValue([1, 2])
 
-    const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
 
-    act(() => {
-      result.current.handleRemoveDocument(1)
+      act(() => {
+        result.current.handleRemoveDocument(1)
+      })
+
+      expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [2])
     })
-
-    expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [2])
   })
 })
