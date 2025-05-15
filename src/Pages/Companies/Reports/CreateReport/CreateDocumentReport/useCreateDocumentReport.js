@@ -5,11 +5,13 @@ import { createDocumentReportQueueItem } from '../../api/ReportQueueApi'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { getRouteWithParams, ROUTES } from '../../../../../routes'
+import { useLoading } from '../../../../../Hooks/useLoading'
 
 export const useCreateDocumentReport = () => {
   const { companyDocuments } = useGetCompanyDocuments()
   const { companyId } = useParams()
   const navigate = useNavigate()
+  const { startLoading, finishLoading, isLoading } = useLoading()
 
   const createDocumentReportFormik = useFormik({
     initialValues: {
@@ -21,12 +23,15 @@ export const useCreateDocumentReport = () => {
       documents: Yup.array().min(1).required()
     }),
     async onSubmit(values) {
+      startLoading()
       const {
         result: { id }
       } = await createDocumentReportQueueItem({
         ...values,
         companyId
       })
+
+      finishLoading()
 
       toast.success('Report saved successfully')
       navigate(
@@ -38,5 +43,5 @@ export const useCreateDocumentReport = () => {
     }
   })
 
-  return { companyDocuments, createDocumentReportFormik }
+  return { companyDocuments, createDocumentReportFormik, isLoading }
 }
