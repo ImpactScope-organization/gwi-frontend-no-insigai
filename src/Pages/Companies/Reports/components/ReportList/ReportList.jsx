@@ -27,7 +27,7 @@ export const ReportList = ({ data }) => {
             key={`report_list_item_${report?.id}`}
           >
             <CategorizedListItemDate>{handleDateFormat(report?.createdAt)}</CategorizedListItemDate>
-            <CategorizedListItemTitle>{report?.companyName}</CategorizedListItemTitle>
+            <CategorizedListItemTitle>{report?.title}</CategorizedListItemTitle>
             <CategorizedListItemCategoryContainer>
               Jurisdiction:
               <CategorizedListItemCategory>{report?.jurisdiction}</CategorizedListItemCategory>

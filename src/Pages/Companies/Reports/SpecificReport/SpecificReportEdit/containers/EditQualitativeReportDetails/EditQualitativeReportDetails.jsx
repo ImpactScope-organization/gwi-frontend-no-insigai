@@ -19,6 +19,7 @@ export const EditQualitativeReportDetails = () => {
         </h1>
 
         <div className="flex flex-col gap-[16px] mt-[24px]">
+          <SpecificReportInputText name="title" label="Title" />
           <SpecificReportInputText name="jurisdiction" label="Jurisdiction" />
           <SpecificReportInputText name="sector" label="Sector" />
           <SpecificReportInputText name="annualRevenue" label="Annual Revenue" />

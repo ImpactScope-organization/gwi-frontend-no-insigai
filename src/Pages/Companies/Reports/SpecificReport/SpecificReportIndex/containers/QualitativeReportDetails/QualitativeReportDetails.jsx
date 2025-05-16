@@ -11,11 +11,12 @@ export const QualitativeReportDetails = () => {
 
   return (
     <ReportDetailsCard>
-      <div>
+      <div className="flex flex-col gap-2">
         <p className="leading-[24px] text-sm text-reportGrey font-medium">{formattedDate}</p>
-        <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
-          {currentCompanyReport?.companyName}
-        </h1>
+        <div>
+          <h1 className=" text-darkBlack text-2xl font-bold">{currentCompanyReport?.title}</h1>
+          <p className="text-reportGrey">{currentCompanyReport?.companyName}</p>
+        </div>
 
         <div className="mt-[16px]">
           <ReportMetaItem title="Jurisdiction" content={currentCompanyReport?.jurisdiction} />
