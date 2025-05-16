@@ -7,7 +7,7 @@ import React from 'react'
 import { SuccessButton } from '../../../../../Components/Buttons/SuccessButton'
 
 export const CreateDocumentReport = () => {
-  const { createDocumentReportFormik } = useCreateDocumentReport()
+  const { createDocumentReportFormik, isLoading } = useCreateDocumentReport()
 
   return (
     <CreateReportContainer>
@@ -19,7 +19,7 @@ export const CreateDocumentReport = () => {
 
               <CompanyDocumentInput name="documents" />
 
-              <SuccessButton onClick={createDocumentReportFormik.submitForm}>
+              <SuccessButton isLoading={isLoading} onClick={createDocumentReportFormik.submitForm}>
                 Create report
               </SuccessButton>
             </div>

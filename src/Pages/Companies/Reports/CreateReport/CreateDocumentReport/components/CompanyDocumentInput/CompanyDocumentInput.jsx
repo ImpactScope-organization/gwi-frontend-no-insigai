@@ -2,7 +2,7 @@ import { Select } from 'antd'
 import { CategorySelectGroupTitle } from '../../../../../../Prompts/components/CategorySelect/components/CategorySelectGroupTitle'
 import { SuccessButton } from '../../../../../../../Components/Buttons/SuccessButton'
 import { TagWithClose } from '../../../../../../../Components/TagWithClose/TagWithClose'
-import { useCompanyDocumentInput } from './useCompanyDocumentInput'
+import { useCompanyDocumentInput } from './useCompanyDocumentInput/useCompanyDocumentInput'
 import React from 'react'
 import { useFormikContext } from 'formik'
 

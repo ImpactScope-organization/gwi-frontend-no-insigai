@@ -6,7 +6,6 @@
     "@ant-design/icons": "^5.5.1",
     "@tanstack/react-query": "^4.35.3",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@thirdweb-dev/react": "^3.11.7",
     "@thirdweb-dev/sdk": "^3.10.10",
@@ -39,6 +38,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "DISABLE_ESLINT_PLUGIN=true CI=false react-app-rewired --max_old_space_size=8192 build",
+    "lint:fix": "prettier --write .",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "format": "prettier --write ."
@@ -56,6 +56,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.0",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",

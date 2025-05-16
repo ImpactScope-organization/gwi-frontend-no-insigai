@@ -1,5 +1,4 @@
 import { Select } from 'antd'
-import { CloseCircleOutlined } from '@ant-design/icons'
 import { useInputUserSearch } from './useInputUserSearch'
 import { TagWithClose } from '../../../../../../../Components/TagWithClose/TagWithClose'
 

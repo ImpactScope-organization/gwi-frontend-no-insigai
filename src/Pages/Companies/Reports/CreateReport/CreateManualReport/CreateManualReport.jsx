@@ -13,7 +13,6 @@ export const CreateManualReport = () => {
       <div className="pb-10">
         <div className="grid w-full">
           <div className="mx-auto flex justify-center items-center flex-col gap-4 w-full">
-            {/* File Upload */}
             <FormikProvider value={formik}>
               <div className="w-full flex flex-col gap-4">
                 <FileInput name="file" accept=".xlsx" />
