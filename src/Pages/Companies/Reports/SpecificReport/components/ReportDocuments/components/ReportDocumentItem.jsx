@@ -1,0 +1,18 @@
+import React, { useCallback } from 'react'
+
+export const ReportDocumentItem = ({ name, s3Path }) => {
+  const handleDownload = useCallback(() => {
+    if (s3Path) {
+    }
+  }, [s3Path])
+
+  return (
+    <div
+      className={`flex flex-row flex-nowrap justify-start items-center gap-2 rounded-2xl ${s3Path ? 'cursor-pointer bg-gray-100 hover:bg-gray-200 p-2' : ''}`}
+      onClick={handleDownload}
+    >
+      <img src="/assets/xls-icon.svg" alt="xls-icon" />
+      <h2 className="text-[18px] leading-[24px] mt-1 font-[600]">{name}</h2>
+    </div>
+  )
+}
