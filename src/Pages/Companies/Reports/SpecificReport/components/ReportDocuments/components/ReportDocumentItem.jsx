@@ -1,8 +1,13 @@
 import React, { useCallback } from 'react'
+import { signS3Path } from '../../../../api/S3Api'
 
 export const ReportDocumentItem = ({ name, s3Path }) => {
-  const handleDownload = useCallback(() => {
+  const handleDownload = useCallback(async () => {
     if (s3Path) {
+      const {
+        data: { result }
+      } = await signS3Path(s3Path)
+      window.location.href = result
     }
   }, [s3Path])
 
