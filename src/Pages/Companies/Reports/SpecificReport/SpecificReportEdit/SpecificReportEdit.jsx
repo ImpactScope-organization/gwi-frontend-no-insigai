@@ -53,6 +53,11 @@ export const SpecificReportEdit = () => {
                         return (
                           <div key={quantitativePercentageCategory.id}>
                             {quantitativePercentageCategory.name}
+                            <div>
+                              {quantitativePercentageCategory.components.map((component) => (
+                                <div key={component.id}>{component.name}</div>
+                              ))}
+                            </div>
                           </div>
                         )
                       }
