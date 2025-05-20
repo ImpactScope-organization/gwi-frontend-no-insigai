@@ -25,16 +25,17 @@ export const SpecificReportEdit = () => {
 
   return (
     <PageContainer>
-      <div className="flex justify-between items-center gap-8 mb-8">
-        <div className="w-1/3 lg:w-2/3">
-          <BackButtonLink to={specificReportURL} />
-        </div>
-        <div className="w-2/3 lg:w-1/3">
-          <EditReportNavigation />
-        </div>
-      </div>
       <FormikProvider value={editSpecificReportFormik}>
         <Form>
+          <div className="flex justify-between items-center gap-8 mb-8">
+            <div className="w-1/3 lg:w-2/3">
+              <BackButtonLink to={specificReportURL} />
+            </div>
+            <div className="w-2/3 lg:w-1/3">
+              <EditReportNavigation />
+            </div>
+          </div>
+
           <div id="report-container" className="flex flex-col-reverse lg:flex-row gap-8 mx-auto">
             <div className="w-full lg:w-2/3">
               <EditQualitativeReportDetails />
