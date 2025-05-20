@@ -2,7 +2,7 @@ import { useCurrentCompanyReport } from '../../../../../hooks/useCurrentCompanyR
 import { captureScreen } from '../../../../../../../../../utils/helpers'
 import React from 'react'
 
-export const QuantitativeReportNavigationRegulator = () => {
+export const ReportNavigationRegulator = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
 
   return (

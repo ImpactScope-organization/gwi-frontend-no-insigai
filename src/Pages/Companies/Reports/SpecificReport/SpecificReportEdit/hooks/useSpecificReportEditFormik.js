@@ -20,7 +20,8 @@ export const useSpecificReportEditFormik = () => {
       sector: '',
       annualRevenue: '',
       noOfEmployees: '',
-      GHGEmissions: ''
+      GHGEmissions: '',
+      quantitativePercentages: []
     },
     validationSchema: Yup.object({
       contradiction: Yup.string().required(),
@@ -32,7 +33,8 @@ export const useSpecificReportEditFormik = () => {
       sector: Yup.string().required(),
       annualRevenue: Yup.string().required(),
       noOfEmployees: Yup.string().required(),
-      GHGEmissions: Yup.string().required()
+      GHGEmissions: Yup.string().required(),
+      quantitativePercentages: Yup.array()
     }),
     onSubmit: async (values) => {
       await handleUpdateReport(values)

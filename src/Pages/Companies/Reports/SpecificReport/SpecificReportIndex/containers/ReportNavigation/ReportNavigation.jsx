@@ -1,14 +1,14 @@
 import { useAccessContext } from '../../../../../../../Context/AccessContext'
-import { QuantitativeReportNavigationAdmin } from '../LegacyQuantitativeReportDetails/components/QuantitativeReportNavigationAdmin/QuantitativeReportNavigationAdmin'
-import { QuantitativeReportNavigationRegulator } from '../LegacyQuantitativeReportDetails/components/QuantitativeReportNavigationRegulator/QuantitativeReportNavigationRegulator'
+import { ReportNavigationAdmin } from './components/QuantitativeReportNavigationAdmin/ReportNavigationAdmin'
+import { ReportNavigationRegulator } from './components/ReportNavigationRegulator/ReportNavigationRegulator'
 
 export const ReportNavigation = () => {
   const { userRoles } = useAccessContext()
 
   return (
     <>
-      {userRoles.isAdmin && <QuantitativeReportNavigationAdmin />}
-      {userRoles.isRegulator && <QuantitativeReportNavigationRegulator />}
+      {userRoles.isAdmin && <ReportNavigationAdmin />}
+      {userRoles.isRegulator && <ReportNavigationRegulator />}
     </>
   )
 }

@@ -8,7 +8,7 @@ import { getRouteWithParams, ROUTES } from '../../../../../../../../../routes'
 import { captureScreen } from '../../../../../../../../../utils/helpers'
 import { useAccessContext } from '../../../../../../../../../Context/AccessContext'
 
-export const useQuantitativeReportNavigationAdmin = () => {
+export const useReportNavigationAdmin = () => {
   const navigate = useNavigate()
   const { companyId } = useParams()
   const { getCurrentCompanyReport, currentCompanyReport, reportId } = useCurrentCompanyReport()
