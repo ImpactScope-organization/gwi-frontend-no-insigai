@@ -10,6 +10,7 @@ import { Form, FormikProvider } from 'formik'
 import { EditQualitativeReportDetails } from './containers/EditQualitativeReportDetails/EditQualitativeReportDetails'
 import { EditQuantitativeReportDetails } from './containers/EditQuantitativeReportDetails/EditQuantitativeReportDetails'
 import { EditReportNavigation } from './containers/EditReportNavigation/EditReportNavigation'
+import { EditQuantitativeReportComponents } from './containers/EditQuantitativeReportComponents/EditQuantitativeReportComponents'
 
 export const SpecificReportEdit = () => {
   const { currentCompanyReportIsLoading } = useCurrentCompanyReport()
@@ -45,25 +46,16 @@ export const SpecificReportEdit = () => {
                 {/* todo remove when removable */}
                 <EditQuantitativeReportDetails />
 
-                <div className="card_shadow rounded-2xl flex flex-col gap-1 py-4 px-3">
-                  <h5 className="text-[18px] leading-[24px] font-[600]">Quantitative Report</h5>
-                  <div className="flex flex-col gap-[16px] my-[24px]">
-                    {editSpecificReportFormik.values.quantitativePercentages.map(
-                      (quantitativePercentageCategory) => {
-                        return (
-                          <div key={quantitativePercentageCategory.id}>
-                            {quantitativePercentageCategory.name}
-                            <div>
-                              {quantitativePercentageCategory.components.map((component) => (
-                                <div key={component.id}>{component.name}</div>
-                              ))}
-                            </div>
-                          </div>
-                        )
-                      }
-                    )}
-                  </div>
-                </div>
+                {editSpecificReportFormik.values.quantitativePercentages.map(
+                  (quantitativePercentageCategory) => {
+                    return (
+                      <EditQuantitativeReportComponents
+                        key={quantitativePercentageCategory.id}
+                        quantitativePercentageCategory={quantitativePercentageCategory}
+                      />
+                    )
+                  }
+                )}
 
                 <ReportDocuments />
               </div>
