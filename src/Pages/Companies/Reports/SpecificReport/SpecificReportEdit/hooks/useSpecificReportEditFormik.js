@@ -9,6 +9,19 @@ import { updateReport } from '../../../api/ReportApi'
 export const useSpecificReportEditFormik = () => {
   const { getCurrentCompanyReport, reportId, currentCompanyReport } = useCurrentCompanyReport()
 
+  const getCompanyReportFieldLabel = useCallback(
+    (fieldName) => {
+      return fieldName
+        .replace(/\[(\d+)\]/g, '.$1') // Convert [0] to .0
+        .replace('value', 'name')
+        .split('.')
+        .reduce(
+          (nestedObject, property) => (nestedObject ? nestedObject[property] : undefined),
+          currentCompanyReport
+        )
+    },
+    [currentCompanyReport]
+  )
   const editSpecificReportFormik = useFormik({
     initialValues: {
       contradiction: '',
@@ -20,7 +33,8 @@ export const useSpecificReportEditFormik = () => {
       sector: '',
       annualRevenue: '',
       noOfEmployees: '',
-      GHGEmissions: ''
+      GHGEmissions: '',
+      quantitativePercentages: []
     },
     validationSchema: Yup.object({
       contradiction: Yup.string().required(),
@@ -32,7 +46,27 @@ export const useSpecificReportEditFormik = () => {
       sector: Yup.string().required(),
       annualRevenue: Yup.string().required(),
       noOfEmployees: Yup.string().required(),
-      GHGEmissions: Yup.string().required()
+      GHGEmissions: Yup.string().required(),
+
+      quantitativePercentages: Yup.array().of(
+        Yup.object().shape({
+          id: Yup.string().required(),
+          name: Yup.string().required(),
+          value: Yup.number().min(0).max(100),
+          components: Yup.array()
+            .of(
+              Yup.object().shape({
+                id: Yup.string().required(),
+                name: Yup.string().required(),
+                value: Yup.number()
+                  .min(0, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at least 0`)
+                  .max(100, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at most 100`)
+                  .required(({ path }) => `${getCompanyReportFieldLabel(path)} is a required field`)
+              })
+            )
+            .required('Quantitative percentage components are required')
+        })
+      )
     }),
     onSubmit: async (values) => {
       await handleUpdateReport(values)

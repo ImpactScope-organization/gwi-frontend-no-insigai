@@ -9,6 +9,8 @@ import { useSpecificReportEditFormik } from './hooks/useSpecificReportEditFormik
 import { Form, FormikProvider } from 'formik'
 import { EditQualitativeReportDetails } from './containers/EditQualitativeReportDetails/EditQualitativeReportDetails'
 import { EditQuantitativeReportDetails } from './containers/EditQuantitativeReportDetails/EditQuantitativeReportDetails'
+import { EditReportNavigation } from './containers/EditReportNavigation/EditReportNavigation'
+import { EditQuantitativeReportComponents } from './containers/EditQuantitativeReportComponents/EditQuantitativeReportComponents'
 
 export const SpecificReportEdit = () => {
   const { currentCompanyReportIsLoading } = useCurrentCompanyReport()
@@ -23,11 +25,17 @@ export const SpecificReportEdit = () => {
 
   return (
     <PageContainer>
-      <div className="mb-8">
-        <BackButtonLink to={specificReportURL} />
-      </div>
       <FormikProvider value={editSpecificReportFormik}>
         <Form>
+          <div className="flex justify-between items-center gap-8 mb-8">
+            <div className="w-1/3 lg:w-2/3">
+              <BackButtonLink to={specificReportURL} />
+            </div>
+            <div className="w-2/3 lg:w-1/3">
+              <EditReportNavigation />
+            </div>
+          </div>
+
           <div id="report-container" className="flex flex-col-reverse lg:flex-row gap-8 mx-auto">
             <div className="w-full lg:w-2/3">
               <EditQualitativeReportDetails />
@@ -35,6 +43,18 @@ export const SpecificReportEdit = () => {
             <div className="w-full lg:w-1/3">
               <div className="flex flex-col gap-8">
                 <EditQuantitativeReportDetails />
+
+                {editSpecificReportFormik.values.quantitativePercentages.map(
+                  (quantitativePercentageCategory, index) => {
+                    return (
+                      <EditQuantitativeReportComponents
+                        key={quantitativePercentageCategory.id}
+                        quantitativePercentageCategory={quantitativePercentageCategory}
+                        quantitativePercentageCategoryIndex={index}
+                      />
+                    )
+                  }
+                )}
 
                 <ReportDocuments />
               </div>
