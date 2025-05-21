@@ -7,7 +7,7 @@ export const EditQuantitativeReportDetails = () => {
 
   return (
     <div className="card_shadow rounded-2xl flex basis-4/12 flex-col gap-1 py-4 px-3">
-      <h5 className="text-[18px] leading-[24px] font-[600]">Report</h5>
+      <h3 className="text-[18px] leading-[24px] font-[600]">Report</h3>
       <div className="flex flex-col gap-[16px] my-[24px]">
         {currentCompanyReport?.quantitativePercentages?.length === 0 && (
           <>
