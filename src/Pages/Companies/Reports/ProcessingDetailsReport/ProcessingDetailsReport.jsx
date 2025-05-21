@@ -10,7 +10,7 @@ import { ButtonLink } from '../../../../Components/ButtonLink/ButtonLink'
 
 export const ProcessingDetailsReport = () => {
   const { companyId } = useParams()
-  const { percentage, report, isReportCreated } = useProcessingDetailsReport()
+  const { percentage, report, isReportCreated, processingStatus } = useProcessingDetailsReport()
 
   return (
     <PageContainer>
@@ -21,7 +21,7 @@ export const ProcessingDetailsReport = () => {
           })}
         />
       </div>
-      <PageHeader title={`Processing ${report?.companyName}`} subTitle="Analyzing sources..." />
+      <PageHeader title={`Processing ${report?.companyName}`} subTitle={processingStatus} />
       <div className="flex flex-col items-center justify-center h-full gap-4">
         <Progress percent={percentage} format={(percent) => `${percent}%`} />
         {isReportCreated && (

@@ -9,7 +9,7 @@ export const useProcessingDetailsReport = () => {
   const { data: report, refetch: refetchReport } = useGetReportByReportQueueId(reportQueueId)
 
   const {
-    data: { percentage, processText },
+    data: { percentage },
     refetch: refetchQueueStatus
   } = useQuery({
     queryKey: ['fetchReportQueueStatus', reportQueueId],
@@ -36,6 +36,8 @@ export const useProcessingDetailsReport = () => {
   }, [percentage, refetchQueueStatus, refetchReport])
 
   const isReportCreated = !!report?.reportQueueId
+  const processingStatus =
+    percentage === 100 ? 'Report creation successful' : 'Analyzing sources...'
 
-  return { percentage, processText, report, isReportCreated }
+  return { percentage, processingStatus, report, isReportCreated }
 }
