@@ -12,12 +12,11 @@ export const EditQuantitativeReportComponents = ({
       </h3>
 
       {quantitativePercentageCategory.components.map((component, componentIndex) => (
-        <div key={component.id}>
-          <SpecificReportInputText
-            name={`quantitativePercentages[${quantitativePercentageCategoryIndex}].components[${componentIndex}].value`}
-            label={component.name}
-          />
-        </div>
+        <SpecificReportInputText
+          key={component.id}
+          name={`quantitativePercentages[${quantitativePercentageCategoryIndex}].components[${componentIndex}].value`}
+          label={component.name}
+        />
       ))}
     </div>
   )
