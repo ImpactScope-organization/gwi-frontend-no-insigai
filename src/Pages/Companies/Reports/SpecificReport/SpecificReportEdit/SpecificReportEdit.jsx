@@ -47,11 +47,12 @@ export const SpecificReportEdit = () => {
                 <EditQuantitativeReportDetails />
 
                 {editSpecificReportFormik.values.quantitativePercentages.map(
-                  (quantitativePercentageCategory) => {
+                  (quantitativePercentageCategory, index) => {
                     return (
                       <EditQuantitativeReportComponents
                         key={quantitativePercentageCategory.id}
                         quantitativePercentageCategory={quantitativePercentageCategory}
+                        quantitativePercentageCategoryIndex={index}
                       />
                     )
                   }

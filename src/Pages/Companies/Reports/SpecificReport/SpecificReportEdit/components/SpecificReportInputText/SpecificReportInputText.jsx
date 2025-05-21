@@ -1,9 +1,12 @@
 import { Input } from 'antd'
 import React from 'react'
-import { useFormikContext } from 'formik'
+import { useFormikContext, getIn } from 'formik'
 
 export const SpecificReportInputText = ({ name, label }) => {
   const formik = useFormikContext()
+  const value = getIn(formik.values, name)
+  const error = getIn(formik.errors, name)
+  const touched = getIn(formik.touched, name)
 
   return (
     <div className="focus-within:border-primary rounded-lg p-[16px] border border-1 focus-withing:border-primary">
@@ -16,14 +19,12 @@ export const SpecificReportInputText = ({ name, label }) => {
         type="text"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values[name]}
-        status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
+        value={value}
+        status={touched && error ? 'error' : 'success'}
         className="w-full border-none mt-[8px] p-0 text-[1em] text-base  font-medium leading-[24px] text-darkBlack overflow-hidden"
       />
       <div className="mt-1">
-        {formik.touched[name] && formik.errors[name] ? (
-          <div className="text-[#ff0000]">{formik.errors[name]}</div>
-        ) : null}
+        {touched && error ? <div className="text-[#ff0000]">{error}</div> : null}
       </div>
     </div>
   )
