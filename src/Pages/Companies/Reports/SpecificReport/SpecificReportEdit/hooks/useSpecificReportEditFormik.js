@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
@@ -34,7 +34,23 @@ export const useSpecificReportEditFormik = () => {
       annualRevenue: Yup.string().required(),
       noOfEmployees: Yup.string().required(),
       GHGEmissions: Yup.string().required(),
-      quantitativePercentages: Yup.array()
+
+      quantitativePercentages: Yup.array().of(
+        Yup.object().shape({
+          id: Yup.string().required(),
+          name: Yup.string().required(),
+          value: Yup.number().min(0).max(100),
+          components: Yup.array()
+            .of(
+              Yup.object().shape({
+                id: Yup.string().required(),
+                name: Yup.string().required(),
+                value: Yup.number().min(0).max(100).required()
+              })
+            )
+            .required('Quantitative percentage components are required')
+        })
+      )
     }),
     onSubmit: async (values) => {
       await handleUpdateReport(values)
