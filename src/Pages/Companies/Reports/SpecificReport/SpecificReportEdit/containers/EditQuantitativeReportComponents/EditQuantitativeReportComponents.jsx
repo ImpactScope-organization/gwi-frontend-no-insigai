@@ -7,9 +7,9 @@ export const EditQuantitativeReportComponents = ({
 }) => {
   return (
     <div className="card_shadow rounded-2xl py-4 px-3 flex flex-col gap-4">
-      <h5 className="text-[18px] leading-[24px] font-[600]">
+      <h3 className="text-[18px] leading-[24px] font-[600]">
         {quantitativePercentageCategory.name}
-      </h5>
+      </h3>
 
       {quantitativePercentageCategory.components.map((component, componentIndex) => (
         <div key={component.id}>
