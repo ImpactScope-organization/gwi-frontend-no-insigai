@@ -1,20 +1,19 @@
-import axios from 'axios'
-import apiUrl from '../utils/baseURL'
+import { getApi } from '../utils/api'
 
 class ReportService {
   async getCompanyReport(companyId) {
-    const { data } = await axios.get(`${apiUrl}/api/report/${companyId}`)
+    const { data } = await (await getApi()).get(`/api/report/${companyId}`)
     return data?.result
   }
   async getReportByReportQueueId(reportQueueId) {
-    const { data } = await axios.get(
-      `${apiUrl}/api/report/getReportByReportQueueId/${reportQueueId}`
-    )
+    const { data } = await (
+      await getApi()
+    ).get(`/api/report/getReportByReportQueueId/${reportQueueId}`)
     return data?.result
   }
 
   async getAllInitializedReport() {
-    const { data } = await axios.get(`${apiUrl}/api/report/all`)
+    const { data } = await (await getApi()).get(`/api/report/all`)
     return data?.results
   }
 
@@ -23,7 +22,7 @@ class ReportService {
    * @returns
    */
   async getAllReportsSentToRegulators() {
-    const { data } = await axios.get(`${apiUrl}/api/report/getAllReportsSentToRegulators`)
+    const { data } = await (await getApi()).get(`/api/report/getAllReportsSentToRegulators`)
     return data?.results
   }
 }

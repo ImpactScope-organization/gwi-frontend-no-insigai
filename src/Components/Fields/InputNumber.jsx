@@ -6,11 +6,8 @@ export const InputNumber = ({ name, label, ...props }) => {
   const formik = useFormikContext()
   return (
     <div className="w-full">
-      <label htmlFor={name} className="text-md text-darkBlack mb-1 font-semibold block">
-        {label}
-      </label>
+      <label className="text-md text-darkBlack mb-1 font-semibold block">{label}</label>
       <InputNumberAntd
-        id={name}
         controls={false}
         name={name}
         placeholder={label}

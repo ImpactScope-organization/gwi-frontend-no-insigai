@@ -28,7 +28,7 @@ export const ProcessingReportList = ({ data }) => {
             key={`report_queue_list_item_${report?.id}`}
           >
             <CategorizedListItemDate>{handleDateFormat(report?.createdAt)}</CategorizedListItemDate>
-            <CategorizedListItemTitle>{report?.companyName}</CategorizedListItemTitle>
+            <CategorizedListItemTitle>{report?.title}</CategorizedListItemTitle>
             <CategorizedListItemCategoryContainer>
               Status:
               <CategorizedListItemCategory>{report?.status}</CategorizedListItemCategory>

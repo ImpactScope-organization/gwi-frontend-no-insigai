@@ -2,15 +2,12 @@ import { Input } from 'antd'
 import React from 'react'
 import { useFormikContext } from 'formik'
 
-export const InputText = ({ name, label }) => {
+export const InputText = ({ name, label, disabled = false }) => {
   const formik = useFormikContext()
   return (
     <div className="w-full">
-      <label htmlFor={name} className="text-md text-darkBlack mb-1 font-semibold block">
-        {label}
-      </label>
+      <label className="text-md text-darkBlack mb-1 font-semibold block">{label}</label>
       <Input
-        id={name}
         name={name}
         placeholder={label}
         type="text"
@@ -18,6 +15,7 @@ export const InputText = ({ name, label }) => {
         onBlur={formik.handleBlur}
         value={formik.values[name]}
         status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
+        disabled={disabled}
       />
       <div className="ml-1">
         {formik.touched[name] && formik.errors[name] ? (

@@ -9,6 +9,8 @@ export const EditPromptSubCategoriesForm = () => {
   const {
     subCategoryName,
     onSubCategoryNameChange,
+    subCategoryReportDatabaseSlug,
+    onSubCategoryReportDatabaseSlugChange,
     createSubCategory,
     subCategories,
     refetchSubCategories
@@ -18,8 +20,13 @@ export const EditPromptSubCategoriesForm = () => {
     <div className="w-full">
       <h2 className="text-darkBlack font-bold text-xl mb-4">Sub Categories</h2>
       <div className="pb-1 w-full flex gap-2">
-        <div className="w-4/5">
+        <div className="w-4/5 flex gap-2">
           <Input placeholder="Name" value={subCategoryName} onChange={onSubCategoryNameChange} />
+          <Input
+            placeholder="Report database slug"
+            value={subCategoryReportDatabaseSlug}
+            onChange={onSubCategoryReportDatabaseSlugChange}
+          />
         </div>
         <div className="w-1/3 xl:w-1/5">
           <SuccessButton icon={<CheckSquareOutlined />} onClick={createSubCategory}>
@@ -32,6 +39,7 @@ export const EditPromptSubCategoriesForm = () => {
         <thead>
           <tr>
             <th>Name</th>
+            <th>Report database slug</th>
             <th>Score</th>
             <th>Weight</th>
             <th>Divider</th>

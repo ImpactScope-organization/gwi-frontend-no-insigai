@@ -5,17 +5,13 @@ import { DynamicTextarea } from '../../components/DynamicTextarea/DynamicTextare
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 import { ReportContentItem } from '../../../components/ReportContentItem'
 import { Sources } from '../../../containers/Sources'
+import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportDetailsCard'
 
 export const EditQualitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
 
   return (
-    <div
-      style={{
-        boxShadow: '0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)'
-      }}
-      className="basis-8/12 max-w-[740px] p-[16px]  mx-auto rounded-2xl "
-    >
+    <ReportDetailsCard>
       <div>
         <h3 className="leading-[24px] text-sm text-reportGrey font-medium">{formattedDate}</h3>
         <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
@@ -23,6 +19,7 @@ export const EditQualitativeReportDetails = () => {
         </h1>
 
         <div className="flex flex-col gap-[16px] mt-[24px]">
+          <SpecificReportInputText name="title" label="Title" />
           <SpecificReportInputText name="jurisdiction" label="Jurisdiction" />
           <SpecificReportInputText name="sector" label="Sector" />
           <SpecificReportInputText name="annualRevenue" label="Annual Revenue" />
@@ -38,6 +35,6 @@ export const EditQualitativeReportDetails = () => {
         displayValue={currentCompanyReport?.potentialInconsistencies}
       />
       <Sources />
-    </div>
+    </ReportDetailsCard>
   )
 }

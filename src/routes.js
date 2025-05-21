@@ -6,6 +6,11 @@ export const ROUTES = {
     create: '/prompts/create',
     edit: '/prompts/:id/edit'
   },
+  clients: {
+    index: '/clients',
+    create: '/clients/create',
+    edit: '/clients/:clientId/edit'
+  },
   companies: {
     index: '/companies',
     create: '/companies/create',
@@ -16,7 +21,10 @@ export const ROUTES = {
       processing: '/companies/:companyId/reports/processing',
       processingDetails: '/companies/:companyId/reports/processing/:reportQueueId',
       index: '/companies/:companyId/reports',
-      create: '/companies/:companyId/reports/create',
+      create: {
+        manual: '/companies/:companyId/reports/create/manual',
+        document: '/companies/:companyId/reports/create/document'
+      },
       report: {
         index: '/companies/:companyId/reports/:reportId',
         edit: '/companies/:companyId/reports/:reportId/edit'

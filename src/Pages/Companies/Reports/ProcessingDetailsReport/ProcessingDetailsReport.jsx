@@ -10,16 +10,18 @@ import { ButtonLink } from '../../../../Components/ButtonLink/ButtonLink'
 
 export const ProcessingDetailsReport = () => {
   const { companyId } = useParams()
-  const { percentage, processText, report, isReportCreated } = useProcessingDetailsReport()
+  const { percentage, report, isReportCreated, processingStatus } = useProcessingDetailsReport()
 
   return (
     <PageContainer>
-      <BackButtonLink
-        to={getRouteWithParams(ROUTES.companies.reports.processing, {
-          companyId
-        })}
-      />
-      <PageHeader title={`Processing ${report?.companyName}`} subTitle={processText} />
+      <div className="mb-8">
+        <BackButtonLink
+          to={getRouteWithParams(ROUTES.companies.reports.processing, {
+            companyId
+          })}
+        />
+      </div>
+      <PageHeader title={`Processing ${report?.companyName}`} subTitle={processingStatus} />
       <div className="flex flex-col items-center justify-center h-full gap-4">
         <Progress percent={percentage} format={(percent) => `${percent}%`} />
         {isReportCreated && (

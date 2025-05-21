@@ -4,22 +4,19 @@ import { ReportMetaItem } from './components/ReportMetaItem'
 import { ReportContentItem } from '../../../components/ReportContentItem'
 import { Sources } from '../../../containers/Sources'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
+import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportDetailsCard'
 
 export const QualitativeReportDetails = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
 
   return (
-    <div
-      style={{
-        boxShadow: '0px 33px 32px -16px rgba(0, 0, 0, 0.10), 0px 0px 16px 4px rgba(0, 0, 0, 0.04)'
-      }}
-      className="basis-8/12 max-w-[740px] p-[16px]  mx-auto rounded-2xl "
-    >
-      <div>
+    <ReportDetailsCard>
+      <div className="flex flex-col gap-2">
         <p className="leading-[24px] text-sm text-reportGrey font-medium">{formattedDate}</p>
-        <h1 className="leading-[64px] text-darkBlack text-2xl font-bold">
-          {currentCompanyReport?.companyName}
-        </h1>
+        <div>
+          <h1 className=" text-darkBlack text-2xl font-bold">{currentCompanyReport?.title}</h1>
+          <p className="text-reportGrey">{currentCompanyReport?.companyName}</p>
+        </div>
 
         <div className="mt-[16px]">
           <ReportMetaItem title="Jurisdiction" content={currentCompanyReport?.jurisdiction} />
@@ -44,6 +41,6 @@ export const QualitativeReportDetails = () => {
         displayValue={currentCompanyReport?.potentialInconsistencies}
       />
       <Sources />
-    </div>
+    </ReportDetailsCard>
   )
 }

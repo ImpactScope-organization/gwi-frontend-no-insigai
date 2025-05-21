@@ -9,6 +9,8 @@ import { useSpecificReportEditFormik } from './hooks/useSpecificReportEditFormik
 import { Form, FormikProvider } from 'formik'
 import { EditQualitativeReportDetails } from './containers/EditQualitativeReportDetails/EditQualitativeReportDetails'
 import { EditQuantitativeReportDetails } from './containers/EditQuantitativeReportDetails/EditQuantitativeReportDetails'
+import { EditReportNavigation } from './containers/EditReportNavigation/EditReportNavigation'
+import { EditQuantitativeReportComponents } from './containers/EditQuantitativeReportComponents/EditQuantitativeReportComponents'
 
 export const SpecificReportEdit = () => {
   const { currentCompanyReportIsLoading } = useCurrentCompanyReport()
@@ -23,18 +25,39 @@ export const SpecificReportEdit = () => {
 
   return (
     <PageContainer>
-      <BackButtonLink to={specificReportURL} />
       <FormikProvider value={editSpecificReportFormik}>
         <Form>
-          <div
-            id="report-container"
-            className="flex flex-col md:flex-row gap-6 max-w-[1120px] mx-auto"
-          >
-            <EditQualitativeReportDetails />
-            <div>
-              <EditQuantitativeReportDetails />
+          <div className="flex justify-between items-center gap-8 mb-8">
+            <div className="w-1/3 lg:w-2/3">
+              <BackButtonLink to={specificReportURL} />
+            </div>
+            <div className="w-2/3 lg:w-1/3">
+              <EditReportNavigation />
+            </div>
+          </div>
 
-              <ReportDocuments />
+          <div id="report-container" className="flex flex-col-reverse lg:flex-row gap-8 mx-auto">
+            <div className="w-full lg:w-2/3">
+              <EditQualitativeReportDetails />
+            </div>
+            <div className="w-full lg:w-1/3">
+              <div className="flex flex-col gap-8">
+                <EditQuantitativeReportDetails />
+
+                {editSpecificReportFormik.values.quantitativePercentages.map(
+                  (quantitativePercentageCategory, index) => {
+                    return (
+                      <EditQuantitativeReportComponents
+                        key={quantitativePercentageCategory.id}
+                        quantitativePercentageCategory={quantitativePercentageCategory}
+                        quantitativePercentageCategoryIndex={index}
+                      />
+                    )
+                  }
+                )}
+
+                <ReportDocuments />
+              </div>
             </div>
           </div>
         </Form>
