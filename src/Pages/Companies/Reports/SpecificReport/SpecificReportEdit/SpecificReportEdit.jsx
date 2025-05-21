@@ -18,7 +18,6 @@ export const SpecificReportEdit = () => {
   const { specificReportURL } = useSpecificReportURL()
 
   const { editSpecificReportFormik } = useSpecificReportEditFormik()
-  console.log(editSpecificReportFormik.values)
 
   if (currentCompanyReportIsLoading) {
     return <LoadingPage title="Please wait..." />
