@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useFillFormik } from '../../../../../../Hooks/useFillFormik'
@@ -9,6 +9,19 @@ import { updateReport } from '../../../api/ReportApi'
 export const useSpecificReportEditFormik = () => {
   const { getCurrentCompanyReport, reportId, currentCompanyReport } = useCurrentCompanyReport()
 
+  const getCompanyReportFieldLabel = useCallback(
+    (fieldName) => {
+      return fieldName
+        .replace(/\[(\d+)\]/g, '.$1') // Convert [0] to .0
+        .replace('value', 'name')
+        .split('.')
+        .reduce(
+          (nestedObject, property) => (nestedObject ? nestedObject[property] : undefined),
+          currentCompanyReport
+        )
+    },
+    [currentCompanyReport]
+  )
   const editSpecificReportFormik = useFormik({
     initialValues: {
       contradiction: '',
@@ -45,7 +58,10 @@ export const useSpecificReportEditFormik = () => {
               Yup.object().shape({
                 id: Yup.string().required(),
                 name: Yup.string().required(),
-                value: Yup.number().min(0).max(100).required()
+                value: Yup.number()
+                  .min(0, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at least 0`)
+                  .max(100, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at most 100`)
+                  .required(({ path }) => `${getCompanyReportFieldLabel(path)} is a required field`)
               })
             )
             .required('Quantitative percentage components are required')
