@@ -9,7 +9,7 @@ export const QuantitativeReportDetailListItem = ({ quantitativePercentage }) => 
     <ReportDetailsCard title={quantitativePercentage.name}>
       <div className="flex flex-col gap-6">
         <div className="w-full px-2 flex justify-center items-center">
-          <GaugeChart percentage={quantitativePercentage.value.toFixed(0)} />
+          <GaugeChart percentage={parseInt(quantitativePercentage.value)} />
         </div>
 
         <Divider className="m-0" />
