@@ -6,7 +6,13 @@ import { Divider } from 'antd'
 
 export const QuantitativeReportDetailListItem = ({ quantitativePercentage }) => {
   const percentage = useMemo(
-    () => parseInt(quantitativePercentage.components.reduce((acc, item) => acc + item.value, 0)),
+    () =>
+      parseInt(
+        quantitativePercentage.components.reduce(
+          (currentPercentage, component) => currentPercentage + component.value,
+          0
+        )
+      ),
     [quantitativePercentage]
   )
 
