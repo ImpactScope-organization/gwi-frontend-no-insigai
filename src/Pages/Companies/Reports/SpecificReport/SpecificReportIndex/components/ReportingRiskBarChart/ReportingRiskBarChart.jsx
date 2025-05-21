@@ -6,7 +6,7 @@ export const ReportingRiskBarChart = ({ percentage, title }) => {
 
   return (
     <ReportingRiskItem title={title}>
-      <div class="flex gap-2">
+      <div className="flex gap-2">
         <div className="flex flex-row items-center gap-[4px] flex-nowrap">
           {percentageItems.map((_item, index) => {
             return (
