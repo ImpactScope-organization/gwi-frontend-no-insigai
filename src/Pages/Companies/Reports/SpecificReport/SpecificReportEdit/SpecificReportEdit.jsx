@@ -42,7 +42,6 @@ export const SpecificReportEdit = () => {
             </div>
             <div className="w-full lg:w-1/3">
               <div className="flex flex-col gap-8">
-                {/* todo remove when removable */}
                 <EditQuantitativeReportDetails />
 
                 {editSpecificReportFormik.values.quantitativePercentages.map(
