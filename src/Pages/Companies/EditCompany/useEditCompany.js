@@ -13,7 +13,6 @@ export const useEditCompany = () => {
     initialValues: {
       name: '',
       companyId: '',
-      xURL: '', // todo array
       twitterPages: [],
       isin: '',
       jurisdiction: '',
@@ -25,7 +24,6 @@ export const useEditCompany = () => {
     validationSchema: Yup.object({
       name: Yup.string().required(),
       companyId: Yup.string().required(),
-      xURL: Yup.string().required(),
       twitterPages: Yup.array().of(Yup.string()),
       isin: Yup.string(), // todo make it required when all companies are able to transfer
       jurisdiction: Yup.string().required(),
