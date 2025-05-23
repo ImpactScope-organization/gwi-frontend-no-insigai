@@ -1,5 +1,5 @@
 import { Input } from 'antd'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { useFormikContext } from 'formik'
 import { SuccessButton } from '../Buttons/SuccessButton'
 import { TagWithClose } from '../TagWithClose/TagWithClose'
@@ -9,7 +9,7 @@ export const InputArrayText = ({ name, label, disabled = false }) => {
 
   const formik = useFormikContext()
 
-  const formikValues = formik.values[name] || []
+  const formikValues = useMemo(() => formik.values[name] || [], [])
 
   const addItem = useCallback(() => {
     if (value.trim() === '') return
