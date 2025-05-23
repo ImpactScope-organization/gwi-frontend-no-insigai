@@ -13,7 +13,8 @@ export const useEditCompany = () => {
     initialValues: {
       name: '',
       companyId: '',
-      xURL: '',
+      xURL: '', // todo array
+      twitterPages: [],
       isin: '',
       jurisdiction: '',
       sector: '',
@@ -25,6 +26,7 @@ export const useEditCompany = () => {
       name: Yup.string().required(),
       companyId: Yup.string().required(),
       xURL: Yup.string().required(),
+      twitterPages: Yup.array().of(Yup.string()),
       isin: Yup.string(), // todo make it required when all companies are able to transfer
       jurisdiction: Yup.string().required(),
       sector: Yup.string().required(),

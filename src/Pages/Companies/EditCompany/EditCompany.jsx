@@ -7,6 +7,7 @@ import React from 'react'
 import { useEditCompany } from './useEditCompany'
 import { useGetCompany } from '../api/CompanyApiQuery'
 import { useAccessContext } from '../../../Context/AccessContext'
+import { InputArrayText } from '../../../Components/Fields/InputArrayText'
 
 export const EditCompany = () => {
   const { companyId, company } = useGetCompany()
@@ -28,6 +29,7 @@ export const EditCompany = () => {
                 <InputText name="name" label="Name" />
                 <InputText name="companyId" label="Company Id" />
                 <InputText name="xURL" label="X URL" />
+                <InputArrayText name="twitterPages" label="Twitter Pages" />
                 <InputText name="isin" label="ISIN" />
                 <InputText name="jurisdiction" label="Jurisdiction" />
                 <InputText name="sector" label="Sector" />

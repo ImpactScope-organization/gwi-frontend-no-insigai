@@ -16,6 +16,7 @@ export const useCreateCompany = () => {
       companyId: '',
       isin: '',
       xURL: '',
+      twitterPages: [],
       jurisdiction: '',
       sector: '',
       annualRevenue: '',
@@ -26,7 +27,8 @@ export const useCreateCompany = () => {
       name: Yup.string().required(),
       companyId: Yup.string().required(),
       isin: Yup.string().required(),
-      xURL: Yup.string().required(),
+      xURL: Yup.string().required(), // todo array
+      twitterPages: Yup.array().of(Yup.string()),
       jurisdiction: Yup.string().required(),
       sector: Yup.string().required(),
       annualRevenue: Yup.string().required(),
