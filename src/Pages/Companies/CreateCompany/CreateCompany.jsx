@@ -6,6 +6,7 @@ import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
 import { CheckSquareFilled } from '@ant-design/icons'
 import React from 'react'
 import { useCreateCompany } from './useCreateCompany'
+import { InputArrayText } from '../../../Components/Fields/InputArrayText'
 
 export const CreateCompany = () => {
   const { createCompanyFormik } = useCreateCompany()
@@ -20,6 +21,7 @@ export const CreateCompany = () => {
                 <InputText name="name" label="Name" />
                 <InputText name="companyId" label="Company Id" />
                 <InputText name="xURL" label="X URL" />
+                <InputArrayText name="twitterPages" label="Twitter Pages" />
                 <InputText name="isin" label="ISIN" />
                 <InputText name="jurisdiction" label="Jurisdiction" />
                 <InputText name="sector" label="Sector" />

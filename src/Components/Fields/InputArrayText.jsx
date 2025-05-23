@@ -32,7 +32,7 @@ export const InputArrayText = ({ name, label, disabled = false }) => {
       <div className="relative mb-4">
         <Input
           name={name}
-          placeholder={label}
+          placeholder={'Add new item'}
           type="text"
           onChange={(e) => setValue(e.target.value)}
           onBlur={formik.handleBlur}
