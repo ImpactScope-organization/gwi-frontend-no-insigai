@@ -19,8 +19,8 @@ export const InputArrayText = ({ name, label, disabled = false }) => {
   }, [formik, formikValues, name, value])
 
   const removeItem = useCallback(
-    (itemToRemove) => {
-      const newValues = formikValues.filter((item) => item !== itemToRemove)
+    (indexToRemove) => {
+      const newValues = formikValues.filter((_, index) => index !== indexToRemove)
       formik.setFieldValue(name, newValues)
     },
     [formik, formikValues, name]
@@ -44,12 +44,12 @@ export const InputArrayText = ({ name, label, disabled = false }) => {
           Add
         </SuccessButton>
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4">
         {formikValues.map((item, index) => (
           <TagWithClose
             key={`input_array_item_${name}_${index}`}
             tag={item}
-            onClose={() => removeItem(item)}
+            onClose={() => removeItem(index)}
           />
         ))}
       </div>
