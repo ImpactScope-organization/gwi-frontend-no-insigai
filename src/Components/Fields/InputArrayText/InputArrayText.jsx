@@ -1,30 +1,14 @@
 import { Input } from 'antd'
-import React, { useCallback, useMemo, useState } from 'react'
+import React from 'react'
 import { useFormikContext } from 'formik'
-import { SuccessButton } from '../Buttons/SuccessButton'
-import { TagWithClose } from '../TagWithClose/TagWithClose'
+import { SuccessButton } from '../../Buttons/SuccessButton'
+import { TagWithClose } from '../../TagWithClose/TagWithClose'
+import { useInputArrayText } from './useInputArrayText'
 
 export const InputArrayText = ({ name, label, disabled = false, placeholder }) => {
-  const [value, setValue] = useState('')
-
   const formik = useFormikContext()
 
-  const formikValues = useMemo(() => formik.values[name] || [], [formik, name])
-
-  const addItem = useCallback(() => {
-    if (value.trim() === '') return
-    const newValues = [...formikValues, value]
-    formik.setFieldValue(name, newValues)
-    setValue('')
-  }, [formik, formikValues, name, value])
-
-  const removeItem = useCallback(
-    (indexToRemove) => {
-      const newValues = formikValues.filter((_, index) => index !== indexToRemove)
-      formik.setFieldValue(name, newValues)
-    },
-    [formik, formikValues, name]
-  )
+  const { value, setValue, formikValues, addItem, removeItem } = useInputArrayText({ name })
 
   return (
     <div className="w-full">

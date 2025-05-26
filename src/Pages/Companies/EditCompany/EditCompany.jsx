@@ -7,7 +7,7 @@ import React from 'react'
 import { useEditCompany } from './useEditCompany'
 import { useGetCompany } from '../api/CompanyApiQuery'
 import { useAccessContext } from '../../../Context/AccessContext'
-import { InputArrayText } from '../../../Components/Fields/InputArrayText'
+import { InputArrayText } from '../../../Components/Fields/InputArrayText/InputArrayText'
 
 export const EditCompany = () => {
   const { companyId, company } = useGetCompany()
