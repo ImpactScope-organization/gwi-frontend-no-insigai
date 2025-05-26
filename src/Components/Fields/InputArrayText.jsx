@@ -40,7 +40,7 @@ export const InputArrayText = ({ name, label, disabled = false }) => {
           status={formik.touched[name] && formik.errors[name] ? 'error' : 'success'}
           disabled={disabled}
         />
-        <SuccessButton type="button" onClick={addItem} rootClassName="absolute top-0 right-0 w-24">
+        <SuccessButton type="button" onClick={addItem} rootClassName="absolute top-0 right-0 w-20">
           Add
         </SuccessButton>
       </div>
