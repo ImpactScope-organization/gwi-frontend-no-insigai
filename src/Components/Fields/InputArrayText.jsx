@@ -4,7 +4,7 @@ import { useFormikContext } from 'formik'
 import { SuccessButton } from '../Buttons/SuccessButton'
 import { TagWithClose } from '../TagWithClose/TagWithClose'
 
-export const InputArrayText = ({ name, label, disabled = false }) => {
+export const InputArrayText = ({ name, label, disabled = false, placeholder }) => {
   const [value, setValue] = useState('')
 
   const formik = useFormikContext()
@@ -32,7 +32,7 @@ export const InputArrayText = ({ name, label, disabled = false }) => {
       <div className="relative mb-4">
         <Input
           name={name}
-          placeholder={'Add new item'}
+          placeholder={placeholder ? placeholder : 'Add new item'}
           type="text"
           onChange={(e) => setValue(e.target.value)}
           onBlur={formik.handleBlur}
