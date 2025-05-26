@@ -9,7 +9,7 @@ export const InputArrayText = ({ name, label, disabled = false }) => {
 
   const formik = useFormikContext()
 
-  const formikValues = useMemo(() => formik.values[name] || [], [])
+  const formikValues = useMemo(() => formik.values[name] || [], [formik, name])
 
   const addItem = useCallback(() => {
     if (value.trim() === '') return
