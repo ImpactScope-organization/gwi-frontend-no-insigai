@@ -43,9 +43,9 @@ export const ReportContainer = ({ children }) => {
         </div>
       </PageHeaderWithBackButton>
 
-      {/* Tabs Container */}
-      <PageContentContainer>
-        <RoleRender role={ROLES.ADMIN}>
+      <RoleRender role={ROLES.ADMIN}>
+        {/* Tabs Container */}
+        <PageContentContainer>
           <PageTab
             to={getCompanyRouteByRole({
               companyId
@@ -53,15 +53,13 @@ export const ReportContainer = ({ children }) => {
           >
             Internal reports
           </PageTab>
-        </RoleRender>
-        <PageTab
-          to={getRouteWithParams(ROUTES.companies.reports.regulator, {
-            companyId
-          })}
-        >
-          Sent to regulator
-        </PageTab>
-        <RoleRender role={ROLES.ADMIN}>
+          <PageTab
+            to={getRouteWithParams(ROUTES.companies.reports.regulator, {
+              companyId
+            })}
+          >
+            Sent to regulator
+          </PageTab>
           <PageTab
             to={getRouteWithParams(ROUTES.companies.reports.processing, {
               companyId
@@ -69,8 +67,8 @@ export const ReportContainer = ({ children }) => {
           >
             Processing reports
           </PageTab>
-        </RoleRender>
-      </PageContentContainer>
+        </PageContentContainer>
+      </RoleRender>
 
       {/* Reports Container */}
       <CategorizedListContainer>{children}</CategorizedListContainer>
