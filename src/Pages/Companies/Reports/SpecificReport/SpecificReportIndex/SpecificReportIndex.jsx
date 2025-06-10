@@ -14,6 +14,7 @@ import { useAccessContext } from '../../../../../Context/AccessContext'
 import { ReportNavigation } from './containers/ReportNavigation/ReportNavigation'
 import { ReportInfo } from './containers/ReportInfo/ReportInfo'
 import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
+import { CaseCommentary } from './containers/CaseCommentary/CaseCommentary'
 
 export const SpecificReportIndex = () => {
   const { companyId } = useParams()
@@ -59,6 +60,7 @@ export const SpecificReportIndex = () => {
               <ReportDocuments />
               <ReportVisibility />
             </RoleRender>
+            <CaseCommentary />
           </div>
         </div>
       </div>
