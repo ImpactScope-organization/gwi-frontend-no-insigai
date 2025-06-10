@@ -6,7 +6,7 @@ export const DynamicTextarea = ({ label, name }) => {
   const formik = useFormikContext()
 
   return (
-    <div className={`group bg-white border border-1 p-3 rounded-lg mt-[32px] mb-[16px]`}>
+    <div className={`group bg-white border border-1 p-3 rounded-lg`}>
       <h3 className="text-reportGrey text-[1em] text-base font-medium mb-2">{label}</h3>
 
       <CustomReactQuillFormik name={name} placeholder={label} />
