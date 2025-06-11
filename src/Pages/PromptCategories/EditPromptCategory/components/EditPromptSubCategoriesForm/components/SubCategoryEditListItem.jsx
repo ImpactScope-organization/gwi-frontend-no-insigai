@@ -18,7 +18,6 @@ export const SubCategoryEditListItem = ({
 
   const handleUpdate = useCallback(
     async (values) => {
-      console.log(values)
       await updatePromptCategory(id, values)
       await refetchSubCategories()
       toast.success('Sub category updated successfully')

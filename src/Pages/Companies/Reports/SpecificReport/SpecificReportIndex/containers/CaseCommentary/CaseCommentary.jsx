@@ -9,8 +9,6 @@ import { SuccessButton } from '../../../../../../../Components/Buttons/SuccessBu
 export const CaseCommentary = () => {
   const { comments, caseCommentaryFormik } = useCaseCommentary()
 
-  console.log('CaseCommentary comments:', comments)
-
   return (
     <ReportDetailsCard title="Case Commentary">
       <div className="flex gap-4 flex-col">
