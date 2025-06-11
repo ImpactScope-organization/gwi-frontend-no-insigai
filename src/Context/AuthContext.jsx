@@ -14,7 +14,7 @@ const AuthContext = createContext({
     clientIds: [],
     email: undefined
   },
-  isUserIdMatching: () => {}
+  isUserIdMatching: (userId) => {}
 })
 
 export const AuthProvider = ({ children }) => {
