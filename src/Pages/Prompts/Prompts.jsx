@@ -13,9 +13,11 @@ import { CategorizedListItemTitle } from '../../Components/CategorizedList/Categ
 import { CategorizedListItemCategoryContainer } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategoryContainer'
 import { CategorizedListItemCategory } from '../../Components/CategorizedList/CategorizedListItemLink/CategorizedListItemCategory'
 import { PageTab } from '../../Components/Page/PageTab/PageTab'
+import { ToggleButton } from '../../Components/Buttons/ToggleButton'
+import { FormHeading } from '../../Components/Text/FormHeading'
 
 export const Prompts = () => {
-  const { prompts } = usePrompts()
+  const { filteredPrompts, filter, setFilter, filterOptions } = usePrompts()
 
   return (
     <PageContainer>
@@ -28,9 +30,24 @@ export const Prompts = () => {
         <PageTab to={ROUTES.promptCategories.index}>Prompt Categories</PageTab>
       </PageContentContainer>
 
+      <div className="mb-4 pb-4 border-b-2 border-gray-200 border-solid">
+        <FormHeading>Filters</FormHeading>
+        <div className="flex gap-4">
+          {filterOptions.map((option) => (
+            <ToggleButton
+              key={option.value}
+              isActive={filter === option.value}
+              onClick={() => setFilter(option.value)}
+            >
+              {option.label}
+            </ToggleButton>
+          ))}
+        </div>
+      </div>
+
       <PageContentContainer>
         <CategorizedListContainer>
-          {prompts.map((prompt) => (
+          {filteredPrompts.map((prompt) => (
             <CategorizedListItemLink
               to={getRouteWithId(ROUTES.prompts.edit, prompt?.id)}
               key={`prompt_list_item_${prompt.id}`}
