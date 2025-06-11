@@ -19,9 +19,7 @@ export const useCaseCommentary = () => {
     }),
     onSubmit: async (values) => {
       await createReportComment(reportId, values)
-      // todo toast success
       caseCommentaryFormik.resetForm()
-      // todo refetch comments
       await refetchReportComments()
 
       toast.success('Comment added successfully!')
