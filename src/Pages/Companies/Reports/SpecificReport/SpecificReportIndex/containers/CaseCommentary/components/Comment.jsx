@@ -15,10 +15,8 @@ export const Comment = ({ comment }) => {
   return (
     <div className={`flex flex-col gap-2 p-2 rounded-md shadow-sm ${backgroundColor}`}>
       <div className="text-sm text-gray-500">{formattedDate}</div>
-      <div className="text-base" dangerouslySetInnerHTML={{ __html: comment.text }} />
-      {comment.user && (
-        <div className="text-sm text-gray-500 text-right">by {comment.user.email}</div>
-      )}
+      <div className="text-base" dangerouslySetInnerHTML={{ __html: comment.comment }} />
+      {comment.user && <div className="text-sm text-gray-500 text-right">by {comment.userId}</div>}
     </div>
   )
 }
