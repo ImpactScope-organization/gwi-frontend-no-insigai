@@ -13,7 +13,8 @@ const AuthContext = createContext({
     roles: [],
     clientIds: [],
     email: undefined
-  }
+  },
+  isUserIdMatching: (userId) => {}
 })
 
 export const AuthProvider = ({ children }) => {
@@ -61,21 +62,30 @@ export const AuthProvider = ({ children }) => {
 
   const userInfo = useMemo(() => {
     if (!!accessToken) {
-      const { roles, clientIds, email } = jwtDecode(accessToken)
+      const { roles, clientIds, email, id } = jwtDecode(accessToken)
 
       return {
         roles,
         clientIds,
-        email
+        email,
+        id
       }
     }
 
     return {
       roles: [],
       clientIds: [],
-      email: undefined
+      email: undefined,
+      id: undefined
     }
   }, [accessToken])
+
+  const isUserIdMatching = useCallback(
+    (userId) => {
+      return userInfo?.id === userId
+    },
+    [userInfo]
+  )
 
   return (
     <AuthContext.Provider
@@ -86,7 +96,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         accessToken,
         refreshToken,
-        userInfo
+        userInfo,
+        isUserIdMatching
       }}
     >
       {children}
