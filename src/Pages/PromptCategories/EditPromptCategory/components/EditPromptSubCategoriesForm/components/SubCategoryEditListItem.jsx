@@ -8,10 +8,9 @@ import { InputText } from '../../../../../../Components/Fields/InputText'
 import { DangerButton } from '../../../../../../Components/Buttons/DangerButton'
 import { EditButton } from '../../../../../../Components/Buttons/EditButton'
 import { toast } from 'react-toastify'
-import { InputNumber } from '../../../../../../Components/Fields/InputNumber'
 
 export const SubCategoryEditListItem = ({
-  subCategory: { id, name, score, weight, divider, reportDatabaseSlug },
+  subCategory: { id, name, reportDatabaseSlug },
   refetchSubCategories
 }) => {
   const [{ confirm }, modalContent] = Modal.useModal()
@@ -41,16 +40,13 @@ export const SubCategoryEditListItem = ({
   return (
     <tr className="hover:bg-green-100">
       <Formik
-        initialValues={{ updateName: name, score, weight, divider, reportDatabaseSlug }}
+        initialValues={{ updateName: name, reportDatabaseSlug }}
         onSubmit={async (values, { resetForm }) => {
           await handleUpdate(values)
           resetForm()
         }}
         validationSchema={Yup.object({
           updateName: Yup.string().required('Name is required'),
-          score: Yup.number().required('Score is required'),
-          weight: Yup.number().required('Weight is required'),
-          divider: Yup.number().required('Divider is required'),
           reportDatabaseSlug: Yup.string().required('Report database slug is required')
         })}
         enableReinitialize
@@ -62,15 +58,6 @@ export const SubCategoryEditListItem = ({
             </td>
             <td className="pr-2">
               <InputText name="reportDatabaseSlug" />
-            </td>
-            <td className="pr-2">
-              <InputNumber name="score" />
-            </td>
-            <td className="pr-2">
-              <InputNumber name="weight" />
-            </td>
-            <td className="pr-2">
-              <InputNumber name="divider" />
             </td>
             <td className="flex gap-2 py-4 justify-end">
               <EditButton onClick={() => submitForm()}>Update</EditButton>
