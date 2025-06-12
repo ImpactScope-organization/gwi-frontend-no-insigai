@@ -5,16 +5,15 @@ import { ReportingRiskBarChart } from '../../../components/ReportingRiskBarChart
 import { Divider } from 'antd'
 
 export const QuantitativeReportDetailListItem = ({ quantitativePercentage }) => {
-  const percentage = useMemo(
-    () =>
-      parseInt(
-        quantitativePercentage.components.reduce(
-          (currentPercentage, component) => currentPercentage + component.value,
-          0
-        )
-      ),
-    [quantitativePercentage]
-  )
+  const percentage = useMemo(() => {
+    const { components } = quantitativePercentage
+    if (!components.length) return 0
+    const sum = components.reduce(
+      (currentPercentage, component) => currentPercentage + component.value,
+      0
+    )
+    return Math.round((sum / components.length) * 100)
+  }, [quantitativePercentage])
 
   return (
     <ReportDetailsCard title={quantitativePercentage.name}>
@@ -30,7 +29,7 @@ export const QuantitativeReportDetailListItem = ({ quantitativePercentage }) => 
             <ReportingRiskBarChart
               key={quantitativePercentageComponent.id}
               title={quantitativePercentageComponent.name}
-              percentage={quantitativePercentageComponent.value}
+              percentage={quantitativePercentageComponent.value * 100}
             />
           ))}
         </div>

@@ -19,7 +19,7 @@ export const ReportingRiskBarChart = ({ percentage, title }) => {
             )
           })}
         </div>
-        <div className="text-darkBlack text-[1em] text-base font-medium w-8 text-right">
+        <div className="text-darkBlack text-[1em] text-base font-medium w-12 text-right">
           {parseInt(percentage)}%
         </div>
       </div>

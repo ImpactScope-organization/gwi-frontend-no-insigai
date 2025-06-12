@@ -40,9 +40,6 @@ export const EditPromptSubCategoriesForm = () => {
           <tr>
             <th>Name</th>
             <th>Report database slug</th>
-            <th>Score</th>
-            <th>Weight</th>
-            <th>Divider</th>
             <th></th>
           </tr>
         </thead>
