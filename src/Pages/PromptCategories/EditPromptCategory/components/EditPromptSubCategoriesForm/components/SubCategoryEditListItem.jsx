@@ -42,7 +42,10 @@ export const SubCategoryEditListItem = ({
       <Formik
         initialValues={{ updateName: name, reportDatabaseSlug }}
         onSubmit={async (values, { resetForm }) => {
-          await handleUpdate(values)
+          await handleUpdate({
+            ...values,
+            name: values.updateName
+          })
           resetForm()
         }}
         validationSchema={Yup.object({
