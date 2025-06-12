@@ -52,7 +52,6 @@ export const useSpecificReportEditFormik = () => {
         Yup.object().shape({
           id: Yup.string().required(),
           name: Yup.string().required(),
-          value: Yup.number().min(0).max(100),
           components: Yup.array()
             .of(
               Yup.object().shape({
@@ -60,7 +59,7 @@ export const useSpecificReportEditFormik = () => {
                 name: Yup.string().required(),
                 value: Yup.number()
                   .min(0, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at least 0`)
-                  .max(100, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at most 100`)
+                  .max(1, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at most 1`)
                   .required(({ path }) => `${getCompanyReportFieldLabel(path)} is a required field`)
               })
             )
