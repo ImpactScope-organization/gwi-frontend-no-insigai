@@ -13,7 +13,7 @@ export const ReportDocuments = () => {
 
   const regulatorDocuments = useMemo(
     () => currentCompanyReport?.documents?.filter((document) => document.type !== 'merge'),
-    [currentCompanyReport?.documents]
+    [currentCompanyReport]
   )
 
   return (
