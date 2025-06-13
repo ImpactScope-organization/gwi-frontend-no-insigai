@@ -13,7 +13,7 @@ export const ReportDocumentItem = ({ name, s3Path }) => {
 
   return (
     <div
-      className={`flex flex-row flex-nowrap justify-start items-center gap-2 rounded-2xl ${s3Path ? 'cursor-pointer bg-gray-100 hover:bg-gray-200 p-2' : ''}`}
+      className={`flex flex-row flex-nowrap justify-start items-center gap-2 rounded-2xl p-2 bg-gray-100 ${s3Path ? 'cursor-pointer hover:bg-gray-200' : ''}`}
       onClick={handleDownload}
     >
       <img src="/assets/xls-icon.svg" alt="xls-icon" />
