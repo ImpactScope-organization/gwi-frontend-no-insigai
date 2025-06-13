@@ -59,7 +59,7 @@ export const useSpecificReportEditFormik = () => {
                 name: Yup.string().required(),
                 value: Yup.number()
                   .min(0, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at least 0`)
-                  .max(1, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at most 1`)
+                  .max(1, ({ path }) => `${getCompanyReportFieldLabel(path)} must be at most 100`)
                   .required(({ path }) => `${getCompanyReportFieldLabel(path)} is a required field`)
               })
             )

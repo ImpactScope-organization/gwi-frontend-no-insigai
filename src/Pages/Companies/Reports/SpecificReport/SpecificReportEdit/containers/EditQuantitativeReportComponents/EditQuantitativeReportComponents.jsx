@@ -1,5 +1,5 @@
 import React from 'react'
-import { SpecificReportInputText } from '../../components/SpecificReportInputText/SpecificReportInputText'
+import { SpecificReportInputPercentage } from '../../components/SpecificReportInputText/SpecificReportInputPercentage'
 
 export const EditQuantitativeReportComponents = ({
   quantitativePercentageCategory,
@@ -12,7 +12,7 @@ export const EditQuantitativeReportComponents = ({
       </h3>
 
       {quantitativePercentageCategory.components.map((component, componentIndex) => (
-        <SpecificReportInputText
+        <SpecificReportInputPercentage
           key={component.id}
           name={`quantitativePercentages[${quantitativePercentageCategoryIndex}].components[${componentIndex}].value`}
           label={component.name}

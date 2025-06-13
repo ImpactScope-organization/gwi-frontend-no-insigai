@@ -1,4 +1,4 @@
-import { SpecificReportInputPercentage } from '../../components/SpecificReportInputText/SpecificReportInputPercentage'
+import { SpecificReportInputLegacyPercentage } from '../../components/SpecificReportInputText/SpecificReportInputLegacyPercentage'
 import { SpecificReportInputText } from '../../components/SpecificReportInputText/SpecificReportInputText'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
@@ -11,11 +11,14 @@ export const EditQuantitativeReportDetails = () => {
       <div className="flex flex-col gap-[16px] my-[24px]">
         {currentCompanyReport?.quantitativePercentages?.length === 0 && (
           <>
-            <SpecificReportInputPercentage
+            <SpecificReportInputLegacyPercentage
               name="greenwashRiskPercentage"
               label="Greenwashing risk"
             />
-            <SpecificReportInputPercentage name="reportingRiskPercentage" label="Reporting risk" />
+            <SpecificReportInputLegacyPercentage
+              name="reportingRiskPercentage"
+              label="Reporting risk"
+            />
           </>
         )}
 
