@@ -6,6 +6,7 @@ import { useAccessContext } from '../../../../../../Context/AccessContext'
 
 export const ReportDocuments = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
+
   const {
     userRoles: { isAdmin, isRegulator }
   } = useAccessContext()
