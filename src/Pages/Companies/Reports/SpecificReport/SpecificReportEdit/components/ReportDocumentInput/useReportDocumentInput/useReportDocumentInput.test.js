@@ -8,8 +8,18 @@ const mockFormikContextValue = jest.fn()
 const mockSetFieldValue = jest.fn()
 
 const mock2023Documents = [
-  { documentId: 1, reportType: 'B', year: 2023 },
-  { documentId: 2, reportType: 'A', year: 2023 }
+  {
+    documentId: 1,
+    reportType: 'B',
+    year: 2023,
+    files: [{ type: 'scoresFile', s3Path: 'path/to/scoresFile1' }]
+  },
+  {
+    documentId: 2,
+    reportType: 'A',
+    year: 2023,
+    files: [{ type: 'scoresFile', s3Path: 'path/to/scoresFile2' }]
+  }
 ]
 
 const mock2022Documents = [{ documentId: 3, reportType: 'C', year: 2022 }]
@@ -82,8 +92,8 @@ describe('useReportDocumentInput', () => {
   describe('currentCompanyDocuments', () => {
     it('should list current company documents', () => {
       mockFormikContextValue.mockReturnValue([
-        mockFlattenedCompanyDocuments[0].documentId,
-        mockFlattenedCompanyDocuments[2].documentId
+        mockFlattenedCompanyDocuments[0],
+        mockFlattenedCompanyDocuments[2]
       ])
       const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
@@ -106,21 +116,33 @@ describe('useReportDocumentInput', () => {
         result.current.handleAddDocument()
       })
 
-      expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [1])
+      expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [
+        {
+          documentId: 1,
+          name: '2023_B.xlsx',
+          s3Path: 'path/to/scoresFile1',
+          type: 'reportDocument'
+        }
+      ])
     })
   })
 
   describe('handleRemoveDocument', () => {
     it('should remove a document', () => {
-      mockFormikContextValue.mockReturnValue([1, 2])
+      mockFormikContextValue.mockReturnValue([
+        mockFlattenedCompanyDocuments[0],
+        mockFlattenedCompanyDocuments[2]
+      ])
 
       const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
       act(() => {
-        result.current.handleRemoveDocument(1)
+        result.current.handleRemoveDocument(mockFlattenedCompanyDocuments[0].documentId)
       })
 
-      expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [2])
+      expect(mockSetFieldValue).toHaveBeenCalledWith('documents', [
+        mockFlattenedCompanyDocuments[2]
+      ])
     })
   })
 })
