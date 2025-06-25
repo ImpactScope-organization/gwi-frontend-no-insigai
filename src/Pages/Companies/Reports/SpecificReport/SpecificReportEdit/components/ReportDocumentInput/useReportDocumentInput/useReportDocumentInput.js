@@ -1,6 +1,7 @@
 import { useFormikContext } from 'formik'
 import { useGetCompanyDocuments } from '../../../../../../api/CompanyApiQuery'
 import { useCallback, useMemo, useState } from 'react'
+import { toast } from 'react-toastify'
 
 export const useReportDocumentInput = ({ name }) => {
   const formik = useFormikContext()
@@ -30,6 +31,11 @@ export const useReportDocumentInput = ({ name }) => {
   }, [flattenedCompanyDocuments, formik.values, name])
 
   const handleAddDocument = useCallback(() => {
+    if (formik.values[name].some(({ documentId }) => documentId === yearDocument)) {
+      toast.error('Document already added')
+      return
+    }
+
     const documentBase = flattenedCompanyDocuments.find(
       ({ documentId }) => documentId === yearDocument
     )

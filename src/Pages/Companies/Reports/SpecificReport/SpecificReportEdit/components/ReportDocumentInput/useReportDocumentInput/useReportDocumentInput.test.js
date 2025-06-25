@@ -105,6 +105,22 @@ describe('useReportDocumentInput', () => {
   })
 
   describe('handleAddDocument', () => {
+    it('should not add a document if it already exists', () => {
+      mockFormikContextValue.mockReturnValue([mockFlattenedCompanyDocuments[0]])
+
+      const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
+
+      act(() => {
+        result.current.setYearDocument(mockFlattenedCompanyDocuments[0].documentId)
+      })
+
+      act(() => {
+        result.current.handleAddDocument()
+      })
+
+      expect(mockSetFieldValue).not.toHaveBeenCalled()
+    })
+
     it('should add a document', () => {
       const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
