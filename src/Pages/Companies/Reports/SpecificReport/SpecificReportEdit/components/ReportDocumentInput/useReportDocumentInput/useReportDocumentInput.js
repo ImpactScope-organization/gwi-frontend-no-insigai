@@ -30,9 +30,19 @@ export const useReportDocumentInput = ({ name }) => {
   }, [flattenedCompanyDocuments, formik.values, name])
 
   const handleAddDocument = useCallback(() => {
-    formik.setFieldValue(name, formik.values[name].concat(yearDocument))
+    const documentBase = flattenedCompanyDocuments.find(
+      ({ documentId }) => documentId === yearDocument
+    )
+    const documentToAdd = {
+      documentId: documentBase.documentId,
+      name: `${documentBase.year}_${documentBase.reportType}.xlsx`,
+      s3Path: documentBase.files.find((item) => item.type === 'scoresFile')?.s3Path,
+      type: 'reportDocument'
+    }
+
+    formik.setFieldValue(name, formik.values[name].concat(documentToAdd))
     setYearDocument(undefined)
-  }, [formik, name, yearDocument])
+  }, [flattenedCompanyDocuments, formik, name, yearDocument])
 
   const handleRemoveDocument = useCallback(
     (documentId) => {
