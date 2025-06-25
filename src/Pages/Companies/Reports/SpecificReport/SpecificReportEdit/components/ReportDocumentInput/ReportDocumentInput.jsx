@@ -63,7 +63,7 @@ export const ReportDocumentInput = ({ name }) => {
         <CategorySelectGroupTitle>Documents</CategorySelectGroupTitle>
         <div className="bg-gray-100 p-4 rounded-lg">
           {hasDocuments ? (
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-4">
               {currentCompanyDocuments.map(({ year, title, documentId }) => {
                 return (
                   <div key={`report_document_tag_${documentId}`}>

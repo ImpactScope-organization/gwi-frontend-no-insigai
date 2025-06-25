@@ -48,7 +48,7 @@ export const useReportDocumentInput = ({ name }) => {
     (documentId) => {
       formik.setFieldValue(
         name,
-        formik.values[name].filter((id) => id !== documentId)
+        formik.values[name].filter((item) => item.documentId !== documentId)
       )
     },
     [formik, name]
