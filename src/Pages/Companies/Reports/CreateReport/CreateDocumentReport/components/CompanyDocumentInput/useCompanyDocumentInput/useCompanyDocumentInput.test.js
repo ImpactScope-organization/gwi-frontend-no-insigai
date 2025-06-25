@@ -27,7 +27,7 @@ jest.mock('../../../../../../api/CompanyApiQuery', () => ({
   useGetCompanyDocuments: jest.fn()
 }))
 
-describe('useReportDocumentInput', () => {
+describe('useCompanyDocumentInput', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockFormikContextValue.mockReturnValue([])
