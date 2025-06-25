@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react'
-import { useCompanyDocumentInput } from './useCompanyDocumentInput'
+import { useReportDocumentInput } from './useReportDocumentInput'
 import { useGetCompanyDocuments } from '../../../../../../api/CompanyApiQuery'
 
 const mockInputName = 'documents'
@@ -43,7 +43,7 @@ describe('useReportDocumentInput', () => {
   })
 
   it('should initialize correctly', () => {
-    const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+    const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
     expect(result.current.hasDocuments).toBe(false)
     expect(result.current.companyDocuments).toHaveLength(2)
@@ -52,7 +52,7 @@ describe('useReportDocumentInput', () => {
 
   describe('flattenedCompanyDocuments', () => {
     it('should flatten company documents', () => {
-      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+      const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
       expect(result.current.flattenedCompanyDocuments).toEqual(mockFlattenedCompanyDocuments)
     })
@@ -60,7 +60,7 @@ describe('useReportDocumentInput', () => {
 
   describe('yearDocuments', () => {
     it('should list active year yearDocuments', () => {
-      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+      const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
       act(() => {
         result.current.setYear(2022)
@@ -69,7 +69,7 @@ describe('useReportDocumentInput', () => {
       expect(result.current.yearDocuments).toEqual(mock2022Documents)
     })
     it('should sort yearDocuments', () => {
-      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+      const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
       act(() => {
         result.current.setYear(2023)
@@ -85,7 +85,7 @@ describe('useReportDocumentInput', () => {
         mockFlattenedCompanyDocuments[0].documentId,
         mockFlattenedCompanyDocuments[2].documentId
       ])
-      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+      const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
       expect(result.current.currentCompanyDocuments).toEqual([
         mockFlattenedCompanyDocuments[0],
@@ -96,7 +96,7 @@ describe('useReportDocumentInput', () => {
 
   describe('handleAddDocument', () => {
     it('should add a document', () => {
-      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+      const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
       act(() => {
         result.current.setYearDocument(1)
@@ -114,7 +114,7 @@ describe('useReportDocumentInput', () => {
     it('should remove a document', () => {
       mockFormikContextValue.mockReturnValue([1, 2])
 
-      const { result } = renderHook(() => useCompanyDocumentInput({ name: mockInputName }))
+      const { result } = renderHook(() => useReportDocumentInput({ name: mockInputName }))
 
       act(() => {
         result.current.handleRemoveDocument(1)

@@ -34,7 +34,8 @@ export const useSpecificReportEditFormik = () => {
       annualRevenue: '',
       noOfEmployees: '',
       GHGEmissions: '',
-      quantitativePercentages: []
+      quantitativePercentages: [],
+      documents: []
     },
     validationSchema: Yup.object({
       contradiction: Yup.string().required(),
@@ -65,7 +66,8 @@ export const useSpecificReportEditFormik = () => {
             )
             .required('Quantitative percentage components are required')
         })
-      )
+      ),
+      documents: Yup.array()
     }),
     onSubmit: async (values) => {
       await handleUpdateReport(values)
