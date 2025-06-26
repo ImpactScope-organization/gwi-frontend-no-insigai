@@ -1,12 +1,17 @@
 import { useFormikContext } from 'formik'
 import { useGetCompanyDocuments } from '../../../../../../api/CompanyApiQuery'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-toastify'
 
 export const useReportDocumentInput = ({ name }) => {
   const formik = useFormikContext()
 
-  const { companyDocuments } = useGetCompanyDocuments()
+  const { companyDocuments, refetchCompanyDocuments } = useGetCompanyDocuments()
+
+  useEffect(() => {
+    refetchCompanyDocuments()
+  }, [refetchCompanyDocuments])
+
   const [year, setYear] = useState()
   const [yearDocument, setYearDocument] = useState()
 
