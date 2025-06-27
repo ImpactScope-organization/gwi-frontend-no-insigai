@@ -22,10 +22,10 @@ export const useGetAllReportsSentToRegulators = () => {
   })
 }
 
-export const useGetCompanyReport = (companyId) => {
+export const useGetCompanyReport = (reportId) => {
   return useQuery({
-    queryKey: ['useGetCompanyReport', companyId],
-    queryFn: () => ReportService.getCompanyReport(companyId),
+    queryKey: ['useGetCompanyReport', reportId],
+    queryFn: () => ReportService.getCompanyReport(reportId),
     staleTime: 60000
   })
 }

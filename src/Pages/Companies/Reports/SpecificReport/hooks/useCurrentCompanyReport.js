@@ -10,6 +10,8 @@ export const useCurrentCompanyReport = () => {
     isLoading: currentCompanyReportIsLoading
   } = useGetCompanyReport(reportId)
 
+  console.log(currentCompanyReport)
+
   return {
     getCurrentCompanyReport,
     currentCompanyReport,

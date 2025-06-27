@@ -1,8 +1,8 @@
 import { getApi } from '../utils/api'
 
 class ReportService {
-  async getCompanyReport(companyId) {
-    const { data } = await (await getApi()).get(`/api/report/${companyId}`)
+  async getCompanyReport(reportId) {
+    const { data } = await (await getApi()).get(`/api/report/${reportId}`)
     return data?.result
   }
   async getReportByReportQueueId(reportQueueId) {
