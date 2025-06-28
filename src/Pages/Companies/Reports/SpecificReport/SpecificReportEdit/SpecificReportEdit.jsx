@@ -36,8 +36,6 @@ export const SpecificReportEdit = () => {
             </div>
           </div>
 
-          <div>{JSON.stringify(editSpecificReportFormik.errors)}</div>
-
           <div id="report-container" className="flex flex-col-reverse lg:flex-row gap-8 mx-auto">
             <div className="w-full lg:w-2/3">
               <EditQualitativeReportDetails />

@@ -70,7 +70,9 @@ export const useSpecificReportEditFormik = () => {
       documents: Yup.array().of(
         Yup.object().shape({
           name: Yup.string().required('Document name is required'),
-          type: Yup.string().oneOf(['reportDocument', 'merge']).required('Type is required'),
+          type: Yup.string()
+            .oneOf(['reportDocument', 'merge', 'manual'])
+            .required('Type is required'),
           s3Path: Yup.string().required('S3 path is required'),
           documentId: Yup.string().when('type', {
             is: 'reportDocument',
