@@ -5,13 +5,26 @@ export const useFillFormik = (formik, query) => {
 
   const formikRef = useRef(formik)
 
-  useEffect(() => {
+  const fillFormik = useCallback(async () => {
     if (query && !isFormikFilled) {
-      formikRef.current.setValues(query)
+      await formikRef.current.setValues(query)
 
-      setIsFormikFilled(true)
+      setTimeout(async () => {
+        await formikRef.current.validateForm()
+        await formikRef.current.setTouched(
+          Object.keys(formikRef.current.values).reduce((acc, key) => {
+            acc[key] = true
+            return acc
+          }, {})
+        )
+        setIsFormikFilled(true)
+      }, 100)
     }
-  }, [formikRef, isFormikFilled, query])
+  }, [isFormikFilled, query])
+
+  useEffect(() => {
+    fillFormik()
+  }, [fillFormik, formikRef, isFormikFilled, query])
 
   const resetFormikFilled = useCallback(() => {
     setIsFormikFilled(false)

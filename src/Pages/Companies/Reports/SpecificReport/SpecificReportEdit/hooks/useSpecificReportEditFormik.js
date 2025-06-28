@@ -67,7 +67,20 @@ export const useSpecificReportEditFormik = () => {
             .required('Quantitative percentage components are required')
         })
       ),
-      documents: Yup.array()
+      documents: Yup.array().of(
+        Yup.object().shape({
+          name: Yup.string().required('Document name is required'),
+          type: Yup.string()
+            .oneOf(['reportDocument', 'merge', 'manual'])
+            .required('Type is required'),
+          s3Path: Yup.string().required('S3 path is required'),
+          documentId: Yup.string().when('type', {
+            is: 'reportDocument',
+            then: (schema) => schema.required('documentId is required for report documents'),
+            otherwise: (schema) => schema.notRequired()
+          })
+        })
+      )
     }),
     onSubmit: async (values) => {
       await handleUpdateReport(values)
