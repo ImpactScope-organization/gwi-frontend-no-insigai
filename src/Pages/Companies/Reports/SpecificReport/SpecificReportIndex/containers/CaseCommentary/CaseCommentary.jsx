@@ -24,7 +24,9 @@ export const CaseCommentary = () => {
           <Form>
             <div className="flex gap-4 flex-col">
               <DynamicTextarea label="Comment" name="comment" />
-              <SuccessButton type="submit">Add Comment</SuccessButton>
+              <SuccessButton isLoading={caseCommentaryFormik.isSubmitting} type="submit">
+                Add Comment
+              </SuccessButton>
             </div>
           </Form>
         </FormikProvider>
