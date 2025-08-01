@@ -1,47 +1,11 @@
-import { useFormik } from 'formik'
-import { loginModalScehma } from '../../validation-schema'
-import { toast } from 'react-toastify'
 import RequestLoader from '../../Components/Shared/RequestLoader'
-import { useAuthContext } from '../../Context/AuthContext'
-import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../../routes'
-import { useState } from 'react'
-import { getApi } from '../../utils/api'
 import { AuthPageContainer } from '../../Components/Page/AuthPageContainer/AuthPageContainer'
+import { useLogin } from './useLogin'
 
 export const Login = () => {
-  const [requestLoading, setRequestLoading] = useState(false)
+  const { loginFormik, isLoading } = useLogin()
 
-  const { login } = useAuthContext()
-
-  const navigate = useNavigate()
-
-  const initialValues = {
-    email: '',
-    password: ''
-  }
-
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
-    initialValues,
-    validationSchema: loginModalScehma,
-
-    onSubmit: async (values) => {
-      try {
-        setRequestLoading(true)
-
-        await (await getApi()).post(`/api/auth/login`, values).then(({ data }) => {
-          setRequestLoading(false)
-          toast.success('Logged in Successfully')
-
-          login(data?.result)
-          navigate(ROUTES.companies.index)
-        })
-      } catch (err) {
-        toast.error(err?.response?.data?.message)
-        setRequestLoading(false)
-      }
-    }
-  })
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = loginFormik
 
   return (
     <AuthPageContainer>
@@ -99,7 +63,7 @@ export const Login = () => {
             type="submit"
             className="bg-primary cursor-pointer w-full relative h-[64px]  text-white text-center  rounded-md  py-3 text-lg font-medium"
           >
-            {requestLoading ? <RequestLoader /> : 'Sign in'}
+            {isLoading ? <RequestLoader /> : 'Sign in'}
           </button>
         </div>
       </form>
