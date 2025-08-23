@@ -2,6 +2,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import { useLoading } from '../../Hooks/useLoading'
+import { getApi } from '../../utils/api'
 
 export const useForgotPassword = () => {
   const { isLoading, startLoading, finishLoading } = useLoading()
@@ -17,7 +18,7 @@ export const useForgotPassword = () => {
       try {
         startLoading()
 
-        // const { data } = await (await getApi()).post(`/api/auth/login`, values)
+        const { data } = await (await getApi()).post(`/api/password-reset/send`, values)
         // toast.success('Logged in Successfully')
         // login(data?.result)
         // navigate(ROUTES.companies.index)
