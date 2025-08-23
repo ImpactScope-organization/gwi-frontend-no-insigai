@@ -5,6 +5,8 @@ import { Form, FormikProvider } from 'formik'
 import { InputText } from '../../Components/Fields/InputText'
 import { InputPassword } from '../../Components/Fields/InputPassword'
 import { FilledSuccessButton } from '../../Components/Buttons/FilledSuccessButton'
+import { ButtonLink } from '../../Components/ButtonLink/ButtonLink'
+import { ROUTES } from '../../routes'
 
 export const Login = () => {
   const { loginFormik, isLoading } = useLogin()
@@ -19,6 +21,19 @@ export const Login = () => {
             <FilledSuccessButton type="submit" isLoading={isLoading}>
               Sign in
             </FilledSuccessButton>
+            <div className="flex items-center flex-col gap-5">
+              <div>
+                <a className="text-primary underline" href={ROUTES.b2c.register}>
+                  Forgot password?
+                </a>
+              </div>
+              <div>
+                New to GWI?{' '}
+                <a className="text-primary underline" href={ROUTES.b2c.register}>
+                  Register
+                </a>
+              </div>
+            </div>
           </div>
         </Form>
       </FormikProvider>
