@@ -1,4 +1,5 @@
 import { ROUTES } from '../../../routes'
+import { Link } from 'react-router-dom'
 
 export const AuthPageContainer = ({ children, subTitle }) => (
   <div className="fixed z-20 left-0 top-0 right-0 w-full  overflow-x-hidden overflow-y-auto  h-full bg-white">
@@ -41,9 +42,9 @@ export const AuthPageContainer = ({ children, subTitle }) => (
         <div className="w-[70%] ">
           <div className="">
             <div className="flex justify-center items-center ">
-              <a href={ROUTES.login}>
+              <Link to={ROUTES.login}>
                 <img src="../../assets/__logo.png" alt="logo" className="w-[80px]" />
-              </a>
+              </Link>
               <div className="ml-[10px]">
                 <h1 className="text-lg font-bold leading-5">
                   Greenwashing <br /> Identifier
