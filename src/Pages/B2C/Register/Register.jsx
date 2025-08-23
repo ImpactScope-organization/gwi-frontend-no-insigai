@@ -1,11 +1,13 @@
 import RequestLoader from '../../../Components/Shared/RequestLoader'
 import { AuthPageContainer } from '../../../Components/Page/AuthPageContainer/AuthPageContainer'
 import { useRegister } from './useRegister'
+import { InputText } from '../../../Components/Fields/InputText'
+import { Form, FormikProvider } from 'formik'
+import { InputPassword } from '../../../Components/Fields/InputPassword'
+import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
 
 export const Register = () => {
   const { registerFormik, isLoading } = useRegister()
-
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = registerFormik
 
   return (
     <AuthPageContainer>
@@ -24,49 +26,22 @@ export const Register = () => {
         </h3>
 
         <h4 className="font-BalsamiqSans text-center text-reportGrey text-lg mt-3 ">
-          Sign in to get started
+          Sign up and let's get started
         </h4>
       </div>
 
-      <form onSubmit={handleSubmit} className="w-full mt-5 space-y-3">
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          placeholder="Email"
-          className="p-4 bg-[#f5f4f4] rounded-lg border-none focus:outline-none w-full"
-        />
-
-        {errors.email && touched.email ? (
-          <p className="text-sm text-[#ff0000]">{errors.email}</p>
-        ) : null}
-
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          placeholder="Password"
-          className="p-4 bg-[#f5f4f4] border-none rounded-lg focus:outline-none w-full"
-        />
-        {errors.password && touched.password ? (
-          <p className="text-sm  text-[#ff0000]">{errors.password}</p>
-        ) : null}
-
-        <div className="!mt-10">
-          <button
-            type="submit"
-            className="bg-primary cursor-pointer w-full relative h-[64px]  text-white text-center  rounded-md  py-3 text-lg font-medium"
-          >
-            {isLoading ? <RequestLoader /> : 'Sign in'}
-          </button>
-        </div>
-      </form>
+      <FormikProvider value={registerFormik}>
+        <Form>
+          <div className="w-full mt-5 space-y-5">
+            <InputText name="email" label="E-mail" />
+            <InputPassword name="password" label="Password" />
+            <InputPassword name="passwordAgain" label="Password Again" />
+            <SuccessButton type="submit" isLoading={isLoading}>
+              Sign up
+            </SuccessButton>
+          </div>
+        </Form>
+      </FormikProvider>
     </AuthPageContainer>
   )
 }

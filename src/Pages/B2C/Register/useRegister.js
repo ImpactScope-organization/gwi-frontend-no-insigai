@@ -9,11 +9,15 @@ export const useRegister = () => {
   const registerFormik = useFormik({
     initialValues: {
       email: '',
-      password: ''
+      password: '',
+      passwordAgain: ''
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email address').required('Email is required'),
-      password: Yup.string().required('Password is required')
+      password: Yup.string().required('Password is required'),
+      passwordAgain: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Password is required')
     }),
     onSubmit: async (values) => {
       try {
