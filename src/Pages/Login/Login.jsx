@@ -22,7 +22,7 @@ export const Login = () => {
             </FilledSuccessButton>
             <div className="flex items-center flex-col gap-5">
               <div>
-                <Link className="text-primary underline" to={ROUTES.b2c.register}>
+                <Link className="text-primary underline" to={ROUTES.forgotPassword}>
                   Forgot password?
                 </Link>
               </div>

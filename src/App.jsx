@@ -30,6 +30,7 @@ import { ROLES } from './utils/roles'
 import { AuthRoute } from './Components/Restrict/AuthRoute/AuthRoute'
 import { CreateDocumentReport } from './Pages/Companies/Reports/CreateReport/CreateDocumentReport/CreateDocumentReport'
 import { Register } from './Pages/B2C/Register/Register'
+import { ForgotPassword } from './Pages/ForgotPassword/ForgotPassword'
 
 export const App = () => {
   return (
@@ -82,6 +83,7 @@ export const App = () => {
         </Route>
         <Route path={ROUTES.login} element={<Login />} />
         <Route path={ROUTES.b2c.register} element={<Register />} />
+        <Route path={ROUTES.forgotPassword} element={<ForgotPassword />} />
         <Route path={ROUTES.notFound} element={<NotFound />} />
       </Routes>
     </div>
