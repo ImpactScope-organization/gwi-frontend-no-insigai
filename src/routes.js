@@ -1,5 +1,9 @@
 export const ROUTES = {
   login: '/login',
+  b2c: {
+    index: '/b2c',
+    register: '/b2c/register'
+  },
   home: '/',
   prompts: {
     index: '/prompts',

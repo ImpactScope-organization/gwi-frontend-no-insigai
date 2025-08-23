@@ -2,10 +2,10 @@ import { useLoading } from '../../Hooks/useLoading'
 import { useAuthContext } from '../../Context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
-import { loginModalScehma } from '../../validation-schema'
 import { getApi } from '../../utils/api'
 import { toast } from 'react-toastify'
 import { ROUTES } from '../../routes'
+import * as Yup from 'yup'
 
 export const useLogin = () => {
   const { isLoading, startLoading, finishLoading } = useLoading()
@@ -14,15 +14,15 @@ export const useLogin = () => {
 
   const navigate = useNavigate()
 
-  const initialValues = {
-    email: '',
-    password: ''
-  }
-
   const loginFormik = useFormik({
-    initialValues,
-    validationSchema: loginModalScehma,
-
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      password: Yup.string().required('Password is required')
+    }),
     onSubmit: async (values) => {
       try {
         startLoading()

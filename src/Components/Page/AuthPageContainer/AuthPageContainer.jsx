@@ -10,7 +10,7 @@ export const AuthPageContainer = ({ children }) => (
               target="_blank"
               rel="noreferrer"
             >
-              <img src="./assets/GFIN.svg" alt="logo" />
+              <img src="../../assets/GFIN.svg" alt="logo" />
             </a>
 
             <a
@@ -19,7 +19,7 @@ export const AuthPageContainer = ({ children }) => (
               target="_blank"
               rel="noreferrer"
             >
-              <img src="./assets/AstrLogo.svg" alt="logo" />
+              <img src="../../assets/AstrLogo.svg" alt="logo" />
             </a>
           </div>
           <a
@@ -28,11 +28,11 @@ export const AuthPageContainer = ({ children }) => (
             target="_blank"
             rel="noreferrer"
           >
-            <img src="./assets/AILogo.svg" alt="logo" />
+            <img src="../../assets/AILogo.svg" alt="logo" />
           </a>
         </div>
         <div className="flex  w-full h-full p-20">
-          <img src="./assets/login_sideImage.png" alt="logo" />
+          <img src="../../assets/login_sideImage.png" alt="logo" />
         </div>
       </div>
       <div className="flex justify-center items-center w-full md:w-1/2 h-full">
