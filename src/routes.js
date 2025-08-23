@@ -1,6 +1,7 @@
 export const ROUTES = {
   login: '/login',
   forgotPassword: '/forgot-password',
+  setNewPassword: '/set-new-password',
   b2c: {
     index: '/b2c',
     register: '/b2c/register'
