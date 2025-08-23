@@ -1,4 +1,6 @@
-export const AuthPageContainer = ({ children }) => (
+import { ROUTES } from '../../../routes'
+
+export const AuthPageContainer = ({ children, subTitle }) => (
   <div className="fixed z-20 left-0 top-0 right-0 w-full  overflow-x-hidden overflow-y-auto  h-full bg-white">
     <div className="flex justify-between w-full h-full">
       <div className="hidden md:flex  flex-col bg-[#E3F2DA] w-1/2 gap-4 p-4 ">
@@ -36,7 +38,29 @@ export const AuthPageContainer = ({ children }) => (
         </div>
       </div>
       <div className="flex justify-center items-center w-full md:w-1/2 h-full">
-        <div className="w-[70%] ">{children}</div>
+        <div className="w-[70%] ">
+          <div className="">
+            <div className="flex justify-center items-center ">
+              <a href={ROUTES.login}>
+                <img src="../../assets/__logo.png" alt="logo" className="w-[80px]" />
+              </a>
+              <div className="ml-[10px]">
+                <h1 className="text-lg font-bold leading-5">
+                  Greenwashing <br /> Identifier
+                </h1>
+                <p className="text-sm text-reportGrey ">By ImpactScope</p>
+              </div>
+            </div>
+            <h3 className="text-darkblue mt-8 text-2xl sm:text-3xl md:text-4xl font-[700] text-center leading-[48px]">
+              Welcome to GWI Admin
+            </h3>
+
+            <h4 className="font-BalsamiqSans text-center text-reportGrey text-lg mt-3 ">
+              {subTitle}
+            </h4>
+          </div>
+          <div>{children}</div>
+        </div>
       </div>
     </div>
   </div>
