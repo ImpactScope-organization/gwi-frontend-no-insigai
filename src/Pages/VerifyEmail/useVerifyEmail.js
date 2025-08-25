@@ -1,17 +1,17 @@
 import { useLoading } from '../../Hooks/useLoading'
 import { useCallback, useEffect, useState } from 'react'
 import { getApi } from '../../utils/api'
-import { useQueryParams } from '../../Hooks/useQueryParams'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 import { toast } from 'react-toastify'
 import { useAuthContext } from '../../Context/AuthContext'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useTokenQueryParameterHeader } from '../../Hooks/useTokenQueryParameterHeader'
 
 export const useVerifyEmail = () => {
   const { isLoading, startLoading, finishLoading } = useLoading()
-  const { queryParams } = useQueryParams()
+  const { headers } = useTokenQueryParameterHeader()
   const navigate = useNavigate()
   const { login } = useAuthContext()
 
@@ -41,13 +41,7 @@ export const useVerifyEmail = () => {
   const verifyEmail = useCallback(async () => {
     try {
       startLoading()
-      const { data } = await (
-        await getApi()
-      ).put(
-        `/api/user/verify-email`,
-        {},
-        { headers: { Authorization: `Bearer ${queryParams.get('token')}` } }
-      )
+      const { data } = await (await getApi()).put(`/api/user/verify-email`, {}, { headers })
       toast.success('Email verified successfully. Welcome to GWI!')
       login(data?.result)
       navigate(ROUTES.companies.index)
@@ -57,7 +51,7 @@ export const useVerifyEmail = () => {
     } finally {
       finishLoading()
     }
-  }, [finishLoading, login, navigate, queryParams, startLoading])
+  }, [finishLoading, headers, login, navigate, startLoading])
 
   useEffect(() => {
     verifyEmail()

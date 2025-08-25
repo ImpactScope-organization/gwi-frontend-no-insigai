@@ -2,13 +2,13 @@ import { useLoading } from '../../Hooks/useLoading'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
-import { useQueryParams } from '../../Hooks/useQueryParams'
 import { getApi } from '../../utils/api'
 import { ROUTES } from '../../routes'
 import { useNavigate } from 'react-router-dom'
+import { useTokenQueryParameterHeader } from '../../Hooks/useTokenQueryParameterHeader'
 
 export const useSetNewPassword = () => {
-  const { queryParams } = useQueryParams()
+  const { headers } = useTokenQueryParameterHeader()
   const navigate = useNavigate()
 
   const { isLoading, startLoading, finishLoading } = useLoading()
@@ -31,10 +31,7 @@ export const useSetNewPassword = () => {
         await (
           await getApi()
         ).put(`/api/password-reset/set`, values, {
-          headers: {
-            'content-type': 'application/json',
-            Authorization: `Bearer ${queryParams.get('token')}`
-          }
+          headers
         })
         toast.success('Password set successfully. You can now log in.')
         navigate(ROUTES.login)
