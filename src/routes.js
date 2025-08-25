@@ -1,5 +1,6 @@
 export const ROUTES = {
   login: '/login',
+  verifyEmail: '/verify-email',
   forgotPassword: '/forgot-password',
   setNewPassword: '/set-new-password',
   b2c: {

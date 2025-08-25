@@ -32,6 +32,7 @@ import { CreateDocumentReport } from './Pages/Companies/Reports/CreateReport/Cre
 import { Register } from './Pages/B2C/Register/Register'
 import { ForgotPassword } from './Pages/ForgotPassword/ForgotPassword'
 import { SetNewPassword } from './Pages/SetNewPassword/SetNewPassword'
+import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail'
 
 export const App = () => {
   return (
@@ -86,6 +87,7 @@ export const App = () => {
         <Route path={ROUTES.b2c.register} element={<Register />} />
         <Route path={ROUTES.forgotPassword} element={<ForgotPassword />} />
         <Route path={ROUTES.setNewPassword} element={<SetNewPassword />} />
+        <Route path={ROUTES.verifyEmail} element={<VerifyEmail />} />
         <Route path={ROUTES.notFound} element={<NotFound />} />
       </Routes>
     </div>
