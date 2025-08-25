@@ -2,7 +2,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Header } from './Components/Shared/Header/Header'
-import { Login } from './Components/Shared/Login'
+import { Login } from './Pages/Login/Login'
 import 'react-quill-new/dist/quill.snow.css'
 import { ROUTES } from './routes'
 import { NotFound } from './Pages/NotFound'
@@ -29,6 +29,10 @@ import { RoleRoute } from './Components/Restrict/RoleRoute/RoleRoute'
 import { ROLES } from './utils/roles'
 import { AuthRoute } from './Components/Restrict/AuthRoute/AuthRoute'
 import { CreateDocumentReport } from './Pages/Companies/Reports/CreateReport/CreateDocumentReport/CreateDocumentReport'
+import { Register } from './Pages/B2C/Register/Register'
+import { ForgotPassword } from './Pages/ForgotPassword/ForgotPassword'
+import { SetNewPassword } from './Pages/SetNewPassword/SetNewPassword'
+import { VerifyEmail } from './Pages/VerifyEmail/VerifyEmail'
 
 export const App = () => {
   return (
@@ -80,6 +84,10 @@ export const App = () => {
           </Route>
         </Route>
         <Route path={ROUTES.login} element={<Login />} />
+        <Route path={ROUTES.b2c.register} element={<Register />} />
+        <Route path={ROUTES.forgotPassword} element={<ForgotPassword />} />
+        <Route path={ROUTES.setNewPassword} element={<SetNewPassword />} />
+        <Route path={ROUTES.verifyEmail} element={<VerifyEmail />} />
         <Route path={ROUTES.notFound} element={<NotFound />} />
       </Routes>
     </div>
