@@ -2,9 +2,13 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import { useLoading } from '../../../Hooks/useLoading'
+import { getApi } from '../../../utils/api'
+import { ROUTES } from '../../../routes'
+import { useNavigate } from 'react-router-dom'
 
 export const useRegister = () => {
   const { isLoading, startLoading, finishLoading } = useLoading()
+  const navigate = useNavigate()
 
   const registerFormik = useFormik({
     initialValues: {
@@ -23,10 +27,9 @@ export const useRegister = () => {
       try {
         startLoading()
 
-        // const { data } = await (await getApi()).post(`/api/auth/login`, values)
-        // toast.success('Logged in Successfully')
-        // login(data?.result)
-        // navigate(ROUTES.companies.index)
+        await (await getApi()).post(`/api/b2c/register`, values)
+        toast.success('User created successfully!')
+        navigate(ROUTES.login)
       } catch (err) {
         toast.error(err?.response?.data?.message)
       } finally {

@@ -1,10 +1,8 @@
-import RequestLoader from '../../../Components/Shared/RequestLoader'
 import { AuthPageContainer } from '../../../Components/Page/AuthPageContainer/AuthPageContainer'
 import { useRegister } from './useRegister'
 import { InputText } from '../../../Components/Fields/InputText'
 import { Form, FormikProvider } from 'formik'
 import { InputPassword } from '../../../Components/Fields/InputPassword'
-import { SuccessButton } from '../../../Components/Buttons/SuccessButton'
 import { FilledSuccessButton } from '../../../Components/Buttons/FilledSuccessButton'
 
 export const Register = () => {
