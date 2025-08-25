@@ -5,25 +5,27 @@ import { useQueryParams } from '../../Hooks/useQueryParams'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../routes'
 import { toast } from 'react-toastify'
+import { useAuthContext } from '../../Context/AuthContext'
 
 export const useVerifyEmail = () => {
   const { isLoading, startLoading, finishLoading } = useLoading()
   const { queryParams } = useQueryParams()
   const navigate = useNavigate()
+  const { login } = useAuthContext()
 
   const verifyEmail = useCallback(async () => {
     try {
       startLoading()
-      await (
+      const { data } = await (
         await getApi()
       ).put(
         `/api/user/verify-email`,
         {},
         { headers: { Authorization: `Bearer ${queryParams.get('token')}` } }
       )
-
-      toast.success('Email verified successfully. Please login to continue.')
-      navigate(ROUTES.login)
+      toast.success('Email verified successfully. Welcome to GWI!')
+      login(data?.result)
+      navigate(ROUTES.companies.index)
     } catch (err) {
       toast.error('Invalid or expired token.')
       // todo ask a new token?
