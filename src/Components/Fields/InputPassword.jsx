@@ -3,12 +3,15 @@ import React, { useCallback, useState } from 'react'
 import { useFormikContext } from 'formik'
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 
+const PasswordType = 'password'
+const TextType = 'text'
+
 export const InputPassword = ({ name, label }) => {
   const formik = useFormikContext()
-  const [inputType, setInputType] = useState('password')
+  const [inputType, setInputType] = useState(PasswordType)
 
   const toggleInputType = useCallback(() => {
-    setInputType((prevType) => (prevType === 'password' ? 'text' : 'password'))
+    setInputType((prevType) => (prevType === PasswordType ? TextType : PasswordType))
   }, [])
 
   return (
