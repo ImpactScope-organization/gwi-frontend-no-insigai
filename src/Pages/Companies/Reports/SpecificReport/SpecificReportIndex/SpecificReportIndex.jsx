@@ -15,6 +15,7 @@ import { ReportNavigation } from './containers/ReportNavigation/ReportNavigation
 import { ReportInfo } from './containers/ReportInfo/ReportInfo'
 import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
 import { CaseCommentary } from './containers/CaseCommentary/CaseCommentary'
+import { B2CAvailability } from './containers/B2CAvailability/B2CAvailability'
 
 export const SpecificReportIndex = () => {
   const { companyId } = useParams()
@@ -59,6 +60,9 @@ export const SpecificReportIndex = () => {
             <ReportDocuments />
             <RoleRender role={ROLES.ADMIN}>
               <ReportVisibility />
+            </RoleRender>
+            <RoleRender role={ROLES.ADMIN}>
+              <B2CAvailability />
             </RoleRender>
             <CaseCommentary />
           </div>
