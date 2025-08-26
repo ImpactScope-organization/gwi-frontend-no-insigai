@@ -6,7 +6,6 @@ import { QualitativeReportDetails } from './containers/QualitativeReportDetails/
 import { LegacyQuantitativeReportDetails } from './containers/LegacyQuantitativeReportDetails/LegacyQuantitativeReportDetails'
 import { useCurrentCompanyReport } from '../hooks/useCurrentCompanyReport'
 import { ReportDocuments } from '../components/ReportDocuments/ReportDocuments'
-import { ReportVisibility } from './containers/ReportVisibility/ReportVisibility'
 import { useParams } from 'react-router-dom'
 import { RoleRender } from '../../../../../Components/Restrict/RoleRender/RoleRender'
 import { ROLES } from '../../../../../utils/roles'
@@ -15,6 +14,8 @@ import { ReportNavigation } from './containers/ReportNavigation/ReportNavigation
 import { ReportInfo } from './containers/ReportInfo/ReportInfo'
 import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
 import { CaseCommentary } from './containers/CaseCommentary/CaseCommentary'
+import { B2CTierAvailability } from './containers/B2CTierAvailability/B2CTierAvailability'
+import { ClientVisibility } from './containers/ClientVisibility/ClientVisibility'
 
 export const SpecificReportIndex = () => {
   const { companyId } = useParams()
@@ -58,7 +59,10 @@ export const SpecificReportIndex = () => {
             <ReportInfo />
             <ReportDocuments />
             <RoleRender role={ROLES.ADMIN}>
-              <ReportVisibility />
+              <ClientVisibility />
+            </RoleRender>
+            <RoleRender role={ROLES.ADMIN}>
+              <B2CTierAvailability />
             </RoleRender>
             <CaseCommentary />
           </div>
