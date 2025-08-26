@@ -14,7 +14,7 @@ import { ReportNavigation } from './containers/ReportNavigation/ReportNavigation
 import { ReportInfo } from './containers/ReportInfo/ReportInfo'
 import { QuantitativeReportDetails } from './containers/QuantitativeReportDetails/QuantitativeReportDetails'
 import { CaseCommentary } from './containers/CaseCommentary/CaseCommentary'
-import { B2CAvailability } from './containers/B2CAvailability/B2CAvailability'
+import { B2CTierAvailability } from './containers/B2CTierAvailability/B2CTierAvailability'
 import { ClientVisibility } from './containers/ClientVisibility/ClientVisibility'
 
 export const SpecificReportIndex = () => {
@@ -62,7 +62,7 @@ export const SpecificReportIndex = () => {
               <ClientVisibility />
             </RoleRender>
             <RoleRender role={ROLES.ADMIN}>
-              <B2CAvailability />
+              <B2CTierAvailability />
             </RoleRender>
             <CaseCommentary />
           </div>

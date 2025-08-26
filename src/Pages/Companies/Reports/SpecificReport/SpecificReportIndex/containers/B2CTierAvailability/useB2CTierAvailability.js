@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 
-export const useB2CAvailability = () => {
+export const useB2CTierAvailability = () => {
   const { currentCompanyReport } = useCurrentCompanyReport()
 
-  const b2cAvailabilityItems = useMemo(() => {
+  const b2cTiers = useMemo(() => {
     return [
       {
         id: 'b2c_free',
@@ -16,11 +16,11 @@ export const useB2CAvailability = () => {
       }
     ].map((item) => ({
       ...item,
-      isSelected: currentCompanyReport?.b2cAvailability?.includes(item.id) || false
+      isSelected: currentCompanyReport?.b2cTiers?.includes(item.id) || false
     }))
-  }, [currentCompanyReport?.b2cAvailability])
+  }, [currentCompanyReport?.b2cTiers])
 
   return {
-    b2cAvailabilityItems
+    b2cTiers
   }
 }
