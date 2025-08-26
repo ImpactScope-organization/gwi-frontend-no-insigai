@@ -5,6 +5,7 @@ import { B2CTierItem } from './components/B2CTierItem/B2CTierItem'
 
 export const B2CTierAvailability = () => {
   const { b2cTiers } = useB2CTierAvailability()
+
   return (
     <ReportDetailsCard title="B2C Availability">
       <div className="flex flex-col gap-4 w-full justify-between">
