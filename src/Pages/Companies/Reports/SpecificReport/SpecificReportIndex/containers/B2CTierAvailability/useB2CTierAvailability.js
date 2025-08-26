@@ -7,11 +7,11 @@ export const useB2CTierAvailability = () => {
   const b2cTiers = useMemo(() => {
     return [
       {
-        id: 'b2c_free',
+        id: 'free',
         name: 'B2C Free'
       },
       {
-        id: 'b2c_premium',
+        id: 'premium',
         name: 'B2C Premium'
       }
     ].map((item) => ({
