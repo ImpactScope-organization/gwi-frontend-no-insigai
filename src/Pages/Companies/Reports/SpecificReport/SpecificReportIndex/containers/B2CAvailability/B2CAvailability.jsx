@@ -1,5 +1,5 @@
 import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportDetailsCard'
-import { ClientItem } from '../ReportVisibility/components/ClientVisibility/components/ClientItem/ClientItem'
+import { ClientItem } from '../ClientVisibility/components/ClientItem/ClientItem'
 import React from 'react'
 import { useB2CAvailability } from './useB2CAvailability'
 import { B2CAvailabilityItem } from './components/B2CAvailabilityItem'

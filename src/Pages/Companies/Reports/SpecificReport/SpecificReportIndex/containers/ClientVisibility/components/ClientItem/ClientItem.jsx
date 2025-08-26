@@ -1,6 +1,6 @@
 import React from 'react'
 import Switch from 'react-switch'
-import { useCurrentCompanyReport } from '../../../../../../../hooks/useCurrentCompanyReport'
+import { useCurrentCompanyReport } from '../../../../../hooks/useCurrentCompanyReport'
 import { useClientItem } from './useClientItem'
 
 export const ClientItem = ({ client }) => {

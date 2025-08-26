@@ -1,5 +1,5 @@
-import { useFetchClientList } from '../../../../../../../../Clients/api/ClientApi/ClientApiQuery'
-import { useCurrentCompanyReport } from '../../../../../hooks/useCurrentCompanyReport'
+import { useFetchClientList } from '../../../../../../Clients/api/ClientApi/ClientApiQuery'
+import { useCurrentCompanyReport } from '../../../hooks/useCurrentCompanyReport'
 import { useMemo } from 'react'
 
 export const useClientVisibility = () => {
