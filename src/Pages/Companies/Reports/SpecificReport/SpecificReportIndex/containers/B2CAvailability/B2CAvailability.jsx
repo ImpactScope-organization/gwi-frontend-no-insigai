@@ -2,6 +2,7 @@ import { ReportDetailsCard } from '../../../components/ReportDetailsCard/ReportD
 import { ClientItem } from '../ReportVisibility/components/ClientVisibility/components/ClientItem/ClientItem'
 import React from 'react'
 import { useB2CAvailability } from './useB2CAvailability'
+import { B2CAvailabilityItem } from './components/B2CAvailabilityItem'
 
 export const B2CAvailability = () => {
   const { b2cAvailabilityItems } = useB2CAvailability()
@@ -9,8 +10,11 @@ export const B2CAvailability = () => {
   return (
     <ReportDetailsCard title="B2C Availability">
       <div className="flex flex-col gap-4 w-full justify-between">
-        {b2cAvailabilityItems?.map((client) => (
-          <ClientItem key={client.id} client={client} />
+        {b2cAvailabilityItems?.map((b2cAvailabilityItem) => (
+          <B2CAvailabilityItem
+            key={b2cAvailabilityItem.id}
+            b2cAvailabilityItem={b2cAvailabilityItem}
+          />
         ))}
       </div>
     </ReportDetailsCard>
