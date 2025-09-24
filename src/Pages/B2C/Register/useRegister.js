@@ -5,16 +5,21 @@ import { useLoading } from '../../../Hooks/useLoading'
 import { getApi } from '../../../utils/api'
 import { ROUTES } from '../../../routes'
 import { useNavigate } from 'react-router-dom'
+import { B2C_ROLES } from '../../../Components/Fields/InputB2CRole/b2cRoles'
+import { useAuthContext } from '../../../Context/AuthContext'
 
 export const useRegister = () => {
   const { isLoading, startLoading, finishLoading } = useLoading()
   const navigate = useNavigate()
+  const { login } = useAuthContext()
 
   const registerFormik = useFormik({
     initialValues: {
       email: '',
       password: '',
-      passwordAgain: ''
+      passwordAgain: '',
+      b2cRole: B2C_ROLES.INDIVIDUAL,
+      name: ''
     },
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -27,9 +32,11 @@ export const useRegister = () => {
       try {
         startLoading()
 
-        await (await getApi()).post(`/api/b2c/register`, values)
-        toast.success('User created successfully!')
-        navigate(ROUTES.login)
+        const { data } = await (await getApi()).post(`/api/b2c/register`, values)
+
+        toast.success('Registration complete! Welcome aboard — you can now start using GWI!')
+        login(data)
+        navigate(ROUTES.companies.index)
       } catch (err) {
         toast.error(err?.response?.data?.message)
       } finally {
