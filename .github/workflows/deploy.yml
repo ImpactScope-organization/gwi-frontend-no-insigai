@@ -29,12 +29,12 @@ jobs:
             ghcr.io/impactscope-organization/gwi-frontend-no-insigai:latest
           platforms: linux/amd64
 
-      # - name: Trigger Dokploy Deployment
-      #   run: |
-      #     echo "Triggering Dokploy deploy for app ${{ secrets.DOKPLOY_APPLICATION_ID }}..."
-      #     curl -X POST \
-      #       "${{ secrets.DOKPLOY_URL }}/api/application.deploy" \
-      #       -H "accept: application/json" \
-      #       -H "x-api-key: ${{ secrets.DOKPLOY_AUTH_TOKEN }}" \
-      #       -H "Content-Type: application/json" \
-      #       -d "{\"applicationId\": \"${{ secrets.DOKPLOY_APPLICATION_ID }}\"}"
+      - name: Trigger Dokploy Deployment
+        run: |
+          echo "Triggering Dokploy deploy for app ${{ secrets.DOKPLOY_APPLICATION_ID }}..."
+          curl -X POST \
+            "${{ secrets.DOKPLOY_URL }}/api/application.deploy" \
+            -H "accept: application/json" \
+            -H "x-api-key: ${{ secrets.DOKPLOY_AUTH_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"applicationId\": \"${{ secrets.DOKPLOY_APPLICATION_ID }}\"}"
